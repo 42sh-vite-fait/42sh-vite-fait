@@ -1,131 +1,168 @@
-## Special built-in utilities.
+- [Special built-in utilities.](#special-built-in-utilities)
+  * [break](#break)
+  * [colon](#colon)
+  * [continue](#continue)
+  * [dot](#dot)
+  * [eval](#eval)
+  * [exec](#exec)
+  * [exit](#exit)
+  * [export](#export)
+  * [readonly](#readonly)
+  * [return](#return)
+  * [set](#set)
+  * [shift](#shift)
+  * [times](#times)
+  * [trap](#trap)
+  * [unset](#unset)
+- [Regular built-in utilities](#regular-built-in-utilities)
+  * [pwd](#pwd)
+  * [alias](#alias)
+  * [fc](#fc)
+  * [unalias](#unalias)
+  * [bg](#bg)
+  * [fg](#fg)
+  * [jobs](#jobs)
+  * [cd](#cd)
+  * [getopts](#getopts)
+  * [newgrp](#newgrp)
+  * [read](#read)
+  * [umask](#umask)
+  * [wait](#wait)
+  * [command](#command)
+  * [kill](#kill)
+  * [false](#false)
+  * [true](#true)
+- [42 built-ins](#42-built-ins)
+  * [env](#env)
+  * [history](#history)
+
+# Special built-in utilities.
 - Subject to any redirection.
 - Shell may abort on syntax error.
 - Variable assignments shall remain in effect after the special built-in completes
 
-# break
+## break
 - EXEC. takes UNSIGNED int as param (atoi wont work).
 
-# colon
+## colon
 - EZ MONEY B*TCHE$
 
-# continue
+## continue
 - EXEC. takes UNSIGNED int as param (atoi wont work).
 
-# dot
+## dot
 - ?????? Same PATH searching function is required (as to find executables), but target file does not need to be executable.
 - ENOF -> interactive ? abort : warn.
 - May be interesting to mimic ksh that allows positionnal parameters. dot would then behave like a function (input ?).
 
-# eval
+## eval
 - Similar to a one line lambda function once args are concatenated.
 
-# exec
+## exec
 - Need more investigating...
 
-# exit
+## exit
 - called from trap ? exit immediately : trap (then calls exit)
 
-# export
+## export
 - `export -p` => print all as an op that can be used by the shell to get back to the current environment.
 - `export foobar` is a valid command.
 
-# readonly
+## readonly
 - set local readonly variable.
 - overrides exported variables.
 - cannot be overriden by any of set, export, etc...
 
-# return
+## return
 - view exit status
 
-# set
-- 
+## set
+- needs more investigating...
 
-# shift
+## shift
 - n invalid or > $# -> interactive ? abort : warn.
 
-# times
+## times
 - output floats...
 
-# trap
+## trap
 - trivial. Implies a handler function pointer map.
 
-# unset
+## unset
 - environment.
 
 
-## Regular built-in utilities
+# Regular built-in utilities
 
-# pwd
+## pwd
 - trivial
 
-# alias
+## alias
 - EXEC
 
-# fc
+## fc
 - only in interactive.
 - HISTORY
 
-# unalias
+## unalias
 - EXEC
 
-# bg
+## bg
 - JOB CONTROL
 
-# fg
+## fg
 - JOB CONTROL
 
-# jobs
+## jobs
 - JOB CONTROL
 
 
-# cd
+## cd
 - SHELL EXEC ENV
 
-# getopts
+## getopts
 - output only
 
-# newgrp
+## newgrp
 - Need more investigating...
 
-# read
+## read
 - ENV.
 - processed through field splitting/parameter expansion.
  
-# umask
+## umask
 - Needs more investigating...
  
-# wait
+## wait
 - JOB CONTROL
  
 
 
-# command
+## command
 - bypass function lookup. 
 - ignore builtin special argument (treat it like it is a regular builtin).
 - sysconf(3) to get default PATH.
 - need to access alias map.
 - need to search in PATH.
 
-# kill
+## kill
 - JOB CONTROL
 
 
-# false
+## false
 - trivial
 
-# true
+## true
 - trivial
 
 
-## 42 built-ins
+# 42 built-ins
 
-# env
+## env
 - trivial
 
-# history
+## history
 - ! and ^ is part of expansion if option is enabled.
-- 
 
-# setenv
+## setenv
 - ???
