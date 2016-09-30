@@ -4,7 +4,7 @@ CFLAGS = -Wall -Werror -Wextra
 CFLAGS += -std=c99 -pedantic -pedantic-errors
 CFLAGS += -Weverything -Wno-missing-noreturn
 
-#Debug
+# Debug
 ifeq ($(DEBUG),yes)
 	CFLAGS += -g -O0 -fno-inline
 endif
@@ -25,16 +25,20 @@ ifeq ($(SAN),yes)
 	CFLAGS += -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
 endif
 
-
-# Headers
+# Header path
 INC_PATH = include
-# INC_FILES += execution.h
 
 # Sources
-SRC_PATH = src
+SRC_PATH = src src/test
 SOURCES += main.c
+SOURCES += test.c
 
-vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
+# Dependencies
+DEP_PATH = .dep
+DEPS = $(SOURCES:%.c=$(DEP_PATH)/%.d)
+
+# $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
+vpath %.c $(SRC_PATH)
 
 # Debug
 # DEBUG_PATH = debug
@@ -44,14 +48,11 @@ vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
 # vpath %.c $(DEBUG_PATH)
 
 # Generation
-HEADERS = $(INC_FILES:%.h=$(INC_PATH)/%.h)
 CFLAGS += $(addprefix -I,$(INC_PATH))
-OBJ_PATH = obj
-OBJECTS = $(addprefix $(OBJ_PATH)/,$(SOURCES:%.c=%.o))
 
-# Sources Dependencies
-DEP_PATH = dep
-DEPENDENCIES = $(addprefix $(DEP_PATH)/,$(SOURCES:%.c=%.d))
+# TODO clean rule
+OBJ_PATH = .obj
+OBJECTS = $(SOURCES:%.c=$(OBJ_PATH)/%.o)
 
 BUILD_DIR = $(OBJ_PATH) $(DEP_PATH)
 
@@ -79,9 +80,9 @@ GIT_CLEAN = git clean -fd
 
 .SECONDARY: $(OBJECTS)
 
-all: $(DEPENDENCIES) $(NAME)
+all: $(DEPS) $(NAME)
 
--include $(DEPENDENCIES)
+-include $(DEPS)
 
 $(LIB42):
 	$(MAKE) -C $(LIB42_PATH) all
@@ -92,8 +93,8 @@ $(NAME): $(OBJECTS) | $(LIB42)
 $(OBJECTS): $(OBJ_PATH)/%.o: %.c | $(OBJ_PATH)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
-$(DEP_PATH)/%.d: %.c | $(OBJ_PATH)/%.o $(DEP_PATH)
-	$(CC) $(CFLAGS) -MM $< -MT $(word 1,$|) -MF $@
+$(DEP_PATH)/%.d: %.c | $(DEP_PATH)
+	$(CC) $(CFLAGS) -MM $< -MT $(OBJ_PATH)/$*.o -MF $@
 
 $(BUILD_DIR):
 	@-mkdir -p $@
@@ -123,14 +124,12 @@ sub-init:
 sub-update:
 	git submodule update --remote --recursive
 
-
 # Tests
 .PHONY: check test-cleanup
 
 check: all
 	@$(MAKE) -C $(TEST_PATH) all
 	@./$(TEST_EXEC)
-
 
 # Tools
 .PHONY: norme valgrind ctags clean-tools
