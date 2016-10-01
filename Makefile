@@ -29,9 +29,8 @@ endif
 INC_PATH = include
 
 # Sources
-SRC_PATH = src src/test
-SOURCES += main.c
-SOURCES += test.c
+SRC_PATH = src
+# SOURCES += main.c
 
 # Dependencies
 DEP_PATH = .dep
