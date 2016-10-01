@@ -134,8 +134,8 @@ check: all
 .PHONY: norme valgrind ctags clean-tools
 
 norme:
-	@norminette -R CheckTopCommentHeader $(SRC_PATH)
-	@norminette -R CheckTopCommentHeader $(INC_PATH)
+	@ ! norminette -R CheckTopCommentHeader $(SRC_PATH) | grep -v -B 1 "^Norme"
+	@ ! norminette -R CheckTopCommentHeader $(INC_PATH) | grep -v -B 1 "^Norme"
 
 valgrind:
 	valgrind --leak-check=full ./$(NAME)
