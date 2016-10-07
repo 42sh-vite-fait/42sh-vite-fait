@@ -91,9 +91,6 @@ all: $(LIB42) $(DEPS) $(NAME)
 
 -include $(DEPS)
 
-$(LIB42):
-	$(MAKE) -C $(LIB42_PATH) all
-
 $(NAME): $(OBJECTS) | $(LIB42)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
