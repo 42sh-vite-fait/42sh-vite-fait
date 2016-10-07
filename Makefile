@@ -28,11 +28,20 @@ ifeq ($(SAN),yes)
 	CFLAGS += -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
 endif
 
+# .
+SOURCES += main.c
+
 # Generation
 INC_PATH = inc lib42/inc
 SRC_PATH = src
 CFLAGS += $(addprefix -I,$(INC_PATH))
-vpath %.c $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
+vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
+
+# Lib tierces
+LIB42_PATH = lib42
+LIB42 = $(LIB42_PATH)/lib42.a
+CFLAGS += -I $(LIB42_PATH)/inc
+LDFLAGS += -L $(LIB42_PATH) -l42
 
 # Object files
 OBJ_PATH = .obj
