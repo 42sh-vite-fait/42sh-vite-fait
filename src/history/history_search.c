@@ -1,5 +1,3 @@
-#include <stdio.h> // delete
-
 #include <stdlib.h>
 #include <stdbool.h>
 #include "history.h"
