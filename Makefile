@@ -97,6 +97,9 @@ $(LIB42):
 $(NAME): $(OBJECTS) | $(LIB42)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
+$(LIB42):
+	$(MAKE) -C $(LIB42_PATH) all
+
 $(OBJECTS): $(OBJ_PATH)/%.o: %.c | $(OBJ_PATH)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
