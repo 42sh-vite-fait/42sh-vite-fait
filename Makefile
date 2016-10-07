@@ -32,7 +32,7 @@ endif
 SOURCES += main.c
 
 # Generation
-INC_PATH = inc lib42/inc
+INC_PATH = inc $(LIB42_PATH)/inc
 SRC_PATH = src
 CFLAGS += $(addprefix -I,$(INC_PATH))
 vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
@@ -76,7 +76,7 @@ TEST_EXEC = $(TEST_PATH)/test_$(NAME).out
 
 .SECONDARY: $(OBJECTS)
 
-all: $(DEPS) $(NAME)
+all: $(LIB42) $(DEPS) $(NAME)
 
 -include $(DEPS)
 
@@ -85,6 +85,9 @@ $(LIB42):
 
 $(NAME): $(OBJECTS) | $(LIB42)
 	$(CC) -o $@ $^ $(LDFLAGS)
+
+$(LIB42):
+	$(MAKE) -C $(LIB42_PATH) all
 
 $(OBJECTS): $(OBJ_PATH)/%.o: %.c | $(OBJ_PATH)
 	$(CC) $(CFLAGS) -o $@ -c $<
