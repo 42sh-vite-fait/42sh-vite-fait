@@ -39,6 +39,9 @@ SOURCES += history_new.c
 SOURCES += history_push.c
 SOURCES += history_search.c
 
+# Root
+SOURCES += main.c
+
 # Generation
 INC_PATH = inc $(LIB42_PATH)/inc
 SRC_PATH = src
