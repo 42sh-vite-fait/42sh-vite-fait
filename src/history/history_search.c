@@ -26,3 +26,9 @@ bool	history_search(t_history const *hist, const char *patt, t_result *ret)
 	}
 	return (false);
 }
+
+// bool		history_search_next(t_history const *history, const char *patt,
+// 								t_result const *from, t_result *ret)
+// {
+// 	//
+// }

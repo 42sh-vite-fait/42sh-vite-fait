@@ -30,8 +30,8 @@ const char	*history_get_id(t_history const *history, size_t id);
 
 bool		history_contains(t_history const *history, size_t id);
 
-// TODO think about the t_result*
-// TODO rename -first
 bool		history_search(t_history const *h, const char *patt, t_result *ret);
+bool		history_search_next(t_history const *history, const char *patt,
+								t_result const *from, t_result *ret);
 
 #endif
