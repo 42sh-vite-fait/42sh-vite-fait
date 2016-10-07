@@ -1,4 +1,5 @@
 #include "user_interface.h"
+#include "history.h"
 
 int		main(void)
 {
