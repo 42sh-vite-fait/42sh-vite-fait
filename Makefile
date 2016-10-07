@@ -102,6 +102,7 @@ clean:
 
 fclean: clean
 	$(RM) $(NAME)
+	$(RM) -rf $(DEP_PATH)
 
 re: fclean all
 
