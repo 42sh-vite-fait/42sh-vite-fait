@@ -76,3 +76,9 @@ bool		history_find_from(t_result *ret, t_history const *history,
 	}
 	return (false);
 }
+
+// bool		history_search_next(t_history const *history, const char *patt,
+// 								t_result const *from, t_result *ret)
+// {
+// 	//
+// }
