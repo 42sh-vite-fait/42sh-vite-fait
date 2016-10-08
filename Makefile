@@ -58,6 +58,28 @@ SOURCES += var_shutdown.c
 SOURCES += var_set.c
 SOURCES += var_unset.c
 
+# Automaton
+SRC_SUBDIR += automaton
+SOURCES += automaton.c
+SOURCES += automaton_creation.c
+
+# Lexer
+SRC_SUBDIR += lexer
+SOURCES += lexer_table.c
+SOURCES += lexer.c
+SOURCES += lexer_creation.c
+SOURCES += lexer_tokenize.c
+SOURCES += lexer_clear_tokens.c
+SOURCES += lexer_line_continuation.c
+SOURCES += lexer_debug.c
+SOURCES += categorize_token.c
+SOURCES += categorize_io_number.c
+LEXER_TABLE = src/lexer/lexer_table.c
+CONTRIB = contrib
+RULES_XML = $(CONTRIB)/lexing_rules.xml
+PYTHON_GEN_TABLE = $(CONTRIB)/gen_transtable.py
+LEXER_TEMPLATE = $(CONTRIB)/lexer_table.c.template
+
 # Generation
 vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
 OBJ_PATH   = .obj
@@ -87,7 +109,7 @@ TEST_EXEC  = $(TEST_PATH)/test_$(NAME).out
 # Core rules
 .SECONDARY: $(OBJECTS)
 
-all: $(DEPS) $(NAME)
+all: $(DEPS) $(LEXER_TABLE) $(NAME)
 
 -include $(DEPS)
 
@@ -106,9 +128,12 @@ $(DEP_PATH)/%.d: %.c | $(DEP_PATH)
 $(BUILD_DIR):
 	@-mkdir -p $@
 
+$(LEXER_TABLE): $(RULES_XML) $(PYTHON_GEN_TABLE) $(LEXER_TEMPLATE)
+	python3 $(PYTHON_GEN_TABLE) $(RULES_XML)  $(LEXER_TEMPLATE) $@
+
 check: $(OBJECTS)
 	@cd $(TEST_PATH) && $(MAKE)
-	@./$(TEST_EXEC) --verbose
+	@./$(TEST_EXEC)
 
 clean:
 	$(RM) -r $(OBJ_PATH)

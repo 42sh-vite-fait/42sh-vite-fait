@@ -4,6 +4,7 @@
 #define _XOPEN_SOURCE 700
 #define _DEFAUTL_SOURCE
 
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -23,5 +24,7 @@
 #include "var.h"
 #include "errors.h"
 #include "lib42.h"
+#include "lexer.h"
+#include "automaton.h"
 
 #endif

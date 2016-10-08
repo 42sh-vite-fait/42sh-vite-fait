@@ -45,6 +45,17 @@ SOURCES += test_string_escape.c
 SRC_SUBDIR += var
 SOURCES += test_var.c
 
+# Lexer
+SRC_SUBDIR += lexer
+SOURCES += test_lexer_rules1.c
+SOURCES += test_lexer_rules2_3.c
+SOURCES += test_lexer_rules4.c
+SOURCES += test_lexer_rules5.c
+SOURCES += test_lexer_rules7.c
+SOURCES += test_lexer_rules8.c
+SOURCES += test_lexer_rules9.c
+SOURCES += test_line_continuation.c
+
 SRC_PATH = src
 vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
 

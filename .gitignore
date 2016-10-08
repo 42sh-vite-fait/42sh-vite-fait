@@ -38,3 +38,5 @@
 # Special Rules
 42sh
 *.d
+src/lexer/lexer_table.c
+.dir-locals.el
