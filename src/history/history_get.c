@@ -2,9 +2,16 @@
 #include "history.h"
 #include "cbuffer_42.h"
 
-char const		*history_get_id(t_history const *history, size_t id)
+char const		*history_get_id(t_history const *hist, size_t id)
 {
-	if (history_contains(history, id))
-		return (CBUFFER_GET(&history->cbuffer, id - history->last_id));
+	size_t		real_id;
+	const char	**command_ptr;
+
+	if (history_contains(hist, id))
+	{
+		real_id = hist->cbuffer.len - hist->last_id + id - 1;
+		command_ptr = (const char**)cbuffer_get(&hist->cbuffer, real_id);
+		return (*command_ptr);
+	}
 	return (NULL);
 }

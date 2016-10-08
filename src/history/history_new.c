@@ -5,7 +5,7 @@
 
 static void		delete_string(void *string)
 {
-	free(string);
+	free(*(char**)string);
 }
 
 t_history		*history_new(size_t limit)

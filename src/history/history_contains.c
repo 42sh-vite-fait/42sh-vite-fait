@@ -4,5 +4,5 @@
 
 bool	history_contains(t_history const *hist, size_t id)
 {
-	return (id >= hist->last_id && id < hist->cbuffer.len + hist->last_id);
+	return (id <= hist->last_id && id > hist->last_id - hist->cbuffer.len);
 }
