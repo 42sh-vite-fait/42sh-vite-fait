@@ -12,9 +12,10 @@ bool		history_find(t_result *ret, t_history const *h, const char *patt)
 	const char	*command;
 	const char	*match;
 
-	i = h->last_id - h->cbuffer.len + 1;
-	while ((command = history_get_id(h, i)) != NULL)
+	i = h->last_id;
+	while (i > h->last_id - h->cbuffer.len)
 	{
+		command = history_get_id(h, i);
 		if ((match = ft_strrstr(command, patt)) != NULL)
 		{
 			if (ret != NULL)
@@ -60,9 +61,10 @@ bool		history_find_from(t_result *ret, t_history const *history,
 		return (false);
 	if (search_command_from(ret, history, pattern, from) == true)
 		return (true);
-	i = from.command_id + 1;
-	while ((command = history_get_id(history, i)) != NULL)
+	i = from.command_id - 1;
+	while (i > from.command_id - history->cbuffer.len - 1)
 	{
+		command = history_get_id(history, i);
 		if ((match = ft_strrstr(command, pattern)) != NULL)
 		{
 			if (ret != NULL)

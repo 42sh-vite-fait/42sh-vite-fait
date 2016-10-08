@@ -81,7 +81,7 @@ static void		test_03_history_searchPattern(void)
 	history_push(&history, strdup("fc -l"));
 
 	found = history_find(&result, &history, "kiki");
-	v_assert_size_t(true, ==, found);
+	v_assert_int(true, ==, found);
 	v_assert_size_t(command_id, ==, result.command_id);
 	v_assert_size_t(5, ==, result.offset);
 	VTS;
@@ -106,7 +106,7 @@ static void		test_04_history_SearchDontFind(void)
 	history_push(&history, strdup("fc -l"));
 
 	found = history_find(&result, &history, "kiki");
-	v_assert_size_t(false, ==, found);
+	v_assert_int(false, ==, found);
 	VTS;
 }
 
@@ -115,7 +115,7 @@ static void		test_05_history_SearchFrom(void)
 	t_history	history;
 	t_result	result;
 	size_t		cmd_ls_tmp_id;
-	size_t		cmd_id;
+	size_t		cmd_echo_kiki_id;
 	bool		found;
 
 	history_init(&history, 5);
@@ -126,23 +126,26 @@ static void		test_05_history_SearchFrom(void)
 	cmd_ls_tmp_id = history_push(&history, strdup("ls /tmp/kiki"));
 	history_push(&history, strdup("ls -la"));
 	history_push(&history, strdup("kill -KILL 0"));
-	cmd_id = history_push(&history, strdup("echo kiki kiki"));
+	cmd_echo_kiki_id = history_push(&history, strdup("echo kiki kiki"));
 	history_push(&history, strdup("fc -l"));
 
 	found = history_find(&result, &history, "kiki");
-	v_assert_size_t(true, ==, found);
-	v_assert_size_t(cmd_id, ==, result.command_id);
+	v_assert_int(true, ==, found);
+	v_assert_size_t(cmd_echo_kiki_id, ==, result.command_id);
 	v_assert_size_t(10, ==, result.offset);
 
 	found = history_find_from(&result, &history, "kiki", result);
-	v_assert_size_t(true, ==, found);
-	v_assert_size_t(cmd_id, ==, result.command_id);
+	v_assert_int(true, ==, found);
+	v_assert_size_t(cmd_echo_kiki_id, ==, result.command_id);
 	v_assert_size_t(5, ==, result.offset);
 
 	found = history_find_from(&result, &history, "kiki", result);
-	v_assert_size_t(true, ==, found);
+	v_assert_int(true, ==, found);
 	v_assert_size_t(cmd_ls_tmp_id, ==, result.command_id);
 	v_assert_size_t(8, ==, result.offset);
+
+	found = history_find_from(&result, &history, "kiki", result);
+	v_assert_int(false, ==, found);
 
 	VTS;
 }
