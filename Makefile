@@ -28,8 +28,16 @@ ifeq ($(SAN),yes)
 	CFLAGS += -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
 endif
 
-# .
+# Root
 SOURCES += main.c
+
+# History
+SRC_SUBDIR += history
+SOURCES += history_contains.c
+SOURCES += history_get.c
+SOURCES += history_new.c
+SOURCES += history_push.c
+SOURCES += history_search.c
 
 # Generation
 INC_PATH = inc $(LIB42_PATH)/inc
@@ -85,9 +93,6 @@ $(LIB42):
 
 $(NAME): $(OBJECTS) | $(LIB42)
 	$(CC) -o $@ $^ $(LDFLAGS)
-
-$(LIB42):
-	$(MAKE) -C $(LIB42_PATH) all
 
 $(OBJECTS): $(OBJ_PATH)/%.o: %.c | $(OBJ_PATH)
 	$(CC) $(CFLAGS) -o $@ -c $<
