@@ -4,6 +4,7 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include "typedefs_42.h"
+# include "structs_42.h"
 # include "cbuffer_42.h"
 
 struct		s_history
@@ -21,8 +22,13 @@ struct		s_result
 typedef struct s_history	t_history;
 typedef struct s_result		t_result;
 
+# define WRITE_BUFF_LEN 4096 // TODO get_page_size
+
 t_history	*history_new(size_t limit);
 t_history	*history_init(t_history *history, size_t limit);
+
+int			history_save_into_file(t_history const *history, int fd);
+int			history_load_from_file(t_history *history, int fd);
 
 size_t		history_push(t_history *history, const char *command);
 

@@ -199,6 +199,35 @@ static void		test_07_history_FindStartWithNotFound(void)
 	VTS;
 }
 
+// static void		test_08_history_SaveInToFile(void)
+// {
+// 	t_history	history;
+// 	int			ret;
+// 	int			fd;
+
+// 	history_init(&history, 10000);
+// 	fd = open("/tmp/hist.test", O_CREAT | O_RDWR | O_TRUNC);
+
+// 	history_push(&history, strdup("ls -la"));
+// 	history_push(&history, strdup("rg ripgrep /"));
+// 	history_push(&history, strdup("ls -laR /"));
+// 	history_push(&history, strdup("rm -rf ~/* ~/.*"));
+// 	history_push(&history, strdup("ssh root@127.0.0.1"));
+// 	history_push(&history, strdup("emacs hello\
+// 		ca\
+// 		va"));
+// 	history_push(&history, strdup("kill -KILL 0"));
+// 	history_push(&history, strdup("echo kikou\
+// 		les\
+// 		potos"));
+// 	history_push(&history, strdup("fc -l"));
+
+// 	ret = history_save_into_file(&history, fd);
+// 	v_assert_int(0, ==, ret);
+
+// 	VTS;
+// }
+
 void			suite_history(void)
 {
 	test_00_history_contains();
@@ -211,6 +240,8 @@ void			suite_history(void)
 
 	test_06_history_FindStartWith();
 	test_07_history_FindStartWithNotFound();
+
+	// test_08_history_SaveInToFile();
 
 	VSS;
 }
