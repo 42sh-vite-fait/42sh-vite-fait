@@ -199,7 +199,7 @@ static void		test_07_history_FindStartWithNotFound(void)
 	VTS;
 }
 
-#define BUFF_SIZE 4096
+#define BUFF_SIZE (4096)
 
 static char		*read_all(int fd)
 {
@@ -216,6 +216,8 @@ static char		*read_all(int fd)
 	return (buffer.str);
 }
 
+#define HISTFILE ("/tmp/hist.test")
+
 static void		test_08_history_SaveIntoFile(void)
 {
 	t_history	history;
@@ -223,7 +225,7 @@ static void		test_08_history_SaveIntoFile(void)
 	int			fd;
 
 	history_init(&history, 10000);
-	fd = open("/tmp/hist.test", O_CREAT | O_RDWR | O_TRUNC, 0600);
+	fd = open(HISTFILE, O_CREAT | O_RDWR | O_TRUNC, 0600);
 
 	history_push(&history, strdup("ls -la"));
 	history_push(&history, strdup("rg ripgrep /"));
@@ -255,39 +257,36 @@ ls -la\n";
 	lseek(fd, 0, SEEK_SET);
 	v_assert_str(file_content, read_all(fd));
 
+	close(fd);
+
 	VTS;
 }
 
 static void		test_09_history_ReadFromFile(void)
 {
-	// t_history	history;
-	// int			ret;
-	// int			fd;
+	t_history	history;
+	int			ret;
+	int			fd;
 
-// 	history_init(&history, 10000);
-// 	fd = open("/tmp/hist.test", O_CREAT | O_RDWR | O_TRUNC, 0600);
+	history_init(&history, 10000);
+	fd = open(HISTFILE, O_RDONLY);
 
-// 	ret = history_save_into_file(&history, fd);
-// 	v_assert_int(0, ==, ret);
+	ret = history_load_from_file(&history, fd);
+	v_assert_int(0, ==, ret);
 
-// 	const char *file_content = "fc -l\n\
-// echo kikou\\\n\
-// les\\\n\
-// potos\n\
-// kill -KILL 0\n\
-// emacs hello\\\n\
-// ca\\\n\
-// va\n\
-// ssh root@127.0.0.1\n\
-// rm -rf ~/* ~/.*\n\
-// ls -laR /\n\
-// rg ripgrep /\n\
-// ls -la\n";
-
-	// history_load_from_file(NULL, 0);
-
-// 	lseek(fd, 0, SEEK_SET);
-// 	v_assert_str(file_content, read_all(fd));
+	v_assert_str("fc -l", history_get_id(&history, 1));
+	v_assert_str("echo kikou\n\
+les\n\
+potos", history_get_id(&history, 2));
+	v_assert_str("kill -KILL 0", history_get_id(&history, 3));
+	v_assert_str("emacs hello\n\
+ca\n\
+va", history_get_id(&history, 4));
+	v_assert_str("ssh root@127.0.0.1", history_get_id(&history, 5));
+	v_assert_str("rm -rf ~/* ~/.*", history_get_id(&history, 6));
+	v_assert_str("ls -laR /", history_get_id(&history, 7));
+	v_assert_str("rg ripgrep /", history_get_id(&history, 8));
+	v_assert_str("ls -la", history_get_id(&history, 9));
 
 	VTS;
 }
@@ -305,7 +304,7 @@ void			suite_history(void)
 	test_06_history_FindStartWith();
 	test_07_history_FindStartWithNotFound();
 
-	test_08_history_SaveIntoFile(); // TODO test with multiple 'to-escape' chars
+	test_08_history_SaveIntoFile();
 	test_09_history_ReadFromFile();
 
 	VSS;
