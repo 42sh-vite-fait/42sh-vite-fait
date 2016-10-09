@@ -79,29 +79,61 @@ int					history_save_into_file(t_history const *history, int fd)
 	return (0);
 }
 
-// // TODO add it to buffer in lib42 ?? (more generic)
-// static t_buffer		*buffer_unescape_nl(t_buffer *string)
-// {
-// 	char		*escaped_nl;
-// 	size_t		nl_offset;
-
-// 	nl_offset = 0;
-// 	while ((escaped_nl = ft_strstr(string->str + nl_offset, "\\\n")) != NULL)
-// 	{
-// 		nl_offset = (size_t)(escaped_nl - string->str);
-// 		if (buffer_remove(string, nl_offset, 1) == 0)
-// 		{
-// 			// ft_perror
-// 			return (NULL);
-// 		}
-// 		nl_offset += 2;
-// 	}
-// 	return (string);
-// }
-
-int				history_load_from_file(t_history *history, int fd)
+// TODO add it to buffer in lib42 ?? (more generic)
+static t_buffer		*buffer_unescape_nl(t_buffer *string)
 {
-	(void)history;
+	char		*escaped_nl;
+	size_t		offset;
+
+	offset = 0;
+	while ((escaped_nl = ft_strstr(string->str + offset, "\\\n")) != NULL)
+	{
+		offset = (size_t)(escaped_nl - string->str);
+		if (buffer_remove(string, offset, 1) == 0)
+		{
+			// ft_perror
+			return (NULL);
+		}
+	}
+	return (string);
+}
+
+static int			read_all(t_buffer *buffer, int fd)
+{
+	(void)buffer;
 	(void)fd;
+	return (0);
+}
+
+int					history_load_from_file(t_history *history, int fd)
+{
+	const char	*command_str;
+	t_buffer	whole_file;
+	t_buffer	*buffer;
+
+	if (read_all(&whole_file, fd) == -1)
+	{
+		// ft_perror
+		return (-1);
+	}
+	buffer = NULL;
+	while (whole_file.len != 0)
+	{
+		command_str = NULL;
+		if ((buffer == NULL && (buffer = buffer_dup(command_str)) == NULL) ||
+			(buffer = buffer_replace(buffer, command_str)) == NULL)
+		{
+			// ft_perror
+			return (-1);
+		}
+		if (buffer->len != 0)
+		{
+			buffer_unescape_nl(buffer);
+			history_push(history, buffer->str);
+		}
+		//
+	}
+
+	//
 	return (0);
 }
