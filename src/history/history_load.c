@@ -1,11 +1,9 @@
-#include <stdio.h> // delete
-
 #include <unistd.h>
 #include "typedefs_42.h"
 #include "buffer_42.h"
 #include "history.h"
 
-// TODO add it to buffer in lib42 ?? (more generic)
+// TODO use the lib42 one (waiting pull request acceptation)
 static t_buffer		*buffer_unescape_nl(t_buffer *string)
 {
 	char		*escaped_nl;
@@ -21,7 +19,7 @@ static t_buffer		*buffer_unescape_nl(t_buffer *string)
 	return (string);
 }
 
-#define BUFF_SIZE (4096) // TODO pagesize
+#define BUFF_SIZE (4096) // TODO pagesize + in .h file
 
 static char			*buffer_read_all(int fd)
 {
@@ -46,6 +44,21 @@ static char			*buffer_read_all(int fd)
 	return (buffer.str);
 }
 
+static char			*next_real_unescaped_nl(const char *file)
+{
+	char		*match;
+	size_t		off;
+
+	off = 0;
+	while ((match = ft_strchr(file + off, '\n')) != NULL)
+	{
+		if (match == file || (match != file && *(match - 1) != '\\'))
+			return (match);
+		off = (size_t)(match - file) + 1;
+	}
+	return (NULL);
+}
+
 static int			history_push_unescaped(t_buffer *buffer, t_history *history)
 {
 	if (buffer->len != 0)
@@ -57,55 +70,51 @@ static int			history_push_unescaped(t_buffer *buffer, t_history *history)
 	return (0);
 }
 
+// TODO waiting all pull requests to be accepted to clean up this
 int					history_load_from_file(t_history *history, int fd)
 {
-	char		*whole_file;
-	size_t		old_offset;
-	size_t		offset;
+	char		*file;
+	size_t		old_off;
+	size_t		off;
 	t_buffer	buffer;
 	char		*match;
 
-	if ((whole_file = buffer_read_all(fd)) == NULL)
+	// TODO read file step by step
+	if ((file = buffer_read_all(fd)) == NULL)
 		return (-1);
 
 	// TODO pagesize
 	if (buffer_init(&buffer, BUFF_SIZE) == NULL)
 	{
-		free(whole_file);
+		free(file);
 		return (-2); // TODO error defines
 	}
 
-	offset = 0;
-	while ((match = ft_strchr(whole_file + offset, '\n')) != NULL)
+	off = 0;
+	while ((match = next_real_unescaped_nl(file + off)) != NULL)
 	{
-		if (match != whole_file && *(match - 1) == '\\')
-		{
-			offset = (size_t)(match - whole_file) + 1;
-			continue;
-		}
-		old_offset = offset;
-		offset = (size_t)(match - whole_file);
-		buffer_remove(&buffer, buffer.len - 1, 1); // remove last '\n'
-		if (buffer_nreplace(&buffer, whole_file, offset - old_offset) == NULL ||
+		old_off = off;
+		off = (size_t)(match - file);
+		buffer_remove(&buffer, buffer.len - 1, 1);
+		if (buffer_nreplace(&buffer, file + old_off, off - old_off) == NULL ||
 			history_push_unescaped(&buffer, history) == -1)
 		{
-			free(whole_file);
+			free(file);
 			free(buffer.str);
 			return (-3);
 		}
-		offset += 1;
+		off += 1;
 	}
 
-	// TODO delete last char
-	if (buffer_replace(&buffer, whole_file + offset) == NULL ||
+	if (buffer_replace(&buffer, file + off) == NULL ||
 		history_push_unescaped(&buffer, history) == -1)
 	{
-		free(whole_file);
+		free(file);
 		free(buffer.str);
 		return (-3);
 	}
 
-	free(whole_file);
+	free(file);
 	free(buffer.str);
 	return (0);
 }

@@ -275,13 +275,9 @@ static void		test_09_history_ReadFromFile(void)
 	v_assert_int(0, ==, ret);
 
 	v_assert_str("fc -l", history_get_id(&history, 1));
-	v_assert_str("echo kikou\n\
-les\n\
-potos", history_get_id(&history, 2));
+	v_assert_str("echo kikou\nles\npotos", history_get_id(&history, 2));
 	v_assert_str("kill -KILL 0", history_get_id(&history, 3));
-	v_assert_str("emacs hello\n\
-ca\n\
-va", history_get_id(&history, 4));
+	v_assert_str("emacs hello\nca\nva", history_get_id(&history, 4));
 	v_assert_str("ssh root@127.0.0.1", history_get_id(&history, 5));
 	v_assert_str("rm -rf ~/* ~/.*", history_get_id(&history, 6));
 	v_assert_str("ls -laR /", history_get_id(&history, 7));

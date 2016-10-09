@@ -1,12 +1,9 @@
-#include <stdio.h> // delete
-
 #include <unistd.h>
-// #include <fcntl.h>
 #include "typedefs_42.h"
 #include "buffer_42.h"
 #include "history.h"
 
-// TODO add it to buffer in lib42 ?? (more generic)
+// TODO use the lib42 one (waiting pull request acceptation)
 static t_buffer		*buffer_escape_nl(t_buffer *string)
 {
 	char		*nl;
@@ -23,13 +20,13 @@ static t_buffer		*buffer_escape_nl(t_buffer *string)
 	return (string);
 }
 
-// TODO add it in lib42 ?? (more generic)
+// TODO add it in lib42 ??
 static int			write_all(const char *str, size_t len, int fd)
 {
 	ssize_t		ret;
 
 	ret = 0;
-	while ((ret = write(fd, str + (size_t)ret, len - (size_t)ret)) != 0)
+	while ((ret = write(fd, str + (size_t)ret, len - (size_t)ret)) > 0)
 	{
 		if (ret == -1)
 			return (-1);
@@ -40,37 +37,29 @@ static int			write_all(const char *str, size_t len, int fd)
 // TODO does commands have '\n' at end ?
 int					history_save_into_file(t_history const *history, int fd)
 {
-	const char	*command_str;
-	t_buffer	*command; // TODO remove star*
+	t_buffer	command;
 	size_t		i;
 
-	if (ftruncate(fd, 0) == -1)
-		return (-1); // TODO errno ?
-
-	// TODO use buffer[PAGE_SIZE] for perfs ???
-
-	command = NULL;
+	//													TODO define here
+	if (ftruncate(fd, 0) == -1 || buffer_init(&command, 64) == NULL)
+		return (-1);
 	i = history->last_id;
 	while (i > history->last_id - history->cbuffer.len)
 	{
-		command_str = history_get_id(history, i);
-		// TODO allways buffer_replace
-		if ((command == NULL && (command = buffer_dup(command_str)) == NULL) ||
-			(command = buffer_replace(command, command_str)) == NULL)
+		if (buffer_replace(&command, history_get_id(history, i)) == NULL)
 		{
-			if (command)
-				buffer_destroy(command);
+			free(command.str);
 			return (-1);
 		}
-		if (buffer_escape_nl(command) == NULL)
+		if (buffer_escape_nl(&command) == NULL)
 		{
-			buffer_destroy(command);
+			free(command.str);
 			return (-1);
 		}
-		buffer_insert(command, command->len, "\n", 1);
-		write_all(command->str, command->len, fd);
+		buffer_insert(&command, command.len, "\n", 1);
+		write_all(command.str, command.len, fd);
 		--i;
 	}
-	buffer_destroy(command);
+	free(command.str);
 	return (0);
 }
