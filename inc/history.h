@@ -9,7 +9,7 @@
 
 struct		s_history
 {
-	t_cbuffer	cbuffer;
+	t_cbuffer	cbuffer; // TODO t_buffer (need to be named t_string)
 	size_t		last_id;
 };
 
@@ -21,8 +21,6 @@ struct		s_result
 
 typedef struct s_history	t_history;
 typedef struct s_result		t_result;
-
-# define WRITE_BUFF_LEN 4096 // TODO get_page_size
 
 t_history	*history_new(size_t limit);
 t_history	*history_init(t_history *history, size_t limit);

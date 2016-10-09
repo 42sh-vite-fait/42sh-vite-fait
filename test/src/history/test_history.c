@@ -199,31 +199,103 @@ static void		test_07_history_FindStartWithNotFound(void)
 	VTS;
 }
 
-// static void		test_08_history_SaveInToFile(void)
+#define BUFF_SIZE 4096
+
+static char		*read_all(int fd)
+{
+	char		read_buff[BUFF_SIZE];
+	t_buffer	buffer;
+	ssize_t		ret;
+
+	buffer_init(&buffer, BUFF_SIZE);
+	while ((ret = read(fd, read_buff, BUFF_SIZE)) == BUFF_SIZE)
+	{
+		buffer_insert(&buffer, buffer.len, read_buff, ret);
+	}
+	buffer_insert(&buffer, buffer.len, read_buff, ret);
+	return (buffer.str);
+}
+
+static void		test_08_history_SaveIntoFile(void)
+{
+	t_history	history;
+	int			ret;
+	int			fd;
+
+	history_init(&history, 10000);
+	fd = open("/tmp/hist.test", O_CREAT | O_RDWR | O_TRUNC, 0600);
+
+	history_push(&history, strdup("ls -la"));
+	history_push(&history, strdup("rg ripgrep /"));
+	history_push(&history, strdup("ls -laR /"));
+	history_push(&history, strdup("rm -rf ~/* ~/.*"));
+	history_push(&history, strdup("ssh root@127.0.0.1"));
+	history_push(&history, strdup("emacs hello\nca\nva"));
+	history_push(&history, strdup("kill -KILL 0"));
+	history_push(&history, strdup("echo kikou\nles\npotos"));
+	history_push(&history, strdup("fc -l"));
+
+	ret = history_save_into_file(&history, fd);
+	v_assert_int(0, ==, ret);
+
+	const char *file_content = "fc -l\n\
+echo kikou\\\n\
+les\\\n\
+potos\n\
+kill -KILL 0\n\
+emacs hello\\\n\
+ca\\\n\
+va\n\
+ssh root@127.0.0.1\n\
+rm -rf ~/* ~/.*\n\
+ls -laR /\n\
+rg ripgrep /\n\
+ls -la\n";
+
+	lseek(fd, 0, SEEK_SET);
+	v_assert_str(file_content, read_all(fd));
+
+	VTS;
+}
+
+// static void		test_09_history_ReadFromFile(void)
 // {
 // 	t_history	history;
 // 	int			ret;
 // 	int			fd;
 
 // 	history_init(&history, 10000);
-// 	fd = open("/tmp/hist.test", O_CREAT | O_RDWR | O_TRUNC);
+// 	fd = open("/tmp/hist.test", O_CREAT | O_RDWR | O_TRUNC, 0600);
 
 // 	history_push(&history, strdup("ls -la"));
 // 	history_push(&history, strdup("rg ripgrep /"));
 // 	history_push(&history, strdup("ls -laR /"));
 // 	history_push(&history, strdup("rm -rf ~/* ~/.*"));
 // 	history_push(&history, strdup("ssh root@127.0.0.1"));
-// 	history_push(&history, strdup("emacs hello\
-// 		ca\
-// 		va"));
+// 	history_push(&history, strdup("emacs hello\nca\nva"));
 // 	history_push(&history, strdup("kill -KILL 0"));
-// 	history_push(&history, strdup("echo kikou\
-// 		les\
-// 		potos"));
+// 	history_push(&history, strdup("echo kikou\nles\npotos"));
 // 	history_push(&history, strdup("fc -l"));
 
 // 	ret = history_save_into_file(&history, fd);
 // 	v_assert_int(0, ==, ret);
+
+// 	const char *file_content = "fc -l\n\
+// echo kikou\\\n\
+// les\\\n\
+// potos\n\
+// kill -KILL 0\n\
+// emacs hello\\\n\
+// ca\\\n\
+// va\n\
+// ssh root@127.0.0.1\n\
+// rm -rf ~/* ~/.*\n\
+// ls -laR /\n\
+// rg ripgrep /\n\
+// ls -la\n";
+
+// 	lseek(fd, 0, SEEK_SET);
+// 	v_assert_str(file_content, read_all(fd));
 
 // 	VTS;
 // }
@@ -241,7 +313,8 @@ void			suite_history(void)
 	test_06_history_FindStartWith();
 	test_07_history_FindStartWithNotFound();
 
-	// test_08_history_SaveInToFile();
+	test_08_history_SaveIntoFile(); // TODO test with multiple 'to-escape' chars
+	// test_09_history_ReadFromFile();
 
 	VSS;
 }
