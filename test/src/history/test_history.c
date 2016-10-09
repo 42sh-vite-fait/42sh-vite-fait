@@ -64,7 +64,7 @@ static void		test_02_history_pushManyCommandId(void)
 	VTS;
 }
 
-static void		test_03_history_searchPattern(void)
+static void		test_03_history_FindPattern(void)
 {
 	t_history	history;
 	t_result	result;
@@ -87,7 +87,7 @@ static void		test_03_history_searchPattern(void)
 	VTS;
 }
 
-static void		test_04_history_SearchDontFind(void)
+static void		test_04_history_FindDontFind(void)
 {
 	t_history	history;
 	t_result	result;
@@ -110,7 +110,7 @@ static void		test_04_history_SearchDontFind(void)
 	VTS;
 }
 
-static void		test_05_history_SearchFrom(void)
+static void		test_05_history_FindFrom(void)
 {
 	t_history	history;
 	t_result	result;
@@ -150,14 +150,67 @@ static void		test_05_history_SearchFrom(void)
 	VTS;
 }
 
+static void		test_06_history_FindStartWith(void)
+{
+	t_history	history;
+	size_t		cmd_id;
+	t_result	result;
+	bool		found;
+
+	history_init(&history, 10000);
+
+	history_push(&history, strdup("ls -la"));
+	history_push(&history, strdup("rg ripgrep /"));
+	history_push(&history, strdup("ls -laR /"));
+	history_push(&history, strdup("rm -rf ~/* ~/.*"));
+	history_push(&history, strdup("ssh root@127.0.0.1"));
+	history_push(&history, strdup("emacs hello"));
+	cmd_id = history_push(&history, strdup("kill -KILL 0"));
+	history_push(&history, strdup("echo kikou"));
+	history_push(&history, strdup("fc -l"));
+
+	found = history_find_start_with(&result, &history, "kill");
+	v_assert_int(true, ==, found);
+	v_assert_size_t(cmd_id, ==, result.command_id);
+	v_assert_size_t(0, ==, result.offset);
+	VTS;
+}
+
+static void		test_07_history_FindStartWithNotFound(void)
+{
+	t_history	history;
+	t_result	result;
+	bool		found;
+
+	history_init(&history, 10000);
+
+	history_push(&history, strdup("ls -la"));
+	history_push(&history, strdup("rg ripgrep /"));
+	history_push(&history, strdup("ls -laR /"));
+	history_push(&history, strdup("rm -rf ~/* ~/.*"));
+	history_push(&history, strdup("ssh root@127.0.0.1"));
+	history_push(&history, strdup("emacs hello"));
+	history_push(&history, strdup("kill -KILL 0"));
+	history_push(&history, strdup("echo kikou"));
+	history_push(&history, strdup("fc -l"));
+
+	found = history_find_start_with(&result, &history, "kikou");
+	v_assert_int(false, ==, found);
+	VTS;
+}
+
 void			suite_history(void)
 {
 	test_00_history_contains();
 	test_01_history_pushFirstCommandId();
 	test_02_history_pushManyCommandId();
-	test_03_history_searchPattern();
-	test_04_history_SearchDontFind();
-	test_05_history_SearchFrom();
+
+	test_03_history_FindPattern();
+	test_04_history_FindDontFind();
+	test_05_history_FindFrom();
+
+	test_06_history_FindStartWith();
+	test_07_history_FindStartWithNotFound();
 
 	VSS;
 }

@@ -33,5 +33,7 @@ bool		history_contains(t_history const *history, size_t id);
 bool		history_find(t_result *ret, t_history const *h, const char *patt);
 bool		history_find_from(t_result *ret, t_history const *history,
 								const char *pattern, t_result from);
+bool		history_find_start_with(t_result *res, t_history const *history,
+									const char *pattern);
 
 #endif
