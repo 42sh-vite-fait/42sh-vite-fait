@@ -12,7 +12,7 @@ static int			write_into_file(t_buffer *command, size_t cmd_id, int fd)
 	// TODO put this in a unique big if ??? NO !!!
 	if (buffer_replace(command, history_get_id(cmd_id)) == NULL)
 		return (-1);
-	if (buffer_escape(command, '\n') == NULL)
+	if (buffer_escape_chars(command, '\n') == NULL)
 		return (-1);
 	if (buffer_insert(command, command->len, "\n", 1) == NULL)
 		return (-1);

@@ -28,7 +28,7 @@ static int			push_unescaped(t_buffer *buffer)
 {
 	if (buffer->len != 0)
 	{
-		if (buffer_unescape(buffer, '\n') == NULL)
+		if (buffer_unescape_chars(buffer, '\n') == NULL)
 			return (-1);
 		history_push(ft_strdup(buffer->str));
 	}

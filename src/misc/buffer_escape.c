@@ -5,7 +5,7 @@
 #include "buffer_42.h"
 #include "misc.h"
 
-t_buffer		*buffer_escape(t_buffer *b, int c)
+t_buffer		*buffer_escape_chars(t_buffer *b, int c)
 {
 	char		*match;
 	size_t		offset;
@@ -21,7 +21,7 @@ t_buffer		*buffer_escape(t_buffer *b, int c)
 	return (b);
 }
 
-t_buffer		*buffer_unescape(t_buffer *b, int c)
+t_buffer		*buffer_unescape_chars(t_buffer *b, int c)
 {
 	char		pattern[3];
 	char		*match;
