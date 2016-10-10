@@ -40,7 +40,7 @@ static char			*next_real_unescaped_nl(const char *file)
 	off = 0;
 	while ((match = ft_strchr(file + off, '\n')) != NULL)
 	{
-		if (match == file || (match != file && *(match - 1) != '\\'))
+		if (match == file || *(match - 1) != '\\')
 			return (match);
 		off = (size_t)(match - file) + 1;
 	}
