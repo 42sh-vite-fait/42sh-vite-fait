@@ -1,8 +1,11 @@
 #include <unistd.h>
+#include <fcntl.h>
 #include "typedefs_42.h"
 #include "buffer_42.h"
 #include "history.h"
 #include "misc.h"
+
+extern t_history	g_history;
 
 #define BUFF_SIZE (4096) // TODO pagesize + in .h file
 
@@ -44,33 +47,41 @@ static char			*next_real_unescaped_nl(const char *file)
 	return (NULL);
 }
 
-static int			history_push_unescaped(t_buffer *buffer, t_history *history)
+static int			history_push_unescaped(t_buffer *buffer)
 {
 	if (buffer->len != 0)
 	{
 		if (buffer_unescape(buffer, '\n') == NULL)
 			return (-1);
-		history_push(history, ft_strdup(buffer->str));
+		history_push(ft_strdup(buffer->str));
 	}
 	return (0);
 }
 
 // TODO waiting all pull requests to be accepted to clean up this
-int					history_load_from_file(t_history *history, int fd)
+int					history_load_from_file(const char *path)
 {
 	char		*file;
 	size_t		old_off;
 	size_t		off;
 	t_buffer	buffer;
 	char		*match;
+	int			fd;
+
+	if ((fd = open(path, O_RDONLY)) == -1)
+		return (-1);
 
 	// TODO read file step by step
 	if ((file = buffer_read_all(fd)) == NULL)
+	{
+		close(fd);
 		return (-1);
+	}
 
 	// TODO pagesize
 	if (buffer_init(&buffer, BUFF_SIZE) == NULL)
 	{
+		close(fd);
 		free(file);
 		return (-2); // TODO error defines
 	}
@@ -82,8 +93,9 @@ int					history_load_from_file(t_history *history, int fd)
 		off = (size_t)(match - file);
 		buffer_remove(&buffer, buffer.len - 1, 1);
 		if (buffer_nreplace(&buffer, file + old_off, off - old_off) == NULL ||
-			history_push_unescaped(&buffer, history) == -1)
+			history_push_unescaped(&buffer) == -1)
 		{
+			close(fd);
 			free(file);
 			free(buffer.str);
 			return (-3);
@@ -92,13 +104,15 @@ int					history_load_from_file(t_history *history, int fd)
 	}
 
 	if (buffer_replace(&buffer, file + off) == NULL ||
-		history_push_unescaped(&buffer, history) == -1)
+		history_push_unescaped(&buffer) == -1)
 	{
+		close(fd);
 		free(file);
 		free(buffer.str);
 		return (-3);
 	}
 
+	close(fd);
 	free(file);
 	free(buffer.str);
 	return (0);

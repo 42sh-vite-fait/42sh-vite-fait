@@ -3,30 +3,19 @@
 #include "cbuffer_42.h"
 #include "history.h"
 
-static void		delete_string(void *string)
+extern t_history	g_history;
+t_history			g_history;
+
+static void		del_string(void *string)
 {
 	free(*(char**)string);
 }
 
-t_history		*history_new(size_t limit)
+int				history_init(size_t limit)
 {
-	t_history	*history;
-
-	if ((history = malloc(sizeof(t_history))) == NULL)
-		return (NULL);
-	if (history_init(history, limit) == NULL)
-	{
-		free(history);
-		return (NULL);
-	}
-	return (history);
-}
-
-t_history		*history_init(t_history *hist, size_t len)
-{
-	if (cbuffer_init(&hist->cbuffer, len, sizeof(char*), delete_string) == NULL)
-		return (NULL);
-	hist->last_id = 0;
-	return (hist);
+	if (!cbuffer_init(&g_history.cbuffer, limit, sizeof(char*), del_string))
+		return (-1);
+	g_history.last_id = 0;
+	return (0);
 }
 

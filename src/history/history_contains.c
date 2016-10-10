@@ -2,7 +2,10 @@
 #include <stdlib.h>
 #include "history.h"
 
-bool	history_contains(t_history const *hist, size_t id)
+extern t_history	g_history;
+
+bool	history_contains(size_t id)
 {
-	return (id <= hist->last_id && id > hist->last_id - hist->cbuffer.len);
+	return (id <= g_history.last_id
+			&& id > g_history.last_id - g_history.cbuffer.len);
 }

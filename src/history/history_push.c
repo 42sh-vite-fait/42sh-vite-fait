@@ -2,9 +2,11 @@
 #include "history.h"
 #include "cbuffer_42.h"
 
-size_t		history_push(t_history *history, const char *command)
+extern t_history		g_history;
+
+size_t		history_push(const char *command)
 {
-	history->last_id += 1;
-	cbuffer_push_back(&history->cbuffer, &command);
-	return (history->last_id);
+	g_history.last_id += 1;
+	cbuffer_push_back(&g_history.cbuffer, &command);
+	return (g_history.last_id);
 }

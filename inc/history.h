@@ -22,22 +22,19 @@ struct		s_result
 typedef struct s_history	t_history;
 typedef struct s_result		t_result;
 
-t_history	*history_new(size_t limit);
-t_history	*history_init(t_history *history, size_t limit);
+int			history_init(size_t limit);
 
-int			history_save_into_file(t_history const *history, int fd);
-int			history_load_from_file(t_history *history, int fd);
+int			history_save_into_file(const char *path);
+int			history_load_from_file(const char *path);
 
-size_t		history_push(t_history *history, const char *command);
+size_t		history_push(const char *command);
 
-const char	*history_get_id(t_history const *history, size_t id);
+const char	*history_get_id(size_t id);
 
-bool		history_contains(t_history const *history, size_t id);
+bool		history_contains(size_t id);
 
-bool		history_find(t_result *ret, t_history const *h, const char *patt);
-bool		history_find_from(t_result *ret, t_history const *history,
-								const char *pattern, t_result from);
-bool		history_find_start_with(t_result *res, t_history const *history,
-									const char *pattern);
+bool		history_find(t_result *ret, const char *patt);
+bool		history_find_from(t_result *ret, const char *patt, t_result from);
+bool		history_find_start_with(t_result *res, const char *pattern);
 
 #endif
