@@ -6,7 +6,7 @@
 
 extern t_history	g_history;
 
-bool		history_find(t_result *ret, const char *patt)
+bool		history_find(t_result *ret, const char *pattern)
 {
 	size_t		i;
 	const char	*command;
@@ -17,7 +17,7 @@ bool		history_find(t_result *ret, const char *patt)
 	while (i > g_history.last_id - g_history.cbuffer.len)
 	{
 		command = history_get_id(i);
-		if ((match = ft_strrstr(command, patt)) != NULL)
+		if ((match = ft_strrstr(command, pattern)) != NULL)
 		{
 			if (ret != NULL)
 			{
@@ -43,8 +43,11 @@ static bool	search_command_from(t_result *ret, const char *patt, t_result from)
 	{
 		if ((match = ft_strrnstr(command, patt, from.offset - 1)) != NULL)
 		{
-			ret->command_id = from.command_id;
-			ret->offset = (size_t)(match - command);
+			if (ret != NULL)
+			{
+				ret->command_id = from.command_id;
+				ret->offset = (size_t)(match - command);
+			}
 			return (true);
 		}
 	}
@@ -58,7 +61,7 @@ bool		history_find_from(t_result *ret, const char *pattern, t_result from)
 	const char	*match;
 	size_t		i;
 
-	if (history_contains(from.command_id) == false)
+	if (HIST_CONTAINS(g_history, from.command_id) == false)
 		return (false);
 	if (search_command_from(ret, pattern, from) == true)
 		return (true);

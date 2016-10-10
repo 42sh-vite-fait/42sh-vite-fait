@@ -34,14 +34,15 @@ SOURCES += main.c
 # Misc
 SRC_SUBDIR += misc
 SOURCES += buffer_escape.c
+SOURCES += buffer_fd.c
+SOURCES += rev_count_dup.c
 
 # History
 SRC_SUBDIR += history
-SOURCES += history_contains.c
 SOURCES += history_get.c
-SOURCES += history_new.c
+SOURCES += history_init.c
 SOURCES += history_push.c
-SOURCES += history_search.c
+SOURCES += history_find.c
 SOURCES += history_save.c
 SOURCES += history_load.c
 

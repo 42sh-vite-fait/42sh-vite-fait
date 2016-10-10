@@ -29,14 +29,19 @@ INC_FILES = header.h
 HEADERS = $(INC_FILES:%.h=$(INC_PATH)/%.h)
 CFLAGS += $(addprefix -I,$(INC_PATH))
 
-# Sources
-SRC_PATH = src
-SRC_SUBDIR = history
-vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
-SOURCES = main.c
+# Root
+SOURCES += main.c
 
 # History
+SRC_SUBDIR += history
 SOURCES += test_history.c
+
+# Buffer
+SRC_SUBDIR += buffer
+SOURCES += test_buffer_escape.c
+
+SRC_PATH = src
+vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
 
 # Objects
 OBJ_PATH = .obj

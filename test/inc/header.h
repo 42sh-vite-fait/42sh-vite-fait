@@ -16,10 +16,14 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "history.h"
+#include "misc.h"
 #include "lib42.h"
 #include "vittf.h"
 
-// Array
+// History
 void	suite_history(void);
+
+// Buffer un/escape
+void	suite_buffer_escape(void);
 
 #endif

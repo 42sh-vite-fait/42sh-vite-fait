@@ -1,3 +1,5 @@
+#include <stdio.h> // delete
+
 #include "typedefs_42.h"
 #include "string_42.h"
 #include "buffer_42.h"
@@ -31,9 +33,14 @@ t_buffer		*buffer_unescape(t_buffer *b, int c)
 	pattern[2] = '\0';
 	while ((match = ft_strstr(b->str + offset, pattern)) != NULL)
 	{
-		offset = (size_t)(match - b->str);
-		if (buffer_remove(b, offset, 1) == 0)
-			return (NULL);
+		if (rev_count_dup(match, b->str + offset, '\\') & 1)
+		{
+			offset = (size_t)(match - b->str);
+			if (buffer_remove(b, offset, 1) == 0)
+				return (NULL);
+		}
+		else
+			offset = (size_t)(match - b->str) + 1;
 	}
 	return (b);
 }

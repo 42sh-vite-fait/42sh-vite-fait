@@ -1,5 +1,7 @@
 #include "header.h"
 
+extern t_history	g_history;
+
 static void		test_00_history_contains(void)
 {
 	size_t		command_id;
@@ -13,10 +15,10 @@ static void		test_00_history_contains(void)
 	history_push(cmd_echo);
 	history_push(cmd_kill);
 
-	v_assert_int(true, ==, history_contains(1));
-	v_assert_int(true, ==, history_contains(2));
-	v_assert_int(true, ==, history_contains(3));
-	v_assert_int(false, ==, history_contains(4));
+	v_assert_int(true, ==, HIST_CONTAINS(g_history, 1));
+	v_assert_int(true, ==, HIST_CONTAINS(g_history, 2));
+	v_assert_int(true, ==, HIST_CONTAINS(g_history, 3));
+	v_assert_int(false, ==, HIST_CONTAINS(g_history, 4));
 
 	v_assert_str(cmd_ls, history_get_id(1));
 	v_assert_str(cmd_echo, history_get_id(2));
