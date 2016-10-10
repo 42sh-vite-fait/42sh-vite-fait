@@ -20,10 +20,10 @@ static void		test_00_history_contains(void)
 	v_assert_int(true, ==, HIST_CONTAINS(g_history, 3));
 	v_assert_int(false, ==, HIST_CONTAINS(g_history, 4));
 
-	v_assert_str(cmd_ls, history_get_id(1));
-	v_assert_str(cmd_echo, history_get_id(2));
-	v_assert_str(cmd_kill, history_get_id(3));
-	v_assert_ptr(NULL, ==, history_get_id(4));
+	v_assert_str(cmd_ls, history_get(1));
+	v_assert_str(cmd_echo, history_get(2));
+	v_assert_str(cmd_kill, history_get(3));
+	v_assert_ptr(NULL, ==, history_get(4));
 	VTS;
 }
 
@@ -264,15 +264,15 @@ static void		test_09_history_ReadFromFile(void)
 	ret = history_load_from_file(HISTFILE);
 	v_assert_int(0, ==, ret);
 
-	v_assert_str("echo \\\\", history_get_id(1));
-	v_assert_str("echo kikou\nles\npotos", history_get_id(2));
-	v_assert_str("kill -KILL 0", history_get_id(3));
-	v_assert_str("emacs hello\nca\nva", history_get_id(4));
-	v_assert_str("ssh root@127.0.0.1", history_get_id(5));
-	v_assert_str("rm -rf ~/* ~/.*", history_get_id(6));
-	v_assert_str("ls -laR /", history_get_id(7));
-	v_assert_str("rg ripgrep /", history_get_id(8));
-	v_assert_str("ls -la", history_get_id(9));
+	v_assert_str("echo \\\\", history_get(1));
+	v_assert_str("echo kikou\nles\npotos", history_get(2));
+	v_assert_str("kill -KILL 0", history_get(3));
+	v_assert_str("emacs hello\nca\nva", history_get(4));
+	v_assert_str("ssh root@127.0.0.1", history_get(5));
+	v_assert_str("rm -rf ~/* ~/.*", history_get(6));
+	v_assert_str("ls -laR /", history_get(7));
+	v_assert_str("rg ripgrep /", history_get(8));
+	v_assert_str("ls -la", history_get(9));
 
 	VTS;
 }

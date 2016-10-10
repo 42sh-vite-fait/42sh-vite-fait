@@ -4,7 +4,7 @@
 
 extern t_history	g_history;
 
-char const		*history_get_id(size_t id)
+char const		*history_get(size_t id)
 {
 	size_t		real_id;
 	const char	**command_ptr;

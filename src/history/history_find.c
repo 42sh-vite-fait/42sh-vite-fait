@@ -16,7 +16,7 @@ bool		history_find(t_result *ret, const char *pattern)
 	i = g_history.last_id;
 	while (i > g_history.last_id - g_history.cbuffer.len)
 	{
-		command = history_get_id(i);
+		command = history_get(i);
 		if ((match = ft_strrstr(command, pattern)) != NULL)
 		{
 			if (ret != NULL)
@@ -39,7 +39,7 @@ static bool	search_command_from(t_result *ret, const char *patt, t_result from)
 	size_t		len;
 
 	len = ft_strlen(patt);
-	if (from.offset >= len && (command = history_get_id(from.command_id)))
+	if (from.offset >= len && (command = history_get(from.command_id)))
 	{
 		if ((match = ft_strrnstr(command, patt, from.offset - 1)) != NULL)
 		{
@@ -68,7 +68,7 @@ bool		history_find_from(t_result *ret, const char *pattern, t_result from)
 	i = from.command_id - 1;
 	while (i > from.command_id - g_history.cbuffer.len - 1)
 	{
-		command = history_get_id(i);
+		command = history_get(i);
 		if ((match = ft_strrstr(command, pattern)) != NULL)
 		{
 			if (ret != NULL)
@@ -92,7 +92,7 @@ bool		history_find_start_with(t_result *ret, const char *pattern)
 	i = g_history.last_id;
 	while (i > g_history.last_id - g_history.cbuffer.len)
 	{
-		command = history_get_id(i);
+		command = history_get(i);
 		pattern_len = ft_strlen(pattern);
 		// TODO use strncmp when created
 		if (ft_strnstr(command, pattern, pattern_len) != NULL)

@@ -32,7 +32,7 @@ int			history_load_from_file(const char *path);
 
 size_t		history_push(const char *command);
 
-const char	*history_get_id(size_t id);
+const char	*history_get(size_t id);
 
 bool		history_find(t_result *ret, const char *pattern);
 bool		history_find_from(t_result *ret, const char *patt, t_result from);

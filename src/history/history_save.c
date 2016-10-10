@@ -10,7 +10,7 @@ extern t_history	g_history;
 static int			write_into_file(t_buffer *command, size_t cmd_id, int fd)
 {
 	// TODO put this in a unique big if ??? NO !!!
-	if (buffer_replace(command, history_get_id(cmd_id)) == NULL)
+	if (buffer_replace(command, history_get(cmd_id)) == NULL)
 		return (-1);
 	if (buffer_escape_chars(command, '\n') == NULL)
 		return (-1);
