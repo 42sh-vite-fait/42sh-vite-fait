@@ -2,22 +2,7 @@
 #include "typedefs_42.h"
 #include "buffer_42.h"
 #include "history.h"
-
-// TODO use the lib42 one (waiting pull request acceptation)
-static t_buffer		*buffer_unescape_nl(t_buffer *string)
-{
-	char		*escaped_nl;
-	size_t		offset;
-
-	offset = 0;
-	while ((escaped_nl = ft_strstr(string->str + offset, "\\\n")) != NULL)
-	{
-		offset = (size_t)(escaped_nl - string->str);
-		if (buffer_remove(string, offset, 1) == 0)
-			return (NULL);
-	}
-	return (string);
-}
+#include "misc.h"
 
 #define BUFF_SIZE (4096) // TODO pagesize + in .h file
 
@@ -63,7 +48,7 @@ static int			history_push_unescaped(t_buffer *buffer, t_history *history)
 {
 	if (buffer->len != 0)
 	{
-		if (buffer_unescape_nl(buffer) == NULL)
+		if (buffer_unescape(buffer, '\n') == NULL)
 			return (-1);
 		history_push(history, ft_strdup(buffer->str));
 	}

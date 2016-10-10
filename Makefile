@@ -31,6 +31,10 @@ endif
 # Root
 SOURCES += main.c
 
+# Misc
+SRC_SUBDIR += misc
+SOURCES += buffer_escape.c
+
 # History
 SRC_SUBDIR += history
 SOURCES += history_contains.c
