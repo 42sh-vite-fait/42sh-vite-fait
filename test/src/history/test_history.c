@@ -229,12 +229,12 @@ static void		test_08_history_SaveIntoFile(void)
 	history_push(strdup("emacs hello\nca\nva"));
 	history_push(strdup("kill -KILL 0"));
 	history_push(strdup("echo kikou\nles\npotos"));
-	history_push(strdup("fc -l"));
+	history_push(strdup("echo \\\\"));
 
 	ret = history_save_into_file(HISTFILE);
 	v_assert_int(0, ==, ret);
 
-	const char *file_content = "fc -l\n\
+	const char *file_content = "echo \\\\\n\
 echo kikou\\\n\
 les\\\n\
 potos\n\
@@ -262,7 +262,7 @@ static void		test_09_history_ReadFromFile(void)
 	ret = history_load_from_file(HISTFILE);
 	v_assert_int(0, ==, ret);
 
-	v_assert_str("fc -l", history_get_id(1));
+	v_assert_str("echo \\\\", history_get_id(1));
 	v_assert_str("echo kikou\nles\npotos", history_get_id(2));
 	v_assert_str("kill -KILL 0", history_get_id(3));
 	v_assert_str("emacs hello\nca\nva", history_get_id(4));
