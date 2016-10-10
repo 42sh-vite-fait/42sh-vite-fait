@@ -1,5 +1,3 @@
-#include <stdio.h> // delete
-
 #include <unistd.h>
 #include <fcntl.h>
 #include "typedefs_42.h"

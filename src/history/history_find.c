@@ -8,21 +8,20 @@ extern t_history	g_history;
 
 bool		history_find(t_result *ret, const char *pattern)
 {
-	size_t		i;
-	const char	*command;
+	const char	**command_ptr;
 	const char	*match;
 	size_t		i;
 
-	i = g_history.last_id;
-	while (i > g_history.last_id - g_history.cbuffer.len)
+	i = g_history.cbuffer.len;
+	while (i > 0)
 	{
-		command = history_get(i);
-		if ((match = ft_strrstr(command, pattern)) != NULL)
+		command_ptr = cbuffer_at(&g_history.cbuffer, i - 1);
+		if ((match = ft_strrstr(*command_ptr, pattern)) != NULL)
 		{
 			if (ret != NULL)
 			{
-				ret->command_id = i;
-				ret->offset = (size_t)(match - command);
+				ret->command_id = g_history.last_id - g_history.cbuffer.len + i;
+				ret->offset = (size_t)(match - *command_ptr);
 			}
 			return (true);
 		}
@@ -56,8 +55,7 @@ static bool	search_command_from(t_result *ret, const char *patt, t_result from)
 
 bool		history_find_from(t_result *ret, const char *pattern, t_result from)
 {
-	size_t		i;
-	const char	*command;
+	const char	**command_ptr;
 	const char	*match;
 	size_t		i;
 
@@ -65,16 +63,16 @@ bool		history_find_from(t_result *ret, const char *pattern, t_result from)
 		return (false);
 	if (search_command_from(ret, pattern, from) == true)
 		return (true);
-	i = from.command_id - 1;
-	while (i > from.command_id - g_history.cbuffer.len - 1)
+	i = g_history.cbuffer.len - g_history.last_id + from.command_id - 1;
+	while (i > 0)
 	{
-		command = history_get(i);
-		if ((match = ft_strrstr(command, pattern)) != NULL)
+		command_ptr = cbuffer_at(&g_history.cbuffer, i - 1);
+		if ((match = ft_strrstr(*command_ptr, pattern)) != NULL)
 		{
 			if (ret != NULL)
 			{
-				ret->command_id = i;
-				ret->offset = (size_t)(match - command);
+				ret->command_id = g_history.last_id - g_history.cbuffer.len + i;
+				ret->offset = (size_t)(match - *command_ptr);
 			}
 			return (true);
 		}
@@ -85,21 +83,21 @@ bool		history_find_from(t_result *ret, const char *pattern, t_result from)
 
 bool		history_find_start_with(t_result *ret, const char *pattern)
 {
+	const char	**command_ptr;
 	size_t		pattern_len;
-	const char	*command;
 	size_t		i;
 
-	i = g_history.last_id;
-	while (i > g_history.last_id - g_history.cbuffer.len)
+	i = g_history.cbuffer.len;
+	while (i > 0)
 	{
-		command = history_get(i);
+		command_ptr = cbuffer_at(&g_history.cbuffer, i - 1);
 		pattern_len = ft_strlen(pattern);
 		// TODO use strncmp when created
-		if (ft_strnstr(command, pattern, pattern_len) != NULL)
+		if (ft_strnstr(*command_ptr, pattern, pattern_len) != NULL)
 		{
 			if (ret != NULL)
 			{
-				ret->command_id = i;
+				ret->command_id = g_history.last_id - g_history.cbuffer.len + i;
 				ret->offset = 0;
 			}
 			return (true);
