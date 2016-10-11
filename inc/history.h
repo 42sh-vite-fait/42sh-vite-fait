@@ -42,12 +42,8 @@ int				history_load_from_file(const char *path);
 
 /*
 ** history_add push a command to the history and return the id to retrieve it.
-**
-** !! WARNING !!
-** Once you have given the command to history_add, don't buffer_destroy it,
-** just free it. The internal str is not duplicated.
 */
-size_t			history_add(const t_buffer command);
+size_t			history_add(t_buffer command);
 
 /*
 ** history_get return the command with the specified id,
