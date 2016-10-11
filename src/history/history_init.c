@@ -13,7 +13,7 @@ static void		del_string(void *string)
 
 int				history_init(size_t limit)
 {
-	if (!cbuffer_init(&g_history.cbuffer, limit, sizeof(t_buffer), del_string))
+	if (!cbuffer_init(&g_history.commands, limit, sizeof(t_buffer), del_string))
 		return (-1);
 	g_history.last_id = 0;
 	return (0);

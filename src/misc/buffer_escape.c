@@ -1,9 +1,22 @@
-#include <stdio.h> // delete
-
+#include <stdbool.h>
 #include "typedefs_42.h"
 #include "string_42.h"
 #include "buffer_42.h"
 #include "misc.h"
+
+bool		is_escaped(const char *pos, const char *end)
+{
+	size_t		count;
+
+	count = 0;
+	pos -= 1;
+	while (pos >= end && *pos == '\\')
+	{
+		++count;
+		--pos;
+	}
+	return (count & 1);
+}
 
 t_buffer		*buffer_escape_chars(t_buffer *b, int c)
 {
@@ -33,7 +46,7 @@ t_buffer		*buffer_unescape_chars(t_buffer *b, int c)
 	pattern[2] = '\0';
 	while ((match = ft_strstr(b->str + offset, pattern)) != NULL)
 	{
-		if (rev_count_dup(match, b->str + offset, '\\') & 1)
+		if (is_escaped(match + 1, b->str + offset))
 		{
 			offset = (size_t)(match - b->str);
 			if (buffer_remove(b, offset, 1) == 0)

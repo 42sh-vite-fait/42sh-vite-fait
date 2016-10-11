@@ -35,7 +35,6 @@ SOURCES += main.c
 SRC_SUBDIR += misc
 SOURCES += buffer_escape.c
 SOURCES += buffer_fd.c
-SOURCES += rev_count_dup.c
 
 # History
 SRC_SUBDIR += history

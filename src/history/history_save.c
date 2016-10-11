@@ -32,7 +32,7 @@ int			history_save_into_file(const char *path)
 	if (ftruncate(fd, 0) == -1 || buffer_init(&command, CMD_LEN) == NULL)
 		return (-1);
 	i = g_history.last_id;
-	while (i > g_history.last_id - g_history.cbuffer.len)
+	while (i > g_history.last_id - g_history.commands.len)
 	{
 		if (convert_and_write_to_file(&command, i, fd) == -1)
 		{

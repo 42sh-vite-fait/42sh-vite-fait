@@ -15,7 +15,7 @@ static char			*next_real_unescaped_nl(const char *file)
 	off = 0;
 	while ((match = ft_strchr(file + off, '\n')) != NULL)
 	{
-		if (match == file || !(rev_count_dup(match - 1, file + off, '\\') & 1))
+		if (match == file || !is_escaped(match, file + off))
 			return (match);
 		off = (size_t)(match - file) + 1;
 	}
