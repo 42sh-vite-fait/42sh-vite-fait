@@ -18,3 +18,8 @@ const t_buffer		*history_get(size_t id)
 	}
 	return (NULL);
 }
+
+size_t				history_get_last_id(void)
+{
+	return (g_history.last_id);
+}

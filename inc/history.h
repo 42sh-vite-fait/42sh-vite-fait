@@ -53,10 +53,10 @@ size_t			history_add(const t_buffer command);
 ** history_get return the command with the specified id,
 ** returning NULL if the id doesn't exist in the history;
 **
-** history_last_id returns the last added command id.
+** history_get_last_id returns the last added command id.
 */
 const t_buffer	*history_get(size_t id);
-size_t			history_last_id(void);
+size_t			history_get_last_id(void);
 
 /*
 ** history_find find the last matching pattern starting form the last character
