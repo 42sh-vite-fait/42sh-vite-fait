@@ -9,7 +9,7 @@
 
 struct		s_history
 {
-	t_cbuffer	commands; // TODO t_buffer (need to be named t_string)
+	t_cbuffer	commands;
 	size_t		last_id;
 };
 
@@ -21,9 +21,6 @@ struct		s_result
 
 typedef struct s_history	t_history;
 typedef struct s_result		t_result;
-
-# define HIST_CONTAINS(h, i) (i <= h.last_id && i > h.last_id - h.commands.len)
-# define CMD_LEN (64)
 
 /*
 ** history_init initialize g_history with a limited len,

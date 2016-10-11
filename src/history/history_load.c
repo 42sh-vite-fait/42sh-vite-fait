@@ -86,7 +86,7 @@ int					history_load_from_file(const char *path)
 
 	if ((file = read_whole_file(path)) == NULL)
 		return (-1);
-	if (buffer_init(&command, CMD_LEN) == NULL)
+	if (buffer_init(&command, BUFFER_INIT_SIZE) == NULL)
 	{
 		buffer_destroy(file);
 		return (-1);

@@ -15,10 +15,10 @@ static void		test_00_history_contains(void)
 	history_add(*cmd_echo);
 	history_add(*cmd_kill);
 
-	v_assert_int(true, ==, HIST_CONTAINS(g_history, 1));
-	v_assert_int(true, ==, HIST_CONTAINS(g_history, 2));
-	v_assert_int(true, ==, HIST_CONTAINS(g_history, 3));
-	v_assert_int(false, ==, HIST_CONTAINS(g_history, 4));
+	v_assert_int(NULL, !=, history_get(1));
+	v_assert_int(NULL, !=, history_get(2));
+	v_assert_int(NULL, !=, history_get(3));
+	v_assert_int(NULL, ==, history_get(4));
 
 	v_assert_str(cmd_ls->str, history_get(1)->str);
 	v_assert_str(cmd_echo->str, history_get(2)->str);

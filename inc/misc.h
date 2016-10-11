@@ -4,7 +4,7 @@
 # include <stdbool.h>
 # include "typedefs_42.h"
 
-# define BUFFER_READ (4096) // TODO pagesize
+# define BUFFER_READ (4096)
 
 // TODO rename buffer to string
 bool			is_escaped(const char *pos, const char *end);
