@@ -92,8 +92,7 @@ bool		history_find_start_with(t_result *ret, const char *pattern)
 	{
 		command_ptr = cbuffer_at(&g_history.cbuffer, i - 1);
 		pattern_len = ft_strlen(pattern);
-		// TODO use strncmp when created
-		if (ft_strnstr(command_ptr->str, pattern, pattern_len) != NULL)
+		if (ft_strncmp(command_ptr->str, pattern, pattern_len) == 0)
 		{
 			if (ret != NULL)
 			{
