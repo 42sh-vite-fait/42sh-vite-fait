@@ -5,59 +5,77 @@ extern t_history	g_history;
 static void		test_00_history_contains(void)
 {
 	size_t		command_id;
-	const char	*cmd_ls = strdup("ls -la");
-	const char	*cmd_echo = strdup("echo hello");
-	const char	*cmd_kill = strdup("kill -KILL 0");
+	t_buffer	*cmd_ls = buffer_dup("ls -la");
+	t_buffer	*cmd_echo = buffer_dup("echo hello");
+	t_buffer	*cmd_kill = buffer_dup("kill -KILL 0");
 
 	history_init(3);
 
-	history_push(cmd_ls);
-	history_push(cmd_echo);
-	history_push(cmd_kill);
+	history_add(*cmd_ls);
+	history_add(*cmd_echo);
+	history_add(*cmd_kill);
 
 	v_assert_int(true, ==, HIST_CONTAINS(g_history, 1));
 	v_assert_int(true, ==, HIST_CONTAINS(g_history, 2));
 	v_assert_int(true, ==, HIST_CONTAINS(g_history, 3));
 	v_assert_int(false, ==, HIST_CONTAINS(g_history, 4));
 
-	v_assert_str(cmd_ls, history_get(1));
-	v_assert_str(cmd_echo, history_get(2));
-	v_assert_str(cmd_kill, history_get(3));
+	v_assert_str(cmd_ls->str, history_get(1)->str);
+	v_assert_str(cmd_echo->str, history_get(2)->str);
+	v_assert_str(cmd_kill->str, history_get(3)->str);
 	v_assert_ptr(NULL, ==, history_get(4));
+
+	free(cmd_ls);
+	free(cmd_echo);
+	free(cmd_kill);
+
 	VTS;
 }
 
-static void		test_01_history_pushFirstCommandId(void)
+static void		test_01_history_addFirstCommandId(void)
 {
+	t_buffer	command;
 	size_t		command_id;
 
 	history_init(10000);
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
 
-	command_id = history_push(strdup("ls -la"));
+	command = *buffer_replace(&command, "ls -la");
+	command_id = history_add(command);
 
 	v_assert_size_t(1, ==, command_id);
 	VTS;
 }
 
-static void		test_02_history_pushManyCommandId(void)
+static void		test_02_history_addManyCommandId(void)
 {
+	t_buffer	command;
 	size_t		command_id;
 
 	history_init(10000);
-
-	command_id = history_push(strdup("ls -la"));
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -la");
+	command_id = history_add(command);
 	v_assert_size_t(1, ==, command_id);
 
-	command_id = history_push(strdup("ls -la"));
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -la");
+	command_id = history_add(command);
 	v_assert_size_t(2, ==, command_id);
 
-	command_id = history_push(strdup("ls -la"));
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -la");
+	command_id = history_add(command);
 	v_assert_size_t(3, ==, command_id);
 
-	command_id = history_push(strdup("ls -la"));
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -la");
+	command_id = history_add(command);
 	v_assert_size_t(4, ==, command_id);
 
-	command_id = history_push(strdup("ls -la"));
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -la");
+	command_id = history_add(command);
 	v_assert_size_t(5, ==, command_id);
 
 	VTS;
@@ -65,18 +83,36 @@ static void		test_02_history_pushManyCommandId(void)
 
 static void		test_03_history_FindPattern(void)
 {
+	t_buffer	command;
 	t_result	result;
 	size_t		command_id;
 	bool		found;
 
 	history_init(2);
 
-	history_push(strdup("ls -la"));
-	history_push(strdup("ls -la"));
-	history_push(strdup("ls -la"));
-	history_push(strdup("kill -KILL 0"));
-	command_id = history_push(strdup("echo kiki"));
-	history_push(strdup("fc -l"));
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -la");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -la");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -la");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "kill -KILL 0");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "echo kiki");
+	command_id = history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "fc -l");
+	history_add(command);
 
 	found = history_find(&result, "kiki");
 	v_assert_int(true, ==, found);
@@ -87,20 +123,46 @@ static void		test_03_history_FindPattern(void)
 
 static void		test_04_history_FindDontFind(void)
 {
+	t_buffer	command;
 	t_result	result;
 	bool		found;
 
 	history_init(5);
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -la");
+	history_add(command);
 
-	history_push(strdup("ls -la"));
-	history_push(strdup("ls -la"));
-	history_push(strdup("ls -la"));
-	history_push(strdup("ls -la"));
-	history_push(strdup("ls -la"));
-	history_push(strdup("ls -la"));
-	history_push(strdup("kill -KILL 0"));
-	history_push(strdup("echo kikou"));
-	history_push(strdup("fc -l"));
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -la");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -la");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -la");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -la");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -la");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "kill -KILL 0");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "echo kikou");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "fc -l");
+	history_add(command);
 
 	found = history_find(&result, "kiki");
 	v_assert_int(false, ==, found);
@@ -110,20 +172,43 @@ static void		test_04_history_FindDontFind(void)
 static void		test_05_history_FindFrom(void)
 {
 	t_result	result;
+	t_buffer	command;
 	size_t		cmd_ls_tmp_id;
 	size_t		cmd_echo_kiki_id;
 	bool		found;
 
 	history_init(5);
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -la");
+	history_add(command);
 
-	history_push(strdup("ls -la"));
-	history_push(strdup("ls -la"));
-	history_push(strdup("ls -la"));
-	cmd_ls_tmp_id = history_push(strdup("ls /tmp/kiki"));
-	history_push(strdup("ls -la"));
-	history_push(strdup("kill -KILL 0"));
-	cmd_echo_kiki_id = history_push(strdup("echo kiki kiki"));
-	history_push(strdup("fc -l"));
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -la");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -la");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls /tmp/kiki");
+	cmd_ls_tmp_id = history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -la");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "kill -KILL 0");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "echo kiki kiki");
+	cmd_echo_kiki_id = history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "fc -l");
+	history_add(command);
 
 	found = history_find(&result, "kiki");
 	v_assert_int(true, ==, found);
@@ -148,21 +233,47 @@ static void		test_05_history_FindFrom(void)
 
 static void		test_06_history_FindStartWith(void)
 {
-	size_t		cmd_id;
 	t_result	result;
+	t_buffer	command;
+	size_t		cmd_id;
 	bool		found;
 
 	history_init(10000);
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -la");
+	history_add(command);
 
-	history_push(strdup("ls -la"));
-	history_push(strdup("rg ripgrep /"));
-	history_push(strdup("ls -laR /"));
-	history_push(strdup("rm -rf ~/* ~/.*"));
-	history_push(strdup("ssh root@127.0.0.1"));
-	history_push(strdup("emacs hello"));
-	cmd_id = history_push(strdup("kill -KILL 0"));
-	history_push(strdup("echo kikou"));
-	history_push(strdup("fc -l"));
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "rg ripgrep /");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -laR /");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "rm -rf ~/* ~/.*");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ssh root@127.0.0.1");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "emacs hello");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "kill -KILL 0");
+	cmd_id = history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "echo kikou");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "fc -l");
+	history_add(command);
 
 	found = history_find_start_with(&result, "kill");
 	v_assert_int(true, ==, found);
@@ -173,20 +284,46 @@ static void		test_06_history_FindStartWith(void)
 
 static void		test_07_history_FindStartWithNotFound(void)
 {
+	t_buffer	command;
 	t_result	result;
 	bool		found;
 
 	history_init(10000);
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -la");
+	history_add(command);
 
-	history_push(strdup("ls -la"));
-	history_push(strdup("rg ripgrep /"));
-	history_push(strdup("ls -laR /"));
-	history_push(strdup("rm -rf ~/* ~/.*"));
-	history_push(strdup("ssh root@127.0.0.1"));
-	history_push(strdup("emacs hello"));
-	history_push(strdup("kill -KILL 0"));
-	history_push(strdup("echo kikou"));
-	history_push(strdup("fc -l"));
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "rg ripgrep /");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -laR /");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "rm -rf ~/* ~/.*");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ssh root@127.0.0.1");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "emacs hello");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "kill -KILL 0");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "echo kikou");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "fc -l");
+	history_add(command);
 
 	found = history_find_start_with(&result, "kikou");
 	v_assert_int(false, ==, found);
@@ -219,19 +356,45 @@ static char		*read_all(const char *path)
 
 static void		test_08_history_SaveIntoFile(void)
 {
+	t_buffer	command;
 	int			ret;
 
 	history_init(10000);
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -la");
+	history_add(command);
 
-	history_push(strdup("ls -la"));
-	history_push(strdup("rg ripgrep /"));
-	history_push(strdup("ls -laR /"));
-	history_push(strdup("rm -rf ~/* ~/.*"));
-	history_push(strdup("ssh root@127.0.0.1"));
-	history_push(strdup("emacs hello\nca\nva"));
-	history_push(strdup("kill -KILL 0"));
-	history_push(strdup("echo kikou\nles\npotos"));
-	history_push(strdup("echo \\\\"));
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "rg ripgrep /");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ls -laR /");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "rm -rf ~/* ~/.*");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "ssh root@127.0.0.1");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "emacs hello\nca\nva");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "kill -KILL 0");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "echo kikou\nles\npotos");
+	history_add(command);
+
+	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	command = *buffer_replace(&command, "echo \\\\");
+	history_add(command);
 
 	ret = history_save_into_file(HISTFILE);
 	v_assert_int(0, ==, ret);
@@ -264,15 +427,15 @@ static void		test_09_history_ReadFromFile(void)
 	ret = history_load_from_file(HISTFILE);
 	v_assert_int(0, ==, ret);
 
-	v_assert_str("echo \\\\", history_get(1));
-	v_assert_str("echo kikou\nles\npotos", history_get(2));
-	v_assert_str("kill -KILL 0", history_get(3));
-	v_assert_str("emacs hello\nca\nva", history_get(4));
-	v_assert_str("ssh root@127.0.0.1", history_get(5));
-	v_assert_str("rm -rf ~/* ~/.*", history_get(6));
-	v_assert_str("ls -laR /", history_get(7));
-	v_assert_str("rg ripgrep /", history_get(8));
-	v_assert_str("ls -la", history_get(9));
+	v_assert_str("echo \\\\", history_get(1)->str);
+	v_assert_str("echo kikou\nles\npotos", history_get(2)->str);
+	v_assert_str("kill -KILL 0", history_get(3)->str);
+	v_assert_str("emacs hello\nca\nva", history_get(4)->str);
+	v_assert_str("ssh root@127.0.0.1", history_get(5)->str);
+	v_assert_str("rm -rf ~/* ~/.*", history_get(6)->str);
+	v_assert_str("ls -laR /", history_get(7)->str);
+	v_assert_str("rg ripgrep /", history_get(8)->str);
+	v_assert_str("ls -la", history_get(9)->str);
 
 	VTS;
 }
@@ -280,8 +443,8 @@ static void		test_09_history_ReadFromFile(void)
 void			suite_history(void)
 {
 	test_00_history_contains();
-	test_01_history_pushFirstCommandId();
-	test_02_history_pushManyCommandId();
+	test_01_history_addFirstCommandId();
+	test_02_history_addManyCommandId();
 
 	test_03_history_FindPattern();
 	test_04_history_FindDontFind();

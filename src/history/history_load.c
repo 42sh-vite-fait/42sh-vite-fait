@@ -24,11 +24,15 @@ static char			*next_real_unescaped_nl(const char *file)
 
 static int			push_unescaped(t_buffer *buffer)
 {
+	t_buffer		command;
+
 	if (buffer->len != 0)
 	{
 		if (buffer_unescape_chars(buffer, '\n') == NULL)
 			return (-1);
-		history_push(ft_strdup(buffer->str));
+		command = *buffer_init(&command, buffer->len);
+		command = *buffer_replace(&command, buffer->str);
+		history_add(command);
 	}
 	return (0);
 }
@@ -75,8 +79,7 @@ static int			inject_commands(const t_buffer *file, t_buffer *cmd)
 	return (0);
 }
 
-// TODO waiting all pull requests to be accepted to clean up this
-int				history_load_from_file(const char *path)
+int					history_load_from_file(const char *path)
 {
 	t_buffer	command;
 	t_buffer	*file;

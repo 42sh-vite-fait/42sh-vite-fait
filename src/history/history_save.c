@@ -7,10 +7,9 @@
 
 extern t_history	g_history;
 
-static int			write_into_file(t_buffer *command, size_t cmd_id, int fd)
+static int	convert_and_write_to_file(t_buffer *command, size_t cmd_id, int fd)
 {
-	// TODO put this in a unique big if ??? NO !!!
-	if (buffer_replace(command, history_get(cmd_id)) == NULL)
+	if (buffer_replace(command, history_get(cmd_id)->str) == NULL)
 		return (-1);
 	if (buffer_escape_chars(command, '\n') == NULL)
 		return (-1);
@@ -21,7 +20,7 @@ static int			write_into_file(t_buffer *command, size_t cmd_id, int fd)
 	return (0);
 }
 
-int					history_save_into_file(const char *path)
+int			history_save_into_file(const char *path)
 {
 	t_buffer	command;
 	size_t		i;
@@ -35,7 +34,7 @@ int					history_save_into_file(const char *path)
 	i = g_history.last_id;
 	while (i > g_history.last_id - g_history.cbuffer.len)
 	{
-		if (write_into_file(&command, i, fd) == -1)
+		if (convert_and_write_to_file(&command, i, fd) == -1)
 		{
 			close(fd);
 			free(command.str);
