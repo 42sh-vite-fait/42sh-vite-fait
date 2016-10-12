@@ -1,15 +1,16 @@
 #include <unistd.h>
+#include "memory_42.h"
 #include "buffer_42.h"
 #include "misc.h"
 
 t_buffer	*buffer_read_from_fd(int fd)
 {
-	char		buff[BUFFER_READ];
+	char		buff[MEM_PAGE_SIZE];
 	t_buffer	*buffer;
 	ssize_t		ret;
 
-	buffer = buffer_new(BUFFER_READ);
-	while ((ret = read(fd, buff, BUFFER_READ)) == BUFFER_READ)
+	buffer = buffer_new(MEM_PAGE_SIZE);
+	while ((ret = read(fd, buff, MEM_PAGE_SIZE)) == MEM_PAGE_SIZE)
 	{
 		if (buffer_insert(buffer, buffer->len, buff, (size_t)ret) == NULL)
 		{
