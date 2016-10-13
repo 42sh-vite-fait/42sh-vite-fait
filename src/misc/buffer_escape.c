@@ -36,14 +36,12 @@ t_buffer		*buffer_escape_chars(t_buffer *b, int c)
 
 t_buffer		*buffer_unescape_chars(t_buffer *b, int c)
 {
-	char		pattern[3];
-	char		*match;
-	size_t		offset;
+	static char		pattern[3] = {'\\', '\0', '\0'};
+	char			*match;
+	size_t			offset;
 
 	offset = 0;
-	pattern[0] = '\\';
 	pattern[1] = (char)c;
-	pattern[2] = '\0';
 	while ((match = ft_strstr(b->str + offset, pattern)) != NULL)
 	{
 		if (is_escaped(match + 1, b->str + offset))
