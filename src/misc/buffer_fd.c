@@ -3,30 +3,29 @@
 #include "buffer_42.h"
 #include "misc.h"
 
-t_buffer	*buffer_read_from_fd(int fd)
+t_buffer	*buffer_read_from_fd(t_buffer *buffer, int fd)
 {
 	char		buff[MEM_PAGE_SIZE];
-	t_buffer	*buffer;
 	ssize_t		ret;
 
-	buffer = buffer_new(MEM_PAGE_SIZE);
+	buffer_init(buffer, MEM_PAGE_SIZE);
 	while ((ret = read(fd, buff, MEM_PAGE_SIZE)) == MEM_PAGE_SIZE)
 	{
-		if (buffer_insert(buffer, buffer->len, buff, (size_t)ret) == NULL)
+		if (buffer_ncat(buffer, buff, (size_t)ret) == NULL)
 		{
-			buffer_destroy(buffer);
+			free(buffer->str);
 			return (NULL);
 		}
 	}
-	if (buffer_insert(buffer, buffer->len, buff, (size_t)ret) == NULL)
+	if (buffer_ncat(buffer, buff, (size_t)ret) == NULL)
 	{
-		buffer_destroy(buffer);
+		free(buffer->str);
 		return (NULL);
 	}
 	return (buffer);
 }
 
-int			buffer_write_to_fd(t_buffer *b, int fd)
+int			buffer_write_to_fd(const t_buffer *b, int fd)
 {
 	ssize_t		ret;
 

@@ -1,5 +1,7 @@
 #include "header.h"
 
+#define HISTFILE ("/tmp/hist.test")
+
 extern t_history	g_history;
 
 static void		test_00_history_contains(void)
@@ -38,9 +40,9 @@ static void		test_01_history_addFirstCommandId(void)
 	size_t		command_id;
 
 	history_init(10000);
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_init(&command, BUFFER_INIT_SIZE);
 
-	command = *buffer_replace(&command, "ls -la");
+	buffer_replace(&command, "ls -la");
 	command_id = history_add(command);
 
 	v_assert_size_t(1, ==, command_id);
@@ -53,28 +55,28 @@ static void		test_02_history_addManyCommandId(void)
 	size_t		command_id;
 
 	history_init(10000);
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -la");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -la");
 	command_id = history_add(command);
 	v_assert_size_t(1, ==, command_id);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -la");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -la");
 	command_id = history_add(command);
 	v_assert_size_t(2, ==, command_id);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -la");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -la");
 	command_id = history_add(command);
 	v_assert_size_t(3, ==, command_id);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -la");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -la");
 	command_id = history_add(command);
 	v_assert_size_t(4, ==, command_id);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -la");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -la");
 	command_id = history_add(command);
 	v_assert_size_t(5, ==, command_id);
 
@@ -90,28 +92,28 @@ static void		test_03_history_FindPattern(void)
 
 	history_init(2);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -la");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -la");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -la");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -la");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -la");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -la");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "kill -KILL 0");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "kill -KILL 0");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "echo kiki");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "echo kiki");
 	command_id = history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "fc -l");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "fc -l");
 	history_add(command);
 
 	found = history_find(&result, "kiki");
@@ -128,40 +130,40 @@ static void		test_04_history_FindDontFind(void)
 	bool		found;
 
 	history_init(5);
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -la");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -la");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -la");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -la");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -la");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -la");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -la");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -la");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -la");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -la");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -la");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -la");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "kill -KILL 0");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "kill -KILL 0");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "echo kikou");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "echo kikou");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "fc -l");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "fc -l");
 	history_add(command);
 
 	found = history_find(&result, "kiki");
@@ -178,36 +180,36 @@ static void		test_05_history_FindFrom(void)
 	bool		found;
 
 	history_init(5);
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -la");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -la");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -la");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -la");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -la");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -la");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls /tmp/kiki");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls /tmp/kiki");
 	cmd_ls_tmp_id = history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -la");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -la");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "kill -KILL 0");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "kill -KILL 0");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "echo kiki kiki");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "echo kiki kiki");
 	cmd_echo_kiki_id = history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "fc -l");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "fc -l");
 	history_add(command);
 
 	found = history_find(&result, "kiki");
@@ -239,40 +241,40 @@ static void		test_06_history_FindStartWith(void)
 	bool		found;
 
 	history_init(10000);
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -la");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -la");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "rg ripgrep /");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "rg ripgrep /");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -laR /");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -laR /");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "rm -rf ~/* ~/.*");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "rm -rf ~/* ~/.*");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ssh root@127.0.0.1");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ssh root@127.0.0.1");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "emacs hello");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "emacs hello");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "kill -KILL 0");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "kill -KILL 0");
 	cmd_id = history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "echo kikou");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "echo kikou");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "fc -l");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "fc -l");
 	history_add(command);
 
 	found = history_find_start_with(&result, "kill");
@@ -289,40 +291,40 @@ static void		test_07_history_FindStartWithNotFound(void)
 	bool		found;
 
 	history_init(10000);
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -la");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -la");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "rg ripgrep /");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "rg ripgrep /");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -laR /");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -laR /");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "rm -rf ~/* ~/.*");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "rm -rf ~/* ~/.*");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ssh root@127.0.0.1");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ssh root@127.0.0.1");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "emacs hello");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "emacs hello");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "kill -KILL 0");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "kill -KILL 0");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "echo kikou");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "echo kikou");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "fc -l");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "fc -l");
 	history_add(command);
 
 	found = history_find_start_with(&result, "kikou");
@@ -352,48 +354,46 @@ static char		*read_all(const char *path)
 	return (buffer.str);
 }
 
-#define HISTFILE ("/tmp/hist.test")
-
 static void		test_08_history_SaveIntoFile(void)
 {
 	t_buffer	command;
 	int			ret;
 
 	history_init(10000);
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -la");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -la");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "rg ripgrep /");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "rg ripgrep /");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ls -laR /");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ls -laR /");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "rm -rf ~/* ~/.*");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "rm -rf ~/* ~/.*");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "ssh root@127.0.0.1");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "ssh root@127.0.0.1");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "emacs hello\nca\nva");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "emacs hello\nca\nva");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "kill -KILL 0");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "kill -KILL 0");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "echo kikou\nles\npotos");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "echo kikou\nles\npotos");
 	history_add(command);
 
-	command = *buffer_init(&command, BUFFER_INIT_SIZE);
-	command = *buffer_replace(&command, "echo \\\\");
+	buffer_init(&command, BUFFER_INIT_SIZE);
+	buffer_replace(&command, "echo \\\\");
 	history_add(command);
 
 	ret = history_save_into_file(HISTFILE);
@@ -418,7 +418,7 @@ ls -la\n";
 	VTS;
 }
 
-static void		test_09_history_ReadFromFile(void)
+static void		test_09_history_LoadFromFile(void)
 {
 	int			ret;
 
@@ -454,7 +454,7 @@ void			suite_history(void)
 	test_07_history_FindStartWithNotFound();
 
 	test_08_history_SaveIntoFile();
-	test_09_history_ReadFromFile();
+	test_09_history_LoadFromFile();
 
 	VSS;
 }

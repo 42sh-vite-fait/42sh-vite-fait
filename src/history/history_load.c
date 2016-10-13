@@ -1,52 +1,43 @@
+#include <stdio.h> // delete
+
 #include <unistd.h>
 #include <fcntl.h>
 #include "typedefs_42.h"
 #include "buffer_42.h"
+#include "memory.h"
 #include "history.h"
 #include "misc.h"
 
 extern t_history	g_history;
 
-static char			*next_real_unescaped_nl(const char *file)
+static char			*next_real_unescaped_nl(const char *string)
 {
 	char		*match;
 	size_t		off;
 
 	off = 0;
-	while ((match = ft_strchr(file + off, '\n')) != NULL)
+	while ((match = ft_strchr(string + off, '\n')) != NULL)
 	{
-		if (match == file || !is_escaped(match, file + off))
+		if (match == string || !is_escaped(match, string + off))
 			return (match);
-		off = (size_t)(match - file) + 1;
+		off = (size_t)(match - string) + 1;
 	}
 	return (NULL);
 }
 
-static int			push_unescaped(t_buffer *buffer)
+static t_buffer		*read_whole_file(t_buffer *file, const char *path)
 {
-	t_buffer		command;
-
-	if (buffer->len != 0)
-	{
-		if (buffer_unescape_chars(buffer, '\n') == NULL)
-			return (-1);
-		command = *buffer_init(&command, buffer->len);
-		command = *buffer_replace(&command, buffer->str);
-		history_add(command);
-	}
-	return (0);
-}
-
-static t_buffer		*read_whole_file(const char *path)
-{
-	t_buffer	*file;
-	int			fd;
+	int		fd;
 
 	if ((fd = open(path, O_RDONLY)) == -1)
+	{
+		free(file->str);
 		return (NULL);
-	if ((file = buffer_read_from_fd(fd)) == NULL)
+	}
+	if (buffer_read_from_fd(file, fd) == NULL)
 	{
 		close(fd);
+		free(file->str);
 		return (NULL);
 	}
 	close(fd);
@@ -64,40 +55,44 @@ static int			inject_commands(const t_buffer *file, t_buffer *cmd)
 	{
 		old_off = off;
 		off = (size_t)(match - file->str);
-		buffer_remove(cmd, cmd->len - 1, 1);
-		if (buffer_nreplace(cmd, file->str + old_off, off - old_off) == NULL
-			|| push_unescaped(cmd) == -1)
-		{
+		if (buffer_nreplace(cmd, file->str + old_off, off - old_off) == NULL)
 			return (-1);
-		}
+		if (buffer_unescape_chars(cmd, '\n') == NULL)
+			return (-1);
+		history_add(*cmd);
 		off += 1;
 	}
-	if (!buffer_replace(cmd, file->str + off) || push_unescaped(cmd) == -1)
-	{
+	if (buffer_replace(cmd, file->str + off) == NULL)
 		return (-1);
-	}
+	if (buffer_unescape_chars(cmd, '\n') == NULL)
+		return (-1);
+	history_add(*cmd);
 	return (0);
 }
 
 int					history_load_from_file(const char *path)
 {
-	t_buffer	command;
-	t_buffer	*file;
+	t_buffer	tmp_cmd;
+	t_buffer	file;
 
-	if ((file = read_whole_file(path)) == NULL)
+	if (buffer_init(&file, MEM_PAGE_SIZE) == NULL)
 		return (-1);
-	if (buffer_init(&command, BUFFER_INIT_SIZE) == NULL)
+	if (read_whole_file(&file, path) == NULL)
 	{
-		buffer_destroy(file);
+		free(file.str);
 		return (-1);
 	}
-	if (inject_commands(file, &command) == -1)
+	if (buffer_init(&tmp_cmd, BUFFER_INIT_SIZE) == NULL)
 	{
-		buffer_destroy(file);
-		free(command.str);
+		free(file.str);
 		return (-1);
 	}
-	buffer_destroy(file);
-	free(command.str);
+	if (inject_commands(&file, &tmp_cmd) == -1)
+	{
+		free(file.str);
+		free(tmp_cmd.str);
+		return (-1);
+	}
+	free(file.str);
 	return (0);
 }

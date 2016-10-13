@@ -28,7 +28,7 @@ int			history_save_into_file(const char *path)
 
 	if ((fd = open(path, O_CREAT | O_RDWR | O_TRUNC, 0600)) == -1)
 		return (-1);
-	if (ftruncate(fd, 0) == -1 || !buffer_init(&command, BUFFER_INIT_SIZE))
+	if (buffer_init(&command, BUFFER_INIT_SIZE) == NULL)
 		return (-1);
 	i = g_history.last_id;
 	while (i > g_history.last_id - g_history.commands.len)
