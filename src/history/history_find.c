@@ -8,7 +8,7 @@ extern t_history	g_history;
 
 bool		history_find(t_result *r, const char *pattern)
 {
-	const t_buffer	*command_ptr;
+	const t_string	*command_ptr;
 	const char		*match;
 	size_t			i;
 
@@ -32,7 +32,7 @@ bool		history_find(t_result *r, const char *pattern)
 
 static bool	search_command_from(t_result *ret, const char *patt, t_result from)
 {
-	const t_buffer	*cmd_ptr;
+	const t_string	*cmd_ptr;
 	const char		*match;
 	size_t			len;
 
@@ -54,7 +54,7 @@ static bool	search_command_from(t_result *ret, const char *patt, t_result from)
 
 bool		history_find_from(t_result *r, const char *pattern, t_result from)
 {
-	const t_buffer	*command_ptr;
+	const t_string	*command_ptr;
 	const char		*match;
 	size_t			i;
 
@@ -80,7 +80,7 @@ bool		history_find_from(t_result *r, const char *pattern, t_result from)
 
 bool		history_find_start_with(t_result *r, const char *pattern)
 {
-	const t_buffer	*command_ptr;
+	const t_string	*command_ptr;
 	size_t			pattern_len;
 	size_t			i;
 

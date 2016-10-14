@@ -8,12 +8,12 @@ t_history			g_history;
 
 static void		del_string(void *string)
 {
-	free(((t_buffer*)string)->str);
+	free(((t_string*)string)->str);
 }
 
 int				history_init(size_t limit)
 {
-	if (!cbuffer_init(&g_history.commands, limit, sizeof(t_buffer), del_string))
+	if (!cbuffer_init(&g_history.commands, limit, sizeof(t_string), del_string))
 		return (-1);
 	g_history.last_id = 0;
 	return (0);

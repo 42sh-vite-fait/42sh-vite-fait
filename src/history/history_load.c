@@ -1,9 +1,7 @@
-#include <stdio.h> // delete
-
 #include <unistd.h>
 #include <fcntl.h>
 #include "typedefs_42.h"
-#include "buffer_42.h"
+#include "string_42.h"
 #include "memory.h"
 #include "history.h"
 #include "misc.h"
@@ -25,7 +23,7 @@ static char			*next_real_unescaped_nl(const char *string)
 	return (NULL);
 }
 
-static t_buffer		*read_whole_file(t_buffer *file, const char *path)
+static t_string		*read_whole_file(t_string *file, const char *path)
 {
 	int		fd;
 
@@ -34,7 +32,7 @@ static t_buffer		*read_whole_file(t_buffer *file, const char *path)
 		free(file->str);
 		return (NULL);
 	}
-	if (buffer_read_from_fd(file, fd) == NULL)
+	if (string_read_from_fd(file, fd) == NULL)
 	{
 		close(fd);
 		free(file->str);
@@ -44,7 +42,7 @@ static t_buffer		*read_whole_file(t_buffer *file, const char *path)
 	return (file);
 }
 
-static int			inject_commands(const t_buffer *file, t_buffer *cmd)
+static int			inject_commands(const t_string *file, t_string *cmd)
 {
 	char		*match;
 	size_t		old_off;
@@ -55,34 +53,29 @@ static int			inject_commands(const t_buffer *file, t_buffer *cmd)
 	{
 		old_off = off;
 		off = (size_t)(match - file->str);
-		if (buffer_nreplace(cmd, file->str + old_off, off - old_off) == NULL)
+		if (string_ndup(cmd, file->str + old_off, off - old_off) == NULL)
 			return (-1);
-		if (buffer_unescape_chars(cmd, '\n') == NULL)
+		if (string_unescape_chars(cmd, '\n') == NULL)
 			return (-1);
-		history_add(*cmd);
+		history_add(cmd);
 		off += 1;
 	}
-	if (buffer_replace(cmd, file->str + off) == NULL)
+	if (string_dup(cmd, file->str + off) == NULL)
 		return (-1);
-	if (buffer_unescape_chars(cmd, '\n') == NULL)
+	if (string_unescape_chars(cmd, '\n') == NULL)
 		return (-1);
-	history_add(*cmd);
+	history_add(cmd);
 	return (0);
 }
 
 int					history_load_from_file(const char *path)
 {
-	t_buffer	tmp_cmd;
-	t_buffer	file;
+	t_string	tmp_cmd;
+	t_string	file;
 
-	if (buffer_init(&file, MEM_PAGE_SIZE) == NULL)
+	if (string_init(&file, MEM_PAGE_SIZE) == NULL)
 		return (-1);
 	if (read_whole_file(&file, path) == NULL)
-	{
-		free(file.str);
-		return (-1);
-	}
-	if (buffer_init(&tmp_cmd, BUFFER_INIT_SIZE) == NULL)
 	{
 		free(file.str);
 		return (-1);

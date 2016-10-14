@@ -1,7 +1,7 @@
 #include <stdbool.h>
 #include "typedefs_42.h"
 #include "string_42.h"
-#include "buffer_42.h"
+#include "str_42.h"
 #include "misc.h"
 
 bool		is_escaped(const char *pos, const char *end)
@@ -18,26 +18,23 @@ bool		is_escaped(const char *pos, const char *end)
 	return (count & 1);
 }
 
-// TODO rename string_*
-t_buffer		*buffer_escape_chars(t_buffer *b, int c)
+t_string		*string_escape_chars(t_string *b, int c)
 {
-	int			match_pos;
+	ssize_t		match_pos;
 	size_t		offset;
 
 	offset = 0;
-	// TODO count numbers of c to resize
 	while ((match_pos = ft_strchrpos(b->str + offset, c)) != -1)
 	{
-		offset = (size_t)match_pos + offset; // TODO remove cast
-		if (buffer_insert(b, offset, "\\", 1) == NULL)
+		offset += (size_t)match_pos;
+		if (string_insert(b, offset, "\\", 1) == NULL)
 			return (NULL);
 		offset += 2;
 	}
 	return (b);
 }
 
-// TODO rename string_*
-t_buffer		*buffer_unescape_chars(t_buffer *b, int c)
+t_string		*string_unescape_chars(t_string *b, int c)
 {
 	static char		pattern[3] = {'\\', '\0', '\0'};
 	char			*match;
@@ -45,13 +42,12 @@ t_buffer		*buffer_unescape_chars(t_buffer *b, int c)
 
 	offset = 0;
 	pattern[1] = (char)c;
-	// TODO count numbers of c to resize
 	while ((match = ft_strstr(b->str + offset, pattern)) != NULL)
 	{
 		if (is_escaped(match + 1, b->str + offset))
 		{
 			offset = (size_t)(match - b->str);
-			if (buffer_remove(b, offset, 1) == 0)
+			if (string_remove(b, offset, 1) == 0)
 				return (NULL);
 		}
 		else

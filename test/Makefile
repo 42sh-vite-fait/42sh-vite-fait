@@ -37,8 +37,8 @@ SRC_SUBDIR += history
 SOURCES += test_history.c
 
 # Buffer
-SRC_SUBDIR += buffer
-SOURCES += test_buffer_escape.c
+SRC_SUBDIR += string
+SOURCES += test_string_escape.c
 
 SRC_PATH = src
 vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))

@@ -23,7 +23,7 @@
 // History
 void	suite_history(void);
 
-// Buffer un/escape
-void	suite_buffer_escape(void);
+// String un/escape
+void	suite_string_escape(void);
 
 #endif

@@ -33,8 +33,8 @@ SOURCES += main.c
 
 # Misc
 SRC_SUBDIR += misc
-SOURCES += buffer_escape.c
-SOURCES += buffer_fd.c
+SOURCES += string_escape.c
+SOURCES += string_fd.c
 
 # History
 SRC_SUBDIR += history

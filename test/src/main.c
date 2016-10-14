@@ -2,8 +2,8 @@
 
 int	main(void)
 {
-	// Buffer
-	suite_buffer_escape();
+	// String
+	suite_string_escape();
 
 	// history
 	suite_history();

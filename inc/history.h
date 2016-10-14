@@ -43,7 +43,7 @@ int				history_load_from_file(const char *path);
 /*
 ** history_add push a command to the history and return the id to retrieve it.
 */
-size_t			history_add(const t_buffer *command);
+size_t			history_add(const t_string *command);
 
 /*
 ** history_get return the command with the specified id,
@@ -51,7 +51,7 @@ size_t			history_add(const t_buffer *command);
 **
 ** history_get_last_id returns the last added command id.
 */
-const t_buffer	*history_get(size_t id);
+const t_string	*history_get(size_t id);
 size_t			history_get_last_id(void);
 
 /*
