@@ -28,9 +28,6 @@ ifeq ($(SAN),yes)
 	CFLAGS += -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
 endif
 
-# Root
-SOURCES += main.c
-
 # Misc
 SRC_SUBDIR += misc
 SOURCES += string_escape.c

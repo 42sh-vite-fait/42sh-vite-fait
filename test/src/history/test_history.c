@@ -44,7 +44,7 @@ static void		test_01_history_addFirstCommandId(void)
 	size_t		command_id;
 
 	history_init(10000);
-	string_init(&command, STRING_INIT_SIZE);
+	string_init(&command);
 
 	string_dup(&command, "ls -la");
 	command_id = history_add(&command);
@@ -301,7 +301,7 @@ static char		*read_all(const char *path)
 
 	fd = open(path, O_RDONLY);
 
-	string_init(&buffer, BUFF_SIZE);
+	string_init_with_capacity(&buffer, BUFF_SIZE);
 	while ((ret = read(fd, read_buff, BUFF_SIZE)) == BUFF_SIZE)
 	{
 		string_insert(&buffer, buffer.len, read_buff, ret);

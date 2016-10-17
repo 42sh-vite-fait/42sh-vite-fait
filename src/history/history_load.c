@@ -73,7 +73,7 @@ int					history_load_from_file(const char *path)
 	t_string	tmp_cmd;
 	t_string	file;
 
-	if (string_init(&file, MEM_PAGE_SIZE) == NULL)
+	if (string_init_with_capacity(&file, MEM_PAGE_SIZE) == NULL)
 		return (-1);
 	if (read_whole_file(&file, path) == NULL)
 	{

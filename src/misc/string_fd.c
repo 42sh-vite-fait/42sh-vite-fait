@@ -8,7 +8,8 @@ t_string	*string_read_from_fd(t_string *buffer, int fd)
 	char		buff[MEM_PAGE_SIZE];
 	ssize_t		ret;
 
-	string_init(buffer, MEM_PAGE_SIZE);
+	if (string_init_with_capacity(buffer, MEM_PAGE_SIZE) == NULL)
+		return (NULL);
 	while ((ret = read(fd, buff, MEM_PAGE_SIZE)) == MEM_PAGE_SIZE)
 	{
 		if (string_ncat(buffer, buff, (size_t)ret) == NULL)
