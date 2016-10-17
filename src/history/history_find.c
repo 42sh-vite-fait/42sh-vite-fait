@@ -39,7 +39,7 @@ static bool	search_command_from(t_result *ret, const char *patt, t_result from)
 	len = ft_strlen(patt);
 	if (from.offset >= len && (cmd_ptr = history_get(from.command_id)))
 	{
-		if ((match = ft_strrnstr(cmd_ptr->str, patt, from.offset - 1)) != NULL)
+		if ((match = ft_strrnstr(cmd_ptr->str, patt, from.offset)) != NULL)
 		{
 			if (ret != NULL)
 			{

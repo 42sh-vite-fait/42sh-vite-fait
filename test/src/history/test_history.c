@@ -161,9 +161,10 @@ static void		test_05_history_FindFrom(void)
 	t_string	command;
 	size_t		cmd_ls_tmp_id;
 	size_t		cmd_echo_kiki_id;
+	size_t		cmd_echo_llll_id;
 	bool		found;
 
-	history_init(5);
+	history_init(6);
 	string_dup(&command, "ls -la");
 	history_add(&command);
 
@@ -188,6 +189,9 @@ static void		test_05_history_FindFrom(void)
 	string_dup(&command, "fc -l");
 	history_add(&command);
 
+	string_dup(&command, "echo lllllll");
+	cmd_echo_llll_id = history_add(&command);
+
 	found = history_find(&result, "kiki");
 	v_assert_int(true, ==, found);
 	v_assert_size_t(cmd_echo_kiki_id, ==, result.command_id);
@@ -205,6 +209,26 @@ static void		test_05_history_FindFrom(void)
 
 	found = history_find_from(&result, "kiki", result);
 	v_assert_int(false, ==, found);
+
+	found = history_find(&result, "l");
+	v_assert_int(true, ==, found);
+	v_assert_size_t(cmd_echo_llll_id, ==, result.command_id);
+	v_assert_size_t(11, ==, result.offset);
+
+	found = history_find_from(&result, "l", result);
+	v_assert_int(true, ==, found);
+	v_assert_size_t(cmd_echo_llll_id, ==, result.command_id);
+	v_assert_size_t(10, ==, result.offset);
+
+	found = history_find_from(&result, "l", result);
+	v_assert_int(true, ==, found);
+	v_assert_size_t(cmd_echo_llll_id, ==, result.command_id);
+	v_assert_size_t(9, ==, result.offset);
+
+	found = history_find_from(&result, "l", result);
+	v_assert_int(true, ==, found);
+	v_assert_size_t(cmd_echo_llll_id, ==, result.command_id);
+	v_assert_size_t(8, ==, result.offset);
 
 	VTS;
 }
