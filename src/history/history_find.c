@@ -8,20 +8,20 @@ extern t_history	g_history;
 
 bool		history_find(t_result *r, const char *pattern)
 {
-	const t_string	*command_ptr;
+	const t_string	*cmd;
 	const char		*match;
 	size_t			i;
 
 	i = g_history.commands.len;
 	while (i > 0)
 	{
-		command_ptr = cbuffer_at(&g_history.commands, i - 1);
-		if ((match = ft_strrstr(command_ptr->str, pattern)) != NULL)
+		cmd = cbuffer_at(&g_history.commands, i - 1);
+		if ((match = ft_strrstr(cmd->str, pattern)) != NULL)
 		{
 			if (r != NULL)
 			{
 				r->command_id = g_history.last_id - g_history.commands.len + i;
-				r->offset = (size_t)(match - command_ptr->str);
+				r->offset = (size_t)(match - cmd->str);
 			}
 			return (true);
 		}
@@ -32,19 +32,17 @@ bool		history_find(t_result *r, const char *pattern)
 
 static bool	search_command_from(t_result *ret, const char *patt, t_result from)
 {
-	const t_string	*cmd_ptr;
+	const t_string	*cmd;
 	const char		*match;
-	size_t			len;
 
-	len = ft_strlen(patt);
-	if (from.offset >= len && (cmd_ptr = history_get(from.command_id)))
+	if (from.offset >= ft_strlen(patt) && (cmd = history_get(from.command_id)))
 	{
-		if ((match = ft_strrnstr(cmd_ptr->str, patt, from.offset)) != NULL)
+		if ((match = ft_strrnstr(cmd->str, patt, from.offset)) != NULL)
 		{
 			if (ret != NULL)
 			{
 				ret->command_id = from.command_id;
-				ret->offset = (size_t)(match - cmd_ptr->str);
+				ret->offset = (size_t)(match - cmd->str);
 			}
 			return (true);
 		}
@@ -54,7 +52,7 @@ static bool	search_command_from(t_result *ret, const char *patt, t_result from)
 
 bool		history_find_from(t_result *r, const char *pattern, t_result from)
 {
-	const t_string	*command_ptr;
+	const t_string	*cmd;
 	const char		*match;
 	size_t			i;
 
@@ -63,13 +61,13 @@ bool		history_find_from(t_result *r, const char *pattern, t_result from)
 	i = g_history.commands.len - g_history.last_id + from.command_id - 1;
 	while (i > 0)
 	{
-		command_ptr = cbuffer_at(&g_history.commands, i - 1);
-		if ((match = ft_strrstr(command_ptr->str, pattern)) != NULL)
+		cmd = cbuffer_at(&g_history.commands, i - 1);
+		if ((match = ft_strrstr(cmd->str, pattern)) != NULL)
 		{
 			if (r != NULL)
 			{
 				r->command_id = g_history.last_id - g_history.commands.len + i;
-				r->offset = (size_t)(match - command_ptr->str);
+				r->offset = (size_t)(match - cmd->str);
 			}
 			return (true);
 		}
@@ -80,16 +78,14 @@ bool		history_find_from(t_result *r, const char *pattern, t_result from)
 
 bool		history_find_start_with(t_result *r, const char *pattern)
 {
-	const t_string	*command_ptr;
-	size_t			pattern_len;
+	const t_string	*cmd;
 	size_t			i;
 
 	i = g_history.commands.len;
 	while (i > 0)
 	{
-		command_ptr = cbuffer_at(&g_history.commands, i - 1);
-		pattern_len = ft_strlen(pattern);
-		if (ft_strncmp(command_ptr->str, pattern, pattern_len) == 0)
+		cmd = cbuffer_at(&g_history.commands, i - 1);
+		if (ft_strncmp(cmd->str, pattern, ft_strlen(pattern)) == 0)
 		{
 			if (r != NULL)
 			{
