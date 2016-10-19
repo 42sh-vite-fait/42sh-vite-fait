@@ -15,7 +15,7 @@ bool		history_find(t_result *r, const char *pattern)
 	i = g_history.commands.len;
 	while (i > 0)
 	{
-		cmd = cbuffer_at(&g_history.commands, i - 1);
+		cmd = cbuffer_get_at(&g_history.commands, i - 1);
 		if ((match = ft_strrstr(cmd->str, pattern)) != NULL)
 		{
 			if (r != NULL)
@@ -61,7 +61,7 @@ bool		history_find_from(t_result *r, const char *pattern, t_result from)
 	i = g_history.commands.len - g_history.last_id + from.command_id - 1;
 	while (i > 0)
 	{
-		cmd = cbuffer_at(&g_history.commands, i - 1);
+		cmd = cbuffer_get_at(&g_history.commands, i - 1);
 		if ((match = ft_strrstr(cmd->str, pattern)) != NULL)
 		{
 			if (r != NULL)
@@ -84,7 +84,7 @@ bool		history_find_start_with(t_result *r, const char *pattern)
 	i = g_history.commands.len;
 	while (i > 0)
 	{
-		cmd = cbuffer_at(&g_history.commands, i - 1);
+		cmd = cbuffer_get_at(&g_history.commands, i - 1);
 		if (ft_strncmp(cmd->str, pattern, ft_strlen(pattern)) == 0)
 		{
 			if (r != NULL)

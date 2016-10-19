@@ -23,17 +23,21 @@ typedef struct s_history	t_history;
 typedef struct s_result		t_result;
 
 /*
-** history_init initialize g_history with a limited len,
+** `history_init` initialize g_history with a limited len,
 ** returning zero if no error occurs.
+**
+** `history_shutdown` desallocate the history.
+** Using module functions after this function will give unspecified behaviours.
 */
 int				history_init(size_t limit);
+void			history_shutdown(void);
 
 /*
-** history_save_into_file create the file at path (O_RDWR | O_TRUNC, 0600)
+** `history_save_into_file` create the file at 'path' (O_RDWR | O_TRUNC, 0600)
 ** and write each command and escape the '\n' inside commands,
 ** returning zero if no error occurs.
 **
-** history_load_from_file will read the file at path (O_RDONLY) and
+** `history_load_from_file` will read the file at 'path' (O_RDONLY) and
 ** add each command paying attention to escaped '\n' inside commands,
 ** returning zero if no error occurs.
 */
@@ -41,29 +45,31 @@ int				history_save_into_file(const char *path);
 int				history_load_from_file(const char *path);
 
 /*
-** history_add push a command to the history and return the id to retrieve it.
+** `history_add` push a 'command' to the history and returns its id.
 */
 size_t			history_add(const t_string *command);
 
 /*
-** history_get return the command with the specified id,
-** returning NULL if the id doesn't exist in the history;
+** `history_get` returns the command with the specified 'id',
+** returning NULL if the 'id' doesn't exist in the history.
 **
-** history_get_last_id returns the last added command id.
+** `history_get_last_id` returns the last added command id.
+** 0 is returned if there is no command in history yet, it's an invalid id.
+** Ids start at 1.
 */
 const t_string	*history_get(size_t id);
 size_t			history_get_last_id(void);
 
 /*
-** history_find find the last matching pattern starting form the last character
-** of the last added command, returning true if it matchs something,
-** filling correctly the t_result *ret struct (if not NULL) with offset and id
-** of the matching command.
+** `history_find` find the last matching pattern starting from
+** the last character of the last added command, returning true
+** if it matchs something, filling correctly the 't_result *ret' struct
+** (if not NULL) with offset and id of the matching command.
 **
-** history_find_from find the next matching command (previous), returning true
+** `history_find_from` find the next matching command (previous), returning true
 ** if it found something and filling correctly t_result *ret (if not NULL).
 **
-** history_find_start_with find the first command (previous) starting with
+** `history_find_start_with` find the first command (previous) starting with
 ** the given pattern, returning true if it found something and filling
 ** correctly t_result *ret (if not NULL).
 */

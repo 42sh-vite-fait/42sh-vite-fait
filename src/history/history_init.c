@@ -19,3 +19,7 @@ int				history_init(size_t limit)
 	return (0);
 }
 
+void			history_shutdown(void)
+{
+	cbuffer_shutdown(&g_history.commands);
+}

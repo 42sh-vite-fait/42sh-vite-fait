@@ -31,9 +31,7 @@ static void		test_00_history_contains(void)
 	v_assert_str(cmd_kill.str, history_get(3)->str);
 	v_assert_ptr(NULL, ==, history_get(4));
 
-	free(cmd_ls.str);
-	free(cmd_echo.str);
-	free(cmd_kill.str);
+	history_shutdown();
 
 	VTS;
 }
@@ -44,12 +42,13 @@ static void		test_01_history_addFirstCommandId(void)
 	size_t		command_id;
 
 	history_init(10000);
-	string_init(&command);
 
 	string_dup(&command, "ls -la");
 	command_id = history_add(&command);
 
 	v_assert_size_t(1, ==, command_id);
+
+	string_shutdown(&command);
 	VTS;
 }
 
@@ -79,6 +78,7 @@ static void		test_02_history_addManyCommandId(void)
 	command_id = history_add(&command);
 	v_assert_size_t(5, ==, command_id);
 
+	history_shutdown();
 	VTS;
 }
 
@@ -113,6 +113,8 @@ static void		test_03_history_FindPattern(void)
 	v_assert_int(true, ==, found);
 	v_assert_size_t(command_id, ==, result.command_id);
 	v_assert_size_t(5, ==, result.offset);
+
+	history_shutdown();
 	VTS;
 }
 
@@ -152,6 +154,8 @@ static void		test_04_history_FindDontFind(void)
 
 	found = history_find(&result, "kiki");
 	v_assert_int(false, ==, found);
+
+	history_shutdown();
 	VTS;
 }
 
@@ -230,6 +234,7 @@ static void		test_05_history_FindFrom(void)
 	v_assert_size_t(cmd_echo_llll_id, ==, result.command_id);
 	v_assert_size_t(8, ==, result.offset);
 
+	history_shutdown();
 	VTS;
 }
 
@@ -272,6 +277,8 @@ static void		test_06_history_FindStartWith(void)
 	v_assert_int(true, ==, found);
 	v_assert_size_t(cmd_id, ==, result.command_id);
 	v_assert_size_t(0, ==, result.offset);
+
+	history_shutdown();
 	VTS;
 }
 
@@ -311,6 +318,8 @@ static void		test_07_history_FindStartWithNotFound(void)
 
 	found = history_find_start_with(&result, "kikou");
 	v_assert_int(false, ==, found);
+
+	history_shutdown();
 	VTS;
 }
 
@@ -388,6 +397,7 @@ ls -la\n";
 
 	v_assert_str(file_content, read_all(HISTFILE));
 
+	history_shutdown();
 	VTS;
 }
 
@@ -410,6 +420,7 @@ static void		test_09_history_LoadFromFile(void)
 	v_assert_str("rg ripgrep /", history_get(8)->str);
 	v_assert_str("ls -la", history_get(9)->str);
 
+	history_shutdown();
 	VTS;
 }
 
