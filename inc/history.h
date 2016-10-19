@@ -23,55 +23,57 @@ typedef struct s_history	t_history;
 typedef struct s_result		t_result;
 
 /*
-** `history_init` initialize g_history with a limited len,
-** returning zero if no error occurs.
+** `history_init` initialize the history with a limited capacity,
+** returns zero if no error occurs.
 **
-** `history_shutdown` desallocate the history.
-** Using module functions after this function will give unspecified behaviours.
+** `history_shutdown` desallocate internal commands.
+** Using the history after a call of this function gives unspecified behaviours.
 */
 int				history_init(size_t limit);
 void			history_shutdown(void);
 
 /*
-** `history_save_into_file` create the file at 'path' (O_RDWR | O_TRUNC, 0600)
-** and write each command and escape the '\n' inside commands,
-** returning zero if no error occurs.
+** `history_save_into_file` create the file at 'path' (O_RDWR | O_TRUNC, 0600),
+** write each command and escape the '\n', returns zero if no error occurs.
 **
 ** `history_load_from_file` will read the file at 'path' (O_RDONLY) and
 ** add each command paying attention to escaped '\n' inside commands,
-** returning zero if no error occurs.
+** returns zero if no error occurs.
 */
 int				history_save_into_file(const char *path);
 int				history_load_from_file(const char *path);
 
 /*
 ** `history_add` push a 'command' to the history and returns its id.
+** The given t_string* is not copied,
+** on history destruction each command is fread.
 */
 size_t			history_add(const t_string *command);
 
 /*
 ** `history_get` returns the command with the specified 'id',
-** returning NULL if the 'id' doesn't exist in the history.
+** returns NULL if the 'id' don't exist in the history.
 **
 ** `history_get_last_id` returns the last added command id.
-** 0 is returned if there is no command in history yet, it's an invalid id.
-** Ids start at 1.
+** Returns 0 if history is empty, 0 is an invalid id, IDs starts at 1.
 */
 const t_string	*history_get(size_t id);
 size_t			history_get_last_id(void);
 
 /*
 ** `history_find` find the last matching pattern starting from
-** the last character of the last added command, returning true
-** if it matchs something, filling correctly the 't_result *ret' struct
+** the last character of the last added command, returns true
+** if it matchs something, filling the 't_result *ret' struct
 ** (if not NULL) with offset and id of the matching command.
+** Returns false if no command match, don't fill the 't_result *ret'
 **
-** `history_find_from` find the next matching command (previous), returning true
-** if it found something and filling correctly t_result *ret (if not NULL).
+** `history_find_from` find the next matching command (previous), returns true
+** if it find something and fill 't_result *ret' (if not NULL). Retruns false if
+** no command match.
 **
-** `history_find_start_with` find the first command (previous) starting with
-** the given pattern, returning true if it found something and filling
-** correctly t_result *ret (if not NULL).
+** `history_find_start_with` find the first command (previous) that starts with
+** the given pattern, returns true if it find something and fill 't_result *ret'
+** (if not NULL). Returns false if no command match.
 */
 bool			history_find(t_result *ret, const char *pattern);
 bool			history_find_from(t_result *ret, const char *p, t_result from);
