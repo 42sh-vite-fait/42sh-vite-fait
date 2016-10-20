@@ -46,6 +46,11 @@ SOURCES += history_find.c
 SOURCES += history_save.c
 SOURCES += history_load.c
 
+# Alias
+SRC_SUBDIR += alias
+SOURCES += alias_init.c
+SOURCES += alias_getset.c
+
 # Root
 SOURCES += main.c
 
