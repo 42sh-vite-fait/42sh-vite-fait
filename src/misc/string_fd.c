@@ -3,35 +3,35 @@
 #include "string_42.h"
 #include "misc.h"
 
-t_string	*string_read_from_fd(t_string *buffer, int fd)
+t_string	*string_read_from_fd(t_string *s, int fd)
 {
 	char		buff[MEM_PAGE_SIZE];
 	ssize_t		ret;
 
-	if (string_init_with_capacity(buffer, MEM_PAGE_SIZE) == NULL)
+	if (string_init_with_capacity(s, MEM_PAGE_SIZE) == NULL)
 		return (NULL);
 	while ((ret = read(fd, buff, MEM_PAGE_SIZE)) == MEM_PAGE_SIZE)
 	{
-		if (string_ncat(buffer, buff, (size_t)ret) == NULL)
+		if (string_ncat(s, buff, (size_t)ret) == NULL)
 		{
-			free(buffer->str);
+			free(s->str);
 			return (NULL);
 		}
 	}
-	if (string_ncat(buffer, buff, (size_t)ret) == NULL)
+	if (string_ncat(s, buff, (size_t)ret) == NULL)
 	{
-		free(buffer->str);
+		free(s->str);
 		return (NULL);
 	}
-	return (buffer);
+	return (s);
 }
 
-int			string_write_to_fd(const t_string *b, int fd)
+int			string_write_to_fd(const t_string *s, int fd)
 {
 	ssize_t		ret;
 
 	ret = 0;
-	while ((ret = write(fd, b->str + (size_t)ret, b->len - (size_t)ret)) > 0)
+	while ((ret = write(fd, s->str + (size_t)ret, s->len - (size_t)ret)) > 0)
 	{
 		if (ret == -1)
 			return (-1);

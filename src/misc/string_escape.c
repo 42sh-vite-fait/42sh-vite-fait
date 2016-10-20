@@ -18,23 +18,23 @@ bool		is_escaped(const char *pos, const char *end)
 	return (count & 1);
 }
 
-t_string		*string_escape_chars(t_string *b, int c)
+t_string		*string_escape_chars(t_string *s, int c)
 {
 	ssize_t		match_pos;
 	size_t		offset;
 
 	offset = 0;
-	while ((match_pos = ft_strchrpos(b->str + offset, c)) != -1)
+	while ((match_pos = ft_strchrpos(s->str + offset, c)) != -1)
 	{
 		offset += (size_t)match_pos;
-		if (string_insert(b, offset, "\\", 1) == NULL)
+		if (string_insert(s, offset, "\\", 1) == NULL)
 			return (NULL);
 		offset += 2;
 	}
-	return (b);
+	return (s);
 }
 
-t_string		*string_unescape_chars(t_string *b, int c)
+t_string		*string_unescape_chars(t_string *s, int c)
 {
 	static char		pattern[3] = {'\\', '\0', '\0'};
 	char			*match;
@@ -42,16 +42,16 @@ t_string		*string_unescape_chars(t_string *b, int c)
 
 	offset = 0;
 	pattern[1] = (char)c;
-	while ((match = ft_strstr(b->str + offset, pattern)) != NULL)
+	while ((match = ft_strstr(s->str + offset, pattern)) != NULL)
 	{
-		if (is_escaped(match + 1, b->str + offset))
+		if (is_escaped(match + 1, s->str + offset))
 		{
-			offset = (size_t)(match - b->str);
-			if (string_remove(b, offset, 1) == 0)
+			offset = (size_t)(match - s->str);
+			if (string_remove(s, offset, 1) == 0)
 				return (NULL);
 		}
 		else
-			offset = (size_t)(match - b->str) + 1;
+			offset = (size_t)(match - s->str) + 1;
 	}
-	return (b);
+	return (s);
 }
