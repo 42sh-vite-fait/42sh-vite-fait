@@ -2,11 +2,14 @@ NAME = 42sh
 CC ?= clang
 CFLAGS = -Wall -Werror -Wextra
 CFLAGS += -std=c99 -pedantic -pedantic-errors
-CFLAGS += -Weverything -Wno-missing-noreturn
+ifeq ($(shell readlink $(shell command -v $(CC))),clang)
+	CFLAGS += -Weverything -Wno-missing-noreturn
+endif
+CFLAGS += -fno-strict-aliasing
 
 # Debug
 ifeq ($(DEBUG),yes)
-	CFLAGS += -g -O0 -fno-inline
+	CFLAGS += -g3 -O0 -fno-inline
 endif
 
 # Profile
@@ -25,33 +28,42 @@ ifeq ($(SAN),yes)
 	CFLAGS += -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
 endif
 
-# Header path
-INC_PATH = include
+# Misc
+SRC_SUBDIR += misc
+SOURCES += string_escape.c
+SOURCES += string_fd.c
 
-# Sources
+# History
+SRC_SUBDIR += history
+SOURCES += history_get.c
+SOURCES += history_init.c
+SOURCES += history_push.c
+SOURCES += history_find.c
+SOURCES += history_save.c
+SOURCES += history_load.c
+
+# Root
+SOURCES += main.c
+
+# Generation
+INC_PATH = inc $(LIB42_PATH)/inc
 SRC_PATH = src
-# SOURCES += main.c
+CFLAGS += $(addprefix -I,$(INC_PATH))
+vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
+
+# Lib tierces
+LIB42_PATH = lib42
+LIB42 = $(LIB42_PATH)/lib42.a
+CFLAGS += -I $(LIB42_PATH)/inc
+LDFLAGS += -L $(LIB42_PATH) -l42
+
+# Object files
+OBJ_PATH = .obj
+OBJECTS = $(SOURCES:%.c=$(OBJ_PATH)/%.o)
 
 # Dependencies
 DEP_PATH = .dep
 DEPS = $(SOURCES:%.c=$(DEP_PATH)/%.d)
-
-# $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
-vpath %.c $(SRC_PATH)
-
-# Debug
-# DEBUG_PATH = debug
-# HEADERS += $(DEBUG_PATH)/debug.h
-# SOURCES += debug_lexer.c
-# SOURCES += debug_input.c
-# vpath %.c $(DEBUG_PATH)
-
-# Generation
-CFLAGS += $(addprefix -I,$(INC_PATH))
-
-# TODO clean rule
-OBJ_PATH = .obj
-OBJECTS = $(SOURCES:%.c=$(OBJ_PATH)/%.o)
 
 BUILD_DIR = $(OBJ_PATH) $(DEP_PATH)
 
@@ -71,23 +83,22 @@ endif
 
 # Test
 TEST_PATH = test
-TEST_EXEC = $(TEST_PATH)/test_$(NAME)
-GIT_CLEAN = git clean -fd
+TEST_EXEC = $(TEST_PATH)/test_$(NAME).out
 
 # Rules
 .PHONY: all
 
 .SECONDARY: $(OBJECTS)
 
-all: $(DEPS) $(NAME)
+all: $(LIB42) $(DEPS) $(NAME)
 
 -include $(DEPS)
 
-$(LIB42):
-	$(MAKE) -C $(LIB42_PATH) all
-
 $(NAME): $(OBJECTS) | $(LIB42)
 	$(CC) -o $@ $^ $(LDFLAGS)
+
+$(LIB42):
+	$(MAKE) -C $(LIB42_PATH) all
 
 $(OBJECTS): $(OBJ_PATH)/%.o: %.c | $(OBJ_PATH)
 	$(CC) $(CFLAGS) -o $@ -c $<
@@ -105,6 +116,7 @@ clean:
 
 fclean: clean
 	$(RM) $(NAME)
+	$(RM) -rf $(DEP_PATH)
 
 re: fclean all
 
@@ -127,7 +139,7 @@ sub-update:
 .PHONY: check test-cleanup
 
 check: all
-	@$(MAKE) -C $(TEST_PATH) all
+	@$(MAKE) -C $(TEST_PATH) re
 	@./$(TEST_EXEC)
 
 # Tools
