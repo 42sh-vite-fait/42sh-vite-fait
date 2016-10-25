@@ -20,10 +20,4 @@
 #include "lib42.h"
 #include "vittf.h"
 
-// History
-void	suite_history(void);
-
-// String un/escape
-void	suite_string_escape(void);
-
 #endif
