@@ -28,6 +28,10 @@ ifeq ($(SAN),yes)
 	CFLAGS += -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
 endif
 
+# Input
+SRC_SUBDIR += input
+SOURCES += readline.c
+
 # Misc
 SRC_SUBDIR += misc
 SOURCES += string_escape.c
