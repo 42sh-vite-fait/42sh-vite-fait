@@ -47,7 +47,7 @@ OBJECTS = $(addprefix $(OBJ_PATH)/,$(SOURCES:%.c=%.o))
 # Criterion
 CRITERION_PATH = criterion
 CRITERION_FULL_PATH = $(PWD)/$(CRITERION_PATH)
-CRITERION_BUILD = build
+CRITERION = $(CRITERION_FULL_PATH)/build/libcriterion.dylib
 CRITERION_INC = $(CRITERION_FULL_PATH)/include
 CRITERION_FLAGS = -Wl,-rpath,$(CRITERION_FULL_PATH)/build -L$(CRITERION_FULL_PATH)/build -lcriterion
 LDFLAGS += $(CRITERION_FLAGS)
@@ -89,7 +89,7 @@ endif
 # Rules
 .PHONY: all
 
-all: $(PROJECT_OBJ_PATH) $(NAME) criterion/build/libcriterion.dylib
+all: $(CRITERION) $(PROJECT_OBJ_PATH) $(NAME)
 
 $(PROJECT_OBJ_PATH):
 	$(MAKE) -C $(PROJECT_PATH) re
@@ -117,8 +117,8 @@ fclean: clean
 
 re: fclean all
 
-criterion/build/libcriterion.dylib:
-	cd $(CRITERION_PATH) && mkdir -p $(CRITERION_BUILD) && cd $(CRITERION_BUILD) && cmake .. && cmake --build .
+$(CRITERION):
+	cd $(CRITERION_PATH) && mkdir -p build && cd build && cmake .. && cmake --build .
 
 # Submodule
 .PHONY: sub-update sub-init
