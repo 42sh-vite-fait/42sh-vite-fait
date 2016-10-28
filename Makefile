@@ -90,7 +90,7 @@ TEST_EXEC = $(TEST_PATH)/test_$(NAME).out
 
 .SECONDARY: $(OBJECTS)
 
-all: $(LIB42) $(DEPS) $(NAME)
+all: $(DEPS) $(NAME)
 
 -include $(DEPS)
 
@@ -121,10 +121,10 @@ fclean: clean
 re: fclean all
 
 sanitize:
-	$(MAKE) -C ./ re SAN=yes DEBUG=yes
+	$(MAKE) re SAN=yes DEBUG=yes
 
 unsanitize:
-	$(MAKE) -C ./ re DEBUG=yes
+	$(MAKE) re DEBUG=yes
 
 # Submodule
 .PHONY: sub-update sub-init
@@ -139,7 +139,7 @@ sub-update:
 .PHONY: check test-cleanup
 
 check: all
-	@$(MAKE) -C $(TEST_PATH) re
+	@cd $(TEST_PATH) && $(MAKE) re
 	@./$(TEST_EXEC)
 
 # Tools
