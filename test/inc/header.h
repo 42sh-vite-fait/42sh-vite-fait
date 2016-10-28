@@ -18,6 +18,5 @@
 #include "history.h"
 #include "misc.h"
 #include "lib42.h"
-#include "vittf.h"
 
 #endif

@@ -1,10 +1,6 @@
 [submodule "lib42"]
 	path = lib42
 	url = https://github.com/itheof/lib42.git
-[submodule "test/vittf"]
-	path = test/vittf
-	url = https://github.com/dkrmr/vittf.git
-	branch = duplicates_symbol_fix
 [submodule "test/criterion"]
 	path = test/criterion
 	url = https://github.com/Snaipe/criterion
