@@ -140,7 +140,7 @@ sub-update:
 
 check: all
 	@cd $(TEST_PATH) && $(MAKE) re
-	@./$(TEST_EXEC)
+	@./$(TEST_EXEC) --verbose
 
 # Tools
 .PHONY: norme valgrind ctags clean-tools

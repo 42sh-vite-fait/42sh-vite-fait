@@ -3,7 +3,7 @@
 
 TestSuite(string_escape);
 
-Test(string_escape, string_escape) {
+Test(string_escape, escape) {
 
 	t_string	str;
 
@@ -12,7 +12,7 @@ Test(string_escape, string_escape) {
 	cr_assert_str_eq("He\\l\\lo Wor\\ld", str.str);
 }
 
-Test(string_escape, string_unescape) {
+Test(string_escape, unescape) {
 
 	t_string	str;
 
@@ -21,7 +21,7 @@ Test(string_escape, string_unescape) {
 	cr_assert_str_eq("Hello World", str.str);
 }
 
-Test(string_escape, string_unescape_no_match) {
+Test(string_escape, unescape_no_match) {
 
 	t_string	str;
 
@@ -30,7 +30,7 @@ Test(string_escape, string_unescape_no_match) {
 	cr_assert_str_eq("He\\\\llo World", str.str);
 }
 
-Test(string_escape, string_escape_Newline) {
+Test(string_escape, escape_Newline) {
 
 	t_string	str;
 
