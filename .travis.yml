@@ -11,7 +11,7 @@ before_install:
   - sudo apt-get update -q
   - sudo apt-get install build-essential gcc-5 libbsd-dev -y
 
-script: true
+script: make check
 
 git:
   depth: 3
