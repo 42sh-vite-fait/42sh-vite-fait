@@ -118,7 +118,7 @@ fclean: clean
 re: fclean all
 
 $(CRITERION):
-	cd $(CRITERION_PATH) && mkdir -p build && cd build && cmake .. && cmake --build .
+	cd $(CRITERION_PATH) && mkdir -p build && cd build && sh -c "unset CC && cmake .. && cmake --build ."
 
 # Submodule
 .PHONY: sub-update sub-init
