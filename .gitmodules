@@ -1,6 +1,6 @@
-[submodule "lib42"]
-	path = lib42
-	url = https://github.com/itheof/lib42.git
 [submodule "test/criterion"]
 	path = test/criterion
 	url = https://github.com/Snaipe/criterion
+[submodule "lib42"]
+	path = lib42
+	url = https://github.com/itheof/lib42.git
