@@ -16,6 +16,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "history.h"
+#include "alias.h"
 #include "misc.h"
 #include "lib42.h"
 

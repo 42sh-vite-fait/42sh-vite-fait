@@ -28,6 +28,7 @@ void			alias_shutdown(void);
 ** 'name' is no kept and 'value' is not duplicated.
 **
 ** `alias_unset` delete the alias corresponding to the given name.
+** Returns -1 if the alias is not found.
 */
 const char		*alias_get(const t_string *name);
 int				alias_set(t_string *name_value);
