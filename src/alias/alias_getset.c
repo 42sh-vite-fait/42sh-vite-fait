@@ -1,84 +1,75 @@
 #include "alias.h"
+#include <stdbool.h>
+#include <stdint.h>
 
 extern t_alias	g_alias;
 
-static ssize_t		alias_get_index(const char *name, size_t len)
+static bool		is_alias_present(const char *name, size_t len, size_t *last)
 {
-	int				cmp;
-	size_t			l;
-	size_t			r;
-	ssize_t			m;
+	int			cmp;
+	size_t		l;
+	size_t		r;
+	size_t		m;
 
 	if (g_alias.aliases.len == 0)
 		return (-1);
 	l = 0;
+	m = 0;
 	r = g_alias.aliases.len - 1;
 	while (l <= r)
 	{
 		m = (l + r) / 2;
-		cmp = ft_strncmp(name, array_get_at(g_alias.aliases, m)->str, len);
-		if (cmp < 0)
-			l = m + 1;
-		else if (cmp > 0)
-			r = m - 1;
-		else
-			return (m);
-	}
-	return (-1);
-}
-
-const char			*alias_get(const t_string *name)
-{
-	ssize_t		index;
-
-	index = alias_get_index(name->str, name->len);
-	if (index != -1)
-	{
-		return (array_get_at(g_alias.aliases, (size_t)index) + name->len + 2);
-	}
-	return (NULL);
-}
-
-int					alias_set(t_string *name_value)
-{
-	ssize_t			equal_pos;
-	const t_string	*removed;
-	int				cmp;
-	size_t			l;
-	size_t			r;
-	ssize_t			m;
-
-	if (g_alias.aliases.len == 0)
-		return (-1);
-	l = 0;
-	r = g_alias.aliases.len - 1;
-	equal_pos = ft_strchrpos(name_value->str, '=');
-	while (l <= r)
-	{
-		m = (l + r) / 2;
-		cmp = ft_strncmp(name, array_get_at(g_alias.aliases, m)->str, len);
+		cmp = ft_strncmp(name, ((t_string*)array_get_at(&g_alias.aliases, m))->str, len);
 		if (cmp < 0)
 			l = m + 1;
 		else if (cmp > 0)
 			r = m - 1;
 		else
 		{
-			array_replace_at(&g_alias.aliases, m, name_value, removed);
-			string_shutdown(removed);
-			return (0);
+			if (last != NULL)
+				*last = m;
+			return (true);
 		}
 	}
-	return (-(array_insert_at(&g_alias.aliases, m, name_value) == NULL));
+	if (last != NULL)
+		*last = m;
+	return (false);
 }
 
-int					alias_unset(const t_string *name)
+const char		*alias_get(const t_string *name)
 {
-	ssize_t		index;
+	size_t		index;
 
-	index = alias_get_index(name->str, name->len);
-	if (index != -1)
+	if (is_alias_present(name->str, name->len, &index) == true)
 	{
-		array_remove_at(g_alias.aliases, (size_t)index);
+		return ((char*)array_get_at(&g_alias.aliases, index) + name->len + 2);
+	}
+	return (NULL);
+}
+
+int				alias_set(t_string *name_value)
+{
+	const t_string	*removed;
+	size_t			index;
+
+	if (is_alias_present(name->str, name->len, &index) == true)
+	{
+		if (array_replace_at(&g_alias.aliases, index, name_value, removed) == NULL)
+			return (-1);
+		string_shutdown(removed);
+	}
+	else if (array_insert_at(&g_alias.aliases, index, name_value) == NULL)
+		return (-1);
+	return (0);
+}
+
+int				alias_unset(const t_string *name)
+{
+	size_t		index;
+
+	if (is_alias_present(name->str, name->len, &index) == true)
+	{
+		array_remove_at(&g_alias.aliases, index);
 		return (0);
 	}
 	return (-1);
