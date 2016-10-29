@@ -28,14 +28,10 @@ static t_string		*read_whole_file(t_string *file, const char *path)
 	int		fd;
 
 	if ((fd = open(path, O_RDONLY)) == -1)
-	{
-		free(file->str);
 		return (NULL);
-	}
 	if (string_read_from_fd(file, fd) == NULL)
 	{
 		close(fd);
-		free(file->str);
 		return (NULL);
 	}
 	close(fd);

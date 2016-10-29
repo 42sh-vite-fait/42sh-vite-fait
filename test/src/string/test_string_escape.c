@@ -1,55 +1,40 @@
 #include "header.h"
+#include "criterion/criterion.h"
 
-static void		test_00_string_escape(void)
-{
+TestSuite(string_escape);
+
+Test(string_escape, escape) {
+
 	t_string	str;
 
 	string_dup(&str, "Hello World");
 	string_escape_chars(&str, 'l');
-	v_assert_str("He\\l\\lo Wor\\ld", str.str);
-
-	VTS;
+	cr_assert_str_eq("He\\l\\lo Wor\\ld", str.str);
 }
 
-static void		test_01_string_unescape(void)
-{
+Test(string_escape, unescape) {
+
 	t_string	str;
 
 	string_dup(&str, "He\\l\\lo Wor\\ld");
 	string_unescape_chars(&str, 'l');
-	v_assert_str("Hello World", str.str);
-
-	VTS;
+	cr_assert_str_eq("Hello World", str.str);
 }
 
-static void		test_02_string_unescape_no_match(void)
-{
+Test(string_escape, unescape_no_match) {
+
 	t_string	str;
 
 	string_dup(&str, "He\\\\l\\lo Wor\\ld");
 	string_unescape_chars(&str, 'l');
-	v_assert_str("He\\\\llo World", str.str);
-
-	VTS;
+	cr_assert_str_eq("He\\\\llo World", str.str);
 }
 
-static void		test_03_string_escape_Newline(void)
-{
+Test(string_escape, escape_Newline) {
+
 	t_string	str;
 
 	string_dup(&str, "Hello World\nAnd good morning!\n");
 	string_escape_chars(&str, '\n');
-	v_assert_str("Hello World\\\nAnd good morning!\\\n", str.str);
-
-	VTS;
-}
-
-void			suite_string_escape(void)
-{
-	test_00_string_escape();
-	test_01_string_unescape();
-	test_02_string_unescape_no_match();
-	test_03_string_escape_Newline();
-
-	VSS;
+	cr_assert_str_eq("Hello World\\\nAnd good morning!\\\n", str.str);
 }

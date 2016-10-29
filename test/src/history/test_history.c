@@ -1,11 +1,15 @@
 #include "header.h"
+#include "criterion/criterion.h"
+#include "criterion/redirect.h"
 
-#define HISTFILE ("/tmp/hist.test")
+#define BUFF_SIZE	(4096)
 
 extern t_history	g_history;
 
-static void		test_00_history_contains(void)
-{
+TestSuite(history);
+
+Test(history, contains) {
+
 	size_t		command_id;
 	t_string	cmd_ls;
 	t_string	cmd_echo;
@@ -21,23 +25,21 @@ static void		test_00_history_contains(void)
 	history_add(&cmd_echo);
 	history_add(&cmd_kill);
 
-	v_assert_int(NULL, !=, history_get(1));
-	v_assert_int(NULL, !=, history_get(2));
-	v_assert_int(NULL, !=, history_get(3));
-	v_assert_int(NULL, ==, history_get(4));
+	cr_assert_not_null(history_get(1));
+	cr_assert_not_null(history_get(2));
+	cr_assert_not_null(history_get(3));
+	cr_assert_null(history_get(4));
 
-	v_assert_str(cmd_ls.str, history_get(1)->str);
-	v_assert_str(cmd_echo.str, history_get(2)->str);
-	v_assert_str(cmd_kill.str, history_get(3)->str);
-	v_assert_ptr(NULL, ==, history_get(4));
+	cr_assert_str_eq(cmd_ls.str, history_get(1)->str);
+	cr_assert_str_eq(cmd_echo.str, history_get(2)->str);
+	cr_assert_str_eq(cmd_kill.str, history_get(3)->str);
+	cr_assert_null(history_get(4));
 
 	history_shutdown();
-
-	VTS;
 }
 
-static void		test_01_history_addFirstCommandId(void)
-{
+Test(history, add_first_command_id) {
+
 	t_string	command;
 	size_t		command_id;
 
@@ -46,44 +48,43 @@ static void		test_01_history_addFirstCommandId(void)
 	string_dup(&command, "ls -la");
 	command_id = history_add(&command);
 
-	v_assert_size_t(1, ==, command_id);
+	cr_assert_eq(1, command_id);
 
-	string_shutdown(&command);
-	VTS;
+	history_shutdown();
 }
 
-static void		test_02_history_addManyCommandId(void)
-{
+Test(history, add_many_command_id) {
+
 	t_string	command;
 	size_t		command_id;
 
 	history_init(10000);
-	string_dup(&command, "ls -la");
-	command_id = history_add(&command);
-	v_assert_size_t(1, ==, command_id);
 
 	string_dup(&command, "ls -la");
 	command_id = history_add(&command);
-	v_assert_size_t(2, ==, command_id);
+	cr_assert_eq(1, command_id);
 
 	string_dup(&command, "ls -la");
 	command_id = history_add(&command);
-	v_assert_size_t(3, ==, command_id);
+	cr_assert_eq(2, command_id);
 
 	string_dup(&command, "ls -la");
 	command_id = history_add(&command);
-	v_assert_size_t(4, ==, command_id);
+	cr_assert_eq(3, command_id);
 
 	string_dup(&command, "ls -la");
 	command_id = history_add(&command);
-	v_assert_size_t(5, ==, command_id);
+	cr_assert_eq(4, command_id);
+
+	string_dup(&command, "ls -la");
+	command_id = history_add(&command);
+	cr_assert_eq(5, command_id);
 
 	history_shutdown();
-	VTS;
 }
 
-static void		test_03_history_FindPattern(void)
-{
+Test(history, find_pattern) {
+
 	t_string	command;
 	t_result	result;
 	size_t		command_id;
@@ -110,16 +111,15 @@ static void		test_03_history_FindPattern(void)
 	history_add(&command);
 
 	found = history_find(&result, "kiki");
-	v_assert_int(true, ==, found);
-	v_assert_size_t(command_id, ==, result.command_id);
-	v_assert_size_t(5, ==, result.offset);
+	cr_assert_eq(true, found);
+	cr_assert_eq(command_id, result.command_id);
+	cr_assert_eq(5, result.offset);
 
 	history_shutdown();
-	VTS;
 }
 
-static void		test_04_history_FindDontFind(void)
-{
+Test(history, find_dont_find) {
+
 	t_string	command;
 	t_result	result;
 	bool		found;
@@ -153,14 +153,13 @@ static void		test_04_history_FindDontFind(void)
 	history_add(&command);
 
 	found = history_find(&result, "kiki");
-	v_assert_int(false, ==, found);
+	cr_assert_eq(false, found);
 
 	history_shutdown();
-	VTS;
 }
 
-static void		test_05_history_FindFrom(void)
-{
+Test(history, find_from) {
+
 	t_result	result;
 	t_string	command;
 	size_t		cmd_ls_tmp_id;
@@ -169,6 +168,7 @@ static void		test_05_history_FindFrom(void)
 	bool		found;
 
 	history_init(6);
+
 	string_dup(&command, "ls -la");
 	history_add(&command);
 
@@ -197,55 +197,55 @@ static void		test_05_history_FindFrom(void)
 	cmd_echo_llll_id = history_add(&command);
 
 	found = history_find(&result, "kiki");
-	v_assert_int(true, ==, found);
-	v_assert_size_t(cmd_echo_kiki_id, ==, result.command_id);
-	v_assert_size_t(10, ==, result.offset);
+	cr_assert_eq(true, found);
+	cr_assert_eq(cmd_echo_kiki_id, result.command_id);
+	cr_assert_eq(10, result.offset);
 
 	found = history_find_from(&result, "kiki", result);
-	v_assert_int(true, ==, found);
-	v_assert_size_t(cmd_echo_kiki_id, ==, result.command_id);
-	v_assert_size_t(5, ==, result.offset);
+	cr_assert_eq(true, found);
+	cr_assert_eq(cmd_echo_kiki_id, result.command_id);
+	cr_assert_eq(5, result.offset);
 
 	found = history_find_from(&result, "kiki", result);
-	v_assert_int(true, ==, found);
-	v_assert_size_t(cmd_ls_tmp_id, ==, result.command_id);
-	v_assert_size_t(8, ==, result.offset);
+	cr_assert_eq(true, found);
+	cr_assert_eq(cmd_ls_tmp_id, result.command_id);
+	cr_assert_eq(8, result.offset);
 
 	found = history_find_from(&result, "kiki", result);
-	v_assert_int(false, ==, found);
+	cr_assert_eq(false, found);
 
 	found = history_find(&result, "l");
-	v_assert_int(true, ==, found);
-	v_assert_size_t(cmd_echo_llll_id, ==, result.command_id);
-	v_assert_size_t(11, ==, result.offset);
+	cr_assert_eq(true, found);
+	cr_assert_eq(cmd_echo_llll_id, result.command_id);
+	cr_assert_eq(11, result.offset);
 
 	found = history_find_from(&result, "l", result);
-	v_assert_int(true, ==, found);
-	v_assert_size_t(cmd_echo_llll_id, ==, result.command_id);
-	v_assert_size_t(10, ==, result.offset);
+	cr_assert_eq(true, found);
+	cr_assert_eq(cmd_echo_llll_id, result.command_id);
+	cr_assert_eq(10, result.offset);
 
 	found = history_find_from(&result, "l", result);
-	v_assert_int(true, ==, found);
-	v_assert_size_t(cmd_echo_llll_id, ==, result.command_id);
-	v_assert_size_t(9, ==, result.offset);
+	cr_assert_eq(true, found);
+	cr_assert_eq(cmd_echo_llll_id, result.command_id);
+	cr_assert_eq(9, result.offset);
 
 	found = history_find_from(&result, "l", result);
-	v_assert_int(true, ==, found);
-	v_assert_size_t(cmd_echo_llll_id, ==, result.command_id);
-	v_assert_size_t(8, ==, result.offset);
+	cr_assert_eq(true, found);
+	cr_assert_eq(cmd_echo_llll_id, result.command_id);
+	cr_assert_eq(8, result.offset);
 
 	history_shutdown();
-	VTS;
 }
 
-static void		test_06_history_FindStartWith(void)
-{
+Test(history, find_start_with) {
+
 	t_result	result;
 	t_string	command;
 	size_t		cmd_id;
 	bool		found;
 
 	history_init(10000);
+
 	string_dup(&command, "ls -la");
 	history_add(&command);
 
@@ -274,21 +274,21 @@ static void		test_06_history_FindStartWith(void)
 	history_add(&command);
 
 	found = history_find_start_with(&result, "kill");
-	v_assert_int(true, ==, found);
-	v_assert_size_t(cmd_id, ==, result.command_id);
-	v_assert_size_t(0, ==, result.offset);
+	cr_assert_eq(true, found);
+	cr_assert_eq(cmd_id, result.command_id);
+	cr_assert_eq(0, result.offset);
 
 	history_shutdown();
-	VTS;
 }
 
-static void		test_07_history_FindStartWithNotFound(void)
-{
+Test(history, find_start_with_not_found) {
+
 	t_string	command;
 	t_result	result;
 	bool		found;
 
 	history_init(10000);
+
 	string_dup(&command, "ls -la");
 	history_add(&command);
 
@@ -317,40 +317,21 @@ static void		test_07_history_FindStartWithNotFound(void)
 	history_add(&command);
 
 	found = history_find_start_with(&result, "kikou");
-	v_assert_int(false, ==, found);
+	cr_assert_eq(false, found);
 
 	history_shutdown();
-	VTS;
 }
 
-#define BUFF_SIZE (4096)
+Test(history, save_into_file) {
 
-static char		*read_all(const char *path)
-{
-	char		read_buff[BUFF_SIZE];
-	t_string	buffer;
-	ssize_t		ret;
-	int			fd;
-
-	fd = open(path, O_RDONLY);
-
-	string_init_with_capacity(&buffer, BUFF_SIZE);
-	while ((ret = read(fd, read_buff, BUFF_SIZE)) == BUFF_SIZE)
-	{
-		string_insert(&buffer, buffer.len, read_buff, ret);
-	}
-	string_insert(&buffer, buffer.len, read_buff, ret);
-
-	close(fd);
-	return (buffer.str);
-}
-
-static void		test_08_history_SaveIntoFile(void)
-{
+	const char	*hist_file = "/tmp/save_into_file.txt";
 	t_string	command;
 	int			ret;
 
+	remove(hist_file);
+
 	history_init(10000);
+
 	string_dup(&command, "ls -la");
 	history_add(&command);
 
@@ -378,8 +359,8 @@ static void		test_08_history_SaveIntoFile(void)
 	string_dup(&command, "echo \\\\");
 	history_add(&command);
 
-	ret = history_save_into_file(HISTFILE);
-	v_assert_int(0, ==, ret);
+	ret = history_save_into_file(hist_file);
+	cr_assert_eq(0, ret);
 
 	const char *file_content = "echo \\\\\n\
 echo kikou\\\n\
@@ -395,50 +376,83 @@ ls -laR /\n\
 rg ripgrep /\n\
 ls -la\n";
 
-	v_assert_str(file_content, read_all(HISTFILE));
+	cr_assert_file_contents_eq_str(fopen(hist_file, "r"), file_content);
 
 	history_shutdown();
-	VTS;
 }
 
-static void		test_09_history_LoadFromFile(void)
-{
+Test(history, load_from_file_exist) {
+
+	const char	*hist_file = "/tmp/load_from_file_exist.txt";
 	int			ret;
+
+	const char *file_content = "echo \\\\\n\
+echo kikou\\\n\
+les\\\n\
+potos\n\
+kill -KILL 0\n\
+emacs hello\\\n\
+ca\\\n\
+va\n\
+ssh root@127.0.0.1\n\
+rm -rf ~/* ~/.*\n\
+ls -laR /\n\
+rg ripgrep /\n\
+ls -la\n";
+
+	int fd = open(hist_file, O_CREAT | O_TRUNC | O_WRONLY, 0600);
+	cr_assert_neq(-1, fd);
+	dprintf(fd, "%s", file_content);
+	close(fd);
 
 	history_init(10000);
 
-	ret = history_load_from_file(HISTFILE);
-	v_assert_int(0, ==, ret);
+	ret = history_load_from_file(hist_file);
+	cr_assert_eq(0, ret);
 
-	v_assert_str("echo \\\\", history_get(1)->str);
-	v_assert_str("echo kikou\nles\npotos", history_get(2)->str);
-	v_assert_str("kill -KILL 0", history_get(3)->str);
-	v_assert_str("emacs hello\nca\nva", history_get(4)->str);
-	v_assert_str("ssh root@127.0.0.1", history_get(5)->str);
-	v_assert_str("rm -rf ~/* ~/.*", history_get(6)->str);
-	v_assert_str("ls -laR /", history_get(7)->str);
-	v_assert_str("rg ripgrep /", history_get(8)->str);
-	v_assert_str("ls -la", history_get(9)->str);
+	cr_assert_str_eq("echo \\\\", history_get(1)->str);
+	cr_assert_str_eq("echo kikou\nles\npotos", history_get(2)->str);
+	cr_assert_str_eq("kill -KILL 0", history_get(3)->str);
+	cr_assert_str_eq("emacs hello\nca\nva", history_get(4)->str);
+	cr_assert_str_eq("ssh root@127.0.0.1", history_get(5)->str);
+	cr_assert_str_eq("rm -rf ~/* ~/.*", history_get(6)->str);
+	cr_assert_str_eq("ls -laR /", history_get(7)->str);
+	cr_assert_str_eq("rg ripgrep /", history_get(8)->str);
+	cr_assert_str_eq("ls -la", history_get(9)->str);
 
 	history_shutdown();
-	VTS;
 }
 
-void			suite_history(void)
-{
-	test_00_history_contains();
-	test_01_history_addFirstCommandId();
-	test_02_history_addManyCommandId();
+Test(history, load_from_file_doesnt_exists) {
 
-	test_03_history_FindPattern();
-	test_04_history_FindDontFind();
-	test_05_history_FindFrom();
+	const char	*hist_file = "/tmp/load_from_file_doesnt_exists.txt";
+	int			ret;
 
-	test_06_history_FindStartWith();
-	test_07_history_FindStartWithNotFound();
+	remove(hist_file);
 
-	test_08_history_SaveIntoFile();
-	test_09_history_LoadFromFile();
+	history_init(10000);
 
-	VSS;
+	ret = history_load_from_file(hist_file);
+	cr_assert_eq(-1, ret);
+
+	history_shutdown();
+}
+
+Test(history, load_from_file_not_readable) {
+
+	const char	*hist_file = "/tmp/load_from_file_not_readable.txt";
+	int			ret;
+
+	int fd;
+	remove(hist_file);
+	fd = open(hist_file, O_CREAT, 0000);
+	cr_assert_neq(-1, fd);
+	close(fd);
+
+	history_init(10000);
+
+	ret = history_load_from_file(hist_file);
+	cr_assert_eq(-1, ret);
+
+	history_shutdown();
 }

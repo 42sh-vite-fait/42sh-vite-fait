@@ -29,9 +29,6 @@ INC_FILES = header.h
 HEADERS = $(INC_FILES:%.h=$(INC_PATH)/%.h)
 CFLAGS += $(addprefix -I,$(INC_PATH))
 
-# Root
-SOURCES += main.c
-
 # History
 SRC_SUBDIR += history
 SOURCES += test_history.c
@@ -47,9 +44,14 @@ vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
 OBJ_PATH = .obj
 OBJECTS = $(addprefix $(OBJ_PATH)/,$(SOURCES:%.c=%.o))
 
-# Vittf
-VITTF_PATH = vittf
-CFLAGS += -I$(VITTF_PATH)
+# Criterion
+CRITERION_PATH = criterion
+CRITERION_FULL_PATH = $(PWD)/$(CRITERION_PATH)
+CRITERION = $(CRITERION_FULL_PATH)/build/libcriterion.dylib
+CRITERION_INC = $(CRITERION_FULL_PATH)/include
+CRITERION_FLAGS = -Wl,-rpath,$(CRITERION_FULL_PATH)/build -L$(CRITERION_FULL_PATH)/build -lcriterion
+LDFLAGS += $(CRITERION_FLAGS)
+CFLAGS += -I$(CRITERION_INC)
 
 # BSD Libc
 UNAME_S := $(shell uname -s)
@@ -83,7 +85,7 @@ endif
 # Rules
 .PHONY: all
 
-all: $(PROJECT_OBJ_PATH) $(NAME)
+all: $(CRITERION) $(PROJECT_OBJ_PATH) $(NAME)
 
 $(PROJECT_OBJ_PATH):
 	$(MAKE) -C $(PROJECT_PATH) re
@@ -111,6 +113,8 @@ fclean: clean
 
 re: fclean all
 
+$(CRITERION):
+	cd $(CRITERION_PATH) && mkdir -p build && cd build && cmake .. && cmake --build .
 
 # Submodule
 .PHONY: sub-update sub-init
