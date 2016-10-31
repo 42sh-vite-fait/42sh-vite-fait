@@ -59,7 +59,7 @@ static size_t	insert_alias(const char *name, size_t len)
 	return (left);
 }
 
-const char		*alias_get(const t_string *name)
+const char		*alias_get_value(const t_string *name)
 {
 	const t_string	*name_value;
 	ssize_t			index;

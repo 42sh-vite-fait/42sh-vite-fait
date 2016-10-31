@@ -45,7 +45,7 @@ Test(alias, simple_set_check_not_duplicated) {
 
 	string_dup(&foo, "foo");
 	{
-		value = alias_get(&foo);
+		value = alias_get_value(&foo);
 		cr_assert_not_null(value);
 		cr_assert_str_eq("bar-foo", value);
 	}
@@ -64,7 +64,7 @@ Test(alias, simple_set_get) {
 
 	string_dup(&foo, "foo");
 	{
-		value = alias_get(&foo);
+		value = alias_get_value(&foo);
 		cr_assert_not_null(value);
 		cr_assert_str_eq("bar", value);
 	}
@@ -84,7 +84,7 @@ Test(alias, simple_set_get_unset_get) {
 
 	string_dup(&foo, "foo");
 	{
-		value = alias_get(&foo);
+		value = alias_get_value(&foo);
 		cr_assert_not_null(value);
 		cr_assert_str_eq("bar", value);
 	}
@@ -92,7 +92,7 @@ Test(alias, simple_set_get_unset_get) {
 		cr_assert_eq(0, alias_unset(&foo));
 	}
 	{
-		value = alias_get(&foo);
+		value = alias_get_value(&foo);
 		cr_assert_null(value);
 	}
 	string_shutdown(&foo);
@@ -110,7 +110,7 @@ Test(alias, simple_unset_non_existent) {
 
 	string_dup(&foo, "foo");
 	{
-		value = alias_get(&foo);
+		value = alias_get_value(&foo);
 		cr_assert_not_null(value);
 		cr_assert_str_eq("bar", value);
 	}
@@ -122,7 +122,7 @@ Test(alias, simple_unset_non_existent) {
 		string_shutdown(&fast);
 	}
 	{
-		value = alias_get(&foo);
+		value = alias_get_value(&foo);
 		cr_assert_not_null(value);
 		cr_assert_str_eq("bar", value);
 	}
@@ -183,39 +183,39 @@ Test(alias, multiple_set) {
 		{
 			const char	*value;
 
-			value = alias_get(&aei);
+			value = alias_get_value(&aei);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_aei", value);
 
-			value = alias_get(&eio);
+			value = alias_get_value(&eio);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_eio", value);
 
-			value = alias_get(&iou);
+			value = alias_get_value(&iou);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_iou", value);
 
-			value = alias_get(&foo);
+			value = alias_get_value(&foo);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_foo", value);
 
-			value = alias_get(&fee);
+			value = alias_get_value(&fee);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_fee", value);
 
-			value = alias_get(&fas);
+			value = alias_get_value(&fas);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_fas", value);
 
-			value = alias_get(&pre);
+			value = alias_get_value(&pre);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_pre", value);
 
-			value = alias_get(&pra);
+			value = alias_get_value(&pra);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_pra", value);
 
-			value = alias_get(&pro);
+			value = alias_get_value(&pro);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_pro", value);
 		}
@@ -285,39 +285,39 @@ Test(alias, multiple_set_random_order) {
 		{
 			const char	*value;
 
-			value = alias_get(&aei);
+			value = alias_get_value(&aei);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_aei", value);
 
-			value = alias_get(&eio);
+			value = alias_get_value(&eio);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_eio", value);
 
-			value = alias_get(&iou);
+			value = alias_get_value(&iou);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_iou", value);
 
-			value = alias_get(&foo);
+			value = alias_get_value(&foo);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_foo", value);
 
-			value = alias_get(&fee);
+			value = alias_get_value(&fee);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_fee", value);
 
-			value = alias_get(&fas);
+			value = alias_get_value(&fas);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_fas", value);
 
-			value = alias_get(&pre);
+			value = alias_get_value(&pre);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_pre", value);
 
-			value = alias_get(&pra);
+			value = alias_get_value(&pra);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_pra", value);
 
-			value = alias_get(&pro);
+			value = alias_get_value(&pro);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_pro", value);
 		}
@@ -387,39 +387,39 @@ Test(alias, multiple_set_replace) {
 		{
 			const char	*value;
 
-			value = alias_get(&aei);
+			value = alias_get_value(&aei);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_aei", value);
 
-			value = alias_get(&eio);
+			value = alias_get_value(&eio);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_eio", value);
 
-			value = alias_get(&iou);
+			value = alias_get_value(&iou);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_iou", value);
 
-			value = alias_get(&foo);
+			value = alias_get_value(&foo);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_foo", value);
 
-			value = alias_get(&fee);
+			value = alias_get_value(&fee);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_fee", value);
 
-			value = alias_get(&fas);
+			value = alias_get_value(&fas);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_fas", value);
 
-			value = alias_get(&pre);
+			value = alias_get_value(&pre);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_pre", value);
 
-			value = alias_get(&pra);
+			value = alias_get_value(&pra);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_pra", value);
 
-			value = alias_get(&pro);
+			value = alias_get_value(&pro);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_pro", value);
 		}
@@ -456,39 +456,39 @@ Test(alias, multiple_set_replace) {
 		{
 			const char	*value;
 
-			value = alias_get(&aei);
+			value = alias_get_value(&aei);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_aei2", value);
 
-			value = alias_get(&eio);
+			value = alias_get_value(&eio);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_eio2", value);
 
-			value = alias_get(&iou);
+			value = alias_get_value(&iou);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_iou2", value);
 
-			value = alias_get(&foo);
+			value = alias_get_value(&foo);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_foo2", value);
 
-			value = alias_get(&fee);
+			value = alias_get_value(&fee);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_fee2", value);
 
-			value = alias_get(&fas);
+			value = alias_get_value(&fas);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_fas2", value);
 
-			value = alias_get(&pre);
+			value = alias_get_value(&pre);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_pre2", value);
 
-			value = alias_get(&pra);
+			value = alias_get_value(&pra);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_pra2", value);
 
-			value = alias_get(&pro);
+			value = alias_get_value(&pro);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_pro2", value);
 		}
@@ -558,39 +558,39 @@ Test(alias, multiple_set_unset_get) {
 		{
 			const char	*value;
 
-			value = alias_get(&aei);
+			value = alias_get_value(&aei);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_aei", value);
 
-			value = alias_get(&eio);
+			value = alias_get_value(&eio);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_eio", value);
 
-			value = alias_get(&iou);
+			value = alias_get_value(&iou);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_iou", value);
 
-			value = alias_get(&foo);
+			value = alias_get_value(&foo);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_foo", value);
 
-			value = alias_get(&fee);
+			value = alias_get_value(&fee);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_fee", value);
 
-			value = alias_get(&fas);
+			value = alias_get_value(&fas);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_fas", value);
 
-			value = alias_get(&pre);
+			value = alias_get_value(&pre);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_pre", value);
 
-			value = alias_get(&pra);
+			value = alias_get_value(&pra);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_pra", value);
 
-			value = alias_get(&pro);
+			value = alias_get_value(&pro);
 			cr_assert_not_null(value);
 			cr_assert_str_eq("bar_pro", value);
 		}
@@ -608,31 +608,31 @@ Test(alias, multiple_set_unset_get) {
 		{
 			const char	*value;
 
-			value = alias_get(&aei);
+			value = alias_get_value(&aei);
 			cr_assert_null(value);
 
-			value = alias_get(&eio);
+			value = alias_get_value(&eio);
 			cr_assert_null(value);
 
-			value = alias_get(&iou);
+			value = alias_get_value(&iou);
 			cr_assert_null(value);
 
-			value = alias_get(&foo);
+			value = alias_get_value(&foo);
 			cr_assert_null(value);
 
-			value = alias_get(&fee);
+			value = alias_get_value(&fee);
 			cr_assert_null(value);
 
-			value = alias_get(&fas);
+			value = alias_get_value(&fas);
 			cr_assert_null(value);
 
-			value = alias_get(&pre);
+			value = alias_get_value(&pre);
 			cr_assert_null(value);
 
-			value = alias_get(&pra);
+			value = alias_get_value(&pra);
 			cr_assert_null(value);
 
-			value = alias_get(&pro);
+			value = alias_get_value(&pro);
 			cr_assert_null(value);
 		}
 

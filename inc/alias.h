@@ -21,7 +21,7 @@ int				alias_init(void);
 void			alias_shutdown(void);
 
 /*
-** `alias_get` returns the value of the existing alias.
+** `alias_get_value` returns the value of the existing alias.
 **
 ** `alias_set` create the alias with the given 'name' and 'value,
 ** and set (erase and create) the alias if it already exists.
@@ -30,7 +30,7 @@ void			alias_shutdown(void);
 ** `alias_unset` delete the alias corresponding to the given name.
 ** Returns -1 if the alias is not found.
 */
-const char		*alias_get(const t_string *name);
+const char		*alias_get_value(const t_string *name);
 int				alias_set(t_string *name_value);
 int				alias_unset(const t_string *name);
 
