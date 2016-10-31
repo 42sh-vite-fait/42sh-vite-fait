@@ -129,6 +129,16 @@ Test(alias, simple_unset_non_existent) {
 	string_shutdown(&foo);
 }
 
+static void		display_aliases(void)
+{
+	printf("\n[START ALIASES]\n");
+	for (size_t i = 0; i < g_alias.aliases.len; ++i)
+	{
+		printf("%s\n", ((t_string*)array_get_at(&g_alias.aliases, i))->str);
+	}
+	printf("[END ALIASES]\n\n");
+}
+
 Test(alias, multiple_set) {
 
 	t_string	aei_bar_aei;
