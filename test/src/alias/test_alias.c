@@ -5,7 +5,7 @@ extern t_alias	g_alias;
 
 static void		setup(void) {
 
-	cr_assert_eq(0, alias_init());
+	array_init(&g_alias.aliases, sizeof(t_string));
 }
 
 static void		teardown(void) {
