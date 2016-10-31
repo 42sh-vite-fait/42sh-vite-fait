@@ -3,31 +3,56 @@
 
 extern t_alias	g_alias;
 
-TestSuite(alias);
+static void		setup(void) {
 
-static void		init(void)
-{
-	alias_init(); // TODO remove this
+	cr_assert_eq(0, alias_init());
 }
 
-static void		teardown(void)
-{
-	alias_shutdown(); // TODO remove this
+static void		teardown(void) {
+
+	t_string	old;
+
+	while (g_alias.aliases.len != 0)
+	{
+		array_pop(&g_alias.aliases, &old);
+		string_shutdown(&old);
+	}
+	array_shutdown(&g_alias.aliases);
 }
 
-Test(alias, simple_set, .init = init, .fini = teardown) {
+TestSuite(alias, .init = setup, .fini = teardown);
+
+Test(alias, simple_set) {
 
 	t_string	foo_bar;
 
 	string_dup(&foo_bar, "foo=bar");
 
 	cr_assert_eq(0, alias_set(&foo_bar));
-
-	// variables are not duplicated inside the alias module
-	// dont shutdown strings
 }
 
-Test(alias, simple_set_get, .init = init, .fini = teardown) {
+Test(alias, simple_set_check_not_duplicated) {
+
+	t_string	foo_bar;
+	t_string	foo;
+	const char	*value;
+
+	string_dup(&foo_bar, "foo=bar");
+
+	cr_assert_eq(0, alias_set(&foo_bar));
+
+	cr_assert_not_null(string_cat(&foo_bar, "-foo"));
+
+	string_dup(&foo, "foo");
+	{
+		value = alias_get(&foo);
+		cr_assert_not_null(value);
+		cr_assert_str_eq("bar-foo", value);
+	}
+	string_shutdown(&foo);
+}
+
+Test(alias, simple_set_get) {
 
 	t_string	foo_bar;
 	t_string	foo;
@@ -47,7 +72,7 @@ Test(alias, simple_set_get, .init = init, .fini = teardown) {
 }
 
 
-Test(alias, simple_set_get_unset_get, .init = init, .fini = teardown) {
+Test(alias, simple_set_get_unset_get) {
 
 	t_string	foo_bar;
 	t_string	foo;
@@ -73,7 +98,7 @@ Test(alias, simple_set_get_unset_get, .init = init, .fini = teardown) {
 	string_shutdown(&foo);
 }
 
-Test(alias, simple_unset_non_existent, .init = init, .fini = teardown) {
+Test(alias, simple_unset_non_existent) {
 
 	t_string	foo_bar;
 	t_string	foo;
@@ -104,17 +129,7 @@ Test(alias, simple_unset_non_existent, .init = init, .fini = teardown) {
 	string_shutdown(&foo);
 }
 
-static void		display_aliases(void)
-{
-	printf("\n[START ALIASES]\n");
-	for (size_t i = 0; i < g_alias.aliases.len; ++i)
-	{
-		printf("%s\n", ((t_string*)array_get_at(&g_alias.aliases, i))->str);
-	}
-	printf("[END ALIASES]\n\n");
-}
-
-Test(alias, multiple_set, .init = init, .fini = teardown) {
+Test(alias, multiple_set) {
 
 	t_string	aei_bar_aei;
 	t_string	eio_bar_eio;
@@ -216,7 +231,7 @@ Test(alias, multiple_set, .init = init, .fini = teardown) {
 	}
 }
 
-Test(alias, multiple_set_random_order, .init = init, .fini = teardown) {
+Test(alias, multiple_set_random_order) {
 
 	t_string	aei_bar_aei;
 	t_string	eio_bar_eio;
@@ -318,7 +333,7 @@ Test(alias, multiple_set_random_order, .init = init, .fini = teardown) {
 	}
 }
 
-Test(alias, multiple_set_replace, .init = init, .fini = teardown) {
+Test(alias, multiple_set_replace) {
 
 	t_string	aei_bar_aei;
 	t_string	eio_bar_eio;
@@ -489,7 +504,7 @@ Test(alias, multiple_set_replace, .init = init, .fini = teardown) {
 	}
 }
 
-Test(alias, multiple_set_unset_get, .init = init, .fini = teardown) {
+Test(alias, multiple_set_unset_get) {
 
 	t_string	aei_bar_aei;
 	t_string	eio_bar_eio;

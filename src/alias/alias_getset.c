@@ -1,6 +1,8 @@
-#include "alias.h"
 #include <stdbool.h>
 #include <stdint.h>
+#include "alias.h"
+#include "string_42.h"
+#include "array_42.h"
 
 extern t_alias	g_alias;
 

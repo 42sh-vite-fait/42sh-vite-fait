@@ -1,4 +1,6 @@
 #include "alias.h"
+#include "string_42.h"
+#include "array_42.h"
 
 extern t_alias	g_alias;
 t_alias			g_alias;
