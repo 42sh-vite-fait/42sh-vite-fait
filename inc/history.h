@@ -33,6 +33,11 @@ int				history_init(size_t limit);
 void			history_shutdown(void);
 
 /*
+** `history_clear` clear all commands saved in the history, last_id become 0.
+*/
+void			history_clear(void);
+
+/*
 ** `history_save_into_file` create the file at 'path' (O_RDWR | O_TRUNC, 0600),
 ** write each command and escape the '\n', returns zero if no error occurs.
 **

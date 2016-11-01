@@ -38,6 +38,45 @@ Test(history, contains) {
 	history_shutdown();
 }
 
+Test(history, clear) {
+
+	size_t		command_id;
+	t_string	cmd_ls;
+	t_string	cmd_echo;
+	t_string	cmd_kill;
+
+	history_init(3);
+
+	string_dup(&cmd_ls, "ls -la");
+	string_dup(&cmd_echo, "echo hello");
+	string_dup(&cmd_kill, "kill -KILL 0");
+
+	history_add(&cmd_ls);
+	history_add(&cmd_echo);
+	history_add(&cmd_kill);
+
+	cr_assert_not_null(history_get(1));
+	cr_assert_not_null(history_get(2));
+	cr_assert_not_null(history_get(3));
+	cr_assert_null(history_get(4));
+
+	cr_assert_str_eq(cmd_ls.str, history_get(1)->str);
+	cr_assert_str_eq(cmd_echo.str, history_get(2)->str);
+	cr_assert_str_eq(cmd_kill.str, history_get(3)->str);
+	cr_assert_null(history_get(4));
+
+	history_clear();
+
+	cr_assert_null(history_get(1));
+	cr_assert_null(history_get(2));
+	cr_assert_null(history_get(3));
+	cr_assert_null(history_get(4));
+
+	cr_assert_eq(0, history_get_last_id());
+
+	history_shutdown();
+}
+
 Test(history, add_first_command_id) {
 
 	t_string	command;

@@ -45,6 +45,7 @@ SOURCES += history_add.c
 SOURCES += history_find.c
 SOURCES += history_save.c
 SOURCES += history_load.c
+SOURCES += history_clear.c
 
 # Root
 SOURCES += main.c
