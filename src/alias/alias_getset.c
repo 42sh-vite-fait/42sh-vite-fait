@@ -4,7 +4,7 @@
 #include "string_42.h"
 #include "array_42.h"
 
-#define ARRAY_GET_STR(m) (((t_string*)array_get_at(&g_alias.aliases, m))->str)
+#define ARRAY_GET_STR(m) (((t_string*)array_get_at(&g_alias, m))->str)
 
 extern t_alias	g_alias;
 
@@ -16,8 +16,8 @@ static bool		is_alias_present(const char *name, size_t len, size_t *index)
 	int			cmp;
 
 	left = 0;
-	right = g_alias.aliases.len - 1;
-	while (left <= right && right < g_alias.aliases.len)
+	right = g_alias.len - 1;
+	while (left <= right && right < g_alias.len)
 	{
 		mid = (left + right) / 2;
 		cmp = ft_strncmp(name, ARRAY_GET_STR(mid), len);
@@ -42,7 +42,7 @@ const char		*alias_get_value(const t_string *name)
 
 	if (is_alias_present(name->str, name->len, &index) == true)
 	{
-		name_value = array_get_at(&g_alias.aliases, index);
+		name_value = array_get_at(&g_alias, index);
 		return (name_value->str + name->len + 1);
 	}
 	return (NULL);
@@ -58,13 +58,13 @@ int				alias_set(t_string *name_value)
 		return (-1);
 	if (is_alias_present(name_value->str, (size_t)len, &index) == true)
 	{
-		if (array_replace_at(&g_alias.aliases, index, name_value, &rm) == NULL)
+		if (array_replace_at(&g_alias, index, name_value, &rm) == NULL)
 			return (-1);
 		string_shutdown(&rm);
 	}
 	else
 	{
-		if (array_insert_at(&g_alias.aliases, index, name_value) == NULL)
+		if (array_insert_at(&g_alias, index, name_value) == NULL)
 			return (-1);
 	}
 	return (0);
@@ -77,7 +77,7 @@ int				alias_unset(const t_string *name)
 
 	if (is_alias_present(name->str, name->len, &index) == true)
 	{
-		array_remove_at(&g_alias.aliases, index, &removed);
+		array_remove_at(&g_alias, index, &removed);
 		string_shutdown(&removed);
 		return (0);
 	}

@@ -5,12 +5,7 @@
 # include "string_42.h"
 # include "array_42.h"
 
-struct		s_alias
-{
-	t_array		aliases;
-};
-
-typedef struct s_alias	t_alias;
+typedef t_array	t_alias;
 
 /*
 ** `alias_init` initialize the alias module, returns 0 if no error occurs.
