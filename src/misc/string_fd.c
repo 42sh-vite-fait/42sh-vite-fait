@@ -14,13 +14,13 @@ t_string	*string_read_from_fd(t_string *s, int fd)
 	{
 		if (string_ncat(s, buff, (size_t)ret) == NULL)
 		{
-			free(s->str);
+			string_shutdown(s);
 			return (NULL);
 		}
 	}
 	if (string_ncat(s, buff, (size_t)ret) == NULL)
 	{
-		free(s->str);
+		string_shutdown(s);
 		return (NULL);
 	}
 	return (s);
