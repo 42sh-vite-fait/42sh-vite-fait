@@ -5,19 +5,19 @@ extern t_alias	g_alias;
 
 static void		setup(void) {
 
-	array_init(&g_alias.aliases, sizeof(t_string));
+	array_init(&g_alias, sizeof(t_string));
 }
 
 static void		teardown(void) {
 
 	t_string	old;
 
-	while (g_alias.aliases.len != 0)
+	while (g_alias.len != 0)
 	{
-		array_pop(&g_alias.aliases, &old);
+		array_pop(&g_alias, &old);
 		string_shutdown(&old);
 	}
-	array_shutdown(&g_alias.aliases);
+	array_shutdown(&g_alias);
 }
 
 TestSuite(alias, .init = setup, .fini = teardown);
@@ -132,9 +132,9 @@ Test(alias, simple_unset_non_existent) {
 static void		display_aliases(void)
 {
 	printf("\n[START ALIASES]\n");
-	for (size_t i = 0; i < g_alias.aliases.len; ++i)
+	for (size_t i = 0; i < g_alias.len; ++i)
 	{
-		printf("%s\n", ((t_string*)array_get_at(&g_alias.aliases, i))->str);
+		printf("%s\n", ((t_string*)array_get_at(&g_alias, i))->str);
 	}
 	printf("[END ALIASES]\n\n");
 }
