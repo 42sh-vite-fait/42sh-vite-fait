@@ -56,11 +56,6 @@ static int			inject_commands(const t_string *file, t_string *cmd)
 		history_add(cmd);
 		off += 1;
 	}
-	if (string_dup(cmd, file->str + off) == NULL)
-		return (-1);
-	if (string_unescape_chars(cmd, '\n') == NULL)
-		return (-1);
-	history_add(cmd);
 	return (0);
 }
 

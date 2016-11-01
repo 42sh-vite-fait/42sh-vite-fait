@@ -44,11 +44,12 @@ int				history_save_into_file(const char *path);
 int				history_load_from_file(const char *path);
 
 /*
-** `history_add` push a 'command' to the history and returns its id.
-** The given t_string* is not copied,
-** on history destruction each command is fread.
+** `history_add` push a 'command' to the history and returns its id. Returns 0
+** in error case.
+** The given t_string* is not copied, on history destruction
+** each command is fread.
 */
-size_t			history_add(const t_string *command);
+size_t			history_add(t_string *command);
 
 /*
 ** `history_get` returns the command with the specified 'id',

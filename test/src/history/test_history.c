@@ -419,6 +419,7 @@ ls -la\n";
 	cr_assert_str_eq("ls -laR /", history_get(7)->str);
 	cr_assert_str_eq("rg ripgrep /", history_get(8)->str);
 	cr_assert_str_eq("ls -la", history_get(9)->str);
+	cr_assert_null(history_get(10));
 
 	history_shutdown();
 }
