@@ -95,12 +95,11 @@ Test(history, add_first_command_id) {
 Test(history, add_commad_with_trailing_nl) {
 
 	t_string	command;
-	size_t		command_id;
 
 	history_init(20);
 
 	string_dup(&command, "ls -la\n");
-	command_id = history_add(&command);
+	cr_assert_eq(1, history_add(&command));
 
 	cr_assert_str_eq("ls -la", history_get(1)->str);
 
