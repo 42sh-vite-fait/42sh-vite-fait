@@ -28,6 +28,11 @@ ifeq ($(SAN),yes)
 	CFLAGS += -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
 endif
 
+# Builtin
+SRC_SUBDIR += builtin
+SOURCES += builtin_alias.c
+SOURCES += builtin_unalias.c
+
 # Input
 SRC_SUBDIR += input
 SOURCES += readline.c
