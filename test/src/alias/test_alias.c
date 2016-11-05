@@ -24,109 +24,82 @@ TestSuite(alias, .init = setup, .fini = teardown);
 
 Test(alias, simple_set) {
 
-	t_string	foo_bar;
+	char *foo_bar = ft_strdup("foo=bar");
 
-	string_dup(&foo_bar, "foo=bar");
-
-	cr_assert_eq(0, alias_set(&foo_bar));
+	cr_assert_eq(0, alias_set(foo_bar));
 }
 
 Test(alias, simple_set_check_not_duplicated) {
 
-	t_string	foo_bar;
-	t_string	foo;
+	char		*foo_bar = ft_strdup("foo=bar");
+	char		*foo = "foo";
 	const char	*value;
 
-	string_dup(&foo_bar, "foo=bar");
+	cr_assert_eq(0, alias_set(foo_bar));
 
-	cr_assert_eq(0, alias_set(&foo_bar));
+	foo_bar[5]= 'o';
 
-	cr_assert_not_null(string_cat(&foo_bar, "-foo"));
-
-	string_dup(&foo, "foo");
-	{
-		value = alias_get_value(&foo);
-		cr_assert_not_null(value);
-		cr_assert_str_eq("bar-foo", value);
-	}
-	string_shutdown(&foo);
+	value = alias_get_value(foo);
+	cr_assert_not_null(value);
+	cr_assert_str_eq("bor", value);
 }
 
 Test(alias, simple_set_get) {
 
-	t_string	foo_bar;
-	t_string	foo;
+	char		*foo_bar = ft_strdup("foo=bar");
+	char		*foo_baz = ft_strdup("foo=baz");
+	char		*foo = "foo";
 	const char	*value;
 
-	string_dup(&foo_bar, "foo=bar");
+	cr_assert_eq(0, alias_set(foo_bar));
 
-	cr_assert_eq(0, alias_set(&foo_bar));
+	value = alias_get_value(foo);
+	cr_assert_not_null(value);
+	cr_assert_str_eq("bar", value);
 
-	string_dup(&foo, "foo");
-	{
-		value = alias_get_value(&foo);
-		cr_assert_not_null(value);
-		cr_assert_str_eq("bar", value);
-	}
-	string_shutdown(&foo);
+	cr_assert_eq(0, alias_set(foo_baz));
+
+	value = alias_get_value(foo);
+	cr_assert_not_null(value);
+	cr_assert_str_eq("baz", value);
 }
-
 
 Test(alias, simple_set_get_unset_get) {
 
-	t_string	foo_bar;
-	t_string	foo;
+	char		*foo_bar = ft_strdup("foo=bar");
+	char		*foo = "foo";
 	const char	*value;
 
-	string_dup(&foo_bar, "foo=bar");
+	cr_assert_eq(0, alias_set(foo_bar));
 
-	cr_assert_eq(0, alias_set(&foo_bar));
+	value = alias_get_value(foo);
+	cr_assert_not_null(value);
+	cr_assert_str_eq("bar", value);
 
-	string_dup(&foo, "foo");
-	{
-		value = alias_get_value(&foo);
-		cr_assert_not_null(value);
-		cr_assert_str_eq("bar", value);
-	}
-	{
-		cr_assert_eq(0, alias_unset(&foo));
-	}
-	{
-		value = alias_get_value(&foo);
-		cr_assert_null(value);
-	}
-	string_shutdown(&foo);
+	cr_assert_eq(0, alias_unset(foo));
+
+	value = alias_get_value(foo);
+	cr_assert_null(value);
 }
 
 Test(alias, simple_unset_non_existent) {
 
-	t_string	foo_bar;
-	t_string	foo;
+	char		*foo_bar = ft_strdup("foo=bar");
+	char		*foo = "foo";
+	char		*fast = "fast";
 	const char	*value;
 
-	string_dup(&foo_bar, "foo=bar");
+	cr_assert_eq(0, alias_set(foo_bar));
 
-	cr_assert_eq(0, alias_set(&foo_bar));
+	value = alias_get_value(foo);
+	cr_assert_not_null(value);
+	cr_assert_str_eq("bar", value);
 
-	string_dup(&foo, "foo");
-	{
-		value = alias_get_value(&foo);
-		cr_assert_not_null(value);
-		cr_assert_str_eq("bar", value);
-	}
-	{
-		t_string	fast;
+	cr_assert_eq(-1, alias_unset(fast));
 
-		string_dup(&fast, "fast");
-		cr_assert_eq(-1, alias_unset(&fast));
-		string_shutdown(&fast);
-	}
-	{
-		value = alias_get_value(&foo);
-		cr_assert_not_null(value);
-		cr_assert_str_eq("bar", value);
-	}
-	string_shutdown(&foo);
+	value = alias_get_value(foo);
+	cr_assert_not_null(value);
+	cr_assert_str_eq("bar", value);
 }
 
 static void		display_aliases(void)
@@ -142,18 +115,18 @@ static void		display_aliases(void)
 Test(alias, multiple_set) {
 
 	t_string	name_value;
-	const char	*names_values_str[9] = {
-		"aei=bar_aei",
-		"eio=bar_eio",
-		"iou=bar_iou",
-		"foo=bar_foo",
-		"fee=bar_fee",
-		"fas=bar_fas",
-		"pre=bar_pre",
-		"pra=bar_pra",
-		"pro=bar_pro"
+	char		*names_values[9] = {
+		ft_strdup("aei=bar_aei"),
+		ft_strdup("eio=bar_eio"),
+		ft_strdup("iou=bar_iou"),
+		ft_strdup("foo=bar_foo"),
+		ft_strdup("fee=bar_fee"),
+		ft_strdup("fas=bar_fas"),
+		ft_strdup("pre=bar_pre"),
+		ft_strdup("pra=bar_pra"),
+		ft_strdup("pro=bar_pro")
 	};
-	const char	*names_str[9] = {
+	const char	*names[9] = {
 		"aei",
 		"eio",
 		"iou",
@@ -164,7 +137,7 @@ Test(alias, multiple_set) {
 		"pra",
 		"pro"
 	};
-	const char	*values_str[9] = {
+	const char	*values[9] = {
 		"bar_aei",
 		"bar_eio",
 		"bar_iou",
@@ -177,38 +150,31 @@ Test(alias, multiple_set) {
 	};
 
 	for (size_t i = 0; i < 9; ++i) {
-
-		t_string	name;
 		const char	*value;
 
-		string_dup(&name_value, names_values_str[i]);
-		cr_assert_eq(0, alias_set(&name_value));
+		cr_assert_eq(0, alias_set(names_values[i]));
 
-		string_dup(&name, names_str[i]);
-
-		value = alias_get_value(&name);
+		value = alias_get_value(names[i]);
 		cr_assert_not_null(value);
-		cr_assert_str_eq(values_str[i], value);
-
-		string_shutdown(&name);
+		cr_assert_str_eq(values[i], value);
 	}
 }
 
 Test(alias, multiple_set_random_order) {
 
 	t_string	name_value;
-	const char	*names_values_str[9] = {
-		"aei=bar_aei",
-		"eio=bar_eio",
-		"iou=bar_iou",
-		"foo=bar_foo",
-		"fee=bar_fee",
-		"fas=bar_fas",
-		"pre=bar_pre",
-		"pra=bar_pra",
-		"pro=bar_pro"
+	char		*names_values[9] = {
+		ft_strdup("aei=bar_aei"),
+		ft_strdup("eio=bar_eio"),
+		ft_strdup("iou=bar_iou"),
+		ft_strdup("foo=bar_foo"),
+		ft_strdup("fee=bar_fee"),
+		ft_strdup("fas=bar_fas"),
+		ft_strdup("pre=bar_pre"),
+		ft_strdup("pra=bar_pra"),
+		ft_strdup("pro=bar_pro")
 	};
-	const char	*names_str[9] = {
+	const char	*names[9] = {
 		"fee",
 		"pra",
 		"pre",
@@ -219,7 +185,7 @@ Test(alias, multiple_set_random_order) {
 		"eio",
 		"fas",
 	};
-	const char	*values_str[9] = {
+	const char	*values[9] = {
 		"bar_fee",
 		"bar_pra",
 		"bar_pre",
@@ -232,40 +198,33 @@ Test(alias, multiple_set_random_order) {
 	};
 
 	for (size_t i = 0; i < 9; ++i) {
-		string_dup(&name_value, names_values_str[i]);
-		cr_assert_eq(0, alias_set(&name_value));
+		cr_assert_eq(0, alias_set(names_values[i]));
 	}
 
 	for (size_t i = 0; i < 9; ++i) {
-
-		t_string	name;
 		const char	*value;
 
-		string_dup(&name, names_str[i]);
-
-		value = alias_get_value(&name);
+		value = alias_get_value(names[i]);
 		cr_assert_not_null(value);
-		cr_assert_str_eq(values_str[i], value);
-
-		string_shutdown(&name);
+		cr_assert_str_eq(values[i], value);
 	}
 }
 
 Test(alias, multiple_set_replace) {
 
 	t_string	name_value;
-	const char	*names_values_str[9] = {
-		"aei=bar_aei",
-		"eio=bar_eio",
-		"iou=bar_iou",
-		"foo=bar_foo",
-		"fee=bar_fee",
-		"fas=bar_fas",
-		"pre=bar_pre",
-		"pra=bar_pra",
-		"pro=bar_pro"
+	char		*names_values[9] = {
+		ft_strdup("aei=bar_aei"),
+		ft_strdup("eio=bar_eio"),
+		ft_strdup("iou=bar_iou"),
+		ft_strdup("foo=bar_foo"),
+		ft_strdup("fee=bar_fee"),
+		ft_strdup("fas=bar_fas"),
+		ft_strdup("pre=bar_pre"),
+		ft_strdup("pra=bar_pra"),
+		ft_strdup("pro=bar_pro")
 	};
-	const char	*names_str[9] = {
+	const char	*names[9] = {
 		"aei",
 		"eio",
 		"iou",
@@ -276,7 +235,7 @@ Test(alias, multiple_set_replace) {
 		"pra",
 		"pro"
 	};
-	const char	*values_str[9] = {
+	const char	*values[9] = {
 		"bar_aei",
 		"bar_eio",
 		"bar_iou",
@@ -289,35 +248,28 @@ Test(alias, multiple_set_replace) {
 	};
 
 	for (size_t i = 0; i < 9; ++i) {
-
-		t_string	name;
 		const char	*value;
 
-		string_dup(&name_value, names_values_str[i]);
-		cr_assert_eq(0, alias_set(&name_value));
+		cr_assert_eq(0, alias_set(names_values[i]));
 
-		string_dup(&name, names_str[i]);
-
-		value = alias_get_value(&name);
+		value = alias_get_value(names[i]);
 		cr_assert_not_null(value);
-		cr_assert_str_eq(values_str[i], value);
-
-		string_shutdown(&name);
+		cr_assert_str_eq(values[i], value);
 	}
 
 	t_string	name_value2;
-	const char	*names_values_str2[9] = {
-		"aei=bar_aei2",
-		"eio=bar_eio2",
-		"iou=bar_iou2",
-		"foo=bar_foo2",
-		"fee=bar_fee2",
-		"fas=bar_fas2",
-		"pre=bar_pre2",
-		"pra=bar_pra2",
-		"pro=bar_pro2"
+	char		*names_values2[9] = {
+		ft_strdup("aei=bar_aei2"),
+		ft_strdup("eio=bar_eio2"),
+		ft_strdup("iou=bar_iou2"),
+		ft_strdup("foo=bar_foo2"),
+		ft_strdup("fee=bar_fee2"),
+		ft_strdup("fas=bar_fas2"),
+		ft_strdup("pre=bar_pre2"),
+		ft_strdup("pra=bar_pra2"),
+		ft_strdup("pro=bar_pro2")
 	};
-	const char	*values_str2[9] = {
+	const char	*values2[9] = {
 		"bar_aei2",
 		"bar_eio2",
 		"bar_iou2",
@@ -330,38 +282,31 @@ Test(alias, multiple_set_replace) {
 	};
 
 	for (size_t i = 0; i < 9; ++i) {
-
-		t_string	name;
 		const char	*value;
 
-		string_dup(&name_value2, names_values_str2[i]);
-		cr_assert_eq(0, alias_set(&name_value2));
+		cr_assert_eq(0, alias_set(names_values2[i]));
 
-		string_dup(&name, names_str[i]);
-
-		value = alias_get_value(&name);
+		value = alias_get_value(names[i]);
 		cr_assert_not_null(value);
-		cr_assert_str_eq(values_str2[i], value);
-
-		string_shutdown(&name);
+		cr_assert_str_eq(values2[i], value);
 	}
 }
 
 Test(alias, multiple_set_unset_get) {
 
 	t_string	name_value;
-	const char	*names_values_str[9] = {
-		"aei=bar_aei",
-		"eio=bar_eio",
-		"iou=bar_iou",
-		"foo=bar_foo",
-		"fee=bar_fee",
-		"fas=bar_fas",
-		"pre=bar_pre",
-		"pra=bar_pra",
-		"pro=bar_pro"
+	char		*names_values[9] = {
+		ft_strdup("aei=bar_aei"),
+		ft_strdup("eio=bar_eio"),
+		ft_strdup("iou=bar_iou"),
+		ft_strdup("foo=bar_foo"),
+		ft_strdup("fee=bar_fee"),
+		ft_strdup("fas=bar_fas"),
+		ft_strdup("pre=bar_pre"),
+		ft_strdup("pra=bar_pra"),
+		ft_strdup("pro=bar_pro")
 	};
-	const char	*names_str[9] = {
+	const char	*names[9] = {
 		"fee",
 		"pra",
 		"pre",
@@ -372,7 +317,7 @@ Test(alias, multiple_set_unset_get) {
 		"eio",
 		"fas",
 	};
-	const char	*values_str[9] = {
+	const char	*values[9] = {
 		"bar_fee",
 		"bar_pra",
 		"bar_pre",
@@ -385,55 +330,42 @@ Test(alias, multiple_set_unset_get) {
 	};
 
 	for (size_t i = 0; i < 9; ++i) {
-		string_dup(&name_value, names_values_str[i]);
-		cr_assert_eq(0, alias_set(&name_value));
+		cr_assert_eq(0, alias_set(names_values[i]));
 	}
 
 	for (size_t i = 0; i < 9; ++i) {
-
-		t_string	name;
 		const char	*value;
 
-		string_dup(&name, names_str[i]);
-
-		value = alias_get_value(&name);
+		value = alias_get_value(names[i]);
 		cr_assert_not_null(value);
-		cr_assert_str_eq(values_str[i], value);
+		cr_assert_str_eq(values[i], value);
 
-		cr_assert_eq(0, alias_unset(&name));
-
-		string_shutdown(&name);
+		cr_assert_eq(0, alias_unset(names[i]));
 	}
 
 	for (size_t i = 0; i < 9; ++i) {
-
-		t_string	name;
 		const char	*value;
 
-		string_dup(&name, names_str[i]);
-
-		value = alias_get_value(&name);
+		value = alias_get_value(names[i]);
 		cr_assert_null(value);
-
-		string_shutdown(&name);
 	}
 }
 
 Test(alias, clear_get) {
 
 	t_string	name_value;
-	const char	*names_values_str[9] = {
-		"aei=bar_aei",
-		"eio=bar_eio",
-		"iou=bar_iou",
-		"foo=bar_foo",
-		"fee=bar_fee",
-		"fas=bar_fas",
-		"pre=bar_pre",
-		"pra=bar_pra",
-		"pro=bar_pro"
+	char		*names_values[9] = {
+		ft_strdup("aei=bar_aei"),
+		ft_strdup("eio=bar_eio"),
+		ft_strdup("iou=bar_iou"),
+		ft_strdup("foo=bar_foo"),
+		ft_strdup("fee=bar_fee"),
+		ft_strdup("fas=bar_fas"),
+		ft_strdup("pre=bar_pre"),
+		ft_strdup("pra=bar_pra"),
+		ft_strdup("pro=bar_pro")
 	};
-	const char	*names_str[9] = {
+	const char	*names[9] = {
 		"fee",
 		"pra",
 		"pre",
@@ -444,7 +376,7 @@ Test(alias, clear_get) {
 		"eio",
 		"fas",
 	};
-	const char	*values_str[9] = {
+	const char	*values[9] = {
 		"bar_fee",
 		"bar_pra",
 		"bar_pre",
@@ -457,22 +389,15 @@ Test(alias, clear_get) {
 	};
 
 	for (size_t i = 0; i < 9; ++i) {
-		string_dup(&name_value, names_values_str[i]);
-		cr_assert_eq(0, alias_set(&name_value));
+		cr_assert_eq(0, alias_set(names_values[i]));
 	}
 
 	alias_clear();
 
 	for (size_t i = 0; i < 9; ++i) {
-
-		t_string	name;
 		const char	*value;
 
-		string_dup(&name, names_str[i]);
-
-		value = alias_get_value(&name);
+		value = alias_get_value(names[i]);
 		cr_assert_null(value);
-
-		string_shutdown(&name);
 	}
 }
