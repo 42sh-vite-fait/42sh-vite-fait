@@ -5,17 +5,17 @@ extern t_alias	g_alias;
 
 static void		setup(void) {
 
-	array_init(&g_alias, sizeof(t_string));
+	array_init(&g_alias, sizeof(char*));
 }
 
 static void		teardown(void) {
 
-	t_string	old;
+	char		*old;
 
 	while (g_alias.len != 0)
 	{
 		array_pop(&g_alias, &old);
-		string_shutdown(&old);
+		free(old);
 	}
 	array_shutdown(&g_alias);
 }
@@ -107,7 +107,7 @@ static void		display_aliases(void)
 	printf("\n[START ALIASES]\n");
 	for (size_t i = 0; i < g_alias.len; ++i)
 	{
-		printf("%s\n", ((t_string*)array_get_at(&g_alias, i))->str);
+		printf("%s\n", *(char**)array_get_at(&g_alias, i));
 	}
 	printf("[END ALIASES]\n\n");
 }
@@ -418,6 +418,6 @@ Test(alias, get_all) {
 
 	all_aliases = alias_get_all();
 
-	cr_assert_str_eq(foo_bar, ((t_string*)array_get_at(all_aliases, 0))->str);
-	cr_assert_str_eq(bar_baz, ((t_string*)array_get_at(all_aliases, 1))->str);
+	cr_assert_str_eq(foo_bar, *(char**)array_get_at(all_aliases, 0));
+	cr_assert_str_eq(bar_baz, *(char**)array_get_at(all_aliases, 1));
 }
