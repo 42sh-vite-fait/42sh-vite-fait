@@ -35,47 +35,59 @@ static bool		is_alias_present(const char *name, size_t len, size_t *index)
 	return (false);
 }
 
-const char		*alias_get_value(const t_string *name)
+const char		*alias_get_value(const char *name)
 {
 	const t_string	*name_value;
+	size_t			name_len;
 	size_t			index;
 
-	if (is_alias_present(name->str, name->len, &index) == true)
+	name_len = ft_strlen(name);
+	if (is_alias_present(name, name_len, &index) == true)
 	{
 		name_value = array_get_at(&g_alias, index);
-		return (name_value->str + name->len + 1);
+		return (name_value->str + name_len + 1);
 	}
 	return (NULL);
 }
 
-int				alias_set(t_string *name_value)
+int				alias_set(char *name_value)
 {
 	t_string	rm;
 	ssize_t		len;
 	size_t		index;
+	size_t		name_value_len;
 
-	if ((len = ft_strnchrpos(name_value->str, '=', name_value->len)) < 1)
+	name_value_len = ft_strlen(name_value);
+	if ((len = ft_strnchrpos(name_value, '=', name_value_len)) < 1)
 		return (-1);
-	if (is_alias_present(name_value->str, (size_t)len, &index) == true)
+	if (is_alias_present(name_value, (size_t)len, &index) == true)
 	{
-		if (array_replace_at(&g_alias, index, name_value, &rm) == NULL)
+		// TODO use string_construct_from(char *str, size_t len, size_t capacity);
+		t_string name_value_string = (t_string){ .str = name_value, .len = name_value_len, .capacity = name_value_len };
+
+		if (array_replace_at(&g_alias, index, &name_value_string, &rm) == NULL)
 			return (-1);
 		string_shutdown(&rm);
 	}
 	else
 	{
-		if (array_insert_at(&g_alias, index, name_value) == NULL)
+		// TODO use string_construct_from(char *str, size_t len, size_t capacity);
+		t_string name_value_string = (t_string){ .str = name_value, .len = name_value_len, .capacity = name_value_len };
+
+		if (array_insert_at(&g_alias, index, &name_value_string) == NULL)
 			return (-1);
 	}
 	return (0);
 }
 
-int				alias_unset(const t_string *name)
+int				alias_unset(const char *name)
 {
 	t_string	removed;
 	size_t		index;
+	size_t		name_len;
 
-	if (is_alias_present(name->str, name->len, &index) == true)
+	name_len = ft_strlen(name);
+	if (is_alias_present(name, name_len, &index) == true)
 	{
 		array_remove_at(&g_alias, index, &removed);
 		string_shutdown(&removed);

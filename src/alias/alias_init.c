@@ -14,12 +14,6 @@ int				alias_init(void)
 
 void			alias_shutdown(void)
 {
-	t_string	old;
-
-	while (g_alias.len != 0)
-	{
-		array_pop(&g_alias, &old);
-		string_shutdown(&old);
-	}
+	alias_clear();
 	array_shutdown(&g_alias);
 }

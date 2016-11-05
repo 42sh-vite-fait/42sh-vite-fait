@@ -16,17 +16,27 @@ int				alias_init(void);
 void			alias_shutdown(void);
 
 /*
+** `alias_clear` remove all aliases
+*/
+void			alias_clear(void);
+
+/*
+** `alias_get_all` return the internal t_array of all aliases
+*/
+const t_array	*alias_get_all(void);
+
+/*
 ** `alias_get_value` returns the value of the existing alias.
 **
-** `alias_set` create the alias with the given 'name' and 'value,
+** `alias_set` create the alias with the given 'name' and 'value',
 ** and set (erase and create) the alias if it already exists.
-** 'name' is no kept and 'value' is not duplicated.
+** 'name_value' is not duplicated, do not use it after passing it.
 **
-** `alias_unset` delete the alias corresponding to the given name.
+** `alias_unset` delete the alias corresponding to the given 'name'.
 ** Returns -1 if the alias is not found.
 */
-const char		*alias_get_value(const t_string *name);
-int				alias_set(t_string *name_value);
-int				alias_unset(const t_string *name);
+const char		*alias_get_value(const char *name);
+int				alias_set(char *name_value);
+int				alias_unset(const char *name);
 
 #endif
