@@ -7,7 +7,6 @@
 uint8_t		builtin_unalias(int argc, char * const *argv)
 {
 	t_opt		opt;
-	t_string	alias;
 	int			i;
 	uint8_t		ret;
 
@@ -21,20 +20,18 @@ uint8_t		builtin_unalias(int argc, char * const *argv)
 	{
 		if (ft_getopt(argc, argv, "a", &opt) == 'a')
 		{
-			// TODO remove all aliases !
+			alias_clear();
 			return (0);
 		}
 		ret = 0;
 		i = 1;
 		while (i < argc)
 		{
-			fatal_malloc(string_dup(&alias, argv[i]));
-			if (alias_unset(&alias) != 0)
+			if (alias_unset(argv[i]) != 0)
 			{
 				ret = 1;
 				ft_dprintf(2, "42sh: %s: %s: not found\n", argv[0], argv[i]); // TODO define for "42sh"
 			}
-			string_shutdown(&alias);
 			++i;
 		}
 		return (ret);
