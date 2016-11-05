@@ -21,6 +21,11 @@ void			alias_shutdown(void);
 void			alias_clear(void);
 
 /*
+** `alias_get_all` return the internal t_array of all aliases
+*/
+const t_array	*alias_get_all(void);
+
+/*
 ** `alias_get_value` returns the value of the existing alias.
 **
 ** `alias_set` create the alias with the given 'name' and 'value',

@@ -401,3 +401,23 @@ Test(alias, clear_get) {
 		cr_assert_null(value);
 	}
 }
+
+Test(alias, get_all_empty) {
+
+	cr_assert_eq(0, alias_get_all()->len);
+}
+
+Test(alias, get_all) {
+
+	char			*foo_bar = ft_strdup("foo=bar");
+	char			*bar_baz = ft_strdup("bar=baz");
+	const t_array	*all_aliases;
+
+	cr_assert_eq(0, alias_set(foo_bar));
+	cr_assert_eq(0, alias_set(bar_baz));
+
+	all_aliases = alias_get_all();
+
+	cr_assert_str_eq(foo_bar, ((t_string*)array_get_at(all_aliases, 0))->str);
+	cr_assert_str_eq(bar_baz, ((t_string*)array_get_at(all_aliases, 1))->str);
+}
