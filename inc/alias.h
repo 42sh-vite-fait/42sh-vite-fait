@@ -16,6 +16,11 @@ int				alias_init(void);
 void			alias_shutdown(void);
 
 /*
+** `alias_clear` remove all aliases
+*/
+void			alias_clear(void);
+
+/*
 ** `alias_get_value` returns the value of the existing alias.
 **
 ** `alias_set` create the alias with the given 'name' and 'value,

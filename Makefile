@@ -50,6 +50,7 @@ SOURCES += history_load.c
 SRC_SUBDIR += alias
 SOURCES += alias_init.c
 SOURCES += alias_getset.c
+SOURCES += alias_clear.c
 
 # Root
 SOURCES += main.c

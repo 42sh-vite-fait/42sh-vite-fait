@@ -418,3 +418,61 @@ Test(alias, multiple_set_unset_get) {
 		string_shutdown(&name);
 	}
 }
+
+Test(alias, clear_get) {
+
+	t_string	name_value;
+	const char	*names_values_str[9] = {
+		"aei=bar_aei",
+		"eio=bar_eio",
+		"iou=bar_iou",
+		"foo=bar_foo",
+		"fee=bar_fee",
+		"fas=bar_fas",
+		"pre=bar_pre",
+		"pra=bar_pra",
+		"pro=bar_pro"
+	};
+	const char	*names_str[9] = {
+		"fee",
+		"pra",
+		"pre",
+		"iou",
+		"aei",
+		"foo",
+		"pro",
+		"eio",
+		"fas",
+	};
+	const char	*values_str[9] = {
+		"bar_fee",
+		"bar_pra",
+		"bar_pre",
+		"bar_iou",
+		"bar_aei",
+		"bar_foo",
+		"bar_pro",
+		"bar_eio",
+		"bar_fas",
+	};
+
+	for (size_t i = 0; i < 9; ++i) {
+		string_dup(&name_value, names_values_str[i]);
+		cr_assert_eq(0, alias_set(&name_value));
+	}
+
+	alias_clear();
+
+	for (size_t i = 0; i < 9; ++i) {
+
+		t_string	name;
+		const char	*value;
+
+		string_dup(&name, names_str[i]);
+
+		value = alias_get_value(&name);
+		cr_assert_null(value);
+
+		string_shutdown(&name);
+	}
+}
