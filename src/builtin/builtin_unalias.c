@@ -12,8 +12,7 @@ uint8_t		builtin_unalias(int argc, char * const *argv)
 
 	if (argc == 1)
 	{
-		// TODO explain me rules of the first word of error messages
-		ft_dprintf(2, "%s: usage: %s [-a] name [name ...]", argv[0]); // TODO define for "42sh"
+		ft_dprintf(2, "%s: usage: %s [-a] name [name ...]", argv[0]);
 		return (2);
 	}
 	else if (argc >= 2)
@@ -30,7 +29,7 @@ uint8_t		builtin_unalias(int argc, char * const *argv)
 			if (alias_unset(argv[i]) != 0)
 			{
 				ret = 1;
-				ft_dprintf(2, "42sh: %s: %s: not found\n", argv[0], argv[i]); // TODO define for "42sh"
+				ft_dprintf(2, "%s: %s: not found\n", argv[0], argv[i]);
 			}
 			++i;
 		}

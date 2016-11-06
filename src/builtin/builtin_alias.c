@@ -1,49 +1,95 @@
+#include <stdbool.h>
 #include "ft_printf.h"
-#include "unistd_42.h"
 #include "array_42.h"
 #include "builtin.h"
 #include "str_42.h"
 #include "alias.h"
 
-static int	list_aliases(void)
+static void		list_aliases(void)
 {
 	const t_array	*aliases;
 	size_t			i;
 
-	aliases = alias_get_all();
 	i = 0;
+	aliases = alias_get_all();
 	while (i < aliases->len)
 	{
 		ft_printf("%s\n", ((t_string*)array_get_at(aliases, i))->str);
 		++i;
 	}
-	return (0);
 }
 
-uint8_t		builtin_alias(int argc, char * const *argv)
+// TODO define valid alias !!!
+static bool		is_valid_alias_name(const char *name, size_t len)
 {
-	t_opt		opt;
-	const char	*value;
+	size_t		i;
 
-	if (argc == 1 || (argc == 2 && ft_getopt(argc, argv, "p", &opt) == 'p'))
+	if (name[0] == '-' || FT_ISDIGIT(name[0]))
+		return (false);
+	i = 1;
+	while (i < len)
 	{
-		return ((uint8_t)list_aliases());
+		if (!FT_ISALNUM(name[i]))
+			return (false);
+		++i;
 	}
-	else if (argc == 2)
+	return (true);
+}
+
+uint8_t			builtin_alias(int argc, char * const *argv)
+{
+	ssize_t		equal_pos;
+	const char	*value;
+	char		*name_value;
+	int			i;
+	uint8_t		ret;
+
+	ret = 0;
+	i = 1;
+	while (i < argc)
 	{
-		if (ft_strchr(argv[1], '=') != NULL)
+		// TODO if a string starts with '-' parse all other arguments as options
+		if (argv[i][0] == '-')
 		{
-			return ((uint8_t)-alias_set(argv[1])); // TODO check return value
+			if (argv[i][1] == 'p' && argv[i][2] == '\0') // TODO clean this
+			{
+				list_aliases();
+			}
+			else
+			{
+				ret = 1;
+				ft_dprintf(2, "alias: %s: invalid option\n", argv[i]);
+				ft_dprintf(2, "alias: usage: alias [-p] [name[=value] ... ]\n");
+			}
+		} // if '=' is the first letter, use has
+		else if ((equal_pos = ft_strchrpos(argv[i], '=')) != -1)
+		{
+			if (is_valid_alias_name(argv[i], (size_t)equal_pos) == false)
+			{
+				ret = 1;
+				// argv[i][equal_pos] = '\0';
+				ft_dprintf(2, "alias: '%s': invalid alias name\n", argv[i]); // TODO limit str len
+			}
+			else if (alias_set(name_value = ft_strdup(argv[i])) == -1) // TODO abc='coucou les potes'
+			{
+				free(name_value);
+				ret = 1;
+				ft_dprintf(2, "alias: error while trying to set '%s'\n", argv[i]); // TODO limit str len
+			}
 		}
 		else
 		{
-			if ((value = alias_get_value(argv[1])) != NULL)
+			if ((value = alias_get_value(argv[i])) == NULL)
 			{
-				ft_printf("%s=%s\n", argv[1], value);
-				return (0);
+				ret = 1;
+				ft_dprintf(2, "%s: %s: not found\n", argv[0], argv[1]);
 			}
-			ft_dprintf(2, "42sh: %s: %s: not found\n", argv[0], argv[1]); // TODO define for "42sh"
+			else
+			{
+				ft_printf("alias %s='%s'\n", argv[i], value);
+			}
 		}
+		++i;
 	}
-	return (1);
+	return (ret);
 }

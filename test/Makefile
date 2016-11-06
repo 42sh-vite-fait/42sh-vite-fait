@@ -29,6 +29,10 @@ INC_FILES = header.h
 HEADERS = $(INC_FILES:%.h=$(INC_PATH)/%.h)
 CFLAGS += $(addprefix -I,$(INC_PATH))
 
+# Builtin
+SRC_SUBDIR += builtin
+SOURCES += test_builtin_alias.c
+
 # History
 SRC_SUBDIR += history
 SOURCES += test_history.c

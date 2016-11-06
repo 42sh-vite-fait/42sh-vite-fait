@@ -19,5 +19,6 @@
 #include "alias.h"
 #include "misc.h"
 #include "lib42.h"
+#include "builtin.h"
 
 #endif
