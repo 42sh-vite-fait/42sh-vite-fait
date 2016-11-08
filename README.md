@@ -1,4 +1,4 @@
-# 42sh-posix ![Build Status](https://travis-ci.org/itheof/42sh-posix.svg?branch=master)
+# 42sh-posix [![Build Status](https://travis-ci.org/itheof/42sh-posix.svg?branch=master)](https://travis-ci.org/itheof/42sh-posix)
 
 This is an attempt to create a fully POSIX compliant shell.
 
