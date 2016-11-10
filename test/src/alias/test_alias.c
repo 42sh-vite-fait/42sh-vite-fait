@@ -114,7 +114,6 @@ static void		display_aliases(void)
 
 Test(alias, multiple_set) {
 
-	t_string	name_value;
 	char		*names_values[9] = {
 		ft_strdup("aei=bar_aei"),
 		ft_strdup("eio=bar_eio"),
@@ -162,7 +161,6 @@ Test(alias, multiple_set) {
 
 Test(alias, multiple_set_random_order) {
 
-	t_string	name_value;
 	char		*names_values[9] = {
 		ft_strdup("aei=bar_aei"),
 		ft_strdup("eio=bar_eio"),
@@ -212,7 +210,6 @@ Test(alias, multiple_set_random_order) {
 
 Test(alias, multiple_set_replace) {
 
-	t_string	name_value;
 	char		*names_values[9] = {
 		ft_strdup("aei=bar_aei"),
 		ft_strdup("eio=bar_eio"),
@@ -257,7 +254,6 @@ Test(alias, multiple_set_replace) {
 		cr_assert_str_eq(values[i], value);
 	}
 
-	t_string	name_value2;
 	char		*names_values2[9] = {
 		ft_strdup("aei=bar_aei2"),
 		ft_strdup("eio=bar_eio2"),
@@ -294,7 +290,6 @@ Test(alias, multiple_set_replace) {
 
 Test(alias, multiple_set_unset_get) {
 
-	t_string	name_value;
 	char		*names_values[9] = {
 		ft_strdup("aei=bar_aei"),
 		ft_strdup("eio=bar_eio"),
@@ -353,7 +348,6 @@ Test(alias, multiple_set_unset_get) {
 
 Test(alias, clear_get) {
 
-	t_string	name_value;
 	char		*names_values[9] = {
 		ft_strdup("aei=bar_aei"),
 		ft_strdup("eio=bar_eio"),
