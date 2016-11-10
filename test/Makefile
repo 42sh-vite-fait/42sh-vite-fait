@@ -33,7 +33,11 @@ CFLAGS += $(addprefix -I,$(INC_PATH))
 SRC_SUBDIR += history
 SOURCES += test_history.c
 
-# Buffer
+# Alias
+SRC_SUBDIR += alias
+SOURCES += test_alias.c
+
+# String
 SRC_SUBDIR += string
 SOURCES += test_string_escape.c
 

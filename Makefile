@@ -38,6 +38,16 @@ SOURCES    += history_save.c
 SOURCES    += history_load.c
 SOURCES    += history_clear.c
 
+# Alias
+SRC_SUBDIR += alias
+SOURCES += alias_init.c
+SOURCES += alias_getset.c
+SOURCES += alias_get_all.c
+SOURCES += alias_clear.c
+
+# Root
+SOURCES += main.c
+
 # Generation
 vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
 OBJ_PATH   = .obj
