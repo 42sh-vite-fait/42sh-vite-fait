@@ -2,7 +2,7 @@ NAME   = 42sh
 CC     ?= clang # Need autoconf
 
 CFLAGS = -Wall -Werror -Wextra
-CFLAGS += -std=c99 -pedantic -pedantic-errors
+CFLAGS += -std=c11 -pedantic -pedantic-errors
 ifeq ($(shell basename $(CC)),clang) # Need autoconf
 	CFLAGS += -Weverything -Wno-missing-noreturn
 endif
