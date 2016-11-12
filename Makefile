@@ -20,15 +20,23 @@ ifeq ($(SAN),yes)
 	CFLAGS += -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls
 endif
 
-CFLAGS     = -I./inc
+# Headers
+CFLAGS     += -I./inc
+
 # Sources
-SRC_PATH   = src
+SRC_PATH   += src
 SOURCES    += main.c
+
+# Input
 SRC_SUBDIR += input
 SOURCES    += readline.c
+
+# Misc
 SRC_SUBDIR += misc
 SOURCES    += string_escape.c
 SOURCES    += string_fd.c
+
+# History
 SRC_SUBDIR += history
 SOURCES    += history_get.c
 SOURCES    += history_init.c
@@ -44,9 +52,6 @@ SOURCES += alias_init.c
 SOURCES += alias_getset.c
 SOURCES += alias_get_all.c
 SOURCES += alias_clear.c
-
-# Root
-SOURCES += main.c
 
 # Generation
 vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
