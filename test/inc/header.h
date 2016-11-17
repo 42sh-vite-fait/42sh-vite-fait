@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <strings.h>
+#include <limits.h>
+#include <stdint.h>
 #if !defined(__APPLE__)
 #include <bsd/string.h>
 #endif
@@ -18,6 +20,8 @@
 #include "history.h"
 #include "alias.h"
 #include "misc.h"
+#include "var.h"
+#include "errors.h"
 #include "lib42.h"
 
 #endif

@@ -41,6 +41,10 @@ SOURCES += test_alias.c
 SRC_SUBDIR += string
 SOURCES += test_string_escape.c
 
+# Variable
+SRC_SUBDIR += var
+SOURCES += test_var.c
+
 SRC_PATH = src
 vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
 
@@ -68,6 +72,9 @@ LIB42_PATH = ../lib42
 LIB42 = $(LIB42_PATH)/lib42.a
 CFLAGS += -I$(LIB42_PATH)/inc
 LDFLAGS += -L$(LIB42_PATH) -l42
+
+# Debug
+CFLAGS += -I$(LIB42_PATH)/debug
 
 # Project to test
 PROJECT_PATH = ..

@@ -50,6 +50,14 @@ SOURCES += alias_getset.c
 SOURCES += alias_get_all.c
 SOURCES += alias_clear.c
 
+# Variable
+SRC_SUBDIR += var
+SOURCES += var_get.c
+SOURCES += var_init.c
+SOURCES += var_shutdown.c
+SOURCES += var_set.c
+SOURCES += var_unset.c
+
 # Generation
 vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
 OBJ_PATH   = .obj

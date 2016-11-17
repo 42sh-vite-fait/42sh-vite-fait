@@ -4,6 +4,7 @@
 static char	*g_errors_list[] = {
 	[NO_ERROR] = "no error",
 	[ERR_MALLOC] = "malloc failed !",
+
 };
 
 void	errors_init(void)
