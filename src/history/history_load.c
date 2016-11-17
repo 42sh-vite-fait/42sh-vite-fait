@@ -37,7 +37,7 @@ static int			inject_commands(const t_string *file)
 	{
 		old_off = off;
 		off = (size_t)(match - file->str);
-		if (string_ndup(&command, file->str + old_off, off - old_off) == NULL
+		if (!string_init_ndup(&command, file->str + old_off, off - old_off)
 			|| string_unescape_chars(&command, '\n') == NULL)
 		{
 			string_shutdown(&command);

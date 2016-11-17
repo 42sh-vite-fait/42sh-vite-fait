@@ -17,9 +17,9 @@ Test(history, contains) {
 
 	history_init(3);
 
-	string_dup(&cmd_ls, "ls -la");
-	string_dup(&cmd_echo, "echo hello");
-	string_dup(&cmd_kill, "kill -KILL 0");
+	string_init_dup(&cmd_ls, "ls -la");
+	string_init_dup(&cmd_echo, "echo hello");
+	string_init_dup(&cmd_kill, "kill -KILL 0");
 
 	history_add(&cmd_ls);
 	history_add(&cmd_echo);
@@ -47,9 +47,9 @@ Test(history, clear) {
 
 	history_init(3);
 
-	string_dup(&cmd_ls, "ls -la");
-	string_dup(&cmd_echo, "echo hello");
-	string_dup(&cmd_kill, "kill -KILL 0");
+	string_init_dup(&cmd_ls, "ls -la");
+	string_init_dup(&cmd_echo, "echo hello");
+	string_init_dup(&cmd_kill, "kill -KILL 0");
 
 	history_add(&cmd_ls);
 	history_add(&cmd_echo);
@@ -84,7 +84,7 @@ Test(history, add_first_command_id) {
 
 	history_init(10000);
 
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	command_id = history_add(&command);
 
 	cr_assert_eq(1, command_id);
@@ -98,7 +98,7 @@ Test(history, add_commad_with_trailing_nl) {
 
 	history_init(20);
 
-	string_dup(&command, "ls -la\n");
+	string_init_dup(&command, "ls -la\n");
 	cr_assert_eq(1, history_add(&command));
 
 	cr_assert_str_eq("ls -la", history_get(1)->str);
@@ -113,23 +113,23 @@ Test(history, add_many_command_id) {
 
 	history_init(10000);
 
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	command_id = history_add(&command);
 	cr_assert_eq(1, command_id);
 
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	command_id = history_add(&command);
 	cr_assert_eq(2, command_id);
 
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	command_id = history_add(&command);
 	cr_assert_eq(3, command_id);
 
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	command_id = history_add(&command);
 	cr_assert_eq(4, command_id);
 
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	command_id = history_add(&command);
 	cr_assert_eq(5, command_id);
 
@@ -145,22 +145,22 @@ Test(history, find_pattern) {
 
 	history_init(2);
 
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	history_add(&command);
 
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	history_add(&command);
 
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	history_add(&command);
 
-	string_dup(&command, "kill -KILL 0");
+	string_init_dup(&command, "kill -KILL 0");
 	history_add(&command);
 
-	string_dup(&command, "echo kiki");
+	string_init_dup(&command, "echo kiki");
 	command_id = history_add(&command);
 
-	string_dup(&command, "fc -l");
+	string_init_dup(&command, "fc -l");
 	history_add(&command);
 
 	found = history_find(&result, "kiki");
@@ -178,31 +178,31 @@ Test(history, find_dont_find) {
 	bool		found;
 
 	history_init(5);
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	history_add(&command);
 
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	history_add(&command);
 
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	history_add(&command);
 
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	history_add(&command);
 
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	history_add(&command);
 
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	history_add(&command);
 
-	string_dup(&command, "kill -KILL 0");
+	string_init_dup(&command, "kill -KILL 0");
 	history_add(&command);
 
-	string_dup(&command, "echo kikou");
+	string_init_dup(&command, "echo kikou");
 	history_add(&command);
 
-	string_dup(&command, "fc -l");
+	string_init_dup(&command, "fc -l");
 	history_add(&command);
 
 	found = history_find(&result, "kiki");
@@ -222,31 +222,31 @@ Test(history, find_from) {
 
 	history_init(6);
 
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	history_add(&command);
 
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	history_add(&command);
 
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	history_add(&command);
 
-	string_dup(&command, "ls /tmp/kiki");
+	string_init_dup(&command, "ls /tmp/kiki");
 	cmd_ls_tmp_id = history_add(&command);
 
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	history_add(&command);
 
-	string_dup(&command, "kill -KILL 0");
+	string_init_dup(&command, "kill -KILL 0");
 	history_add(&command);
 
-	string_dup(&command, "echo kiki kiki");
+	string_init_dup(&command, "echo kiki kiki");
 	cmd_echo_kiki_id = history_add(&command);
 
-	string_dup(&command, "fc -l");
+	string_init_dup(&command, "fc -l");
 	history_add(&command);
 
-	string_dup(&command, "echo lllllll");
+	string_init_dup(&command, "echo lllllll");
 	cmd_echo_llll_id = history_add(&command);
 
 	found = history_find(&result, "kiki");
@@ -299,31 +299,31 @@ Test(history, find_start_with) {
 
 	history_init(10000);
 
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	history_add(&command);
 
-	string_dup(&command, "rg ripgrep /");
+	string_init_dup(&command, "rg ripgrep /");
 	history_add(&command);
 
-	string_dup(&command, "ls -laR /");
+	string_init_dup(&command, "ls -laR /");
 	history_add(&command);
 
-	string_dup(&command, "rm -rf ~/* ~/.*");
+	string_init_dup(&command, "rm -rf ~/* ~/.*");
 	history_add(&command);
 
-	string_dup(&command, "ssh root@127.0.0.1");
+	string_init_dup(&command, "ssh root@127.0.0.1");
 	history_add(&command);
 
-	string_dup(&command, "emacs hello");
+	string_init_dup(&command, "emacs hello");
 	history_add(&command);
 
-	string_dup(&command, "kill -KILL 0");
+	string_init_dup(&command, "kill -KILL 0");
 	cmd_id = history_add(&command);
 
-	string_dup(&command, "echo kikou");
+	string_init_dup(&command, "echo kikou");
 	history_add(&command);
 
-	string_dup(&command, "fc -l");
+	string_init_dup(&command, "fc -l");
 	history_add(&command);
 
 	found = history_find_start_with(&result, "kill");
@@ -342,31 +342,31 @@ Test(history, find_start_with_not_found) {
 
 	history_init(10000);
 
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	history_add(&command);
 
-	string_dup(&command, "rg ripgrep /");
+	string_init_dup(&command, "rg ripgrep /");
 	history_add(&command);
 
-	string_dup(&command, "ls -laR /");
+	string_init_dup(&command, "ls -laR /");
 	history_add(&command);
 
-	string_dup(&command, "rm -rf ~/* ~/.*");
+	string_init_dup(&command, "rm -rf ~/* ~/.*");
 	history_add(&command);
 
-	string_dup(&command, "ssh root@127.0.0.1");
+	string_init_dup(&command, "ssh root@127.0.0.1");
 	history_add(&command);
 
-	string_dup(&command, "emacs hello");
+	string_init_dup(&command, "emacs hello");
 	history_add(&command);
 
-	string_dup(&command, "kill -KILL 0");
+	string_init_dup(&command, "kill -KILL 0");
 	history_add(&command);
 
-	string_dup(&command, "echo kikou");
+	string_init_dup(&command, "echo kikou");
 	history_add(&command);
 
-	string_dup(&command, "fc -l");
+	string_init_dup(&command, "fc -l");
 	history_add(&command);
 
 	found = history_find_start_with(&result, "kikou");
@@ -385,31 +385,31 @@ Test(history, save_into_file) {
 
 	history_init(10000);
 
-	string_dup(&command, "ls -la");
+	string_init_dup(&command, "ls -la");
 	history_add(&command);
 
-	string_dup(&command, "rg ripgrep /");
+	string_init_dup(&command, "rg ripgrep /");
 	history_add(&command);
 
-	string_dup(&command, "ls -laR /");
+	string_init_dup(&command, "ls -laR /");
 	history_add(&command);
 
-	string_dup(&command, "rm -rf ~/* ~/.*");
+	string_init_dup(&command, "rm -rf ~/* ~/.*");
 	history_add(&command);
 
-	string_dup(&command, "ssh root@127.0.0.1");
+	string_init_dup(&command, "ssh root@127.0.0.1");
 	history_add(&command);
 
-	string_dup(&command, "emacs hello\nca\nva");
+	string_init_dup(&command, "emacs hello\nca\nva");
 	history_add(&command);
 
-	string_dup(&command, "kill -KILL 0");
+	string_init_dup(&command, "kill -KILL 0");
 	history_add(&command);
 
-	string_dup(&command, "echo kikou\nles\npotos");
+	string_init_dup(&command, "echo kikou\nles\npotos");
 	history_add(&command);
 
-	string_dup(&command, "echo \\\\");
+	string_init_dup(&command, "echo \\\\");
 	history_add(&command);
 
 	ret = history_save_into_file(hist_file);
