@@ -7,7 +7,7 @@ t_alias			g_alias;
 
 int				alias_init(void)
 {
-	if (array_init(&g_alias, sizeof(t_string)) == NULL)
+	if (array_init(&g_alias, sizeof(char*)) == NULL)
 		return (-1);
 	return (0);
 }

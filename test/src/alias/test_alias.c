@@ -5,17 +5,17 @@ extern t_alias	g_alias;
 
 static void		setup(void) {
 
-	array_init(&g_alias, sizeof(t_string));
+	array_init(&g_alias, sizeof(char*));
 }
 
 static void		teardown(void) {
 
-	t_string	old;
+	char		*old;
 
 	while (g_alias.len != 0)
 	{
 		array_pop(&g_alias, &old);
-		string_shutdown(&old);
+		free(old);
 	}
 	array_shutdown(&g_alias);
 }
@@ -107,14 +107,13 @@ static void		display_aliases(void)
 	printf("\n[START ALIASES]\n");
 	for (size_t i = 0; i < g_alias.len; ++i)
 	{
-		printf("%s\n", ((t_string*)array_get_at(&g_alias, i))->str);
+		printf("%s\n", *(char**)array_get_at(&g_alias, i));
 	}
 	printf("[END ALIASES]\n\n");
 }
 
 Test(alias, multiple_set) {
 
-	t_string	name_value;
 	char		*names_values[9] = {
 		ft_strdup("aei=bar_aei"),
 		ft_strdup("eio=bar_eio"),
@@ -162,7 +161,6 @@ Test(alias, multiple_set) {
 
 Test(alias, multiple_set_random_order) {
 
-	t_string	name_value;
 	char		*names_values[9] = {
 		ft_strdup("aei=bar_aei"),
 		ft_strdup("eio=bar_eio"),
@@ -212,7 +210,6 @@ Test(alias, multiple_set_random_order) {
 
 Test(alias, multiple_set_replace) {
 
-	t_string	name_value;
 	char		*names_values[9] = {
 		ft_strdup("aei=bar_aei"),
 		ft_strdup("eio=bar_eio"),
@@ -257,7 +254,6 @@ Test(alias, multiple_set_replace) {
 		cr_assert_str_eq(values[i], value);
 	}
 
-	t_string	name_value2;
 	char		*names_values2[9] = {
 		ft_strdup("aei=bar_aei2"),
 		ft_strdup("eio=bar_eio2"),
@@ -294,7 +290,6 @@ Test(alias, multiple_set_replace) {
 
 Test(alias, multiple_set_unset_get) {
 
-	t_string	name_value;
 	char		*names_values[9] = {
 		ft_strdup("aei=bar_aei"),
 		ft_strdup("eio=bar_eio"),
@@ -353,7 +348,6 @@ Test(alias, multiple_set_unset_get) {
 
 Test(alias, clear_get) {
 
-	t_string	name_value;
 	char		*names_values[9] = {
 		ft_strdup("aei=bar_aei"),
 		ft_strdup("eio=bar_eio"),
@@ -418,6 +412,6 @@ Test(alias, get_all) {
 
 	all_aliases = alias_get_all();
 
-	cr_assert_str_eq(foo_bar, ((t_string*)array_get_at(all_aliases, 0))->str);
-	cr_assert_str_eq(bar_baz, ((t_string*)array_get_at(all_aliases, 1))->str);
+	cr_assert_str_eq(foo_bar, *(char**)array_get_at(all_aliases, 0));
+	cr_assert_str_eq(bar_baz, *(char**)array_get_at(all_aliases, 1));
 }

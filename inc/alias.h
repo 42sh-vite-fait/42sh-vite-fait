@@ -2,7 +2,6 @@
 # define ALIAS_H
 
 # include "typedefs_42.h"
-# include "string_42.h"
 # include "array_42.h"
 
 typedef t_array	t_alias;
@@ -30,7 +29,7 @@ const t_array	*alias_get_all(void);
 **
 ** `alias_set` create the alias with the given 'name' and 'value',
 ** and set (erase and create) the alias if it already exists.
-** 'name_value' is not duplicated, do not use it after passing it.
+** 'name_value' is not duplicated.
 **
 ** `alias_unset` delete the alias corresponding to the given 'name'.
 ** Returns -1 if the alias is not found.
