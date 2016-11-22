@@ -25,12 +25,12 @@ static bool		is_valid_alias_name(const char *name, size_t len)
 {
 	size_t		i;
 
-	if (name[0] == '-' || FT_ISDIGIT(name[0]))
+	if (len == 0 || FT_ISDIGIT(name[0]))
 		return (false);
 	i = 1;
 	while (i < len)
 	{
-		if (!FT_ISALNUM(name[i]))
+		if (!FT_ISALNUM(name[i]) || name[i] != '_')
 			return (false);
 		++i;
 	}
