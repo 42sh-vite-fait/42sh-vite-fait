@@ -14,7 +14,7 @@ static void		list_aliases(void)
 	aliases = alias_get_all();
 	while (i < aliases->len)
 	{
-		ft_printf("%s\n", ((t_string*)array_get_at(aliases, i))->str);
+		ft_printf("%s\n", *(char**)array_get_at(aliases, i));
 		++i;
 	}
 }
