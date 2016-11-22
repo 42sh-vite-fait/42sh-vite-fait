@@ -52,21 +52,17 @@ int				alias_set(char *name_value)
 	char		*rm;
 	ssize_t		len;
 	size_t		index;
-	size_t		name_value_len;
 
-	name_value_len = ft_strlen(name_value);
-	if ((len = ft_strnchrpos(name_value, '=', name_value_len)) < 1)
+	if ((len = ft_strchrpos(name_value, '=')) < 1)
 		return (-1);
 	if (is_alias_present(name_value, (size_t)len, &index) == true)
 	{
-		if (array_replace_at(&g_alias, index, &name_value, &rm) == NULL)
-			return (-1);
+		array_replace_at(&g_alias, index, &name_value, &rm);
 		free(rm);
 	}
 	else
 	{
-		if (array_insert_at(&g_alias, index, &name_value) == NULL)
-			return (-1);
+		array_insert_at(&g_alias, index, &name_value);
 	}
 	return (0);
 }
@@ -75,10 +71,8 @@ int				alias_unset(const char *name)
 {
 	char		*removed;
 	size_t		index;
-	size_t		name_len;
 
-	name_len = ft_strlen(name);
-	if (is_alias_present(name, name_len, &index) == true)
+	if (is_alias_present(name, ft_strlen(name), &index) == true)
 	{
 		array_remove_at(&g_alias, index, &removed);
 		free(removed);
