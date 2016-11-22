@@ -4,6 +4,7 @@
 #include "builtin.h"
 #include "str_42.h"
 #include "alias.h"
+#include "unistd_42.h"
 
 static void		list_aliases(void)
 {
@@ -36,60 +37,66 @@ static bool		is_valid_alias_name(const char *name, size_t len)
 	return (true);
 }
 
-uint8_t			builtin_alias(int argc, char * const *argv)
+static uint8_t	getset_arguments(int count, char * const * args)
 {
 	ssize_t		equal_pos;
 	const char	*value;
-	char		*name_value;
 	int			i;
 	uint8_t		ret;
 
 	ret = 0;
-	i = 1;
-	while (i < argc)
+	i = 0;
+	while (i < count)
 	{
-		// TODO if a string starts with '-' parse all other arguments as options
-		if (argv[i][0] == '-')
+		if ((equal_pos = ft_strchrpos(args[i], '=')) != -1)
 		{
-			if (argv[i][1] == 'p' && argv[i][2] == '\0') // TODO clean this
+			if (is_valid_alias_name(args[i], (size_t)equal_pos) == false)
 			{
-				list_aliases();
+				ret = 1;
+				// args[i][equal_pos] = '\0';
+				ft_dprintf(2, "alias: '%s': invalid alias name\n", args[i]); // TODO display only name
 			}
 			else
 			{
-				ret = 1;
-				ft_dprintf(2, "alias: %s: invalid option\n", argv[i]);
-				ft_dprintf(2, "alias: usage: alias [-p] [name[=value] ... ]\n");
-			}
-		} // if '=' is the first letter, use has
-		else if ((equal_pos = ft_strchrpos(argv[i], '=')) != -1)
-		{
-			if (is_valid_alias_name(argv[i], (size_t)equal_pos) == false)
-			{
-				ret = 1;
-				// argv[i][equal_pos] = '\0';
-				ft_dprintf(2, "alias: '%s': invalid alias name\n", argv[i]); // TODO limit str len
-			}
-			else if (alias_set(name_value = ft_strdup(argv[i])) == -1) // TODO abc='coucou les potes'
-			{
-				free(name_value);
-				ret = 1;
-				ft_dprintf(2, "alias: error while trying to set '%s'\n", argv[i]); // TODO limit str len
+				alias_set(ft_strdup(args[i]));
 			}
 		}
 		else
 		{
-			if ((value = alias_get_value(argv[i])) == NULL)
+			if ((value = alias_get_value(args[i])) == NULL)
 			{
 				ret = 1;
-				ft_dprintf(2, "%s: %s: not found\n", argv[0], argv[1]);
+				ft_dprintf(2, "%s: %s: not found\n", args[0], args[1]);
 			}
 			else
 			{
-				ft_printf("alias %s='%s'\n", argv[i], value);
+				ft_printf("alias %s='%s'\n", args[i], value);
 			}
 		}
 		++i;
 	}
 	return (ret);
+}
+
+uint8_t			builtin_alias(int argc, char * const *argv)
+{
+	int			ret;
+	t_opt		state;
+
+	ft_bzero(&state, sizeof(*state)); // TODO replace by GETOPT_INIT
+	while ((ret = ft_getopt(argc, argv, "p", &state)) != -1)
+	{
+		if (state.optopt == 'p')
+		{
+			list_aliases();
+			return (0);
+		}
+		else if (ret == '?')
+		{
+			ft_dprintf(2, "alias: -%c: invalid option\n", state.optopt);
+			ft_dprintf(2, "alias: usage: alias [-p] [name[=value] ... ]\n");
+			return (1);
+		}
+	}
+	return (getset_arguments(argc - state.optind + 1, argv + state.optind));
 }
