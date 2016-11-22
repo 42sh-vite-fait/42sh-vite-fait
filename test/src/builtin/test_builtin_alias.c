@@ -29,12 +29,12 @@ Test(builtin_alias, display_one_alias) {
 
 	{
 		char	*opts[] = { "alias", "hi=salut", NULL };
-		cr_assert_eq(0, builtin_alias(sizeof(opts) / sizeof(*opts) - 1, opts));
+		cr_assert_eq(0, builtin_alias(2, opts));
 	}
 
 	{
 		char	*opts[] = { "alias", "hi", NULL };
-		cr_assert_eq(0, builtin_alias(sizeof(opts) / sizeof(*opts) - 1, opts));
+		cr_assert_eq(0, builtin_alias(2, opts));
 	}
 
 	string_read_from_fd(&command_output, fildes[0]);

@@ -23,65 +23,50 @@ static char			*next_real_unescaped_nl(const char *string)
 	return (NULL);
 }
 
-static t_string		*read_whole_file(t_string *file, const char *path)
+static int			inject_commands(const t_string *file)
 {
-	int		fd;
-
-	if ((fd = open(path, O_RDONLY)) == -1)
-		return (NULL);
-	if (string_read_from_fd(file, fd) == NULL)
-	{
-		close(fd);
-		return (NULL);
-	}
-	close(fd);
-	return (file);
-}
-
-static int			inject_commands(const t_string *file, t_string *cmd)
-{
-	char		*match;
+	t_string	command;
 	size_t		old_off;
 	size_t		off;
+	char		*match;
 
+	if (string_init(&command) == NULL)
+		return (-1);
 	off = 0;
 	while ((match = next_real_unescaped_nl(file->str + off)) != NULL)
 	{
 		old_off = off;
 		off = (size_t)(match - file->str);
-		if (string_ndup(cmd, file->str + old_off, off - old_off) == NULL)
+		if (!string_init_ndup(&command, file->str + old_off, off - old_off)
+			|| string_unescape_chars(&command, '\n') == NULL)
+		{
+			string_shutdown(&command);
 			return (-1);
-		if (string_unescape_chars(cmd, '\n') == NULL)
-			return (-1);
-		history_add(cmd);
+		}
+		history_add(&command);
 		off += 1;
 	}
-	if (string_dup(cmd, file->str + off) == NULL)
-		return (-1);
-	if (string_unescape_chars(cmd, '\n') == NULL)
-		return (-1);
-	history_add(cmd);
 	return (0);
 }
 
 int					history_load_from_file(const char *path)
 {
-	t_string	tmp_cmd;
 	t_string	file;
+	int			fd;
 
-	if (string_init_with_capacity(&file, MEM_PAGE_SIZE) == NULL)
+	if ((fd = open(path, O_RDONLY)) == -1)
 		return (-1);
-	if (read_whole_file(&file, path) == NULL)
+	if (string_read_from_fd(&file, fd) == NULL)
 	{
-		free(file.str);
+		close(fd);
 		return (-1);
 	}
-	if (inject_commands(&file, &tmp_cmd) == -1)
+	close(fd);
+	if (inject_commands(&file) == -1)
 	{
-		free(file.str);
-		free(tmp_cmd.str);
+		string_shutdown(&file);
 		return (-1);
 	}
-	free(file.str);
+	string_shutdown(&file);
 	return (0);
 }

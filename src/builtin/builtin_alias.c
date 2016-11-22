@@ -83,7 +83,7 @@ uint8_t			builtin_alias(int argc, char * const *argv)
 	int			ret;
 	t_opt		state;
 
-	ft_bzero(&state, sizeof(*state)); // TODO replace by GETOPT_INIT
+	OPT_INIT(state);
 	while ((ret = ft_getopt(argc, argv, "p", &state)) != -1)
 	{
 		if (state.optopt == 'p')
@@ -98,5 +98,5 @@ uint8_t			builtin_alias(int argc, char * const *argv)
 			return (1);
 		}
 	}
-	return (getset_arguments(argc - state.optind + 1, argv + state.optind));
+	return (getset_arguments(argc - state.optind, argv + state.optind));
 }

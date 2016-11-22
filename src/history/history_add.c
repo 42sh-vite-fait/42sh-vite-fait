@@ -5,9 +5,14 @@
 
 extern t_history		g_history;
 
-size_t		history_add(const t_string *command)
+size_t		history_add(t_string *command)
 {
 	g_history.last_id += 1;
+	if (command->len > 0 && command->str[command->len - 1] == '\n')
+	{
+		if (string_truncate(command, command->len - 1) == NULL)
+			return (0);
+	}
 	cbuffer_push_back(&g_history.commands, command);
 	return (g_history.last_id);
 }
