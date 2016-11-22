@@ -30,7 +30,7 @@ static bool		is_valid_alias_name(const char *name, size_t len)
 	i = 1;
 	while (i < len)
 	{
-		if (!FT_ISALNUM(name[i]) || name[i] != '_')
+		if (!FT_ISALNUM(name[i]) && name[i] != '_')
 			return (false);
 		++i;
 	}
