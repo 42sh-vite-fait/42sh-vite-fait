@@ -3,9 +3,6 @@ CC     ?= clang # Need autoconf
 
 CFLAGS = -Wall -Werror -Wextra
 CFLAGS += -std=c11 -pedantic -pedantic-errors
-ifeq ($(shell basename $(CC)),clang) # Need autoconf
-	CFLAGS += -Weverything -Wno-missing-noreturn
-endif
 ifeq ($(DEBUG),yes)
 	CFLAGS += -g3 -O0 -fno-inline
 endif
