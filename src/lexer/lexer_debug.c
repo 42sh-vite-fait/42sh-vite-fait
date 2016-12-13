@@ -2,10 +2,10 @@
 #include "ft_printf.h"
 #include "array_42.h"
 
-static char	*g_token_str[] = {
+static const char	*g_token_str[] = {
 	[E_TOKEN_WORD] = "WORD",
 	[E_TOKEN_PIPE] = "PIPE",
-	[E_TOKEN_SEMICOLON] = "SEMICOLON",
+	[E_TOKEN_SEMI] = "SEMI",
 	[E_TOKEN_LESS] = "LESS",
 	[E_TOKEN_DLESS] = "DLESS",
 	[E_TOKEN_LESSAND] = "LESSAND",
@@ -24,6 +24,9 @@ static char	*g_token_str[] = {
 	[E_TOKEN_RPAREN] = "RPAREN",
 	[E_TOKEN_COMMENT] = "COMMENT",
 	[E_TOKEN_BLANK] = "BLANK",
+	[E_TOKEN_IO_NUMBER] = "IO_NUMBER",
+	[E_TOKEN_ASSIGNMENT_WORD] = "ASSIGNMENT_WORD",
+	[E_TOKEN_END_OF_INPUT] = "END_OF_INPUT",
 };
 
 void	lexer_debug_print_tokens(const t_array *tokens, const char *line)
@@ -38,7 +41,7 @@ void	lexer_debug_print_tokens(const t_array *tokens, const char *line)
 	{
 		token = (t_token *)array_get_at(tokens, i);
 		str = ft_strsub(line, token->start, token->len);
-		ft_printf("%s (start: %zu, len: %zu)\t%s \n",
+		ft_printf("%s (start: %zu, len: %zu) [%s] \n",
 				g_token_str[token->type],
 				token->start,
 				token->len,

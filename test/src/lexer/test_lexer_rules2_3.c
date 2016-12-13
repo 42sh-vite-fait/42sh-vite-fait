@@ -125,7 +125,7 @@ Test(LexerRules2_3, ControlOpSemi)
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
-	test_token(E_TOKEN_SEMICOLON, 0, 1, ";");
+	test_token(E_TOKEN_SEMI, 0, 1, ";");
 }
 
 Test(LexerRules2_3, ControlOpDSemi)
@@ -222,7 +222,7 @@ Test(LexerRules2_3, AllOperatorWithSep)
 	test_token(E_TOKEN_CLOBBER, 16, 2, ">|");
 	test_token(E_TOKEN_DLESSDASH, 19, 3, "<<-");
 	test_token(E_TOKEN_LESSGREAT, 23, 2, "<>");
-	test_token(E_TOKEN_SEMICOLON, 26, 1, ";");
+	test_token(E_TOKEN_SEMI, 26, 1, ";");
 	test_token(E_TOKEN_DSEMI, 28, 2, ";;");
 	test_token(E_TOKEN_PIPE, 31, 1, "|");
 	test_token(E_TOKEN_OR_IF, 33, 2, "||");
@@ -252,7 +252,7 @@ Test(LexerRules2_3, AllOpAmbigous)
 	test_token(E_TOKEN_LPAREN, 16, 1, "(");
 	test_token(E_TOKEN_RPAREN, 17, 1, ")");
 	test_token(E_TOKEN_DSEMI, 18, 2, ";;");
-	test_token(E_TOKEN_SEMICOLON, 20, 1, ";");
+	test_token(E_TOKEN_SEMI, 20, 1, ";");
 	test_token(E_TOKEN_OR_IF, 21, 2, "||");
 	test_token(E_TOKEN_PIPE, 23, 1, "|");
 	test_token(E_TOKEN_CLOBBER, 24, 2, ">|");
