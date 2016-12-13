@@ -10,7 +10,7 @@ ifeq ($(PROF),yes)
 	CFLAGS += -pg
 endif
 ifeq ($(PROD),yes)
-	CFLAGS += -O2
+	CFLAGS += -O2 -DNDEBUG
 endif
 ifeq ($(SAN),yes)
 	LDFLAGS += -fsanitize=address
