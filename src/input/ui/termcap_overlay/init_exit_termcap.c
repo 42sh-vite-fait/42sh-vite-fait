@@ -7,7 +7,7 @@ int		stop_termcap(void)
 	term_command("ve");
 	if (tcgetattr(0, &term) == -1)
 		return (-1);
-	term.c_lflag = (ICANON | ECHO);
+	term.c_lflag |= (ICANON | ECHO);
 	if (tcsetattr(0, 0, &term) == -1)
 		return (-1);
 	return (1);
@@ -35,7 +35,6 @@ int		start_termcap(void)
 
 void	normal_mode(void)
 {
-	term_command("ve");
 	stop_termcap();
 }
 
