@@ -3,17 +3,13 @@
 #include "ft_printf.h"
 #include "array_42.h"
 
-#define SHELL_PROMPT "42sh> "
-
-static t_string	wrap_get_line(const char *prompt)
+static t_string	wrap_get_line()
 {
 	t_string	input;
-	char		*line;
 
-	ft_printf("%s", prompt);
-	line = input_readline();
-	string_init_dup(&input, line);
-	free(line);
+	input = input_get_line(E_INTERACTIVE);
+	if (input.str == NULL)
+		exit(0);
 	return (input);
 }
 
@@ -29,9 +25,9 @@ int		main(void)
 	while (42)
 	{
 		// first input
-		input = wrap_get_line(SHELL_PROMPT);
+		input = wrap_get_line();
 		while (remove_trailing_escaped_newline(&input))
-			input = wrap_get_line(SHELL_PROMPT);
+			input = wrap_get_line();
 
 		// lexer
 		status = lexer_lex(&lexer, &tokens, input.str);
@@ -43,7 +39,7 @@ int		main(void)
 				break ;
 			else if (status == LEXER_INPUT_INCOMPLETE)
 			{
-				t_string tmp = wrap_get_line("> ");
+				t_string tmp = wrap_get_line();
 				status = lexer_lex(&lexer, &tokens, tmp.str);
 				string_append(&input, &tmp);
 				string_shutdown(&tmp);

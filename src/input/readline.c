@@ -1,16 +1,12 @@
 #include "input.h"
+#include "user_interface.h"
 
-char	*input_readline()
+t_string input_get_line(unsigned mode)
 {
-	t_string	input;
-	char		c;
+	t_string input;
 
-	string_init(&input);
-	while (read(0, &c, 1) != -1)
-	{
-		if (c == '\n')
-			break ;
-		string_ncat(&input, &c, 1);
-	}
-	return (input.str);
+	input.str = NULL;
+	if (mode == E_INTERACTIVE)
+		input = ui_get_user_input();
+	return (input);
 }

@@ -24,15 +24,6 @@ CFLAGS     += -I./inc
 SRC_PATH   += src
 SOURCES    += main.c
 
-# Input
-SRC_SUBDIR += input
-SOURCES    += readline.c
-
-# Misc
-SRC_SUBDIR += misc
-SOURCES    += string_escape.c
-SOURCES    += string_fd.c
-
 # History
 SRC_SUBDIR += history
 SOURCES    += history_get.c
@@ -45,10 +36,45 @@ SOURCES    += history_clear.c
 
 # Alias
 SRC_SUBDIR += alias
-SOURCES += alias_init.c
-SOURCES += alias_getset.c
-SOURCES += alias_get_all.c
-SOURCES += alias_clear.c
+SOURCES    += alias_init.c
+SOURCES    += alias_getset.c
+SOURCES    += alias_get_all.c
+SOURCES    += alias_clear.c
+
+# Input
+SRC_SUBDIR += input
+SOURCES    += readline.c
+
+# UI
+## Handlers
+SRC_SUBDIR += input/ui/handlers
+SOURCES    += dispatch.c
+SOURCES    += handler_edition.c
+SOURCES    += handler_left_deletion.c
+SOURCES    += handler_right_deletion.c
+SOURCES    += handler_left_motion.c
+SOURCES    += handler_right_motion.c
+SOURCES    += handler_updown_motion.c
+SOURCES    += handler_clipboard.c
+SOURCES    += handler_history.c
+SOURCES    += handlers.c
+## Termcap Overlay
+SRC_SUBDIR += input/ui/termcap_overlay
+SOURCES    += init_exit_termcap.c
+SOURCES    += term_function.c
+SOURCES    += term_getter.c
+SOURCES    += termcap_command.c
+## Ui Loop
+SRC_SUBDIR += input/ui/ui_loop
+SOURCES    += ui_prompt.c
+SOURCES    += ui_loop.c
+SOURCES    += ui_output.c
+
+# Misc
+SRC_SUBDIR += misc
+SOURCES    += string_escape.c
+SOURCES    += string_fd.c
+
 
 # Variable
 SRC_SUBDIR += var
