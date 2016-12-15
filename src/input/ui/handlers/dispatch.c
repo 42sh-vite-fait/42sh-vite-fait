@@ -48,7 +48,7 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_CTRL_I] = {
 		.code =	"\t",
-		.behavior_nomod = &ui_handler_do_nothing,
+		.behavior_nomod = &ui_handler_paste,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_CTRL_J] = {
@@ -83,7 +83,7 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_CTRL_P] = {
 		.code =	"\x10",
-		.behavior_nomod = &ui_handler_do_nothing,
+		.behavior_nomod = &ui_handler_up_history,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_CTRL_Q] = {
@@ -113,7 +113,7 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_CTRL_V] = {
 		.code =	"\x16",
-		.behavior_nomod = &ui_handler_paste,
+		.behavior_nomod = &ui_handler_do_nothing,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_CTRL_W] = {

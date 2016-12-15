@@ -18,7 +18,7 @@ static void		read_input(t_editenv *e)
 	char				buff[MEM_PAGE_SIZE];
 	ssize_t				ret;
 
-	ret = read(0, buff, MEM_PAGE_SIZE);
+	ret = read(0, buff, 1);
 	if (ret < 0)
 		return ;
 	if (ret == 0)
@@ -62,6 +62,7 @@ static void		init(t_editenv *e, t_string *cpy)
 	}
 	else
 		e->cpy = *cpy;
+	e->history_index = 0;
 	e->entry_index = 0;
 	e->selection_size = 1;
 	e->cpos.x = (int)(prompt());

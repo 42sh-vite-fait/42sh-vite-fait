@@ -4,6 +4,7 @@
 #include "ft_printf.h"
 #include "unistd_42.h"
 #include "array_42.h"
+#include <history.h>
 
 #define SHELL_PROMPT 		"42sh> "
 #define DEBUG_PRINT_AST		(1U << 1)
@@ -75,6 +76,7 @@ int		main(int argc, char *argv[])
 
 	lexer_init(&lexer);
 	array_init(&tokens, sizeof(t_token));
+	history_init(4096);
 	while (42)
 	{
 		// Interactive ?
@@ -83,6 +85,8 @@ int		main(int argc, char *argv[])
 			input = wrap_get_line(SHELL_PROMPT);
 			while (remove_trailing_escaped_newline(&input))
 				input = wrap_get_line(SHELL_PROMPT);
+			if (input.len > 1)
+				history_add(string_create_dup(input.str));
 		}
 		else
 			string_init_dup(&input, g_command_line);
@@ -98,6 +102,8 @@ int		main(int argc, char *argv[])
 			else if (status == LEXER_INPUT_INCOMPLETE)
 			{
 				t_string tmp = wrap_get_line("> ");
+				if (input.len > 1)
+					history_add(string_create_dup(tmp.str));
 				status = lexer_lex(&lexer, &tokens, tmp.str);
 				string_append(&input, &tmp);
 				string_shutdown(&tmp);

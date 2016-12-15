@@ -9,6 +9,7 @@
 # include <stdbool.h>
 # include <stdint.h>
 # include "lib42.h"
+# include "history.h"
 
 # define UI_COLOR_CYAN "\x1b[37m"
 # define UI_COLOR_RESET "\x1b[36m"
@@ -44,6 +45,7 @@ struct	s_editenv
 	size_t			selection_offset;
 	size_t			rbuff_index;
 	size_t			entry_index;
+	int				history_index;
 	int				arg_num;
 	bool			must_leave;
 	bool			is_selecting;
