@@ -5,12 +5,11 @@ CFLAGS = -Wall -Werror -Wextra
 CFLAGS += -std=c11 -pedantic -pedantic-errors
 ifeq ($(DEBUG),yes)
 	CFLAGS += -g3 -O0 -fno-inline
+else
+	CFLAGS += -O2 -DNDEBUG
 endif
 ifeq ($(PROF),yes)
 	CFLAGS += -pg
-endif
-ifeq ($(PROD),yes)
-	CFLAGS += -O2 -DNDEBUG
 endif
 ifeq ($(SAN),yes)
 	LDFLAGS += -fsanitize=address
