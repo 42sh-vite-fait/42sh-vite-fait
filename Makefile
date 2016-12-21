@@ -23,6 +23,14 @@ CFLAGS     += -I./inc
 SRC_PATH   += src
 SOURCES    += main.c
 
+
+# Misc
+SRC_SUBDIR += misc
+SOURCES    += string_escape.c
+SOURCES    += string_fd.c
+SOURCES    += is_valid_name.c
+SOURCES    += is_valid_alias_name.c
+
 # History
 SRC_SUBDIR += history
 SOURCES    += history_get.c
@@ -68,12 +76,6 @@ SRC_SUBDIR += input/ui/ui_loop
 SOURCES    += ui_prompt.c
 SOURCES    += ui_loop.c
 SOURCES    += ui_output.c
-
-# Misc
-SRC_SUBDIR += misc
-SOURCES    += string_escape.c
-SOURCES    += string_fd.c
-
 
 # Variable
 SRC_SUBDIR += var

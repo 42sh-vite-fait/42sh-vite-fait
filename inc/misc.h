@@ -1,9 +1,13 @@
 #ifndef MISC_H
 # define MISC_H
 
+# include <stdlib.h>
 # include <stdbool.h>
 # include "typedefs_42.h"
 
+
+bool			is_valid_alias_name(const char *string, size_t len);
+bool			is_valid_name(const char *string, size_t len);
 /*
 ** `is_escaped` take a 'pos'ition in an str and an 'end' pointer
 ** to stop reverse searching.
