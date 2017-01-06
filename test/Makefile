@@ -129,7 +129,7 @@ $(OBJECTS): $(OBJ_PATH)/%.o: %.c
 $(OBJ_PATH):
 	@-mkdir -p $@
 
-.PHONY: clean fclean re
+.PHONY: clean fclean re before_test
 
 clean:
 	$(RM) -r $(OBJ_PATH)
@@ -140,7 +140,9 @@ fclean: clean
 re: fclean all
 
 $(CRITERION):
-	cd $(CRITERION_PATH) && mkdir -p build && cd build && sh -c "unset CC && unset CFLAGS && cmake .. && cmake --build ."
+	cd $(CRITERION_PATH) && mkdir -p build && cd build && sh -c "exec >/dev/null; unset CC && unset CFLAGS && cmake .. && cmake --build ."
+
+before_test: $(CRITERION)
 
 # Submodule
 .PHONY: sub-update sub-init
