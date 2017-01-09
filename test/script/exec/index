@@ -1,0 +1,11 @@
+delimiter
+	| stripped ** should not strip delim **
+	| minus
+	| plus
+	| backslash
+	| quoted_backslash
+	| quote_removal
+stripped
+unquoted
+quoted
+multiple
