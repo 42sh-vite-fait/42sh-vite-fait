@@ -33,6 +33,7 @@ SOURCES    += string_escape.c
 SOURCES    += string_fd.c
 SOURCES    += is_valid_name.c
 SOURCES    += is_valid_alias_name.c
+SOURCES    += ft_tmpfile.c
 
 # History
 SRC_SUBDIR += history
@@ -134,6 +135,7 @@ SOURCES += predict_separator.c
 SOURCES += predict_simple_command.c
 SOURCES += predict_subshell.c
 SOURCES += predict_term.c
+SOURCES += heredoc.c
 
 # AST
 SRC_SUBDIR += ast

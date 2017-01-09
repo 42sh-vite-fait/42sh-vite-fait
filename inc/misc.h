@@ -34,4 +34,11 @@ t_string		*string_unescape_chars(t_string *s, int c);
 t_string		*string_read_from_fd(t_string *s, int fd);
 int				string_write_to_fd(const t_string *s, int fd);
 
+/*
+** 'ft_tmpfile' return a filename for a temporary file.
+** The 'prefix' arg, if not NULL, will be prepend to the filename
+*/
+
+char	*ft_tmpfile(const char *prefix);
+
 #endif

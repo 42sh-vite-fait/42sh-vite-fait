@@ -29,6 +29,7 @@ struct	s_redirection
 	const t_token	*word;
 	size_t	io_number;
 	int		operator;
+	char	*heredoc_filename;
 };
 
 struct	s_command

@@ -23,6 +23,7 @@ enum e_parser_errors
 {
 	PARSER_NO_ERROR = NO_ERROR,
 	ERR_PARSING,
+	ERR_HEREDOC,
 };
 
 /*
@@ -69,7 +70,8 @@ bool	check_requirements_io_here(const t_parser *parser);
 bool	check_requirements_io_file(const t_parser *parser);
 bool	check_requirements_io_redirect(const t_parser *parser);
 bool	check_requirements_redirect_list(const t_parser *parser);
-int		predict_io_here(t_parser *parser);
+char 	*heredoc(const t_token *word);
+int		predict_io_here(t_parser *parser, char **heredoc_filename);
 int		predict_io_file(t_parser *parser);
 int		predict_io_redirect(t_parser *parser, struct s_redirection *redir);
 int		predict_redirect_list(t_parser *parser, t_array *redirections);
