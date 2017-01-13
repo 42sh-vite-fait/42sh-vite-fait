@@ -10,7 +10,6 @@ bool	is_valid_name(const char *string, size_t len)
 {
 	size_t	i;
 
-	i = 0;
 	if (len != 0 && !IS_VALID_NAME_FIRST_CHAR(string[0]))
 		return false;
 	i = 1;
