@@ -25,6 +25,19 @@ static int	check_and_bump_open_files_limit(void)
 	return (NO_ERROR);
 }
 
+static int	set_close_on_exec_flag(int fd)
+{
+	int	flags;
+
+	flags = fcntl(fd, F_GETFD);
+	if (flags == -1)
+		return (ERR_FCNTL);
+	flags |= FD_CLOEXEC;
+	if (fcntl(fd, F_SETFD, flags) == -1)
+		return (ERR_FCNTL);
+	return (NO_ERROR);
+}
+
 static int	backup_standard_fd(void)
 {
 	int	ret;
@@ -39,6 +52,8 @@ static int	backup_standard_fd(void)
 		g_backup_standard_fd[i] = dup2(i, BACKUP_OFFSET + i);
 		if (g_backup_standard_fd[i] == -1)
 			return (ERR_DUP2);
+		if (set_close_on_exec_flag(g_backup_standard_fd[i]) != NO_ERROR)
+			return (ERR_FCNTL);
 		i += 1;
 	}
 	return (NO_ERROR);
