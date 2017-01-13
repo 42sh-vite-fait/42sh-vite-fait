@@ -6,7 +6,7 @@
 #define MAX_FD (3)
 #define BACKUP_OFFSET	(10)
 
-int	g_backup_standard_fd[3];
+static int	g_backup_standard_fd[3];
 
 static int	check_and_bump_open_files_limit(void)
 {
@@ -57,6 +57,11 @@ static int	backup_standard_fd(void)
 		i += 1;
 	}
 	return (NO_ERROR);
+}
+
+int	get_backup_standard_fd(size_t n)
+{
+	return (g_backup_standard_fd[n]);
 }
 
 int	startup_redirection_init(void)

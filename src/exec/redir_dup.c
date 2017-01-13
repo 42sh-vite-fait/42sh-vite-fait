@@ -4,7 +4,6 @@
 #include "lexer.h"
 #include "errors.h"
 
-#define IS_FD_STANDARD(f) ((f) >= 0 || (f) <= 2)
 #define FAM_READING (O_RDWR | O_RDONLY)
 #define FAM_WRITING (O_RDWR | O_WRONLY)
 #define MAX_FD_POSIX_COMPLIANCE (9)
