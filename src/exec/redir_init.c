@@ -4,7 +4,7 @@
 #include "errors.h"
 
 #define MAX_FD (3)
-#define BACKUP_OFFSET	(20)
+#define BACKUP_OFFSET	(10)
 
 int	g_backup_standard_fd[3];
 

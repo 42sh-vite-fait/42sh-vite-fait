@@ -7,6 +7,7 @@
 #define IS_FD_STANDARD(f) ((f) >= 0 || (f) <= 2)
 #define FAM_READING (O_RDWR | O_RDONLY)
 #define FAM_WRITING (O_RDWR | O_WRONLY)
+#define MAX_FD_POSIX_COMPLIANCE (9)
 
 /*
 ** See the Rationale for the explanation of why dup2 on /dev/null
@@ -34,6 +35,8 @@ static int	duplicate_fd(int io_number, int mode, int word)
 {
 	int	flags;
 
+	if (word > MAX_FD_POSIX_COMPLIANCE)
+		return (ERR_BADFD);
 	flags = fcntl(word, F_GETFL);
 	if (flags == -1)
 		return (ERR_FCNTL);
@@ -53,7 +56,7 @@ static int	exec_redirection_dup(int io_number, int mode, const char *word)
 
 	if (word[0] == '-' && word[1] == '\0')
 		ret = close_fd(io_number);
-	else if (is_only_digit(word, ft_strlen(word)))
+	else if (is_only_one_digit(word, ft_strlen(word)))
 		ret = duplicate_fd(io_number, mode, (int)ft_atou(word));
 	else
 		ret = ERR_BADFD;
