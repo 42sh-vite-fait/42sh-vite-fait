@@ -1,5 +1,5 @@
 #include <unistd.h>
-# include <fcntl.h>
+#include <fcntl.h>
 #include "redirections.h"
 #include "lexer.h"
 #include "errors.h"

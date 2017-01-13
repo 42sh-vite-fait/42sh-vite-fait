@@ -1,5 +1,5 @@
 #include <unistd.h>
-# include <fcntl.h>
+#include <fcntl.h>
 #include "redirections.h"
 #include "errors.h"
 #include "stdlib_42.h"
@@ -8,7 +8,7 @@
 #define OUTPUT_TRUNC (O_WRONLY | O_CREAT | O_TRUNC)
 #define OUTPUT_APPEND (O_WRONLY | O_APPEND)
 
-static int	exec_redirection(int io_number, int flags, const char *word)
+static int	open_file_and_dup(int io_number, int flags, const char *word)
 {
 	int	fd;
 
@@ -22,20 +22,21 @@ static int	exec_redirection(int io_number, int flags, const char *word)
 	return (NO_ERROR);
 }
 
+// TODO: Heredoc
 // LESS DLESS DLESSDASH
 int	exec_redirection_input(int io_number, const char *word)
 {
-	return (exec_redirection(io_number, O_RDONLY, word));
+	return (open_file_and_dup(io_number, O_RDONLY, word));
 }
 
 // GREAT CLOBBER
 int	exec_redirection_output_trunc(int io_number, const char *word)
 {
-	return (exec_redirection(io_number, OUTPUT_TRUNC, word));
+	return (open_file_and_dup(io_number, OUTPUT_TRUNC, word));
 }
 
 // DGREAT
 int	exec_redirection_output_append(int io_number, const char *word)
 {
-	return (exec_redirection(io_number, OUTPUT_APPEND, word));
+	return (open_file_and_dup(io_number, OUTPUT_APPEND, word));
 }
