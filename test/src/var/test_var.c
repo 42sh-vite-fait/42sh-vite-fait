@@ -16,21 +16,37 @@ Test(var, value_with_multiple_names) {
 	const char	*val;
 
 	cr_assert_eq(var_set("", "empty", 0U), NO_ERROR);
-	cr_assert_eq(var_set("namedgecase", "lul", 0U), NO_ERROR);
+	cr_assert_eq(var_set("namedge_case", "lul", 0U), NO_ERROR);
 	cr_assert_eq(var_set("name", "value", 0U), NO_ERROR);
 	cr_assert_eq(var_get("name", &val), NO_ERROR);
 	cr_assert_str_eq(val, "value");
 	cr_assert_eq(var_get("", &val), NO_ERROR);
 	cr_assert_str_eq(val, "empty");
-	cr_assert_eq(var_get("namedgecase", &val), NO_ERROR);
+	cr_assert_eq(var_get("namedge_case", &val), NO_ERROR);
 	cr_assert_str_eq(val, "lul");
+}
+
+Test(var, invalid_name) {
+
+	const char	*val;
+
+	cr_assert_eq(var_set("@", "foo", 0U), ERR_VAR_BAD_NAME);
+	cr_assert_eq(var_set("0var", "foo", 0U), ERR_VAR_BAD_NAME);
+
+	cr_assert_eq(var_get("@", &val), ERR_VAR_BAD_NAME);
+	cr_assert_null(val);
+	cr_assert_eq(var_get("0var", &val), ERR_VAR_BAD_NAME);
+	cr_assert_null(val);
+
+	cr_assert_eq(var_unset("@"), ERR_VAR_BAD_NAME);
+	cr_assert_eq(var_unset("0var"), ERR_VAR_BAD_NAME);
 }
 
 Test(var, get_unset_variable) {
 
 	const char	*val;
 
-	cr_assert_eq(var_get("?", &val), ERR_VAR_NOT_FOUND );
+	cr_assert_eq(var_get("a", &val), ERR_VAR_NOT_FOUND);
 	cr_assert_null(val);
 	cr_assert_eq(var_get("", &val), ERR_VAR_NOT_FOUND);
 	cr_assert_null(val);

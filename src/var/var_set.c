@@ -1,5 +1,6 @@
 #include "errors.h"
 #include "var.h"
+#include "misc.h"
 
 extern t_var_priv	g_environ_priv;
 extern t_var_priv	g_variables;
@@ -50,6 +51,8 @@ int			var_set(const char *name, const char *value, int attrs)
 {
 	t_var	*var;
 
+	if (!is_valid_name(name, ft_strlen(name)))
+		return (ERR_VAR_BAD_NAME);
 	if ((var = array_find(g_variables, &match_var_by_name, name)) == NULL)
 	{
 		var = fatal_malloc(array_get_available(&g_variables));

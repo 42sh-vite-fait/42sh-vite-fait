@@ -1,5 +1,6 @@
 #include "var.h"
 #include "errors.h"
+#include "misc.h"
 
 extern t_var_priv	g_variables;
 extern t_var_priv	g_environ_priv;
@@ -37,6 +38,8 @@ int			var_unset(char const *name)
 {
 	t_var	*match;
 
+	if (!is_valid_name(name, ft_strlen(name)))
+		return (ERR_VAR_BAD_NAME);
 	match = array_find(g_variables, &match_var_by_name, name);
 	if (match == NULL)
 		return (ERR_VAR_NOT_FOUND);

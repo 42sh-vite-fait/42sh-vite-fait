@@ -7,7 +7,8 @@ enum e_errors {
 
 	// Variable module
 	ERR_VAR_NOT_FOUND,
-	ERR_VAR_RDONLY
+	ERR_VAR_RDONLY,
+	ERR_VAR_BAD_NAME
 };
 
 void	errors_init(void);
