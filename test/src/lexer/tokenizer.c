@@ -23,7 +23,7 @@ static void	test_02_tokenizer_WordsBlanksOperators(void)
 	test_token(E_TOKEN_WORD, 28, 5, "input");
 	test_token(E_TOKEN_WORD, 34, 3, "cat");
 	test_token(E_TOKEN_WORD, 38, 1, "-");
-	test_token(E_TOKEN_SEMICOLON, 39, 1, ";");
+	test_token(E_TOKEN_SEMI, 39, 1, ";");
 	test_token(E_TOKEN_LESSAND, 40, 2, "<&");
 	test_token(E_TOKEN_WORD, 42, 1, "4");
 	test_token(E_TOKEN_WORD, 44, 4, "zzz1");

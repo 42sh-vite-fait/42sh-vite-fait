@@ -26,5 +26,6 @@
 #include "lexer.h"
 #include "automaton.h"
 #include "user_interface.h"
+#include "parser.h"
 
 #endif

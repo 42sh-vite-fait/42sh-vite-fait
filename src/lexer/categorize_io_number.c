@@ -1,18 +1,18 @@
 #include "ctype_42.h"
 #include "lexer.h"
 
-static bool	is_only_digit(const char *input, size_t len)
-{
-	size_t	index;
+/*
+** POSIX.1 2008
+** 2.7 Redirection
+** > Open files are represented by decimal numbers starting with zero.
+** > The largest possible value is implementation-defined;
+** > however, all implementations shall support at least 0 to 9,
+** > inclusive, for use by the application.
+*/
 
-	index = 0;
-	while (index < len)
-	{
-		if (!FT_ISDIGIT(input[index]))
-			return (false);
-		index += 1;
-	}
-	return (true);
+static bool	is_only_one_digit(const char *input)
+{
+	return (FT_ISDIGIT(input[0]) && !FT_ISDIGIT(input[1]));
 }
 
 static bool	is_token_redirection(int type)
@@ -44,7 +44,7 @@ void	categorize_io_number(t_array *tokens, const char *input)
 		{
 			prev = array_get_at(tokens, index - 1);
 			if (prev->type == E_TOKEN_WORD
-					&& is_only_digit(input + prev->start, prev->len))
+					&& is_only_one_digit(input + prev->start))
 				prev->type = E_TOKEN_IO_NUMBER;
 		}
 		index += 1;

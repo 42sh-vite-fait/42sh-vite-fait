@@ -107,6 +107,39 @@ RULES_XML = $(CONTRIB)/lexing_rules.xml
 PYTHON_GEN_TABLE = $(CONTRIB)/gen_transtable.py
 LEXER_TEMPLATE = $(CONTRIB)/lexer_table.c.template
 
+# Parser
+SRC_SUBDIR += parser
+SOURCES += parser.c
+SOURCES += parser_utils.c
+SOURCES += predict_and_or.c
+SOURCES += predict_cmd_prefix.c
+SOURCES += predict_cmd_suffix.c
+SOURCES += predict_command.c
+SOURCES += predict_complete_command.c
+SOURCES += predict_complete_commands.c
+SOURCES += predict_compound_list.c
+SOURCES += predict_io_file.c
+SOURCES += predict_io_here.c
+SOURCES += predict_io_redirect.c
+SOURCES += predict_linebreak.c
+SOURCES += predict_list.c
+SOURCES += predict_newline_list.c
+SOURCES += predict_pipe_sequence.c
+SOURCES += predict_program.c
+SOURCES += predict_redirect_list.c
+SOURCES += predict_separator.c
+SOURCES += predict_simple_command.c
+SOURCES += predict_subshell.c
+SOURCES += predict_term.c
+
+# AST
+SRC_SUBDIR += ast
+SOURCES += ast.c
+SOURCES += ast_node.c
+SOURCES += ast_command.c
+SOURCES += ast_compress.c
+SOURCES += ast_debug_print.c
+
 # Generation
 vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
 OBJ_PATH   = .obj
@@ -136,7 +169,7 @@ TEST_EXEC  = $(TEST_PATH)/test_$(NAME).out
 # Core rules
 .SECONDARY: $(OBJECTS)
 
-all: $(DEPS) $(LEXER_TABLE) $(NAME)
+all: $(DEPS) $(LEXER_TABLE) $(NAME) $(SCRIPT)
 
 -include $(DEPS)
 
@@ -158,9 +191,10 @@ $(BUILD_DIR):
 $(LEXER_TABLE): $(RULES_XML) $(PYTHON_GEN_TABLE) $(LEXER_TEMPLATE)
 	python3 $(PYTHON_GEN_TABLE) $(RULES_XML)  $(LEXER_TEMPLATE) $@
 
-check: $(OBJECTS)
+check: $(NAME)
 	@cd $(TEST_PATH) && $(MAKE)
 	@./$(TEST_EXEC)
+	$(MAKE) -C $(TEST_PATH) script
 
 clean:
 	$(RM) -r $(OBJ_PATH)
@@ -170,7 +204,6 @@ clean:
 fclean:
 	$(RM) $(NAME)
 	$(RM) -rf $(DEP_PATH) $(OBJ_PATH)
-	$(MAKE) -C $(LIB42_PATH) fclean
 	$(MAKE) -C $(TEST_PATH) fclean
 
 re: fclean all

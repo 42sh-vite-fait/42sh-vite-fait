@@ -208,7 +208,7 @@ Test(LexerRules4, NewlineJoiningSingleQuote)
 
 Test(LexerRules4, QuoteIONumber)
 {
-	char	*input = "1>'2'>\\3>\"4\">5\\>6'>'7\">\" a8> 123<";
+	char	*input = "1>'2'>\\3>\"4\">5\\>6'>'7\">\" a8> 10<";
 
 	int res = lexer_lex(&lexer, &tokens, input);
 
@@ -225,6 +225,6 @@ Test(LexerRules4, QuoteIONumber)
 	test_token(E_TOKEN_WORD, 13, 11, "5\\>6'>'7\">\"");
 	test_token(E_TOKEN_WORD, 25, 2, "a8");
 	test_token(E_TOKEN_GREAT, 27, 1, ">");
-	test_token(E_TOKEN_IO_NUMBER, 29, 3, "123");
-	test_token(E_TOKEN_LESS, 32, 1, "<");
+	test_token(E_TOKEN_WORD, 29, 2, "10");
+	test_token(E_TOKEN_LESS, 31, 1, "<");
 }

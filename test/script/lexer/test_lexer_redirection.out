@@ -1,0 +1,7 @@
+TOKENS:
+IO_NUMBER (start: 0, len: 1) [2]
+GREATAND (start: 1, len: 2) [>&]
+WORD (start: 3, len: 1) [1]
+GREAT (start: 5, len: 1) [>]
+WORD (start: 6, len: 9) [/dev/null]
+WORD (start: 16, len: 2) [ls]

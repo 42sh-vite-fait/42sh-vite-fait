@@ -111,7 +111,7 @@ static void	test_02_tokenizer_WordsBlanksOperators(void)
 	test_token(E_TOKEN_WORD, 28, 5, "input");
 	test_token(E_TOKEN_WORD, 34, 3, "cat");
 	test_token(E_TOKEN_WORD, 38, 1, "-");
-	test_token(E_TOKEN_SEMICOLON, 39, 1, ";");
+	test_token(E_TOKEN_SEMI, 39, 1, ";");
 	test_token(E_TOKEN_LESSAND, 40, 2, "<&");
 	test_token(E_TOKEN_WORD, 42, 1, "4");
 	test_token(E_TOKEN_WORD, 44, 4, "zzz1");
@@ -320,11 +320,11 @@ static void	test_12_tokenizer_IOnumber(void)
 	test_token(E_TOKEN_WORD, 0, 4, "123a");
 	test_token(E_TOKEN_GREAT, 4, 1, ">");
 	test_token(E_TOKEN_WORD, 5, 1, "0");
-	test_token(E_TOKEN_SEMICOLON, 6, 1, ";");
+	test_token(E_TOKEN_SEMI, 6, 1, ";");
 	test_token(E_TOKEN_WORD, 7, 2, "x1");
 	test_token(E_TOKEN_LESS, 9, 1, "<");
 	test_token(E_TOKEN_WORD, 10, 1, "2");
-	test_token(E_TOKEN_SEMICOLON, 11, 1, ";");
+	test_token(E_TOKEN_SEMI, 11, 1, ";");
 	test_token(E_TOKEN_WORD, 12, 2, "88");
 	test_token(E_TOKEN_GREAT, 14, 1, ">");
 	test_token(E_TOKEN_WORD, 15, 9, "/dev/null");

@@ -183,11 +183,10 @@ static int	lexer_tokenize_one(t_lexer *self, t_token *token,
 	}
 	if (self->tokenizer.current_state == START_STATE)
 		return (ERROR);
-	*token = (t_token){
-		.start = self->token_begin_index,
-		.len = (self->input_current_index - self->token_begin_index),
-		.type = g_state_to_token_table[self->tokenizer.current_state]
-	};
+	token->start = self->token_begin_index;
+	token->len = self->input_current_index - self->token_begin_index;
+	token->str = *input - token->len;
+	token->type = g_state_to_token_table[self->tokenizer.current_state];
 	return (SUCCESS);
 }
 

@@ -1,6 +1,6 @@
 NAME = test_42sh.out
 CC ?= clang
-CFLAGS = -Wall -Werror -Wextra -pedantic -std=c99 -pedantic-errors -Wno-unused-variable -Wno-unused-function
+CFLAGS = -Wall -Werror -Wextra -pedantic -std=c11 -pedantic-errors -Wno-unused-variable -Wno-unused-function
 
 #Debug
 ifeq ($(DEBUG),yes)
@@ -60,6 +60,16 @@ SOURCES += test_lexer_rules8.c
 SOURCES += test_lexer_rules9.c
 SOURCES += test_line_continuation.c
 
+# Parser
+SRC_SUBDIR += parser
+SOURCES += test_parser_io_file.c
+SOURCES += test_parser_io_here.c
+SOURCES += test_parser_linebreak.c
+SOURCES += test_parser_newline_list.c
+SOURCES += test_parser_separator.c
+SOURCES += test_parser_separator_op.c
+SOURCES += test_parser_ast_compress.c
+
 SRC_PATH = src
 vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
 
@@ -109,7 +119,7 @@ else
 endif
 
 # Rules
-.PHONY: all
+.PHONY: all script
 
 all: $(CRITERION) $(PROJECT_OBJ_PATH) $(NAME)
 
@@ -128,6 +138,9 @@ $(OBJECTS): $(OBJ_PATH)/%.o: %.c
 
 $(OBJ_PATH):
 	@-mkdir -p $@
+
+script:
+	@cd ./script && ./test.sh
 
 .PHONY: clean fclean re before_test
 

@@ -1,6 +1,7 @@
 #include "lexer.h"
 #include "ft_printf.h"
 #include "array_42.h"
+#include <stdio.h>
 
 static const char	*g_token_str[] = {
 	[E_TOKEN_WORD] = "WORD",
@@ -29,24 +30,34 @@ static const char	*g_token_str[] = {
 	[E_TOKEN_END_OF_INPUT] = "END_OF_INPUT",
 };
 
-void	lexer_debug_print_tokens(const t_array *tokens, const char *line)
+void	lexer_debug_print_token(const t_token *token, const char *prefix)
 {
-	t_token		*token;
-	char		*str;
+	if (prefix && prefix[0])
+		printf("%s", prefix);
+	printf("%s (start: %zu, len: %zu) [%.*s]\n",
+			g_token_str[token->type],
+			token->start,
+			token->len,
+			(int)token->len,
+			token->str);
+}
+
+void	lexer_debug_print_tokens(const t_array *tokens)
+{
 	size_t		i;
 
 	i = 0;
 	ft_printf("TOKENS:\n");
 	while (i < tokens->len)
 	{
-		token = (t_token *)array_get_at(tokens, i);
-		str = ft_strsub(line, token->start, token->len);
-		ft_printf("%s (start: %zu, len: %zu) [%s] \n",
-				g_token_str[token->type],
-				token->start,
-				token->len,
-				str);
-		free(str);
+		lexer_debug_print_token(array_get_at(tokens, i), NULL);
 		i += 1;
 	}
+}
+
+const char	*lexer_debug_get_token_name(size_t i)
+{
+	if (i < ARR_SIZ_MAX(g_token_str))
+		return (g_token_str[i]);
+	return (NULL);
 }

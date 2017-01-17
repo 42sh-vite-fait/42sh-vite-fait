@@ -1,0 +1,15 @@
+AST:
+AND_OR: &&
+	AND_OR: &&
+		SUBSHELL: ()
+			redirections#0: IO=2, Operator=GREATAND, Word=1
+			redirections#1: IO=1, Operator=GREAT, Word=/dev/null
+			PIPE_SEQUENCE: |
+				SIMPLE_COMMAND: file
+					args#1: name
+				SIMPLE_COMMAND: grep
+					args#1: type
+		SIMPLE_COMMAND: cat
+			args#1: name
+	SIMPLE_COMMAND: rm
+		args#1: name

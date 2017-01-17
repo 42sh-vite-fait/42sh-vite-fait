@@ -1,0 +1,22 @@
+AST:
+SUBSHELL: ()
+	TERM: ;
+		PIPE_SEQUENCE: |
+			SIMPLE_COMMAND: a
+			SUBSHELL: ()
+				AND_OR: ||
+					SIMPLE_COMMAND: b1
+					PIPE_SEQUENCE: |
+						PIPE_SEQUENCE: |
+							SIMPLE_COMMAND: b2
+							SIMPLE_COMMAND: b3
+						SIMPLE_COMMAND: b4
+		SUBSHELL: ()
+			TERM: ;
+				SIMPLE_COMMAND: c1
+				AND_OR: &&
+					SUBSHELL: ()
+						AND_OR: &&
+							SIMPLE_COMMAND: c11
+							SIMPLE_COMMAND: c12
+					SIMPLE_COMMAND: d

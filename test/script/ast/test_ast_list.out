@@ -1,0 +1,20 @@
+AST:
+LIST: ;
+	LIST: ;
+		LIST: ;
+			AND_OR: &&
+				SIMPLE_COMMAND: a
+				PIPE_SEQUENCE: |
+					PIPE_SEQUENCE: |
+						SIMPLE_COMMAND: b
+						SIMPLE_COMMAND: c
+					SIMPLE_COMMAND: d
+			AND_OR: ||
+				AND_OR: ||
+					AND_OR: ||
+						SIMPLE_COMMAND: e
+						SIMPLE_COMMAND: f
+					SIMPLE_COMMAND: g
+				SIMPLE_COMMAND: h
+		SIMPLE_COMMAND: i
+	SIMPLE_COMMAND: j

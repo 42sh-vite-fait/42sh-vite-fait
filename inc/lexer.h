@@ -124,9 +124,10 @@ struct		s_lexer
 
 struct		s_token
 {
-	size_t				start;
-	size_t				len;
-	enum e_token_type	type;
+	const char	*str;
+	size_t		start;
+	size_t		len;
+	int			type;
 };
 
 /*
@@ -189,6 +190,8 @@ void		categorize_io_number(t_array *tokens, const char *input);
 ** Debug
 ** Print the tokens list
 */
-void		lexer_debug_print_tokens(const t_array *tokens, const char *line);
+void		lexer_debug_print_tokens(const t_array *tokens);
+void		lexer_debug_print_token(const t_token *token, const char *prefix);
+const char	*lexer_debug_get_token_name(size_t i);
 
 #endif
