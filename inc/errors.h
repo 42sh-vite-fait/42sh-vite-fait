@@ -1,19 +1,10 @@
 #ifndef ERRORS_H
 # define ERRORS_H
 
-enum e_errors {
-	NO_ERROR,
-	ERR_MALLOC,
+# define BIN_NAME "42sh"
+# define NO_ERROR (0)
 
-	// Variable module
-	ERR_VAR_NOT_FOUND,
-	ERR_VAR_RDONLY,
-	ERR_VAR_BAD_NAME,
-
-	// Parsing module
-	ERR_PARSING,
-};
-
-void	errors_init(void);
+void	error_set_context(const char *format, ...);
+void	error_print(const char *module_name);
 
 #endif

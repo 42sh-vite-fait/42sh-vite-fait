@@ -23,6 +23,9 @@ CFLAGS     += -I./inc
 SRC_PATH   += src
 SOURCES    += main.c
 
+# Errors
+SRC_SUBDIR += error
+SOURCES    += errors.c
 
 # Misc
 SRC_SUBDIR += misc

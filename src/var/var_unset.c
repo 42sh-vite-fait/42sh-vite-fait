@@ -50,5 +50,5 @@ int			var_unset(char const *name)
 	if (match->attrs & VAR_ATTR_EXPORT && match->value != NULL)
 		remove_environ_entry(name);
 	array_remove_elem(&g_variables, match);
-	return (NO_ERROR);
+	return (VAR_NO_ERROR);
 }

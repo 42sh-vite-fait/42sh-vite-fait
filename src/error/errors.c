@@ -1,15 +1,26 @@
+#include <stdlib.h>
+#include <assert.h>
+#include "ft_printf.h"
 #include "errors.h"
-#include "error_42.h"
 
-static char	*g_errors_list[] = {
-	[NO_ERROR] = "no error",
-	[ERR_MALLOC] = "malloc failed !",
+static char		*g_context;
 
-	// parser
-	[ERR_PARSING] = "parsing error",
-};
-
-void	errors_init(void)
+void	error_print(const char *module_name)
 {
-	register_errlist("42sh", g_errors_list, ARR_SIZ_MAX(g_errors_list));
+	assert(module_name != NULL);
+	assert(g_context != NULL);
+	ft_dprintf(2, BIN_NAME ": %s: %s\n", module_name, g_context);
+	free(g_context);
+	g_context = NULL;
+}
+
+void	error_set_context(const char *format, ...)
+{
+	va_list	args;
+
+	assert(format != NULL);
+	free(g_context);
+	va_start(args, format);
+	ft_vasprintf(&g_context, format, args);
+	va_end(args);
 }

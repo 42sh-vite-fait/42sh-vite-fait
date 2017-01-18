@@ -23,7 +23,7 @@ int			var_get(const char *name, const char **value)
 	if (match)
 	{
 		*value = ((t_var*)match)->value;
-		return (NO_ERROR);
+		return (VAR_NO_ERROR);
 	}
 	*value = NULL;
 	return (ERR_VAR_NOT_FOUND);

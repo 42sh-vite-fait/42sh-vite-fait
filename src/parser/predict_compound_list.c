@@ -14,11 +14,11 @@ bool	check_requirements_compound_list(const t_parser *parser)
 
 int		predict_compound_list(t_parser *parser, t_ast_node **from_parent)
 {
-	if (predict_linebreak(parser) != NO_ERROR)
+	if (predict_linebreak(parser) != PARSER_NO_ERROR)
 		return (ERR_PARSING);
-	if (predict_term(parser, from_parent) != NO_ERROR)
+	if (predict_term(parser, from_parent) != PARSER_NO_ERROR)
 		return (ERR_PARSING);
 	if (check_requirements_separator(parser))
 		return (predict_separator(parser));
-	return (NO_ERROR);
+	return (PARSER_NO_ERROR);
 }

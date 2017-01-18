@@ -28,7 +28,7 @@ int			predict_simple_command(t_parser *parser, t_ast_node *self)
 	redirections = &self->command.redirections;
 	assignments = &self->command.assignments;
 	if (check_requirements_cmd_prefix(parser))
-		if (predict_cmd_prefix(parser, redirections, assignments) != NO_ERROR)
+		if (predict_cmd_prefix(parser, redirections, assignments) != PARSER_NO_ERROR)
 			return (ERR_PARSING);
 	if (!parser_check_current_token_type(parser, E_TOKEN_WORD))
 		return (ERR_PARSING);
@@ -36,7 +36,7 @@ int			predict_simple_command(t_parser *parser, t_ast_node *self)
 	array_push(words, parser_get_current_token(parser));
 	parser_consume_token(parser);
 	if (check_requirements_cmd_suffix(parser))
-		if (predict_cmd_suffix(parser, words, redirections) != NO_ERROR)
+		if (predict_cmd_suffix(parser, words, redirections) != PARSER_NO_ERROR)
 			return (ERR_PARSING);
-	return (NO_ERROR);
+	return (PARSER_NO_ERROR);
 }

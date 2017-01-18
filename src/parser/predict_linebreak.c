@@ -15,5 +15,5 @@ int		predict_linebreak(t_parser *parser)
 {
 	if (check_requirements_newline_list(parser))
 		predict_newline_list(parser);
-	return (NO_ERROR);
+	return (PARSER_NO_ERROR);
 }

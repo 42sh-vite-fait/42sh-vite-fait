@@ -106,7 +106,7 @@ int		main(int argc, char *argv[])
 
 		// parser
 		parser_init(&parser, &tokens);
-		if (parser_parse(&parser) != NO_ERROR)
+		if (parser_parse(&parser) != PARSER_NO_ERROR)
 		{
 			parser_print_error(&parser);
 			return (1);

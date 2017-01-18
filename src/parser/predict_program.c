@@ -7,14 +7,14 @@
 
 int	predict_program(t_parser *parser, t_ast_node **root)
 {
-	if (predict_linebreak(parser) != NO_ERROR)
+	if (predict_linebreak(parser) != PARSER_NO_ERROR)
 		return (ERR_PARSING);
 	if (check_requirements_complete_commands(parser))
 	{
-		if (predict_complete_commands(parser, root) != NO_ERROR)
+		if (predict_complete_commands(parser, root) != PARSER_NO_ERROR)
 			return (ERR_PARSING);
-		if (predict_linebreak(parser) != NO_ERROR)
+		if (predict_linebreak(parser) != PARSER_NO_ERROR)
 			return (ERR_PARSING);
 	}
-	return (NO_ERROR);
+	return (PARSER_NO_ERROR);
 }

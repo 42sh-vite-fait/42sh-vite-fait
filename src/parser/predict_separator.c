@@ -18,7 +18,7 @@ int 	predict_separator_op(t_parser *parser)
 	if (check_requirements_separator_op(parser))
 	{
 		parser_consume_token(parser);
-		return (NO_ERROR);
+		return (PARSER_NO_ERROR);
 	}
 	return (ERR_PARSING);
 }
@@ -42,9 +42,9 @@ int		predict_separator(t_parser *parser)
 		predict_newline_list(parser);
 	else
 	{
-		if (predict_separator_op(parser) != NO_ERROR)
+		if (predict_separator_op(parser) != PARSER_NO_ERROR)
 			return (ERR_PARSING);
 		predict_linebreak(parser);
 	}
-	return (NO_ERROR);
+	return (PARSER_NO_ERROR);
 }

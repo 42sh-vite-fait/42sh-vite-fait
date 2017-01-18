@@ -20,8 +20,8 @@ int		predict_cmd_prefix(t_parser *parser, t_array *redirections, t_array *assign
 	struct	s_redirection	*redir;
 	int						ret;
 
-	ret = NO_ERROR;
-	while (ret == NO_ERROR)
+	ret = PARSER_NO_ERROR;
+	while (ret == PARSER_NO_ERROR)
 	{
 		if (check_requirements_io_redirect(parser))
 		{
