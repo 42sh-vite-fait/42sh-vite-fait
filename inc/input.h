@@ -6,10 +6,6 @@
 # include <unistd.h>
 # include "string_42.h"
 
-enum e_input_mode {
-	E_INTERACTIVE,
-};
-
-t_string	input_get_line(unsigned mode);
+t_string	input_get_line(const char *prompt);
 
 #endif

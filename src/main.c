@@ -1,4 +1,5 @@
 #include "input.h"
+#include "user_interface.h"
 #include "lexer.h"
 #include "parser.h"
 #include "ft_printf.h"
@@ -13,18 +14,6 @@
 
 static unsigned		g_debug_opt;
 static const char	*g_command_line;
-
-static t_string	wrap_get_line(const char *prompt)
-{
-	t_string	input;
-	char		*line;
-
-	ft_printf("%s", prompt);
-	line = input_readline();
-	string_init_dup(&input, line);
-	free(line);
-	return (input);
-}
 
 static void	usage(const char *name)
 {
@@ -82,9 +71,9 @@ int		main(int argc, char *argv[])
 		// Interactive ?
 		if (g_command_line == NULL)
 		{
-			input = wrap_get_line(SHELL_PROMPT);
+			input = input_get_line(SHELL_PROMPT);
 			while (remove_trailing_escaped_newline(&input))
-				input = wrap_get_line(SHELL_PROMPT);
+				input = input_get_line(SHELL_PROMPT);
 			if (input.len > 1)
 				history_add(string_create_dup(input.str));
 		}
@@ -101,7 +90,7 @@ int		main(int argc, char *argv[])
 				break ;
 			else if (status == LEXER_INPUT_INCOMPLETE)
 			{
-				t_string tmp = wrap_get_line("> ");
+				t_string tmp = input_get_line("> ");
 				if (input.len > 1)
 					history_add(string_create_dup(tmp.str));
 				status = lexer_lex(&lexer, &tokens, tmp.str);

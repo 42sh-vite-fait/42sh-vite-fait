@@ -40,6 +40,7 @@ struct	s_editenv
 	t_string		rbuff;
 	t_string		cpy;
 	t_string		initial_entry;
+	const char		*prompt;
 	size_t			last_entry_len;
 	size_t			selection_size;
 	size_t			selection_offset;
@@ -205,14 +206,13 @@ enum	e_keys
 };
 
 /*
-** TEMPORARY prompt interface
+** prompt interface
 */
-size_t 		prompt(void);
-
+size_t 		prompt(const char *prompt);
 /*
 ** UI main interface
 */
-t_string	ui_get_user_input(void);
+t_string	ui_get_user_input(const char *prompt);
 
 /*
 **			UI workflow

@@ -48,7 +48,7 @@ static void		compute_user_entry(t_editenv *e)
 	mem_buff = e->rbuff;
 }
 
-static void		init(t_editenv *e, t_string *cpy)
+static void		init(t_editenv *e, t_string *cpy, const char *p)
 {
 	static bool first_init = false;
 
@@ -65,13 +65,14 @@ static void		init(t_editenv *e, t_string *cpy)
 	e->history_index = 0;
 	e->entry_index = 0;
 	e->selection_size = 1;
-	e->cpos.x = (int)(prompt());
+	e->cpos.x = (int)(prompt(p));
 	term_mode();
+	e->prompt = p;
 	ui_display_user_entry(e);
 	first_init = true;
 }
 
-t_string			ui_get_user_input(void)
+t_string			ui_get_user_input(const char *prompt)
 {
 	t_editenv			e;
 	char				*output;
@@ -80,7 +81,7 @@ t_string			ui_get_user_input(void)
 	t_string			ret;
 
 	normal_mode();
-	init(&e, &cpy_buffer_mem);
+	init(&e, &cpy_buffer_mem, prompt);
 	output = NULL;
 	while ((offset_nl = ft_strchrpos(e.entry.str, '\n')) == -1 && !e.must_leave)
 	{

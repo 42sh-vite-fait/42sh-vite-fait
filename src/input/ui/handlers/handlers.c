@@ -54,5 +54,5 @@ void	ui_clear(t_editenv *e)
 {
 	(void)e;
 	term_command("cl");
-	prompt();
+	prompt(e->prompt);
 }

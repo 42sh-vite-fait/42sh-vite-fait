@@ -9,18 +9,13 @@
 
 static int	fill_heredoc_file(const t_token *word, int fd)
 {
-	char	*line;
+	t_string	line;
 
 	while (42)
 	{
-		if (ft_printf("> ") == -1) // TODO: PS2
-		{
-			error_set_context("heredoc: write failed: %s", strerror(errno));
-			return (ERR_HEREDOC);
-		}
-		line = input_readline();
-		if (ft_strncmp(line, word->str, word->len) == 0
-				&& line[word->len] == '\n')
+		line = input_get_line("> "); // TODO: PS2
+		if (ft_strncmp(line.str, word->str, word->len) == 0
+				&& line.str[word->len] == '\n')
 			return (NO_ERROR);
 		if (ft_dprintf(fd, "%s", line) == -1)
 		{
@@ -28,6 +23,8 @@ static int	fill_heredoc_file(const t_token *word, int fd)
 			return (ERR_HEREDOC);
 		}
 	}
+	// TODO: Supprimer l'input
+	// TODO: Quoi faire si input_get_line() retourne NULL
 }
 
 char 		*heredoc(const t_token *word)
