@@ -124,6 +124,7 @@ struct		s_lexer
 
 struct		s_token
 {
+	const char	*str;
 	size_t		start;
 	size_t		len;
 	int			type;
@@ -145,7 +146,7 @@ t_automaton	*lexer_init_automaton(t_automaton *a);
 ** and a subsequent call to this function must be done.
 ** LEXER_INPUT_COMPLETE is returned otherwise.
 */
-int			lexer_lex(t_lexer *l, t_array *tokens, const t_string *input);
+int			lexer_lex(t_lexer *l, t_array *tokens, const char *input);
 
 /*
 ** `lexer_init` initializes a given t_lexer ready to
@@ -162,12 +163,8 @@ void		lexer_shutdown(t_lexer *lexer);
 ** according to grammar rules.
 ** Takes an `input`, modifies the states of a `lexer`,
 ** push the resulting tokens to a t_array `tokens`.
-** `assert_stack_is_empty` return `true` if the stack is empty
-** if not, return false and add a contextual error message
 */
-int			lexer_tokenize(t_lexer *lexer, t_array *tokens,
-		const t_string *input);
-bool		assert_stack_is_empty(t_lexer *self);
+int			lexer_tokenize(t_lexer *lexer, t_array *tokens, const char *input);
 
 /*
 ** `lexer_clear_tokens` removes from a t_array of tokens
@@ -186,15 +183,16 @@ int			remove_trailing_escaped_newline(t_string *input);
 /*
 ** Categorize token according to POSIX rules
 */
-void		categorize_tokens(const t_string *input, t_array *tokens);
-void		categorize_io_number(const t_string *input, t_array *tokens);
+void		categorize_tokens(t_array *tokens, const char *input);
+void		categorize_io_number(t_array *tokens, const char *input);
+bool		is_only_digit(const char *input, size_t len);
 
 /*
 ** Debug
 ** Print the tokens list
 */
-void		lexer_debug_print_tokens(const t_string *input, const t_array *tokens);
-void		lexer_debug_print_token(const t_string *input, const t_token *token, const char *prefix);
+void		lexer_debug_print_tokens(const t_array *tokens);
+void		lexer_debug_print_token(const t_token *token, const char *prefix);
 const char	*lexer_debug_get_token_name(size_t i);
 
 #endif

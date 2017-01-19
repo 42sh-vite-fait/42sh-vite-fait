@@ -1,0 +1,73 @@
+#include <unistd.h>
+# include <fcntl.h>
+#include "redirections.h"
+#include "lexer.h"
+#include "errors.h"
+
+#define IS_FD_STANDARD(f) ((f) >= 0 || (f) <= 2)
+#define FAM_READING (O_RDWR | O_RDONLY)
+#define FAM_WRITING (O_RDWR | O_WRONLY)
+
+/*
+** See the Rationale for the explanation of why dup2 on /dev/null
+** [http://pubs.opengroup.org/onlinepubs/9699919799/xrat/V4_xcu_chap02.html]
+*/
+
+static int	close_fd(int io_number)
+{
+	int	fd;
+
+	if (IS_FD_STANDARD(io_number))
+	{
+		fd = open("/dev/null", O_RDWR, 0666);
+		if (fd == -1)
+			return (ERR_OPEN);
+		if (dup2(io_number, fd) == -1)
+			return (ERR_DUP2);
+	}
+	else
+		close(io_number);
+	return (NO_ERROR);
+}
+
+static int	duplicate_fd(int io_number, int mode, int word)
+{
+	int	flags;
+
+	flags = fcntl(word, F_GETFL);
+	if (flags == -1)
+		return (ERR_FCNTL);
+	if (flags & mode)
+	{
+		if (dup2(io_number, word) == -1)
+			return (ERR_DUP2);
+	}
+	else
+		return (ERR_BADFD);
+	return (NO_ERROR);
+}
+
+static int	exec_redirection_dup(int io_number, int mode, const char *word)
+{
+	int	ret;
+
+	if (word[0] == '-' && word[1] == '\0')
+		ret = close_fd(io_number);
+	else if (is_only_digit(word, ft_strlen(word)))
+		ret = duplicate_fd(io_number, mode, (int)ft_atou(word));
+	else
+		ret = ERR_BADFD;
+	return (ret);
+}
+
+// LESSAND
+int	exec_redirection_input_duplicate(int io_number, const char *word)
+{
+	return (exec_redirection_dup(io_number, FAM_READING, word));
+}
+
+// GREATAND
+int	exec_redirection_output_duplicate(int io_number, const char *word)
+{
+	return (exec_redirection_dup(io_number, FAM_WRITING, word));
+}

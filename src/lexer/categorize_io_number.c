@@ -30,7 +30,21 @@ static bool	is_token_redirection(int type)
 	return (false);
 }
 
-void	categorize_io_number(const t_string *input, t_array *tokens)
+bool	is_only_digit(const char *input, size_t len)
+{
+	size_t	index;
+
+	index = 0;
+	while (index < len)
+	{
+		if (!FT_ISDIGIT(input[index]))
+			return (false);
+		index += 1;
+	}
+	return (true);
+}
+
+void	categorize_io_number(t_array *tokens, const char *input)
 {
 	t_token	*token;
 	t_token	*prev;
@@ -44,7 +58,7 @@ void	categorize_io_number(const t_string *input, t_array *tokens)
 		{
 			prev = array_get_at(tokens, index - 1);
 			if (prev->type == E_TOKEN_WORD
-					&& is_only_one_digit(input->str + prev->start))
+					&& is_only_one_digit(input + prev->start))
 				prev->type = E_TOKEN_IO_NUMBER;
 		}
 		index += 1;
