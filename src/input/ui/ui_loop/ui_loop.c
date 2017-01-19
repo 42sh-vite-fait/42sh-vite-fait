@@ -15,7 +15,7 @@ static void		free_data(t_editenv *e)
 
 static void		read_input(t_editenv *e)
 {
-	char				buff[MEM_PAGE_SIZE];
+	char				buff[1];
 	ssize_t				ret;
 
 	ret = read(0, buff, 1);
