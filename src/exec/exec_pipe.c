@@ -18,7 +18,7 @@ static t_array	gather_piped_childs(t_ast_node *node)
 	return (stack);
 }
 
-static pid_t	exec_first_child(t_command command, const t_pipe left)
+static pid_t	exec_first_child(t_ast_node *node, const t_pipe left)
 {
 	pid_t	pid;
 
@@ -29,12 +29,12 @@ static pid_t	exec_first_child(t_command command, const t_pipe left)
 	{
 		close(left.read);
 		pipe_replace_stdout(left.write);
-		exec_command(command);
+		exec_node(node);
 	}
 	return (pid);
 }
 
-static pid_t	exec_last_child(t_command command, const t_pipe right)
+static pid_t	exec_last_child(t_ast_node *node, const t_pipe right)
 {
 	pid_t	pid;
 
@@ -44,12 +44,12 @@ static pid_t	exec_last_child(t_command command, const t_pipe right)
 	else if (pid == 0)
 	{
 		pipe_replace_stdin(right.read);
-		exec_command(command);
+		exec_node(node);
 	}
 	return (pid);
 }
 
-static pid_t	exec_child(t_command command, const t_pipe left,
+static pid_t	exec_child(t_ast_node *node, const t_pipe left,
 		const t_pipe right)
 {
 	pid_t	pid;
@@ -62,12 +62,12 @@ static pid_t	exec_child(t_command command, const t_pipe left,
 		close(right.read);
 		pipe_replace_stdout(right.write);
 		pipe_replace_stdin(left.read);
-		exec_command(command);
+		exec_node(node);
 	}
 	return (pid);
 }
 
-static int	pipe_magic(t_pipe *pipe)
+static int	pipe_init(t_pipe *pype)
 {
 	int	p[2];
 
@@ -76,12 +76,12 @@ static int	pipe_magic(t_pipe *pipe)
 		error_set_context("pipe: %s", strerror(errno));
 		return (-1);
 	}
-	pipe->read = p[0];
-	pipe->write = p[1];
+	pype->read = p[0];
+	pype->write = p[1];
 	return (0);
 }
 
-int exec_pipe(t_ast_node *node)
+int exec_pipe(t_ast_node *node, t_array pids)
 {
 	t_array		stack;
 	t_ast_node	*child;
@@ -90,29 +90,37 @@ int exec_pipe(t_ast_node *node)
 	pid_t		ret;
 
 	stack = gather_piped_childs(node);
+
+	// get the first child from the stack
 	array_pop(&stack, &child);
-	if (pipe_magic(&left) == -1)
+
+	// first piped child
+	if (pipe_init(&left) == -1)
 		return (-1);
-	if ((ret = exec_first_child(node->command, left)) == -1)
+	if ((ret = exec_first_child(node, left)) == -1)
 		return (-1);
+	array_push(&pids, &ret);
 	close(left.write);
 
 	// begin multiple childs
 	while (stack.len > 1)
 	{
 		array_pop(&stack, &child);
-		if (pipe_magic(&right) == -1)
+		if (pipe_init(&right) == -1)
 			return (-1);
-		if ((ret = exec_child(child->command, left_pipe, right_pipe)) == -1)
+		if ((ret = exec_child(child, left, right)) == -1)
 			return (-1);
 
+		array_push(&pids, &ret);
 		close(left.read);
 		close(right.write);
 		left.read = right.read;
 	}
 
 	// last child
-	if ((ret = exec_last_child(node->command, left_pipe)) == -1)
+	if ((ret = exec_last_child(node, left)) == -1)
 		return (-1);
-	close(left_pipe[0]); // read end first pipe
+	array_push(&pids, &ret);
+	close(left.read); // read end first pipe
+	return (ret);
 }

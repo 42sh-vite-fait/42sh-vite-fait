@@ -26,5 +26,3 @@ int pipe_replace_stdfd(int read_end, int write_end)
 		return (ERR_DUP2);
 	return (NO_ERROR);
 }
-
-
