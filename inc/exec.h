@@ -10,4 +10,11 @@ struct s_pipe
 	int	write;
 };
 
+/*
+** Pipe
+*/
+int	pipe_replace_stdout(int write_end);
+int	pipe_replace_stdin(int read_end);
+int pipe_replace_stdfd(int read_end, int write_end);
+
 #endif
