@@ -14,7 +14,7 @@ static t_array	gather_piped_childs(t_ast_node *node)
 		fatal_malloc(array_push(&stack, &node->right));
 		node = node->left;
 	}
-	array_push(&stack, &node->left);
+	array_push(&stack, &node);
 	return (stack);
 }
 
