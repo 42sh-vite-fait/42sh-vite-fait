@@ -26,3 +26,18 @@ int pipe_replace_stdfd(int read_end, int write_end)
 		return (ERR_DUP2);
 	return (NO_ERROR);
 }
+
+int	pipe_init(t_pipe *pype)
+{
+	int	p[2];
+
+	if (pipe(p) == -1)
+	{
+		error_set_context("pipe: %s", strerror(errno));
+		return (-1);
+	}
+	pype->read = p[0];
+	pype->write = p[1];
+	return (0);
+}
+

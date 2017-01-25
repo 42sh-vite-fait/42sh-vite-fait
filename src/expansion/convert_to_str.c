@@ -26,7 +26,7 @@ static size_t	add_token_to_buf(t_token *token, char *buf)
 	return (token->len + 1);
 }
 
-char	**convert_to_str(t_array tokens)
+t_array	convert_to_str(t_array tokens)
 {
 	t_array		strs;
 	char		*buf;
@@ -44,5 +44,5 @@ char	**convert_to_str(t_array tokens)
 	}
 	buf = NULL;
 	array_push(&strs, &buf);
-	return (strs.data);
+	return (strs);
 }

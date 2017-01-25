@@ -29,7 +29,7 @@ static pid_t	exec_first_child(t_ast_node *node, const t_pipe left)
 	{
 		close(left.read);
 		pipe_replace_stdout(left.write);
-		exec_command(node->command);
+		exec_pipe_command(node->command);
 	}
 	return (pid);
 }
@@ -44,7 +44,7 @@ static pid_t	exec_last_child(t_ast_node *node, const t_pipe right)
 	else if (pid == 0)
 	{
 		pipe_replace_stdin(right.read);
-		exec_command(node);
+		exec_pipe_command(node->command);
 	}
 	return (pid);
 }
@@ -62,26 +62,18 @@ static pid_t	exec_child(t_ast_node *node, const t_pipe left,
 		close(right.read);
 		pipe_replace_stdout(right.write);
 		pipe_replace_stdin(left.read);
-		exec_node(node);
+		exec_pipe_command(node->command);
 	}
 	return (pid);
 }
 
-static int	pipe_init(t_pipe *pype)
-{
-	int	p[2];
-
-	if (pipe(p) == -1)
-	{
-		error_set_context("pipe: %s", strerror(errno));
-		return (-1);
-	}
-	pype->read = p[0];
-	pype->write = p[1];
-	return (0);
-}
-
-int exec_node_pipe(t_ast_node *node, t_array pids)
+/*
+ * Créer un process group
+ * Assigner chaque child au process group
+ * wait la fin du process group
+ * retourne l'exit status pour utilisation par les autres tree_walker
+ */
+int exec_node_pipe(t_ast_node *node)
 {
 	t_array		stack;
 	t_ast_node	*child;
@@ -99,7 +91,7 @@ int exec_node_pipe(t_ast_node *node, t_array pids)
 		return (-1);
 	if ((pid = exec_first_child(node, left)) == -1)
 		return (-1);
-	array_push(&pids, &pid);
+	/* array_push(&pids, &pid); */
 	close(left.write);
 
 	// begin multiple children
@@ -111,7 +103,7 @@ int exec_node_pipe(t_ast_node *node, t_array pids)
 		if ((pid = exec_child(child, left, right)) == -1)
 			return (-1);
 
-		array_push(&pids, &pid);
+		/* array_push(&pids, &pid); */
 		close(left.read);
 		close(right.write);
 		left.read = right.read;
@@ -120,7 +112,16 @@ int exec_node_pipe(t_ast_node *node, t_array pids)
 	// last child
 	if ((pid = exec_last_child(node, left)) == -1)
 		return (-1);
-	array_push(&pids, &pid);
+	/* array_push(&pids, &pid); */
 	close(left.read); // read end first pipe
 	return (pid);
 }
+
+// while ((pid = waitpid()) != -1)
+// {
+// 	if pid == last_child_pid
+// 		ret = exit_status_last_child
+// }
+
+// exec_pipe_command -> (launch builtin + exit after builtin completion)
+//                   -> (launch binary)

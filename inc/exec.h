@@ -34,12 +34,14 @@ int	exec_node_subshell(const t_ast_node *node);
 int	exec_node_simple_command(const t_ast_node *node);
 
 // Execution
-int	exec_builtin(const t_command command);
-int	exec_binary(const t_command command);
+t_array	convert_to_str(t_array tokens);
+int		exec_builtin(const t_command command);
+int		exec_binary(const t_command command);
 
 /*
 ** Pipe
 */
+int	pipe_init(t_pipe *pype);
 int	pipe_replace_stdout(int write_end);
 int	pipe_replace_stdin(int read_end);
 int pipe_replace_stdfd(int read_end, int write_end);
