@@ -4,7 +4,7 @@
 #include "ast.h"
 #include "array_42.h"
 
-static t_array	gather_piped_childs(t_ast_node *node)
+static t_array	gather_piped_children(const t_ast_node *node)
 {
 	t_array	stack;
 
@@ -29,7 +29,7 @@ static pid_t	exec_first_child(t_ast_node *node, const t_pipe left)
 	{
 		close(left.read);
 		pipe_replace_stdout(left.write);
-		exec_node(node);
+		exec_command(node->command);
 	}
 	return (pid);
 }
@@ -44,7 +44,7 @@ static pid_t	exec_last_child(t_ast_node *node, const t_pipe right)
 	else if (pid == 0)
 	{
 		pipe_replace_stdin(right.read);
-		exec_node(node);
+		exec_command(node);
 	}
 	return (pid);
 }
@@ -81,15 +81,15 @@ static int	pipe_init(t_pipe *pype)
 	return (0);
 }
 
-int exec_pipe(t_ast_node *node, t_array pids)
+int exec_node_pipe(t_ast_node *node, t_array pids)
 {
 	t_array		stack;
 	t_ast_node	*child;
 	t_pipe 		left;
 	t_pipe 		right;
-	pid_t		ret;
+	pid_t		pid;
 
-	stack = gather_piped_childs(node);
+	stack = gather_piped_children(node);
 
 	// get the first child from the stack
 	array_pop(&stack, &child);
@@ -97,30 +97,30 @@ int exec_pipe(t_ast_node *node, t_array pids)
 	// first piped child
 	if (pipe_init(&left) == -1)
 		return (-1);
-	if ((ret = exec_first_child(node, left)) == -1)
+	if ((pid = exec_first_child(node, left)) == -1)
 		return (-1);
-	array_push(&pids, &ret);
+	array_push(&pids, &pid);
 	close(left.write);
 
-	// begin multiple childs
+	// begin multiple children
 	while (stack.len > 1)
 	{
 		array_pop(&stack, &child);
 		if (pipe_init(&right) == -1)
 			return (-1);
-		if ((ret = exec_child(child, left, right)) == -1)
+		if ((pid = exec_child(child, left, right)) == -1)
 			return (-1);
 
-		array_push(&pids, &ret);
+		array_push(&pids, &pid);
 		close(left.read);
 		close(right.write);
 		left.read = right.read;
 	}
 
 	// last child
-	if ((ret = exec_last_child(node, left)) == -1)
+	if ((pid = exec_last_child(node, left)) == -1)
 		return (-1);
-	array_push(&pids, &ret);
+	array_push(&pids, &pid);
 	close(left.read); // read end first pipe
-	return (ret);
+	return (pid);
 }

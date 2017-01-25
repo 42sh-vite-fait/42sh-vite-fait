@@ -3,19 +3,22 @@
 
 # include <unistd.h>
 # include "ast.h"
+# include "errors.h"
 
-/*
- *
-	[ERR_OPEN] = "open failed",
-	[ERR_DUP2] = "dup2 failed",
-	[ERR_CLOSE] = "close failed",
-	[ERR_FCNTL] = "fcntl failed",
-	[ERR_BADFD] = "bad file descriptor",
-	[ERR_GRLIMIT] = "getrlimit failed",
-	[ERR_SRLIMIT] = "setrlimit failed",
-	[ERR_FDLIMIT] = "limit of open files too low",
-	*/
+enum e_exec_errors
+{
+	EXEC_NO_ERROR = NO_ERROR,
+	ERR_OPEN, 
+	ERR_DUP2, 
+	ERR_CLOSE, 
+	ERR_FCNTL, 
+	ERR_BADFD, 
+	ERR_GRLIMIT, 
+	ERR_SRLIMIT, 
+	ERR_FDLIMIT, 
+};
 
+typedef int (t_tree_walker)(const t_ast_node *);
 typedef struct s_pipe	t_pipe;
 struct s_pipe
 {
@@ -23,7 +26,16 @@ struct s_pipe
 	int	write;
 };
 
-int	exec_node(t_ast_node *node);
+// Tree Walker
+int	exec_node_list(const t_ast_node *node);
+int	exec_node_andor(const t_ast_node *node);
+int	exec_node_pipe(const t_ast_node *node);
+int	exec_node_subshell(const t_ast_node *node);
+int	exec_node_simple_command(const t_ast_node *node);
+
+// Execution
+int	exec_builtin(const t_command command);
+int	exec_binary(const t_command command);
 
 /*
 ** Pipe
