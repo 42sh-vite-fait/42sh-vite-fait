@@ -19,23 +19,17 @@ static size_t	get_total_len(t_array tokens)
 	return (len);
 }
 
-static void	fill_array_with_buf()
+static size_t	add_token_to_buf(t_token *token, char *buf)
 {
-	char		*tmp;
-
-	tmp = str.str + str.len;
-	array_push(&strs, &tmp);
-	token = array_get_at(&tokens, i);
-
 	ft_memcpy(buf, token->str, token->len);
-	ft_memcpy(buf, "\0", 1);
+	ft_memcpy(buf + token->len, "\0", 1);
+	return (token->len + 1);
 }
 
 char	**convert_to_str(t_array tokens)
 {
 	t_array		strs;
 	char		*buf;
-	t_token		*token;
 	size_t		i;
 
 	fatal_malloc(array_init_with_capacity(&strs, sizeof(char*),
@@ -44,9 +38,11 @@ char	**convert_to_str(t_array tokens)
 	i = 0;
 	while (i < tokens.len)
 	{
+		array_push(&strs, &buf);
+		buf += add_token_to_buf(array_get_at(&tokens, i), buf);
 		i += 1;
 	}
-	tmp = NULL;
-	array_push(&strs, &tmp);
+	buf = NULL;
+	array_push(&strs, &buf);
 	return (strs.data);
 }
