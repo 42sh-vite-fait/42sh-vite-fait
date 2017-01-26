@@ -174,6 +174,25 @@ SRC_SUBDIR += opt
 SOURCES += opt_parse.c
 SOURCES += opt_is_set.c
 
+# Execution
+SRC_SUBDIR += exec
+SOURCES += exec.c
+SOURCES += exec_command.c
+SOURCES += exec_dispatch.c
+SOURCES += exec_gather_childs.c
+SOURCES += exec_node_andor.c
+SOURCES += exec_pipe.c
+SOURCES += exec_pipe_child.c
+SOURCES += exec_pipe_command.c
+SOURCES += exec_pipe_utils.c
+SOURCES += exec_utils.c
+SOURCES += redir_dup.c
+SOURCES += redir_file.c
+SOURCES += redir_init.c
+SOURCES += redirections.c
+SOURCES += undo_redirections.c
+
+
 # Generation
 vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
 OBJ_PATH   = .obj
