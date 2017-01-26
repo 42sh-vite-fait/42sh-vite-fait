@@ -102,10 +102,7 @@ int		main(int argc, char *argv[])
 		// parser
 		parser_init(&parser, &tokens);
 		if (parser_parse(&parser) != PARSER_NO_ERROR)
-		{
-			parser_print_error(&parser);
-			return (1);
-		}
+			return error_print("parser"), (1);
 
 		// debug
 		if (g_debug_opt & DEBUG_PRINT_INPUT)

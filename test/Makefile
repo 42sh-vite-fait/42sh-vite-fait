@@ -63,7 +63,7 @@ SOURCES += test_line_continuation.c
 # Parser
 SRC_SUBDIR += parser
 SOURCES += test_parser_io_file.c
-SOURCES += test_parser_io_here.c
+# SOURCES += test_parser_io_here.c
 SOURCES += test_parser_linebreak.c
 SOURCES += test_parser_newline_list.c
 SOURCES += test_parser_separator.c
