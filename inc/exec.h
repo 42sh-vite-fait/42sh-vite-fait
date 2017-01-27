@@ -49,6 +49,7 @@ int	exec_pipe_sequence(const t_ast_node *node);
 /*
 ** Utilities
 */
+int get_exit_status(int status);
 int	wait_for_children(pid_t last_pid, pid_t pgid);
 
 #endif

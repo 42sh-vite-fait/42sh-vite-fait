@@ -2,6 +2,13 @@
 #include "array_42.h"
 #include "exec.h"
 
+int get_exit_status(int status)
+{
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	return (0);
+}
+
 int	wait_for_children(pid_t last_pid, pid_t pgid)
 {
 	pid_t		pid;
