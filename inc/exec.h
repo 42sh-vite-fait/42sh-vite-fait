@@ -28,7 +28,7 @@ struct s_pipe
 
 // Tree Walker
 int	exec_node_list(const t_ast_node *node);
-int	exec_node_andor(const t_ast_node *node);
+int	exec_node_and_or(const t_ast_node *node);
 int	exec_node_pipe(const t_ast_node *node);
 int	exec_node_subshell(const t_ast_node *node);
 int	exec_node_simple_command(const t_ast_node *node);

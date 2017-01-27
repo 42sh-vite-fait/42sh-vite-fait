@@ -17,7 +17,7 @@ static t_array	gather_nodes(const t_ast_node *node)
 	return (stack);
 }
 
-static int	conditionnal_exec_andor(const t_ast_node *node, int prev_ret)
+static int	conditionnal_exec_and_or(const t_ast_node *node, int prev_ret)
 {
 	if (node->token->type == E_TOKEN_AND_IF)
 	{
@@ -32,7 +32,7 @@ static int	conditionnal_exec_andor(const t_ast_node *node, int prev_ret)
 	return (prev_ret);
 }
 
-int		exec_node_andor(const t_ast_node *node)
+int		exec_node_and_or(const t_ast_node *node)
 {
 	t_array	andor_nodes_stack;
 	int		ret;
@@ -40,11 +40,11 @@ int		exec_node_andor(const t_ast_node *node)
 	andor_nodes_stack = gather_nodes(node);
 	array_pop(&andor_nodes_stack, &node);
 	ret = g_walkers[node->left->type](node->left);
-	ret = conditionnal_exec_andor(node, ret);
+	ret = conditionnal_exec_and_or(node, ret);
 	while (andor_nodes_stack.len > 0)
 	{
 		array_pop(&andor_nodes_stack, &node);
-		ret = conditionnal_exec_andor(node, ret);
+		ret = conditionnal_exec_and_or(node, ret);
 	}
 	return (ret);
 }
