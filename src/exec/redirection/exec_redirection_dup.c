@@ -1,6 +1,6 @@
 #include <unistd.h>
 #include <fcntl.h>
-#include "redirections.h"
+#include "exec.h"
 #include "lexer.h"
 #include "errors.h"
 
@@ -21,9 +21,9 @@ static int	close_fd(int io_number)
 	{
 		fd = open("/dev/null", O_RDWR, 0666);
 		if (fd == -1)
-			return (ERR_OPEN);
+			return (ERR_EXEC);
 		if (dup2(io_number, fd) == -1)
-			return (ERR_DUP2);
+			return (ERR_EXEC);
 	}
 	else
 		close(io_number);
@@ -35,17 +35,17 @@ static int	duplicate_fd(int io_number, int mode, int word)
 	int	flags;
 
 	if (word > MAX_FD_POSIX_COMPLIANCE)
-		return (ERR_BADFD);
+		return (ERR_EXEC);
 	flags = fcntl(word, F_GETFL);
 	if (flags == -1)
-		return (ERR_FCNTL);
+		return (ERR_EXEC);
 	if (flags & mode)
 	{
 		if (dup2(io_number, word) == -1)
-			return (ERR_DUP2);
+			return (ERR_EXEC);
 	}
 	else
-		return (ERR_BADFD);
+		return (ERR_EXEC);
 	return (NO_ERROR);
 }
 
@@ -58,7 +58,7 @@ static int	exec_redirection_dup(int io_number, int mode, const char *word)
 	else if (is_only_one_digit(word, ft_strlen(word)))
 		ret = duplicate_fd(io_number, mode, (int)ft_atou(word));
 	else
-		ret = ERR_BADFD;
+		ret = ERR_EXEC;
 	return (ret);
 }
 

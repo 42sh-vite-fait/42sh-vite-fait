@@ -1,4 +1,4 @@
-#include "redirections.h"
+#include "exec.h"
 #include "array_42.h"
 #include "ast.h"
 
@@ -9,20 +9,19 @@
 static bool	is_fd_open(int fd)
 {
 	errno = 0;
-	return (fcntl(fd, F_GETFD) != -1 || errno != EBADF)
+	return (fcntl(fd, F_GETFD) != -1 || errno != EBADF);
 }
 
 static int	restore_standard_fd(int fd)
 {
-	if (dup2(fd, get_backup_standard_fd(fd)) == -1)
-		return (ERR_FCNTL);
-	return (NO_ERROR);
+	return (exec_dup_fd(fd, exec_backup_get_standard_fd(fd)));
 }
 
 static int	close_opened_file(int fd)
 {
-	if (is_fd_open(fd) && close(fd) == -1)
-		return (ERR_CLOSE);
+	if (is_fd_open(fd))
+		if (exec_close_fd(fd) != NO_ERROR)
+			return (ERR_EXEC);
 	return (NO_ERROR);
 }
 
@@ -30,8 +29,10 @@ int	undo_redirection(t_array redirections)
 {
 	struct s_redirection	redir;
 	size_t					i;
+	int						ret;
 
 	i = redirections.len;
+	ret = NO_ERROR;
 	while (i > 0)
 	{
 		i -= 1;
@@ -41,7 +42,7 @@ int	undo_redirection(t_array redirections)
 		else
 			ret = close_opened_file(redir.io_number);
 		if (ret != NO_ERROR)
-			ft_perrorn(NULL, ret);
+			break ;
 	}
 	return (ret);
 }

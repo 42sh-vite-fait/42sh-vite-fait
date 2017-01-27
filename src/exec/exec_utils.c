@@ -45,6 +45,16 @@ int exec_close_fd(int fd)
 	return (NO_ERROR);
 }
 
+int exec_dup_fd(int oldfd, int newfd)
+{
+	if (dup2(oldfd, newfd))
+	{
+		error_set_context("dup2: %s", strerror(errno));
+		return (ERR_EXEC);
+	}
+	return (NO_ERROR);
+}
+
 int exec_process_group_create(int pid, int pgid)
 {
 	if (setpgid(pid, pgid))

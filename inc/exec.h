@@ -2,8 +2,12 @@
 # define EXEC_H
 
 # include <unistd.h>
+# include <fcntl.h>
 # include "ast.h"
 # include "errors.h"
+# include "array_42.h"
+
+# define IS_FD_STANDARD(f) ((f) >= 0 || (f) <= 2)
 
 enum e_exec_errors
 {
@@ -18,6 +22,20 @@ struct s_pipe
 	int	read;
 	int	write;
 };
+
+
+/*
+** Redirections
+*/
+int	startup_redirection_init(void);
+int	exec_backup_get_standard_fd(size_t n);
+int	exec_backup_standard_fd(void);
+int	exec_redirection(t_array redirections);
+int	exec_redirection_input(int io_number, const char *word);
+int	exec_redirection_output_trunc(int io_number, const char *word);
+int	exec_redirection_output_append(int io_number, const char *word);
+int	exec_redirection_input_duplicate(int io_number, const char *word);
+int	exec_redirection_output_duplicate(int io_number, const char *word);
 
 // Tree Walker
 int	exec_node_list(const t_ast_node *node);
@@ -53,6 +71,7 @@ int	exec_node_and_or(const t_ast_node *node);
 pid_t	exec_fork(pid_t *pid);
 int exec_process_group_create(int pid, int pgid);
 int exec_close_fd(int fd);
+int exec_dup_fd(int oldfd, int newfd);
 int get_exit_status(int status);
 int	wait_for_children(pid_t last_pid, pid_t pgid);
 

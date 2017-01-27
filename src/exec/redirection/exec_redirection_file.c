@@ -1,6 +1,6 @@
 #include <unistd.h>
 #include <fcntl.h>
-#include "redirections.h"
+#include "exec.h"
 #include "errors.h"
 #include "stdlib_42.h"
 
@@ -14,11 +14,14 @@ static int	open_file_and_dup(int io_number, int flags, const char *word)
 
 	fd = open(word, flags, DEFAULT_MODE);
 	if (fd == -1)
-		return (ERR_OPEN);
-	if (dup2(io_number, fd) == -1)
-		return (ERR_DUP2);
-	if (close(fd) == 1)
-		return (ERR_CLOSE);
+	{
+		error_set_context("open: %s", strerror(errno));
+		return (ERR_EXEC);
+	}
+	if (exec_dup_fd(io_number, fd) == -1)
+		return (ERR_EXEC);
+	if (exec_close_fd(fd) == 1)
+		return (ERR_EXEC);
 	return (NO_ERROR);
 }
 
