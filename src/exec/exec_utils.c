@@ -24,18 +24,33 @@ int	wait_for_children(pid_t last_pid, pid_t pgid)
 	return (ret);
 }
 
-t_array gather_nodes(const t_ast_node *node, bool (*pred)(int node_type))
+pid_t	exec_fork(pid_t *pid)
 {
-	t_array	stack;
-
-	assert(node != NULL);
-	assert(pred != NULL);
-	fatal_malloc(array_init(&stack, sizeof(t_ast_node*)));
-	while ((*pred)(node->type))
+	*pid = fork();
+	if (*pid == -1)
 	{
-		fatal_malloc(array_push(&stack, &node->right));
-		node = node->left;
+		error_set_context("fork: %s", strerror(errno));
+		return (ERR_EXEC);
 	}
-	array_push(&stack, &node);
-	return (stack);
+	return (NO_ERROR);
+}
+
+int exec_close_fd(int fd)
+{
+	if (close(fd))
+	{
+		error_set_context("close: %s", strerror(errno));
+		return (ERR_EXEC);
+	}
+	return (NO_ERROR);
+}
+
+int exec_process_group_create(int pid, int pgid)
+{
+	if (setpgid(pid, pgid))
+	{
+		error_set_context("setpgid: %s", strerror(errno));
+		return (ERR_EXEC);
+	}
+	return (NO_ERROR);
 }

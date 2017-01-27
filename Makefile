@@ -178,19 +178,23 @@ SOURCES += opt_is_set.c
 SRC_SUBDIR += exec
 SOURCES += exec.c
 SOURCES += exec_command.c
-SOURCES += exec_dispatch.c
-SOURCES += exec_gather_childs.c
-SOURCES += exec_node_andor.c
-SOURCES += exec_pipe.c
-SOURCES += exec_pipe_child.c
-SOURCES += exec_pipe_command.c
-SOURCES += exec_pipe_utils.c
 SOURCES += exec_utils.c
-SOURCES += redir_dup.c
-SOURCES += redir_file.c
-SOURCES += redir_init.c
-SOURCES += redirections.c
-SOURCES += undo_redirections.c
+# And_Or
+SRC_SUBDIR += exec/and_or
+SOURCES += exec_node_and_or.c
+# Pipe
+SRC_SUBDIR += exec/pipe
+SOURCES += exec_node_pipe.c
+SOURCES += exec_pipe_command.c
+SOURCES += exec_pipe_sequence.c
+SOURCES += exec_pipe_utils.c
+# Redirection
+SRC_SUBDIR += exec/redirection
+SOURCES += exec_redirection.c
+SOURCES += exec_redirection_dup.c
+SOURCES += exec_redirection_file.c
+SOURCES += exec_redirection_init.c
+SOURCES += exec_redirection_undo.c
 
 
 # Generation

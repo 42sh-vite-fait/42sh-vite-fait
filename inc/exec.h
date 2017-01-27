@@ -8,14 +8,7 @@
 enum e_exec_errors
 {
 	EXEC_NO_ERROR = NO_ERROR,
-	ERR_OPEN, 
-	ERR_DUP2, 
-	ERR_CLOSE, 
-	ERR_FCNTL, 
-	ERR_BADFD, 
-	ERR_GRLIMIT, 
-	ERR_SRLIMIT, 
-	ERR_FDLIMIT, 
+	ERR_EXEC,
 };
 
 typedef int (t_tree_walker)(const t_ast_node *);
@@ -41,14 +34,25 @@ int		exec_binary(const t_command command);
 /*
 ** Pipe
 */
-int	pipe_init(t_pipe *pype);
-int	pipe_replace_stdout(int write_end);
-int	pipe_replace_stdin(int read_end);
-int	exec_pipe_sequence(const t_ast_node *node);
+int		exec_node_pipe(const t_ast_node *node);
+void	exec_pipe_sequence(const t_ast_node *node);
+void	exec_pipe_command(const t_command command);
+void	pipe_exit_on_child_error(void);
+int		pipe_init(t_pipe *pype);
+int		pipe_replace_stdout(int write_end);
+int		pipe_replace_stdin(int read_end);
+
+/*
+** And_or
+*/
+int	exec_node_and_or(const t_ast_node *node);
 
 /*
 ** Utilities
 */
+pid_t	exec_fork(pid_t *pid);
+int exec_process_group_create(int pid, int pgid);
+int exec_close_fd(int fd);
 int get_exit_status(int status);
 int	wait_for_children(pid_t last_pid, pid_t pgid);
 

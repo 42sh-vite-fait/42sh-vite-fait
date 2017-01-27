@@ -1,7 +1,7 @@
 #include "exec.h"
 #include "array_42.h"
 
-int	exec_pipe_command(const t_command command)
+void	exec_pipe_command(const t_command command)
 {
 	t_array	argv;
 	int		argc;

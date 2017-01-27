@@ -13,9 +13,7 @@ int	exec_node_pipe(const t_ast_node *node)
 	if (pid == -1)
 		error_set_context("fork: %s", strerror(errno));
 	else if (pid == 0)
-	{
-		exec_node_pipe(node);
-	}
+		exec_pipe_sequence(node);
 	setpgid(pid, pid);
 	waitpid(pid, &status, 0); // On attend le fork de controle
 	// TODO: tester retours
