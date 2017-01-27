@@ -1,3 +1,4 @@
+#include <assert.h>
 #include "lexer.h"
 
 static void	lexer_complete(t_lexer *self)
@@ -10,6 +11,9 @@ int		lexer_lex(t_lexer *self, t_array *tokens, const char *input)
 {
 	int		lexing_status;
 
+	assert(self != NULL);
+	assert(tokens != NULL);
+	assert(input != NULL);
 	lexing_status = lexer_tokenize(self, tokens, input);
 	if (lexing_status == LEXER_ERROR)
 		return (LEXER_ERROR);

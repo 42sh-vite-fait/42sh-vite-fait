@@ -1,3 +1,4 @@
+#include <assert.h>
 #include "ft_printf.h"
 #include "parser.h"
 
@@ -41,6 +42,8 @@ int		parser_parse(t_parser *parser)
 
 void	parser_init(t_parser *parser, t_array *tokens)
 {
+	assert(!ARRAY_IS_EMPTY(tokens));
+	assert(parser != NULL);
 	ast_init(&parser->ast);
 	parser->tokens = tokens;
 	parser->current_token = array_get_first(tokens);
