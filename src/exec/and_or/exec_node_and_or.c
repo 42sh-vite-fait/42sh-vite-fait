@@ -3,20 +3,6 @@
 
 extern t_tree_walker	*const g_walkers[];
 
-static t_array	gather_nodes(const t_ast_node *node)
-{
-	t_array	stack;
-
-	assert(node != NULL);
-	fatal_malloc(array_init(&stack, sizeof(t_ast_node*)));
-	while (node->type == E_AST_AND_OR)
-	{
-		fatal_malloc(array_push(&stack, &node));
-		node = node->left;
-	}
-	return (stack);
-}
-
 static int	conditionnal_exec_and_or(const t_ast_node *node, int prev_ret)
 {
 	if (node->token->type == E_TOKEN_AND_IF)
@@ -37,7 +23,7 @@ int		exec_node_and_or(const t_ast_node *node)
 	t_array	andor_nodes_stack;
 	int		ret;
 
-	andor_nodes_stack = gather_nodes(node);
+	andor_nodes_stack = gather_nodes(node, E_AST_AND_OR);
 	array_pop(&andor_nodes_stack, &node);
 	ret = g_walkers[node->left->type](node->left);
 	ret = conditionnal_exec_and_or(node, ret);

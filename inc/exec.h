@@ -38,9 +38,12 @@ int	exec_redirection_input_duplicate(int io_number, const char *word);
 int	exec_redirection_output_duplicate(int io_number, const char *word);
 
 // Tree Walker
+int	exec_node_complete_commands(const t_ast_node *node);
+int	exec_node_complete_command(const t_ast_node *node);
 int	exec_node_list(const t_ast_node *node);
 int	exec_node_and_or(const t_ast_node *node);
 int	exec_node_pipe(const t_ast_node *node);
+int	exec_node_term(const t_ast_node *node);
 int	exec_node_subshell(const t_ast_node *node);
 int	exec_node_simple_command(const t_ast_node *node);
 
@@ -61,11 +64,6 @@ int		pipe_replace_stdout(int write_end);
 int		pipe_replace_stdin(int read_end);
 
 /*
-** And_or
-*/
-int	exec_node_and_or(const t_ast_node *node);
-
-/*
 ** Utilities
 */
 pid_t	exec_fork(pid_t *pid);
@@ -74,5 +72,6 @@ int exec_close_fd(int fd);
 int exec_dup_fd(int oldfd, int newfd);
 int get_exit_status(int status);
 int	wait_for_children(pid_t last_pid, pid_t pgid);
+t_array gather_nodes(const t_ast_node *node, int type);
 
 #endif
