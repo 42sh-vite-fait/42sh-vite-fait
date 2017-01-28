@@ -106,7 +106,7 @@ int		main(int argc, char *argv[])
 
 		// debug
 		if (g_debug_opt & DEBUG_PRINT_INPUT)
-			ft_printf("INPUT: %s\n", input.str);
+			ft_printf("INPUT: [%s]\n", input.str);
 		if (g_debug_opt & DEBUG_PRINT_LEXER)
 			lexer_debug_print_tokens(&tokens);
 		if (g_debug_opt & DEBUG_PRINT_AST)

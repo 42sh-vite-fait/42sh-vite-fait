@@ -15,7 +15,8 @@ trap cleanup EXIT
 shell_test() {
 	test_name="$1/$2"
 	echo "${test_name}"
-	${FTSH_PATH} -d $1 -c "$(cat ${test_name}.cmd)" > cmd.out 2> cmd.err || true
+	command_content=$(cat ${test_name}.cmd; printf xxx); command_content=${command_content%xxx}
+	${FTSH_PATH} -d $1 -c "${command_content}" > cmd.out 2> cmd.err || true
 	command diff --suppress-common-lines --minimal cmd.out ${test_name}.out
 	command diff --suppress-common-lines --minimal cmd.err ${test_name}.err
 }
