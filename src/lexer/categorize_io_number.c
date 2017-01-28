@@ -10,11 +10,6 @@
 ** > inclusive, for use by the application.
 */
 
-static bool	is_only_one_digit(const char *input)
-{
-	return (FT_ISDIGIT(input[0]) && !FT_ISDIGIT(input[1]));
-}
-
 static bool	is_token_redirection(int type)
 {
 	if (type == E_TOKEN_LESS
@@ -30,18 +25,9 @@ static bool	is_token_redirection(int type)
 	return (false);
 }
 
-bool	is_only_digit(const char *input, size_t len)
+bool	is_only_one_digit(const char *input)
 {
-	size_t	index;
-
-	index = 0;
-	while (index < len)
-	{
-		if (!FT_ISDIGIT(input[index]))
-			return (false);
-		index += 1;
-	}
-	return (true);
+	return (FT_ISDIGIT(input[0]) && !FT_ISDIGIT(input[1]));
 }
 
 void	categorize_io_number(t_array *tokens, const char *input)
@@ -59,6 +45,7 @@ void	categorize_io_number(t_array *tokens, const char *input)
 			prev = array_get_at(tokens, index - 1);
 			if (prev->type == E_TOKEN_WORD
 					&& is_only_one_digit(input + prev->start))
+				// TODO le token contient deja une ref vers la string, delete 'input'
 				prev->type = E_TOKEN_IO_NUMBER;
 		}
 		index += 1;

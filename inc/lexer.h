@@ -185,7 +185,7 @@ int			remove_trailing_escaped_newline(t_string *input);
 */
 void		categorize_tokens(t_array *tokens, const char *input);
 void		categorize_io_number(t_array *tokens, const char *input);
-bool		is_only_digit(const char *input, size_t len);
+bool		is_only_one_digit(const char *input);
 
 /*
 ** Debug
