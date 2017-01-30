@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include "exec.h"
@@ -65,11 +66,13 @@ static int	exec_redirection_dup(int io_number, int mode, const char *word)
 // LESSAND
 int	exec_redirection_input_duplicate(int io_number, const char *word)
 {
+	assert(io_number >= 0);
 	return (exec_redirection_dup(io_number, FAM_READING, word));
 }
 
 // GREATAND
 int	exec_redirection_output_duplicate(int io_number, const char *word)
 {
+	assert(io_number >= 0);
 	return (exec_redirection_dup(io_number, FAM_WRITING, word));
 }
