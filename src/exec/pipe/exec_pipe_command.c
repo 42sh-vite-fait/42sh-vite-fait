@@ -10,7 +10,8 @@ void	exec_pipe_command(const t_command command)
 	/* argv = convert_to_str(command.words); */
 	/* argc = argv.len - 1; // TODO: trouver un nom (exec_context_builtin) */
 	/* if (is_builtin(argv[0])) */
-	/* 	exec_builtin(command); */
+	/* status = exec_builtin(command); */
 	/* else */
 	/* 	exec_binary(command); */
+	/* return (status); */
 }

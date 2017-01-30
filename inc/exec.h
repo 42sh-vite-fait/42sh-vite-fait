@@ -23,6 +23,39 @@ struct s_pipe
 	int	write;
 };
 
+/*
+** Tree Walker
+*/
+int	exec_node_complete_commands(const t_ast_node *node);
+int	exec_node_complete_command(const t_ast_node *node);
+int	exec_node_list(const t_ast_node *node);
+int	exec_node_and_or(const t_ast_node *node);
+int	exec_node_pipe(const t_ast_node *node);
+int	exec_node_term(const t_ast_node *node);
+int	exec_node_subshell(const t_ast_node *node);
+int	exec_node_simple_command(const t_ast_node *node);
+
+/*
+** Pipe
+*/
+void	exec_pipe_sequence(const t_ast_node *node);
+void	exec_pipe_command(const t_command command);
+void	pipe_exit_on_child_error(void);
+int		pipe_init(t_pipe *pype);
+int		pipe_replace_stdout(int write_end);
+int		pipe_replace_stdin(int read_end);
+
+/*
+** Simple Command
+*/
+int		exec_simple_command_binary(const t_command command);
+int		exec_simple_command_builtin(const t_command command);
+
+// Execution
+void	exec_binary(const t_command command);
+void	exec_builtin(const t_command command);
+bool 	is_builtin(const char *cmd, size_t len);
+t_array	convert_to_str(t_array tokens);
 
 /*
 ** Redirections
@@ -37,31 +70,6 @@ int	exec_redirection_output_append(int io_number, const char *word);
 int	exec_redirection_input_duplicate(int io_number, const char *word);
 int	exec_redirection_output_duplicate(int io_number, const char *word);
 
-// Tree Walker
-int	exec_node_complete_commands(const t_ast_node *node);
-int	exec_node_complete_command(const t_ast_node *node);
-int	exec_node_list(const t_ast_node *node);
-int	exec_node_and_or(const t_ast_node *node);
-int	exec_node_pipe(const t_ast_node *node);
-int	exec_node_term(const t_ast_node *node);
-int	exec_node_subshell(const t_ast_node *node);
-int	exec_node_simple_command(const t_ast_node *node);
-
-// Execution
-t_array	convert_to_str(t_array tokens);
-int		exec_builtin(const t_command command);
-int		exec_binary(const t_command command);
-
-/*
-** Pipe
-*/
-int		exec_node_pipe(const t_ast_node *node);
-void	exec_pipe_sequence(const t_ast_node *node);
-void	exec_pipe_command(const t_command command);
-void	pipe_exit_on_child_error(void);
-int		pipe_init(t_pipe *pype);
-int		pipe_replace_stdout(int write_end);
-int		pipe_replace_stdin(int read_end);
 
 /*
 ** Utilities

@@ -23,6 +23,7 @@ int		exec_node_and_or(const t_ast_node *node)
 	t_array	andor_nodes_stack;
 	int		ret;
 
+	assert(node != NULL);
 	andor_nodes_stack = gather_nodes(node, E_AST_AND_OR);
 	array_pop(&andor_nodes_stack, &node);
 	ret = g_walkers[node->left->type](node->left);

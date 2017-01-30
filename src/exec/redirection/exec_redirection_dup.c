@@ -56,7 +56,7 @@ static int	exec_redirection_dup(int io_number, int mode, const char *word)
 	if (word[0] == '-' && word[1] == '\0')
 		ret = close_fd(io_number);
 	else if (is_only_one_digit(word))
-		ret = duplicate_fd(io_number, mode, (int)ft_atou(word));
+		ret = duplicate_fd(io_number, mode, (int)ft_atou(word)); // TODO: error
 	else
 		ret = ERR_EXEC;
 	return (ret);

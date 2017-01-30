@@ -72,8 +72,6 @@ void		exec_pipe_sequence(const t_ast_node *node)
 	pid_t	last_pid;
 	int		write_end;
 
-	if (exec_process_group_create(0, 0) != NO_ERROR)
-		_exit(EXIT_FAILURE);
 	if ((write_end = exec_last_child(node, &last_pid)) == -1)
 		pipe_exit_on_child_error();
 	node = node->left;
