@@ -70,6 +70,10 @@ SOURCES += test_parser_separator.c
 SOURCES += test_parser_separator_op.c
 SOURCES += test_parser_ast_compress.c
 
+# Expansion
+SRC_SUBDIR += expansion
+SOURCES += quote_removal.c
+
 SRC_PATH = src
 vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
 

@@ -145,6 +145,10 @@ SOURCES += ast_command.c
 SOURCES += ast_compress.c
 SOURCES += ast_debug_print.c
 
+# Expansion
+SRC_SUBDIR += expansion
+SOURCES += quote_removal.c
+
 # Generation
 vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
 OBJ_PATH   = .obj
