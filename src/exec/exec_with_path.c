@@ -5,8 +5,6 @@
 #define ERROR			(-1)
 #define NO_MORE_PATH	(0)
 #define PATH_FOUND 		(1)
-#define CMD_NOT_EXEC 	(126)
-#define CMD_NOT_FOUND	(127)
 
 static ssize_t	get_next_path_len(const char *paths)
 {
@@ -54,25 +52,25 @@ static int	try_exec_path(const char *paths, char * const *av,
 	int			ret;
 
 	string_init(&test);
-	error = CMD_NOT_FOUND;
+	error = ENOENT;
 	while ((ret = get_next_path(&test, &paths, av[0])) != NO_MORE_PATH)
 	{
-		if (ret == ERROR)
-			continue ;
-		if (execve(test.str, av, envp) == -1 && errno != ENOENT)
-			error = errno;
+		if (ret == PATH_FOUND)
+		{
+			execve(test.str, av, envp);
+			if (errno != ENOENT)
+				error = errno;
+		}
 	}
-	if (error != CMD_NOT_FOUND)
-		error_set_context("%s: %s", strerror(error), av[0]);
-	else
-		error_set_context("command not found: %s", av[0]);
 	string_shutdown(&test);
-	return (ERROR);
+	return (error);
 }
 
 int			exec_with_path(const char *paths, char * const *av,
 		char * const *envp)
 {
+	int	error;
+
 	assert(paths != NULL);
 	assert(av != NULL);
 	assert(av[0] != NULL);
@@ -80,11 +78,16 @@ int			exec_with_path(const char *paths, char * const *av,
 	if (ft_strchr(av[0], '/') != NULL)
 	{
 		execve(av[0], av, envp);
-		error_set_context("%s: %s", strerror(errno), av[0]);
-		ret = CMD_NOT_EXEC;
+		error = errno;
 	}
 	else
-		ret = try_exec_path(paths, av, envp);
+		error = try_exec_path(paths, av, envp);
+	error_set_context("%s: %s", strerror(error), av[0]);
 	error_print("execution");
-	_exit(ret);
+	if (error == ENOENT || error == ENOTDIR || error == ELOOP)
+		_exit(127);
+	else if (error == EACCES)
+		_exit(126);
+	else
+		_exit(errno);
 }
