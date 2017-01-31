@@ -179,6 +179,7 @@ SRC_SUBDIR += exec
 SOURCES += exec.c
 SOURCES += exec_command.c
 SOURCES += exec_utils.c
+SOURCES += exec_with_path.c
 # And_Or
 SRC_SUBDIR += exec/and_or
 SOURCES += exec_node_and_or.c
