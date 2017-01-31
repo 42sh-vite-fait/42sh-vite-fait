@@ -3,6 +3,7 @@
 
 # include <stddef.h>
 
-char	*expand_quote_removal(const char *s, size_t len);
+char * const	*expand_tokens_to_argv(t_array tokens);
+char			*expand_quote_removal(const char *s, size_t len);
 
 #endif
