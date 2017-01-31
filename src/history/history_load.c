@@ -54,7 +54,7 @@ int					history_load_from_file(const char *path)
 	t_string	file;
 	int			fd;
 
-	if ((fd = open(path, O_RDONLY)) == -1)
+	if ((fd = open(path, O_RDONLY | O_CLOEXEC)) == -1)
 		return (-1);
 	if (string_read_from_fd(&file, fd) == NULL)
 	{

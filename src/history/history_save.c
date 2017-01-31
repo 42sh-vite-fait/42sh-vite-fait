@@ -26,7 +26,7 @@ int			history_save_into_file(const char *path)
 	size_t		i;
 	int			fd;
 
-	if ((fd = open(path, O_CREAT | O_RDWR | O_TRUNC, 0600)) == -1)
+	if ((fd = open(path, O_CREAT | O_RDWR | O_TRUNC | O_CLOEXEC, 0600)) == -1)
 		return (-1);
 	if (string_init(&command) == NULL)
 		return (-1);
