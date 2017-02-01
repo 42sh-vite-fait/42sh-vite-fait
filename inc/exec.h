@@ -53,7 +53,7 @@ int		exec_simple_command_binary(const t_command command);
 int		exec_simple_command_builtin(const t_command command);
 
 // Execution
-int		exec_with_path(const char *paths, char * const *av, char * const *envp);
+void	exec_with_path(const char *paths, char * const *av, char * const *envp);
 void	exec_binary(const t_command command);
 
 /*

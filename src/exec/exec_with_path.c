@@ -66,7 +66,22 @@ static int	try_exec_path(const char *paths, char * const *av,
 	return (error);
 }
 
-int			exec_with_path(const char *paths, char * const *av,
+static void	exec_handle_error(const char *cmd, int error)
+{
+	if (error == ENOENT)
+		error_set_context("command not found: %s", cmd);
+	else
+		error_set_context("%s: %s", strerror(error), cmd);
+	error_print("execution");
+	if (error == ENOENT || error == ENOTDIR || error == ELOOP)
+		_exit(127);
+	else if (error == EACCES)
+		_exit(126);
+	else
+		_exit(error);
+}
+
+void		exec_with_path(const char *paths, char * const *av,
 		char * const *envp)
 {
 	int	error;
@@ -82,12 +97,5 @@ int			exec_with_path(const char *paths, char * const *av,
 	}
 	else
 		error = try_exec_path(paths, av, envp);
-	error_set_context("%s: %s", strerror(error), av[0]);
-	error_print("execution");
-	if (error == ENOENT || error == ENOTDIR || error == ELOOP)
-		_exit(127);
-	else if (error == EACCES)
-		_exit(126);
-	else
-		_exit(errno);
+	exec_handle_error(av[0], error);
 }
