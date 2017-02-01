@@ -13,9 +13,15 @@ int exec_close_fd(int fd)
 	return (NO_ERROR);
 }
 
-int exec_dup_fd(int oldfd, int newfd)
+/*
+** 'origin' ---> a ; 'dup' ---> b
+** dup2(oldfd, newfd)
+** 'origin' ---> a ; 'dup' ---> a
+*/
+
+int exec_dup_fd(int origin, int dup)
 {
-	if (dup2(oldfd, newfd) == -1)
+	if (dup2(origin, dup) == -1)
 	{
 		error_set_context("dup2: %s", strerror(errno));
 		return (ERR_EXEC);

@@ -7,8 +7,8 @@
 
 void exec_binary(const t_command command)
 {
-	const char			*paths;
-	char * const		*argv;
+	const char		*paths;
+	char * const	*argv;
 	char * const	*envp;
 
 	if (exec_redirection(command.redirections) != NO_ERROR)

@@ -12,15 +12,15 @@ static bool	is_fd_open(int fd)
 	return (fcntl(fd, F_GETFD) != -1 || errno != EBADF);
 }
 
-static int	restore_standard_fd(int fd)
+static int	restore_standard_fd(int io_number)
 {
-	return (exec_dup_fd(fd, exec_backup_get_standard_fd(fd)));
+	return (exec_dup_fd(exec_backup_get_standard_fd(io_number), io_number));
 }
 
-static int	close_opened_file(int fd)
+static int	close_opened_file(int io_number)
 {
-	if (is_fd_open(fd))
-		if (exec_close_fd(fd) != NO_ERROR)
+	if (is_fd_open(io_number))
+		if (exec_close_fd(io_number) != NO_ERROR)
 			return (ERR_EXEC);
 	return (NO_ERROR);
 }
