@@ -19,9 +19,9 @@ static int	open_file_and_dup(int io_number, int flags, const char *word)
 		error_set_context("open: %s", strerror(errno));
 		return (ERR_EXEC);
 	}
-	if (exec_dup_fd(io_number, fd) == -1)
+	if (exec_dup_fd(io_number, fd) != NO_ERROR)
 		return (ERR_EXEC);
-	if (exec_close_fd(fd) == 1)
+	if (exec_close_fd(fd) != NO_ERROR)
 		return (ERR_EXEC);
 	return (NO_ERROR);
 }

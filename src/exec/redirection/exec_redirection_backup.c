@@ -4,7 +4,7 @@
 #include "errors.h"
 #include "exec.h"
 
-#define MAX_FD (3)
+#define MAX_FD_TO_DUP 	(3)
 #define BACKUP_OFFSET	(10)
 
 static int	g_backup_standard_fd[3];
@@ -25,12 +25,12 @@ static int	increase_open_files_limit(void)
 
 	if (get_limit_max_open_files(&limit) != NO_ERROR)
 		return (ERR_EXEC);
-	if (limit.rlim_max < MAX_FD + BACKUP_OFFSET)
+	if (limit.rlim_max < MAX_FD_TO_DUP + BACKUP_OFFSET)
 	{
 		error_set_context("limit max fd too low: %d", (int)limit.rlim_max);
 		return (ERR_EXEC);
 	}
-	if (limit.rlim_cur < MAX_FD + BACKUP_OFFSET)
+	if (limit.rlim_cur < MAX_FD_TO_DUP + BACKUP_OFFSET)
 	{
 		limit.rlim_cur = limit.rlim_max;
 		if (setrlimit(RLIMIT_NOFILE, &limit) == -1)
@@ -70,10 +70,10 @@ int	exec_backup_standard_fd(void)
 	if (ret != NO_ERROR)
 		return (ret);
 	i = 0;
-	while (i < MAX_FD)
+	while (i < MAX_FD_TO_DUP)
 	{
-		g_backup_standard_fd[i] = exec_dup_fd(i, BACKUP_OFFSET + i);
-		if (g_backup_standard_fd[i] != NO_ERROR)
+		g_backup_standard_fd[i] = BACKUP_OFFSET + i;
+		if (exec_dup_fd(i, g_backup_standard_fd[i]) != NO_ERROR)
 			return (ERR_EXEC);
 		if (set_close_on_exec_flag(g_backup_standard_fd[i]) != NO_ERROR)
 			return (ERR_EXEC);

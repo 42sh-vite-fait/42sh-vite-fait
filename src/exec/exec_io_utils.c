@@ -5,7 +5,7 @@
 
 int exec_close_fd(int fd)
 {
-	if (close(fd))
+	if (close(fd) == -1)
 	{
 		error_set_context("close: %s", strerror(errno));
 		return (ERR_EXEC);
@@ -15,7 +15,7 @@ int exec_close_fd(int fd)
 
 int exec_dup_fd(int oldfd, int newfd)
 {
-	if (dup2(oldfd, newfd))
+	if (dup2(oldfd, newfd) == -1)
 	{
 		error_set_context("dup2: %s", strerror(errno));
 		return (ERR_EXEC);
