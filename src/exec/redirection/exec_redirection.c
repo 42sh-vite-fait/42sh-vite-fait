@@ -3,6 +3,11 @@
 #include "exec.h"
 #include "ast.h"
 
+/*
+** 2.7 Redirection
+** A failure to open or create a file shall cause a redirection to fail.
+*/ // TODO
+
 static int	exec_redirection_dispatch(struct s_redirection redir)
 {
 	char	*word;

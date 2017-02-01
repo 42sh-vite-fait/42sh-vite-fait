@@ -15,7 +15,7 @@ int exec_close_fd(int fd)
 
 /*
 ** 'origin' ---> a ; 'dup' ---> b
-** dup2(oldfd, newfd)
+** dup2(origin, dup)
 ** 'origin' ---> a ; 'dup' ---> a
 */
 

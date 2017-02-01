@@ -5,8 +5,8 @@
 #include "lexer.h"
 #include "errors.h"
 
-#define FAM_READING (O_RDWR | O_RDONLY)
-#define FAM_WRITING (O_RDWR | O_WRONLY)
+#define READING_MODE (O_RDWR | O_RDONLY)
+#define WRITING_MODE (O_RDWR | O_WRONLY)
 #define MAX_FD_POSIX_COMPLIANCE (9)
 
 /*
@@ -16,37 +16,40 @@
 
 static int	close_fd(int io_number)
 {
-	int	fd;
+	int	devnull;
 
 	if (IS_FD_STANDARD(io_number))
 	{
-		fd = open("/dev/null", O_RDWR, 0666);
-		if (fd == -1)
-			return (ERR_EXEC);
-		if (dup2(io_number, fd) == -1)
+		devnull = open("/dev/null", O_RDWR, 0666);
+		if (devnull == -1 || exec_dup_fd(devnull, io_number) == -1)
 			return (ERR_EXEC);
 	}
 	else
-		close(io_number);
+		exec_close_fd(io_number);
 	return (NO_ERROR);
 }
 
-static int	duplicate_fd(int io_number, int mode, int word)
+static int	duplicate_fd(int io_number, int mode, unsigned word)
 {
 	int	flags;
 
-	if (word > MAX_FD_POSIX_COMPLIANCE)
-		return (ERR_EXEC);
+	assert(io_number < MAX_FD_POSIX_COMPLIANCE);
 	flags = fcntl(word, F_GETFL);
 	if (flags == -1)
+	{
+		error_set_context("%d: %s", word, strerror(errno));
 		return (ERR_EXEC);
+	}
 	if (flags & mode)
 	{
-		if (dup2(io_number, word) == -1)
+		if (exec_dup_fd(word, io_number) == -1)
 			return (ERR_EXEC);
 	}
 	else
+	{
+		error_set_context("%d: access mode invalid", word);
 		return (ERR_EXEC);
+	}
 	return (NO_ERROR);
 }
 
@@ -54,10 +57,10 @@ static int	exec_redirection_dup(int io_number, int mode, const char *word)
 {
 	int	ret;
 
-	if (word[0] == '-' && word[1] == '\0')
+	if (ft_strcmp(word, "-") == 0)
 		ret = close_fd(io_number);
 	else if (is_only_one_digit(word))
-		ret = duplicate_fd(io_number, mode, (int)ft_atou(word)); // TODO: error
+		ret = duplicate_fd(io_number, mode, ft_atou(word));
 	else
 		ret = ERR_EXEC;
 	return (ret);
@@ -67,12 +70,12 @@ static int	exec_redirection_dup(int io_number, int mode, const char *word)
 int	exec_redirection_input_duplicate(int io_number, const char *word)
 {
 	assert(io_number >= 0);
-	return (exec_redirection_dup(io_number, FAM_READING, word));
+	return (exec_redirection_dup(io_number, READING_MODE, word));
 }
 
 // GREATAND
 int	exec_redirection_output_duplicate(int io_number, const char *word)
 {
 	assert(io_number >= 0);
-	return (exec_redirection_dup(io_number, FAM_WRITING, word));
+	return (exec_redirection_dup(io_number, WRITING_MODE, word));
 }
