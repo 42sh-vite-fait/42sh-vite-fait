@@ -1,31 +1,26 @@
-#include <stdbool.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <stdbool.h>
+#include "builtins.h"
 #include "str_42.h"
 
 #define ARRAY_ELEMS(A)	(sizeof(A) / sizeof(A[0]))
 
-typedef int					t_builtin(int, const char * const *);
-
-typedef struct s_pair_name_builtin	t_pair_name_builtin;
-
-struct	s_pair_name_builtin
-{
-	char		*name;
-	t_builtin	*builtin;
-};
-
-
+/*
+** These shall be sorted
+*/
 static t_pair_name_builtin		g_builtins[] =
 {
-	{"cd", (t_builtin *)1},
-	{"fc", (t_builtin *)2},
-	{"getopts", (t_builtin *)3},
-	{"pwd", (t_builtin *)4},
-	{"read", (t_builtin *)5},
+	{"cd", NULL},
+	{"echo", NULL},
+	{"getenv", NULL},
+	{"pwd", NULL},
+	{"setenv", NULL},
 };
 
-static int	are_builtins_sorted()
+#ifndef NDEBUG
+
+static int	are_builtins_sorted(void)
 {
 	size_t	i;
 
@@ -39,11 +34,9 @@ static int	are_builtins_sorted()
 	return (1);
 }
 
-/*
-  such dychotomy
-  never ask me how it works...
-*/
-t_builtin	*find_builtin(char const *name)
+#endif
+
+static int	find_builtin_id(char const *name, size_t len)
 {
 	size_t	min;
 	size_t	max;
@@ -57,31 +50,37 @@ t_builtin	*find_builtin(char const *name)
 	while (min != max)
 	{
 		i = min + (max - min) / 2;
-		diff = ft_strcmp(name, g_builtins[i].name);
+		diff = ft_strncmp(name, g_builtins[i].name, len);
 		if (diff == 0)
-			return (g_builtins[i].builtin);
+			return ((int)i);
 		else if (diff > 0)
 			min += (max - min + 1) / 2;
 		else
 			max -= (max - min + 1) / 2;
 	}
-	return (NULL);
-}
-
-int	exec_builtin(const char *paths, char * const *av, char * const *envp)
-{
-	// recupere l'index du builtin
-	// call le builtin
-	// retourne l'exit code du builtin
-	(void)paths;
-	(void)av;
-	(void)envp;
 	return (-1);
 }
 
-bool is_builtin(const char *cmd, size_t	len)
+bool		is_builtin(const char *name, size_t len)
 {
-	(void)cmd;
-	(void)len;
-	return (false);
+	return (find_builtin_id(name, len) != -1);
+}
+
+const char	*complete_builtin_name(const char *name, size_t len)
+{
+	int		id;
+
+	id = find_builtin_id(name, len);
+	if (id != -1)
+		return (g_builtins[id].name);
+	return (NULL);
+}
+
+int			exec_builtin(int ac, char *const *av, char *const *env)
+{
+	int		id;
+
+	id = find_builtin_id(av[0], ft_strlen(av[0]) + 1);
+	assert(id != -1);
+	return (g_builtins[id].builtin(ac, av, env));
 }
