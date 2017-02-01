@@ -26,6 +26,7 @@ struct s_pipe
 /*
 ** Tree Walker
 */
+int exec_ast(const t_ast ast);
 int	exec_node_complete_commands(const t_ast_node *node);
 int	exec_node_complete_command(const t_ast_node *node);
 int	exec_node_list(const t_ast_node *node);

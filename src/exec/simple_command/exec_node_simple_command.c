@@ -1,6 +1,7 @@
 #include <assert.h>
 #include "ast.h"
 #include "exec.h"
+#include "builtins.h"
 
 extern t_tree_walker	*const g_walkers[];
 

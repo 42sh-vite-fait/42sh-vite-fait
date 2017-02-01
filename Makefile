@@ -163,6 +163,7 @@ SOURCES += ast_debug_print.c
 
 # Expansion
 SRC_SUBDIR += expansion
+SOURCES += expand_tokens_to_argv.c
 SOURCES += quote_removal.c
 
 # Builtins
@@ -178,8 +179,13 @@ SOURCES += opt_is_set.c
 SRC_SUBDIR += exec
 SOURCES += exec.c
 SOURCES += exec_command.c
-SOURCES += exec_utils.c
+SOURCES += exec_io_utils.c
+SOURCES += exec_node_utils.c
+SOURCES += exec_process_utils.c
 SOURCES += exec_with_path.c
+# List
+SRC_SUBDIR += exec/list
+SOURCES += exec_node_list.c
 # And_Or
 SRC_SUBDIR += exec/and_or
 SOURCES += exec_node_and_or.c
@@ -189,6 +195,13 @@ SOURCES += exec_node_pipe.c
 SOURCES += exec_pipe_command.c
 SOURCES += exec_pipe_sequence.c
 SOURCES += exec_pipe_utils.c
+# Simple Command
+SRC_SUBDIR += exec/simple_command
+SOURCES += exec_node_simple_command.c
+SOURCES += exec_simple_command.c
+# Builtins
+SRC_SUBDIR += exec/builtins
+SOURCES += builtin_manager.c
 # Redirection
 SRC_SUBDIR += exec/redirection
 SOURCES += exec_redirection.c
@@ -196,6 +209,8 @@ SOURCES += exec_redirection_dup.c
 SOURCES += exec_redirection_file.c
 SOURCES += exec_redirection_init.c
 SOURCES += exec_redirection_undo.c
+SOURCES += exec_redirection_backup.c
+
 
 
 # Generation

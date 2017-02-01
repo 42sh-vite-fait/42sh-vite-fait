@@ -22,7 +22,7 @@ int exec_simple_command_binary(const t_command command)
 	}
 	else if (pid == 0)
 	{
-		if (exec_process_group_create(pid, pid) != NO_ERROR)
+		if (exec_process_group_create(0, 0) != NO_ERROR)
 			return (-1);
 		exec_binary(command);
 		status = -1;
@@ -39,5 +39,5 @@ int exec_simple_command_binary(const t_command command)
 int exec_simple_command_builtin(const t_command command)
 {
 	(void)command;
-	return (0);
+	return (-1);
 }

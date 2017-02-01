@@ -27,10 +27,11 @@ enum	e_variable_errors
 ** extern char	**g_environ;
 */
 
-void		var_init(void);
-void		var_shutdown(void);
-int			var_set(const char *name, const char *value, int attrs);
-int			var_get(const char *name, const char **value);
-int			var_unset(const char *name);
+void			var_init(void);
+void			var_shutdown(void);
+int				var_set(const char *name, const char *value, int attrs);
+int				var_get(const char *name, const char **value);
+char * const	*var_get_environ(void);
+int				var_unset(const char *name);
 
 #endif

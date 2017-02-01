@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdlib.h>
 #include <assert.h>
 #include "str_42.h"
@@ -72,4 +73,15 @@ int	exec_builtin(const char *paths, char * const *av, char * const *envp)
 	// recupere l'index du builtin
 	// call le builtin
 	// retourne l'exit code du builtin
+	(void)paths;
+	(void)av;
+	(void)envp;
+	return (-1);
+}
+
+bool is_builtin(const char *cmd, size_t	len)
+{
+	(void)cmd;
+	(void)len;
+	return (false);
 }
