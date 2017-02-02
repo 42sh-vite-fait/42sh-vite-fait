@@ -3,55 +3,10 @@
 #include "lexer.h"
 #include "parser.h"
 #include "ft_printf.h"
-#include "unistd_42.h"
 #include "array_42.h"
 #include <history.h>
 
 #define SHELL_PROMPT 		"42sh> "
-#define DEBUG_PRINT_AST		(1U << 1)
-#define DEBUG_PRINT_LEXER	(1U << 2)
-#define DEBUG_PRINT_INPUT	(1U << 3)
-
-static unsigned		g_debug_opt;
-static const char	*g_command_line;
-
-int	history_substitutions(t_string *command);
-
-static void	usage(const char *name)
-{
-	ft_dprintf(2, "usage:  %s [option] [cstring]\n"
-				  "        %s -d {ast,lexer,input}\n", name, name);
-	exit(1);
-}
-
-static void	shell_debug_parse_options(int argc, char *argv[])
-{
-	t_opt	opt;
-	int ch;
-
-	OPT_INIT(opt);
-	while ((ch = ft_getopt(argc, argv, "c:d:", &opt)) != -1)
-	{
-		switch (ch) {
-			case 'd':
-				if (!ft_strcmp(opt.optarg, "ast"))
-					g_debug_opt |= DEBUG_PRINT_AST;
-				else if (!ft_strcmp(opt.optarg, "lexer"))
-					g_debug_opt |= DEBUG_PRINT_LEXER;
-				else if (!ft_strcmp(opt.optarg, "input"))
-					g_debug_opt |= DEBUG_PRINT_INPUT;
-				else
-					usage(argv[0]);
-				break;
-			case 'c':
-				g_command_line = opt.optarg;
-				break;
-			default:
-				usage(argv[0]);
-				break;
-		}
-	}
-}
 
 int		main(int argc, char *argv[])
 {
@@ -63,11 +18,11 @@ int		main(int argc, char *argv[])
 
 	// should we run in debug mode ?
 	if (argc > 1)
-		shell_debug_parse_options(argc, argv);
+		opt_parse(argc, argv);
 
 	lexer_init(&lexer);
 	array_init(&tokens, sizeof(t_token));
-	history_init(4);
+	history_init(4096);
 	while (42)
 	{
 		// Interactive ?
@@ -76,8 +31,6 @@ int		main(int argc, char *argv[])
 			input = input_get_line(SHELL_PROMPT);
 			while (remove_trailing_escaped_newline(&input))
 				input = input_get_line(SHELL_PROMPT);
-			if (history_substitutions(&input) < 0)
-				;
 			if (input.len > 1)
 				history_add(string_create_dup(input.str));
 		}
@@ -102,7 +55,6 @@ int		main(int argc, char *argv[])
 				string_shutdown(&tmp);
 			}
 		}
-		ft_printf("INPUT: %s\n\n", input.str);
 
 		// parser
 		parser_init(&parser, &tokens);

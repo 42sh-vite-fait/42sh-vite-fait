@@ -164,6 +164,11 @@ SOURCES += quote_removal.c
 SRC_SUBDIR += builtins
 SOURCES += builtin_history.c
 
+# Opt
+SRC_SUBDIR += opt
+SOURCES += opt_parse.c
+SOURCES += opt_is_set.c
+
 # Generation
 vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
 OBJ_PATH   = .obj
