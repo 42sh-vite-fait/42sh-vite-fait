@@ -1,6 +1,8 @@
 #ifndef OPT_H
 # define OPT_H
 
+#include <stdbool.h>
+
 #define OPT_NO_OPT		(1U << 0)
 #define OPT_DEBUG_AST	(1U << 1)
 #define OPT_DEBUG_LEXER	(1U << 2)

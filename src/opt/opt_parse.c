@@ -1,20 +1,20 @@
 #include "unistd_42.h"
 #include "opt.h"
 
-static unsigned		g_opt_debug;
+unsigned			g_opt_debug;
 static const char	*g_opt_command_line;
 
-static void	usage(const char *name)
+static void	usage(const char *argv0)
 {
 	const char	*usage =
 		"usage:  %s [option] [cstring]\n"
 		"        %s -d {ast,lexer,input}\n";
 
-	ft_dprintf(2, usage, name, name);
+	ft_dprintf(2, usage, argv0, argv0);
 	exit(1);
 }
 
-static void	get_debug_optiong(const char *optarg)
+static unsigned	get_debug_option(const char *argv0, const char *optarg)
 {
 	unsigned	options;
 
@@ -28,13 +28,13 @@ static void	get_debug_optiong(const char *optarg)
 	else if (!ft_strcmp(optarg, "exec"))
 		options = OPT_DEBUG_EXEC;
 	else
-		usage(argv[0]);
+		usage(argv0);
 	return (options);
 }
 
 const char	*opt_get_command_line(void)
 {
-	return (g_command_line);
+	return (g_opt_command_line);
 }
 
 void		opt_parse(int argc, char *argv[])
@@ -46,7 +46,7 @@ void		opt_parse(int argc, char *argv[])
 	while ((ch = ft_getopt(argc, argv, "c:d:", &opt)) != -1)
 	{
 		if (ch == 'd')
-			g_opt_debug |= get_debug_option(opt.optarg);
+			g_opt_debug |= get_debug_option(argv[0], opt.optarg);
 		else if (ch == 'c')
 		{
 			g_opt_command_line = opt.optarg;

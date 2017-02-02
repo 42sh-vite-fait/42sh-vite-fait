@@ -6,7 +6,7 @@ t_string	input_get_delim(void)
 	return ((t_string){0, 0, 0});
 }
 
-t_string input_get_line(const char *prompt)
+t_string	input_get_line(const char *prompt)
 {
 	t_string input;
 

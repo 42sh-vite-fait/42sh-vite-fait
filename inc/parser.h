@@ -51,7 +51,9 @@ const t_token	*parser_get_lookahead_token(const t_parser *parser, size_t n);
 ** `ERR_PARSING` sinon.
 */
 int		parser_parse(t_parser *parser);
-void	parser_init(t_parser *parser, t_array *tokens);
+t_parser	*parser_init(t_parser *parser);
+void	parser_init_with_tokens(t_parser *parser, const t_array *tokens);
+void	parser_clear(t_parser *parser);
 void	parser_shutdown(t_parser *parser);
 
 // Separator/Linebreak

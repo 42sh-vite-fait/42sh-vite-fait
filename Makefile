@@ -23,6 +23,13 @@ CFLAGS     += -I./inc
 SRC_PATH   += src
 SOURCES    += main.c
 
+# Shell
+SRC_SUBDIR += shell
+SOURCES += shell_loop.c
+SOURCES += shell_input.c
+SOURCES += shell_lexer.c
+SOURCES += shell_parser.c
+
 # Errors
 SRC_SUBDIR += error
 SOURCES    += errors.c
@@ -125,6 +132,7 @@ SOURCES += quoting.c
 # Parser
 SRC_SUBDIR += parser
 SOURCES += parser.c
+SOURCES += parser_init.c
 SOURCES += parser_utils.c
 SOURCES += predict_and_or.c
 SOURCES += predict_cmd_prefix.c
