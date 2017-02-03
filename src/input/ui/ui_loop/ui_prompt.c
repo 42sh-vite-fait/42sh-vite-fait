@@ -2,5 +2,6 @@
 
 size_t prompt(const char *prompt)
 {
-	return (ft_printf("%s", prompt));
+	ft_printf("%s", prompt);
+	return (ft_strlen(prompt));
 }
