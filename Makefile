@@ -157,8 +157,7 @@ SOURCES += predict_term.c
 SOURCES += heredoc.c
 
 # AST
-SRC_SUBDIR += ast
-SOURCES += ast.c
+SRC_SUBDIR += parser/ast
 SOURCES += ast_node.c
 SOURCES += ast_command.c
 SOURCES += ast_compress.c

@@ -54,9 +54,6 @@ struct	s_ast
 	t_ast_node	*root;
 };
 
-t_ast		*ast_init(t_ast *ast);
-void		ast_clear(t_ast *ast);
-void		ast_shutdown(t_ast *ast);
 void		ast_compress(t_ast *ast);
 t_ast_node	*ast_node_create(t_ast *ast);
 void		ast_node_remove(t_ast *ast, t_ast_node *node);

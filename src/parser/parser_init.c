@@ -3,12 +3,14 @@
 #include "ast.h"
 #include "memory_42.h"
 #include "array_42.h"
+#include "pool_42.h"
 
 t_parser	*parser_init(t_parser *parser)
 {
 	assert(parser != NULL);
-	if (ast_init(&parser->ast) == NULL)
+	if (pool_init(&parser->ast.pool, sizeof(t_ast_node)) == NULL)
 		return (NULL);
+	parser->ast.root = NULL;
 	return (parser);
 }
 
@@ -24,10 +26,11 @@ void		parser_init_with_tokens(t_parser *parser, const t_array *tokens)
 
 void		parser_clear(t_parser *parser)
 {
-	ast_clear(&parser->ast);
+	ast_nodes_clear(&parser->ast);
+	parser->ast.root = NULL;
 }
 
 void		parser_shutdown(t_parser *parser)
 {
-	ast_shutdown(&parser->ast);
+	pool_shutdown(&parser->ast.pool);
 }

@@ -34,14 +34,10 @@ void shell_loop(void)
 	{
 		// input
 		shell_input(&input);
-
 		if (input.str == NULL)
 			break ;
 		if (input.len == 0)
-		{
-			write(1, "\n", 1);
 			continue ;
-		}
 
 		// history
 		history_add(fatal_malloc(string_create_dup(input.str)));
