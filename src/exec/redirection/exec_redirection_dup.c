@@ -7,7 +7,6 @@
 
 #define READING_MODE (O_RDWR | O_RDONLY)
 #define WRITING_MODE (O_RDWR | O_WRONLY)
-#define MAX_FD_POSIX_COMPLIANCE (9)
 
 /*
 ** See the Rationale for the explanation of why dup2 on /dev/null
@@ -33,7 +32,7 @@ static int	duplicate_fd(int io_number, int mode, unsigned word)
 {
 	int	flags;
 
-	assert(io_number < MAX_FD_POSIX_COMPLIANCE);
+	assert(word <= MAX_FD_POSIX_COMPLIANCE);
 	flags = fcntl(word, F_GETFL);
 	if (flags == -1)
 	{
@@ -62,20 +61,23 @@ static int	exec_redirection_dup(int io_number, int mode, const char *word)
 	else if (is_only_one_digit(word))
 		ret = duplicate_fd(io_number, mode, ft_atou(word));
 	else
+	{
+		error_set_context("%s: illegal file descriptor name", word);
 		ret = ERR_EXEC;
+	}
 	return (ret);
 }
 
 // LESSAND
 int	exec_redirection_input_duplicate(int io_number, const char *word)
 {
-	assert(io_number >= 0);
+	assert(io_number >= 0 && io_number <= MAX_FD_POSIX_COMPLIANCE);
 	return (exec_redirection_dup(io_number, READING_MODE, word));
 }
 
 // GREATAND
 int	exec_redirection_output_duplicate(int io_number, const char *word)
 {
-	assert(io_number >= 0);
+	assert(io_number >= 0 && io_number <= MAX_FD_POSIX_COMPLIANCE);
 	return (exec_redirection_dup(io_number, WRITING_MODE, word));
 }
