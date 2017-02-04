@@ -33,6 +33,7 @@ int	shell_lexer(t_string *input, t_array *tokens)
 	if (status == LEXER_ERROR)
 	{
 		error_set_context("lexing error !");
+		error_print("lexer");
 		string_shutdown(input);
 	}
 	if (opt_is_set(OPT_DEBUG_LEXER))

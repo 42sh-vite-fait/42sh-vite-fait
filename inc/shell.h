@@ -10,8 +10,9 @@
 
 
 void	shell_loop(void);
-void	shell_input(t_string *input);
+void	*shell_input(t_string *input);
 int		shell_lexer(t_string *input, t_array *tokens);
 int		shell_parser(t_parser *parser, const t_array *tokens);
+int		shell_exec(t_ast ast);
 
 #endif

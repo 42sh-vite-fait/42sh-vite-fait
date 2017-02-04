@@ -5,7 +5,7 @@
 #include "opt.h"
 #include "input.h"
 
-void	shell_input(t_string *input)
+void	*shell_input(t_string *input)
 {
 	const char	*cmdline;
 
@@ -23,4 +23,5 @@ void	shell_input(t_string *input)
 	}
 	if (opt_is_set(OPT_DEBUG_INPUT))
 		ft_printf("INPUT: [%s]\n", input->str);
+	return (input->str);
 }

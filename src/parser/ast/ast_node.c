@@ -40,4 +40,3 @@ void		ast_nodes_clear(t_ast *ast)
 	}
 	array_shutdown(&nodes);
 }
-
