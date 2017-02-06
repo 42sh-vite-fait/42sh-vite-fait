@@ -26,12 +26,6 @@ typedef struct	s_pair_name_builtin
 int				exec_builtin(int ac, char *const *av, char *const *env);
 
 /*
-** Completes a builtin, if possible, given its first `len` letters.
-** Returns a builtin name, or NULL if none is found.
-*/
-const char		*complete_builtin_name(const char *name, size_t len);
-
-/*
 ** Tells if `name` corresponds to a builtin.
 */
 bool			is_builtin(const char *name, size_t len);

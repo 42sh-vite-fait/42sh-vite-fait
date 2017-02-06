@@ -66,16 +66,6 @@ bool		is_builtin(const char *name, size_t len)
 	return (find_builtin_id(name, len) != -1);
 }
 
-const char	*complete_builtin_name(const char *name, size_t len)
-{
-	int		id;
-
-	id = find_builtin_id(name, len);
-	if (id != -1)
-		return (g_builtins[id].name);
-	return (NULL);
-}
-
 int			exec_builtin(int ac, char *const *av, char *const *env)
 {
 	int		id;
