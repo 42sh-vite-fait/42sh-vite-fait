@@ -2,14 +2,13 @@
 # define USER_INTERFACE_H
 
 # include <sys/ioctl.h>
-# include <termios.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <term.h>
 # include <stdbool.h>
 # include <stdint.h>
 # include "lib42.h"
 # include "history.h"
+# include "terminal.h"
 
 # define UI_COLOR_CYAN "\x1b[37m"
 # define UI_COLOR_RESET "\x1b[36m"
@@ -219,27 +218,8 @@ int			ui_get_user_input(t_string *input, const char *prompt);
 */
 void		ui_display_user_entry(t_editenv *e);
 void		read_user_entry(t_editenv *e);
-int			stop_termcap(void);
-int			start_termcap(void);
 void 		ui_execute_handler(t_editenv *e);
 void		ui_minimalist_display_user_entry(t_editenv *e);
-
-/*
-** termcap command
-*/
-void		term_command(char *entry);
-void		term_newline(void);
-void		term_clear_bottom(void);
-void		term_restore_cursor(void);
-void		term_toggle_video_mode(void);
-void		term_save_cursor(void);
-void		term_delete(int len);
-void		term_move_cursor_row(int n);
-int			get_cols(void);
-int			get_lines(void);
-int			tputs_write(int c);
-void		term_mode(void);
-void		normal_mode(void);
 
 /*
 ** handler

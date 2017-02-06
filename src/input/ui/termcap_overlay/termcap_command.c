@@ -1,4 +1,4 @@
-#include "user_interface.h"
+#include "terminal.h"
 
 void	term_command(char *entry)
 {
