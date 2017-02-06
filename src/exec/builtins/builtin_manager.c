@@ -9,7 +9,7 @@
 /*
 ** These shall be sorted
 */
-static t_pair_name_builtin		g_builtins[] =
+t_pair_name_builtin	g_builtins[] =
 {
 	{"cd", NULL},
 	{"echo", NULL},
@@ -17,6 +17,7 @@ static t_pair_name_builtin		g_builtins[] =
 	{"pwd", NULL},
 	{"setenv", NULL},
 };
+const size_t		g_builtins_nb = sizeof(g_builtins) / sizeof(g_builtins[0]);
 
 #ifndef NDEBUG
 
