@@ -23,7 +23,7 @@ int exec_simple_command_binary(const t_command command)
 	else if (pid == 0)
 	{
 		if (exec_process_group_create(0, 0) != NO_ERROR)
-			return (-1);
+			_exit(-1);
 		exec_binary(command);
 		status = -1;
 	}
