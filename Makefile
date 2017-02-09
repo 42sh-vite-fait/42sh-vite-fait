@@ -111,6 +111,9 @@ RULES_XML = $(CONTRIB)/lexing_rules.xml
 PYTHON_GEN_TABLE = $(CONTRIB)/gen_transtable.py
 LEXER_TEMPLATE = $(CONTRIB)/lexer_table.c.template
 
+# Quoting
+SOURCES += quoting.c
+
 # Parser
 SRC_SUBDIR += parser
 SOURCES += parser.c
