@@ -41,4 +41,15 @@ int				string_write_to_fd(const t_string *s, int fd);
 
 char	*ft_tmpfile(const char *prefix);
 
+/*
+** `get_next_path` is meant to iterate through the PATH
+** environment variable.
+** `paths` is a pointer to a colon-separated list of folders.
+** It is incremented with each call.
+** `path` is filled with a path. The t_string shall be initialized.
+** The function returns `paths` incremented for the next
+** path, or NULL if `paths` contains no more paths.
+*/
+const char	*get_next_path(t_string *path, char const *paths);
+
 #endif

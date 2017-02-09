@@ -45,9 +45,11 @@ SOURCES += test_string_escape.c
 SRC_SUBDIR += var
 SOURCES += test_var.c
 
+# Misc
 SRC_SUBDIR += misc
 SOURCES += is_valid_name.c
 SOURCES += is_valid_alias_name.c
+SOURCES += test_path_scanning.c
 
 # Lexer
 SRC_SUBDIR += lexer
