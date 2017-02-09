@@ -3,12 +3,8 @@
 #include "history.h"
 #include "parser.h"
 #include "shell.h"
-
-static void	shell_struct_init(t_array *tokens, t_parser *parser)
-{
-	fatal_malloc(array_init(tokens, sizeof(t_token)));
-	fatal_malloc(parser_init(parser));
-}
+#include "opt.h"
+#include "input.h"
 
 static void	shell_struct_clear(t_array *tokens, t_parser *parser)
 {
@@ -16,36 +12,73 @@ static void	shell_struct_clear(t_array *tokens, t_parser *parser)
 	parser_clear(parser);
 }
 
-static void	shell_struct_shutdown(t_array *tokens, t_parser *parser)
+static int	interactive(t_string *input, t_array *tokens, t_parser *parser)
 {
-	array_shutdown(tokens);
-	parser_shutdown(parser);
+	int	input_status;
+
+	input_status = E_INPUT_OK;
+	while (input_status == E_INPUT_OK)
+	{
+		shell_struct_clear(tokens, parser);
+
+		if ((input_status = shell_input(input, SHELL_PS1)) == E_INPUT_ERROR)
+			return (EXIT_FAILURE);
+		if (input_status == E_INPUT_EOF)
+			return (EXIT_SUCCESS);
+		if (input->len == 0)
+			continue ;
+
+		history_add(fatal_malloc(string_create_dup(input->str)));
+
+		if (shell_lexer(input, tokens) == LEXER_ERROR)
+			continue ;
+
+		if (shell_parser(parser, tokens) != PARSER_NO_ERROR)
+			continue ;
+
+		/* if (shell_exec(parser->ast) != EXEC_NO_ERROR) */
+		/* 	continue ; */
+
+		string_shutdown(input);
+	}
+	return (EXIT_SUCCESS);
 }
 
-void shell_loop(void)
+static int	non_interactive(t_string *input, t_array *tokens, t_parser *parser)
+{
+	int	input_status;
+
+	input_status = shell_input(input, SHELL_PS1);
+	if (input_status != E_INPUT_OK)
+		return (input_status == E_INPUT_ERROR ? EXIT_FAILURE : EXIT_SUCCESS);
+
+	if (shell_lexer(input, tokens) == LEXER_ERROR)
+		return (EXIT_FAILURE);
+
+	if (shell_parser(parser, tokens) != PARSER_NO_ERROR)
+		return (EXIT_FAILURE);
+
+	/* if (shell_exec(parser->ast) != EXEC_NO_ERROR) */
+		/* return (EXIT_FAILURE); */
+	
+	string_shutdown(input);
+	return (EXIT_SUCCESS);
+}
+
+int 		shell_loop(void)
 {
 	t_string	input;
 	t_array		tokens;
 	t_parser	parser;
+	int			ret;
 
-	shell_struct_init(&tokens, &parser);
-	if (opt_is_set(OPT_INTERACTIVE) || isatty(STDIN_FILENO))
-		shell_loop_interactive();
-	while (42)
-	{
-		shell_struct_clear(&tokens, &parser);
-		if (shell_input(&input) == NULL)
-			break ;
-		if (input.len == 0)
-			continue ;
-		history_add(fatal_malloc(string_create_dup(input.str)));
-		if (shell_lexer(&input, &tokens) == LEXER_ERROR)
-			continue ;
-		if (shell_parser(&parser, &tokens) != PARSER_NO_ERROR)
-			continue ;
-		/* if (shell_exec(parser.ast) != EXEC_NO_ERROR) */
-		/* 	continue ; */
-		string_shutdown(&input);
-	}
-	shell_struct_shutdown(&tokens, &parser);
+	fatal_malloc(array_init(&tokens, sizeof(t_token)));
+	fatal_malloc(parser_init(&parser));
+	if (opt_is_set(OPT_INTERACTIVE))
+		ret = interactive(&input, &tokens, &parser);
+	else
+		ret = non_interactive(&input, &tokens, &parser);
+	array_shutdown(&tokens);
+	parser_shutdown(&parser);
+	return (ret);
 }

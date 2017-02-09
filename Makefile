@@ -62,7 +62,7 @@ SOURCES    += alias_clear.c
 
 # Input
 SRC_SUBDIR += input
-SOURCES    += readline.c
+SOURCES    += input_get_line.c
 
 # UI
 ## Handlers

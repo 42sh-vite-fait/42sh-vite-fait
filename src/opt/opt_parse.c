@@ -50,11 +50,13 @@ void		opt_parse(int argc, char *argv[])
 		else if (ch == 'c')
 		{
 			g_opt_command_line = opt.optarg;
-			g_opt_shell |= OPT_CMD_STRING;
+			g_opt_shell |= (OPT_CMD_STRING);
 		}
 		else if (ch == 'i')
 			g_opt_shell |= OPT_INTERACTIVE;
 		else
 			usage(argv[0]);
 	}
+	if (!opt_is_set(OPT_CMD_STRING) && isatty(STDIN_FILENO))
+		g_opt_shell |= OPT_INTERACTIVE;
 }

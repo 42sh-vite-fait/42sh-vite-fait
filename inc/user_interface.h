@@ -212,7 +212,7 @@ size_t 		prompt(const char *prompt);
 /*
 ** UI main interface
 */
-t_string	ui_get_user_input(const char *prompt);
+int			ui_get_user_input(t_string *input, const char *prompt);
 
 /*
 **			UI workflow

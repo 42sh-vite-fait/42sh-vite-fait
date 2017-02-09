@@ -1,3 +1,4 @@
+#include <assert.h>
 #include "parser.h"
 
 const t_token 	*parser_get_lookahead_token(const t_parser *parser, size_t n)
@@ -28,6 +29,7 @@ void			parser_consume_token(t_parser *parser)
 
 bool			parser_check_current_token_type(const t_parser *parser, int type)
 {
+	assert(parser->current_token != NULL);
 	return (parser->current_token->type == type);
 }
 

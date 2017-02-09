@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "input.h"
 #include "user_interface.h"
 #include "str_42.h"
 
@@ -72,17 +73,14 @@ static void		init(t_editenv *e, t_string *cpy, const char *p)
 	first_init = true;
 }
 
-t_string			ui_get_user_input(const char *prompt)
+int				ui_get_user_input(t_string *input, const char *prompt)
 {
 	t_editenv			e;
-	char				*output;
 	static t_string		cpy_buffer_mem;
 	ssize_t				offset_nl;
-	t_string			ret;
+	int					ret;
 
-	normal_mode();
 	init(&e, &cpy_buffer_mem, prompt);
-	output = NULL;
 	while ((offset_nl = ft_strchrpos(e.entry.str, '\n')) == -1 && !e.must_leave)
 	{
 		compute_user_entry(&e);
@@ -90,15 +88,13 @@ t_string			ui_get_user_input(const char *prompt)
 	}
 	if (!e.must_leave)
 	{
-		output= ft_strsub(e.entry.str, 0, (size_t)offset_nl + 1);
+		fatal_malloc(string_init_ndup(input, e.entry.str, offset_nl + 1));
 		cpy_buffer_mem = e.cpy;
+		ret = E_INPUT_OK;
 	}
+	else
+		ret = E_INPUT_EOF;
 	normal_mode();
 	free_data(&e);
-	string_init(&ret);
-	if (output != NULL)
-		string_insert(&ret, 0, output, ft_strlen(output));
-	else
-		ret.str = NULL;
 	return (ret);
 }

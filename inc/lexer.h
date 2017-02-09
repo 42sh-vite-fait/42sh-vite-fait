@@ -163,8 +163,11 @@ void		lexer_shutdown(t_lexer *lexer);
 ** according to grammar rules.
 ** Takes an `input`, modifies the states of a `lexer`,
 ** push the resulting tokens to a t_array `tokens`.
+** `assert_stack_is_empty` return `true` if the stack is empty
+** if not, return false and add a contextual error message
 */
 int			lexer_tokenize(t_lexer *lexer, t_array *tokens, const char *input);
+bool		assert_stack_is_empty(t_lexer *self);
 
 /*
 ** `lexer_clear_tokens` removes from a t_array of tokens

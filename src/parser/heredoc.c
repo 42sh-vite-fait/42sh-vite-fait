@@ -3,9 +3,24 @@
 #include "input.h"
 #include "misc.h"
 #include "errors.h"
+#include "shell.h"
 #include "ft_printf.h"
 
 #define HEREDOC_PREFIX "ftsh_heredoc_"
+
+static void	request_input(t_string *line)
+{
+	int	status;
+
+	status = shell_input(line, SHELL_PS2); // TODO: PS2
+	if (status == E_INPUT_EOF)
+	{
+		error_set_context("EOF unclosed");
+		error_print("heredoc");
+	}
+	if (status != E_INPUT_OK)
+		exit(1);
+}
 
 static int	fill_heredoc_file(const t_token *word, int fd)
 {
@@ -13,7 +28,7 @@ static int	fill_heredoc_file(const t_token *word, int fd)
 
 	while (42)
 	{
-		line = input_get_line("> "); // TODO: PS2
+		request_input(&line);
 		if (ft_strncmp(line.str, word->str, word->len) == 0
 				&& line.str[word->len] == '\n')
 			return (NO_ERROR);

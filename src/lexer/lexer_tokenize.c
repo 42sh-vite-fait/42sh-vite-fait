@@ -1,4 +1,5 @@
 #include "lexer.h"
+#include "errors.h"
 
 /*
 ** Char -> Symbol Table
@@ -208,4 +209,20 @@ int			lexer_tokenize(t_lexer *self, t_array *tokens, const char *input)
 	if (ARRAY_IS_EMPTY(&self->tokenizer.state_stack))
 		return (LEXER_INPUT_COMPLETE);
 	return (LEXER_INPUT_INCOMPLETE);
+}
+
+bool		assert_stack_is_empty(t_lexer *self)
+{
+	t_state state_stack;
+
+	if (ARRAY_IS_EMPTY(&self->tokenizer.state_stack))
+		return (true);
+	state_stack = *(t_state*)array_get_last(&self->tokenizer.state_stack);
+	if (state_stack == E_STACK_SQUOTE)
+		error_set_context("no closing simple quote");
+	else if (state_stack == E_STACK_DQUOTE)
+		error_set_context("no closing double quote");
+	else
+		error_set_context("unexpected EOF");
+	return (false);
 }
