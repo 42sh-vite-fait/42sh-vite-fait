@@ -29,6 +29,8 @@ void shell_loop(void)
 	t_parser	parser;
 
 	shell_struct_init(&tokens, &parser);
+	if (opt_is_set(OPT_INTERACTIVE) || isatty(STDIN_FILENO))
+		shell_loop_interactive();
 	while (42)
 	{
 		shell_struct_clear(&tokens, &parser);
