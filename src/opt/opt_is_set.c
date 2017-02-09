@@ -1,9 +1,9 @@
 #include <stdbool.h>
 #include "opt.h"
 
-extern unsigned	g_opt_debug;
+extern unsigned	g_opt_shell;
 
 bool opt_is_set(unsigned opt)
 {
-	return (g_opt_debug & opt);
+	return (g_opt_shell & opt);
 }

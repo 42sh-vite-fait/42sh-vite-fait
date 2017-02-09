@@ -1,7 +1,7 @@
 #include "unistd_42.h"
 #include "opt.h"
 
-unsigned			g_opt_debug;
+unsigned			g_opt_shell;
 static const char	*g_opt_command_line;
 
 static void	usage(const char *argv0)
@@ -43,15 +43,17 @@ void		opt_parse(int argc, char *argv[])
 	int 	ch;
 
 	OPT_INIT(opt);
-	while ((ch = ft_getopt(argc, argv, "c:d:", &opt)) != -1)
+	while ((ch = ft_getopt(argc, argv, "c:d:i", &opt)) != -1)
 	{
 		if (ch == 'd')
-			g_opt_debug |= get_debug_option(argv[0], opt.optarg);
+			g_opt_shell |= get_debug_option(argv[0], opt.optarg);
 		else if (ch == 'c')
 		{
 			g_opt_command_line = opt.optarg;
-			g_opt_debug |= OPT_CMD_STRING;
+			g_opt_shell |= OPT_CMD_STRING;
 		}
+		else if (ch == 'i')
+			g_opt_shell |= OPT_INTERACTIVE;
 		else
 			usage(argv[0]);
 	}
