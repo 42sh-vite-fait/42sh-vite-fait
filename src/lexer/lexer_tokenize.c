@@ -191,6 +191,10 @@ static int	lexer_tokenize_one(t_lexer *self, t_token *token,
 	return (SUCCESS);
 }
 
+// TODO
+// Changer input en t_string
+// Itérer sur la len
+// Voir le crash assert_parser_array_tokens_empty
 int			lexer_tokenize(t_lexer *self, t_array *tokens, const char *input)
 {
 	t_token		tok;
