@@ -49,8 +49,8 @@ static int	non_interactive(t_string *input, t_array *tokens, t_parser *parser)
 	int	input_status;
 
 	input_status = shell_input(input, SHELL_PS1);
-	if (input_status != E_INPUT_OK)
-		return (input_status == E_INPUT_ERROR ? EXIT_FAILURE : EXIT_SUCCESS);
+	if (input_status == E_INPUT_ERROR)
+		return (EXIT_FAILURE);
 
 	if (shell_lexer(input, tokens) == LEXER_ERROR)
 		return (EXIT_FAILURE);
