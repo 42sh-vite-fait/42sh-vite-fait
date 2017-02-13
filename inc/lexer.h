@@ -124,7 +124,6 @@ struct		s_lexer
 
 struct		s_token
 {
-	const char	*str;
 	size_t		start;
 	size_t		len;
 	int			type;
@@ -187,15 +186,15 @@ int			remove_trailing_escaped_newline(t_string *input);
 /*
 ** Categorize token according to POSIX rules
 */
-void		categorize_tokens(t_array *tokens);
-void		categorize_io_number(t_array *tokens);
+void		categorize_tokens(const t_string *input, t_array *tokens);
+void		categorize_io_number(const t_string *input, t_array *tokens);
 
 /*
 ** Debug
 ** Print the tokens list
 */
-void		lexer_debug_print_tokens(const t_array *tokens);
-void		lexer_debug_print_token(const t_token *token, const char *prefix);
+void		lexer_debug_print_tokens(const t_string *input, const t_array *tokens);
+void		lexer_debug_print_token(const t_string *input, const t_token *token, const char *prefix);
 const char	*lexer_debug_get_token_name(size_t i);
 
 #endif

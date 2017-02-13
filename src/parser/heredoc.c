@@ -22,15 +22,14 @@ static void	request_input(t_string *line)
 		exit(1);
 }
 
-static int	fill_heredoc_file(const t_token *word, int fd)
+static int	fill_heredoc_file(const char *word, size_t len, int fd)
 {
 	t_string	line;
 
 	while (42)
 	{
 		request_input(&line);
-		if (ft_strncmp(line.str, word->str, word->len) == 0
-				&& line.str[word->len] == '\n')
+		if (ft_strncmp(line.str, word, len) == 0 && line.str[len] == '\n')
 			return (NO_ERROR);
 		if (ft_dprintf(fd, "%s", line) == -1)
 		{
@@ -42,7 +41,7 @@ static int	fill_heredoc_file(const t_token *word, int fd)
 	// TODO: Quoi faire si input_get_line() retourne NULL
 }
 
-char 		*heredoc(const t_token *word)
+char 		*heredoc(const char *word, size_t len)
 {
 	char	*filename;
 	int		fd;
@@ -51,7 +50,7 @@ char 		*heredoc(const t_token *word)
 		return (NULL);
 	if ((fd = open(filename, O_CREAT | O_WRONLY, 0600)) == -1)
 		return (NULL);
-	if (fill_heredoc_file(word, fd) != NO_ERROR)
+	if (fill_heredoc_file(word, len, fd) != NO_ERROR)
 		filename = NULL;
 	if (close(fd) == -1)
 		return (NULL);

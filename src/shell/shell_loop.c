@@ -33,7 +33,7 @@ static int	interactive(t_string *input, t_array *tokens, t_parser *parser)
 		if (shell_lexer(input, tokens) == LEXER_ERROR)
 			continue ;
 
-		if (shell_parser(parser, tokens) != PARSER_NO_ERROR)
+		if (shell_parser(input, parser, tokens) != PARSER_NO_ERROR)
 			continue ;
 
 		/* if (shell_exec(parser->ast) != EXEC_NO_ERROR) */
@@ -55,7 +55,7 @@ static int	non_interactive(t_string *input, t_array *tokens, t_parser *parser)
 	if (shell_lexer(input, tokens) == LEXER_ERROR)
 		return (EXIT_FAILURE);
 
-	if (shell_parser(parser, tokens) != PARSER_NO_ERROR)
+	if (shell_parser(input, parser, tokens) != PARSER_NO_ERROR)
 		return (EXIT_FAILURE);
 
 	/* if (shell_exec(parser->ast) != EXEC_NO_ERROR) */

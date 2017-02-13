@@ -49,7 +49,7 @@ int	shell_lexer(t_string *input, t_array *tokens)
 		string_shutdown(input);
 	}
 	else if (opt_is_set(OPT_DEBUG_LEXER))
-		lexer_debug_print_tokens(tokens);
+		lexer_debug_print_tokens(input, tokens);
 	lexer_shutdown(&lexer);
 	return (status);
 }
