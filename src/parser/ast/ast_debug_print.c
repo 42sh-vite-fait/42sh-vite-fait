@@ -118,7 +118,9 @@ static void	ast_debug_print_node_generic(t_ast_node *node, unsigned padding)
 {
 	(void)padding;
 	printf("%s: ", g_ast_print_node[node->type].name); // AST node name
-	if (node->token->str[0] == '\n')
+	if (node->token  == NULL)
+		printf("\n");
+	else if (node->token->str[0] == '\n')
 		printf("\\n\n");
 	else
 		printf("%.*s\n", (int)node->token->len, node->token->str); // Token symbol
