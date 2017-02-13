@@ -67,9 +67,11 @@ static int		init(t_editenv *e, t_string *cpy, const char *p)
 	e->entry_index = 0;
 	e->selection_size = 1;
 	e->cpos.x = (int)(prompt(p));
+
 	terminal_start_raw_mode();
 	/* if (terminal_start_raw_mode() != NO_ERROR) */
 	/* 	return (ERR_TERM); */
+
 	e->prompt = p;
 	ui_display_user_entry(e);
 	first_init = true;
@@ -98,9 +100,11 @@ int				ui_get_user_input(t_string *input, const char *prompt)
 	}
 	else
 		ret = E_INPUT_EOF;
+
 	terminal_stop_raw_mode();
 	/* if (terminal_stop_raw_mode() != NO_ERROR) */
 	/* 	ret = E_INPUT_ERROR; */
+
 	free_data(&e);
 	return (ret);
 }
