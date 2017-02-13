@@ -1,6 +1,6 @@
 #include "lexer.h"
 
-void	categorize_tokens(t_array *tokens, const char *input)
+void	categorize_tokens(t_array *tokens)
 {
-	categorize_io_number(tokens, input);
+	categorize_io_number(tokens);
 }

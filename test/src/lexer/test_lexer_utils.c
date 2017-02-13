@@ -12,10 +12,20 @@
 
 #define test_lexer(INPUT, COMPLETE, LEN)					\
 	do {													\
-		int res = lexer_lex(&lexer, &tokens, INPUT);		\
+		t_string *s = string_create_dup(INPUT);				\
+		int res = lexer_lex(&lexer, &tokens, s);			\
 		cr_assert_eq(res, COMPLETE);						\
 		cr_assert_eq(LEN, tokens.len);						\
+		string_destroy(s);									\
 	} while(0);												\
+
+static int	the_true_lexer_lex(t_lexer *lexer, t_array *tokens, char *str)
+{
+	t_string *s = string_create_dup(str);
+	int res = lexer_lex(lexer, tokens, s);
+	string_destroy(s);
+	return (res);
+}
 
 
 static t_lexer	lexer;

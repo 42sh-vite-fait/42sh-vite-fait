@@ -22,7 +22,7 @@ Test(LexerRules4, QuotedBackslash)
 	char	*input = "\\\\ '\\' \\\\\\";
 	// [\\] [\] [\\\]
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(3, tokens.len);
@@ -36,7 +36,7 @@ Test(LexerRules4, UnquotedBackslash)
 	char	*input = "\\&\\$\\ \\\"";
 	// [&$ "]
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -48,7 +48,7 @@ Test(LexerRules4, UnquotedSingleQuote)
 	char	*input = "'a'b c'd'e f'g '' 'h 'i j' ";
 	// [ab] [cde] [fg  h] [i j]
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(4, tokens.len);
@@ -63,7 +63,7 @@ Test(LexerRules4, QuotedSingleQuote)
 	char	*input = "\\' a\\' b\"'\\'\"c d";
 	// [\'] [a\'] [b"\"c] [d]
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(4, tokens.len);
@@ -78,7 +78,7 @@ Test(LexerRules4, UnquotedDoubleQuote)
 	char	*input = "\"a\"b c\"d\"e f\"g \"\" \"h \"i j\"";
 	// [ab] [cde] [fg  h] [i j]
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(4, tokens.len);
@@ -93,7 +93,7 @@ Test(LexerRules4, QuotedDoubleQuote)
 	char	*input = "\\\" a\\\" b'\"\\\"'c d";
 	// [\"] [a\"] [b"\"c] [d]
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(4, tokens.len);
@@ -108,7 +108,7 @@ Test(LexerRules4, QuoteInsideQuoteEmpty)
 	char	*input = "\"'\"'\"'";
 	// ['"]
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -120,7 +120,7 @@ Test(LexerRules4, QuoteInsideQuoteFilled)
 	char	*input = "a\"b'c\"d'e\"f'g";
 	// [ab'cde"fg]
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -132,7 +132,7 @@ Test(LexerRules4, QuotedSimpleCommand)
 	char	*input = "cat<<'EOF'>\"file 'random\"a\n";
 	// [cat] [<<] [EOF] [>] [file 'randoma] [\n]
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(6, tokens.len);
@@ -172,7 +172,7 @@ Test(LexerRules4, NewlineJoiningBackslash)
 	ret = remove_trailing_escaped_newline(&string);
 	cr_assert_eq(ret, LINE_COMPLETE);
 
-	int res = lexer_lex(&lexer, &tokens, string.str);
+	int res = the_true_lexer_lex(&lexer, &tokens, string.str);
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(4, tokens.len, "len %zu", tokens.len);
 	test_token(E_TOKEN_WORD, 0, 6, "abcdef");
@@ -185,21 +185,21 @@ Test(LexerRules4, NewlineJoiningSingleQuote)
 {
 	char	*input = "a'";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_INCOMPLETE);
 	cr_assert_eq(0, tokens.len);
 	/* test_token(E_TOKEN_WORD, 0, 2, "a'"); */
 
 	input = "b\n";
-	res = lexer_lex(&lexer, &tokens, input);
+	res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_INCOMPLETE);
 	cr_assert_eq(0, tokens.len);
 	/* test_token(E_TOKEN_WORD, 0, 4, "a'b\n"); */
 
 	input = "\nc'";
-	res = lexer_lex(&lexer, &tokens, input);
+	res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -210,7 +210,7 @@ Test(LexerRules4, QuoteIONumber)
 {
 	char	*input = "1>'2'>\\3>\"4\">5\\>6'>'7\">\" a8> 10<";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(13, tokens.len);

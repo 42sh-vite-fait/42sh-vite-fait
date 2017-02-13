@@ -146,7 +146,7 @@ t_automaton	*lexer_init_automaton(t_automaton *a);
 ** and a subsequent call to this function must be done.
 ** LEXER_INPUT_COMPLETE is returned otherwise.
 */
-int			lexer_lex(t_lexer *l, t_array *tokens, const char *input);
+int			lexer_lex(t_lexer *l, t_array *tokens, const t_string *input);
 
 /*
 ** `lexer_init` initializes a given t_lexer ready to
@@ -166,7 +166,8 @@ void		lexer_shutdown(t_lexer *lexer);
 ** `assert_stack_is_empty` return `true` if the stack is empty
 ** if not, return false and add a contextual error message
 */
-int			lexer_tokenize(t_lexer *lexer, t_array *tokens, const char *input);
+int			lexer_tokenize(t_lexer *lexer, t_array *tokens,
+		const t_string *input);
 bool		assert_stack_is_empty(t_lexer *self);
 
 /*
@@ -186,8 +187,8 @@ int			remove_trailing_escaped_newline(t_string *input);
 /*
 ** Categorize token according to POSIX rules
 */
-void		categorize_tokens(t_array *tokens, const char *input);
-void		categorize_io_number(t_array *tokens, const char *input);
+void		categorize_tokens(t_array *tokens);
+void		categorize_io_number(t_array *tokens);
 
 /*
 ** Debug

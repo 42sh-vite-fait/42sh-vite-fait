@@ -13,7 +13,7 @@ Test(LexerRules1, EmptyString)
 {
 	char	*input = "";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(0, tokens.len);
@@ -23,7 +23,7 @@ Test(LexerRules1, OneNewline)
 {
 	char	*input = "\n";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -34,7 +34,7 @@ Test(LexerRules1, MultiNewline)
 {
 	char	*input = "\n\n\n\n\n\n";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(6, tokens.len);
@@ -50,7 +50,7 @@ Test(LexerRules1, SimpleCommand)
 {
 	char	*input = "hello world\n";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(3, tokens.len);
@@ -63,7 +63,7 @@ Test(LexerRules1, EndingWithBackslash)
 {
 	char	*input = "hello\\";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);

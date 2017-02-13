@@ -167,41 +167,42 @@ static enum e_token_type		g_state_to_token_table[] = {
 #define SUCCESS 0
 
 static int	lexer_tokenize_one(t_lexer *self, t_token *token,
-								const char **input)
+								const t_string *input, size_t *i)
 {
 	t_symbol	symbol;
 
-	while (**input)
+	while (*i < input->len)
 	{
-		if (**input < 0)
+		if (input->str[*i] < 0)
 			return (ERROR);
-		symbol = g_char_to_symbol[(int)**input];
+		symbol = g_char_to_symbol[(int)input->str[*i]];
 		if (is_automaton_next_state_error(&self->tokenizer, symbol))
 			break ;
 		automaton_step(&self->tokenizer, symbol);
 		self->input_current_index += 1;
-		*input += 1;
+		*i += 1;
 	}
 	if (self->tokenizer.current_state == START_STATE)
 		return (ERROR);
 	token->start = self->token_begin_index;
 	token->len = self->input_current_index - self->token_begin_index;
-	token->str = *input - token->len;
+	token->str = input->str + *i - token->len;
 	token->type = g_state_to_token_table[self->tokenizer.current_state];
 	return (SUCCESS);
 }
 
 // TODO
-// Changer input en t_string
-// Itérer sur la len
 // Voir le crash assert_parser_array_tokens_empty
-int			lexer_tokenize(t_lexer *self, t_array *tokens, const char *input)
+int			lexer_tokenize(t_lexer *self, t_array *tokens,
+		const t_string *input)
 {
-	t_token		tok;
+	t_token	tok;
+	size_t	i;
 
-	while (*input)
+	i = 0;
+	while (i < input->len)
 	{
-		if (lexer_tokenize_one(self, &tok, &input) == ERROR)
+		if (lexer_tokenize_one(self, &tok, input, &i) == ERROR)
 			return (LEXER_ERROR);
 		if (ARRAY_IS_EMPTY(&self->tokenizer.state_stack))
 		{

@@ -22,7 +22,7 @@ static int shell_lexer_request_more(t_string *input, t_lexer *lexer,
 	}
 	if (input_status != E_INPUT_OK)
 		exit(1);
-	lexer_status = lexer_lex(lexer, tokens, line.str);
+	lexer_status = lexer_lex(lexer, tokens, &line);
 	if (line.len > 0)
 	{
 		if (opt_is_set(OPT_INTERACTIVE))
@@ -39,7 +39,7 @@ int	shell_lexer(t_string *input, t_array *tokens)
 	int		status;
 
 	fatal_malloc(lexer_init(&lexer));
-	status = lexer_lex(&lexer, tokens, input->str);
+	status = lexer_lex(&lexer, tokens, input);
 	while (status == LEXER_INPUT_INCOMPLETE)
 		status = shell_lexer_request_more(input, &lexer, tokens);
 	if (status == LEXER_ERROR)
