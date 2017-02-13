@@ -1,6 +1,7 @@
 #include "opt.h"
 #include "shell.h"
 #include "terminal.h"
+#include "history.h"
 
 int		main(int argc, char *argv[])
 {
@@ -10,5 +11,6 @@ int		main(int argc, char *argv[])
 		error_print("terminal");
 		exit(1);
 	}
+	history_init(4);
 	return (shell_loop());
 }

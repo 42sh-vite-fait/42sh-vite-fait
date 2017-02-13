@@ -49,7 +49,7 @@ static void		compute_user_entry(t_editenv *e)
 	mem_buff = e->rbuff;
 }
 
-static void		init(t_editenv *e, t_string *cpy, const char *p)
+static int		init(t_editenv *e, t_string *cpy, const char *p)
 {
 	static bool first_init = false;
 
@@ -67,11 +67,13 @@ static void		init(t_editenv *e, t_string *cpy, const char *p)
 	e->entry_index = 0;
 	e->selection_size = 1;
 	e->cpos.x = (int)(prompt(p));
-	if (terminal_start_raw_mode() != NO_ERROR)
-		error_print("terminal");
+	terminal_start_raw_mode();
+	/* if (terminal_start_raw_mode() != NO_ERROR) */
+	/* 	return (ERR_TERM); */
 	e->prompt = p;
 	ui_display_user_entry(e);
 	first_init = true;
+	return (NO_ERROR);
 }
 
 int				ui_get_user_input(t_string *input, const char *prompt)
@@ -81,7 +83,8 @@ int				ui_get_user_input(t_string *input, const char *prompt)
 	ssize_t				offset_nl;
 	int					ret;
 
-	init(&e, &cpy_buffer_mem, prompt);
+	if (init(&e, &cpy_buffer_mem, prompt) != NO_ERROR)
+		return (E_INPUT_ERROR);
 	while ((offset_nl = ft_strchrpos(e.entry.str, '\n')) == -1 && !e.must_leave)
 	{
 		compute_user_entry(&e);
@@ -95,8 +98,9 @@ int				ui_get_user_input(t_string *input, const char *prompt)
 	}
 	else
 		ret = E_INPUT_EOF;
-	if (terminal_stop_raw_mode() != NO_ERROR)
-		error_print("terminal");
+	terminal_stop_raw_mode();
+	/* if (terminal_stop_raw_mode() != NO_ERROR) */
+	/* 	ret = E_INPUT_ERROR; */
 	free_data(&e);
 	return (ret);
 }
