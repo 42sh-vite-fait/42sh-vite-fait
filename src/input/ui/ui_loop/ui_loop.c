@@ -16,10 +16,10 @@ static void		free_data(t_editenv *e)
 
 static void		read_input(t_editenv *e)
 {
-	char				buff[1];
-	ssize_t				ret;
+	char	c;
+	ssize_t	ret;
 
-	ret = read(0, buff, 1);
+	ret = read(0, &c, 1);
 	if (ret < 0)
 		return ;
 	if (ret == 0)
@@ -27,7 +27,7 @@ static void		read_input(t_editenv *e)
 		e->must_leave = true;
 		return ;
 	}
-	string_insert(&e->rbuff, 0, buff, (size_t)ret);
+	string_insert(&e->rbuff, 0, &c, (size_t)ret);
 }
 
 static void		compute_user_entry(t_editenv *e)
