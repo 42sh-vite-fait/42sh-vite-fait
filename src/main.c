@@ -15,6 +15,8 @@
 static unsigned		g_debug_opt;
 static const char	*g_command_line;
 
+int	history_substitutions(t_string *command);
+
 static void	usage(const char *name)
 {
 	ft_dprintf(2, "usage:  %s [option] [cstring]\n"
@@ -65,7 +67,7 @@ int		main(int argc, char *argv[])
 
 	lexer_init(&lexer);
 	array_init(&tokens, sizeof(t_token));
-	history_init(4096);
+	history_init(4);
 	while (42)
 	{
 		// Interactive ?
@@ -74,6 +76,8 @@ int		main(int argc, char *argv[])
 			input = input_get_line(SHELL_PROMPT);
 			while (remove_trailing_escaped_newline(&input))
 				input = input_get_line(SHELL_PROMPT);
+			if (history_substitutions(&input) < 0)
+				;
 			if (input.len > 1)
 				history_add(string_create_dup(input.str));
 		}
@@ -98,6 +102,7 @@ int		main(int argc, char *argv[])
 				string_shutdown(&tmp);
 			}
 		}
+		ft_printf("INPUT: %s\n\n", input.str);
 
 		// parser
 		parser_init(&parser, &tokens);

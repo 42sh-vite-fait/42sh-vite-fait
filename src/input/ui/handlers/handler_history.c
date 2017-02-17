@@ -2,39 +2,35 @@
 
 void	ui_handler_up_history(t_editenv *e)
 {
+	const t_string	*history_entry;
+
 	e->is_selecting = 0;
 	e->selection_size = 1;
 	e->entry_index = 0;
-
-	if (e->history_index == 0)
+	history_entry = history_get(history_get_last_id() - e->history_index);
+	if (history_entry != NULL)
 	{
-		free(e->initial_entry.str);
-		string_init_dup(&e->initial_entry, e->entry.str);
-	}
-	if (history_get_last_id() > (size_t)e->history_index)
-	{
-		e->history_index++;
-		free(e->entry.str);
-		string_init_dup(&e->entry, history_get(history_get_last_id() - e->history_index + 1)->str);
+		e->history_index += 1;
+		string_nreplace(&e->entry, history_entry->str, history_entry->len);
 	}
 }
 
 void	ui_handler_down_history(t_editenv *e)
 {
+	const t_string	*history_entry;
+
 	e->is_selecting = 0;
 	e->selection_size = 1;
 	e->entry_index = 0;
-
 	if (e->history_index > 1)
 	{
-		e->history_index--;
-		free(e->entry.str);
-		string_init_dup(&e->entry, history_get(history_get_last_id() - e->history_index + 1)->str);
+		history_entry = history_get(history_get_last_id() - e->history_index + 2);
+		if (history_entry != NULL)
+		{
+			e->history_index -= 1;
+			string_nreplace(&e->entry, history_entry->str, history_entry->len);
+		}
 	}
 	else
-	{
-		e->history_index = 0;
-		free(e->entry.str);
-		string_init_dup(&e->entry, e->initial_entry.str);
-	}
+		string_nreplace(&e->entry, e->initial_entry.str, e->initial_entry.len);
 }

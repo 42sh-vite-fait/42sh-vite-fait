@@ -5,9 +5,9 @@
 static const t_transition	g_trans_table[][1][E_SYMBOL_MAX] =
 {
 	[E_ERROR] = {{TRANS(E_ERROR)}},
-	[E_START] =
+	[E_UNQUOTED] =
 	{{
-			[E_CHAR] = TRANS(E_START),
+			[E_CHAR] = TRANS(E_UNQUOTED),
 			[E_QUOTE] = TRANS(E_QUOTED),
 			[E_DQUOTE] = TRANS(E_DQUOTED),
 			[E_BSLASH] = TRANS(E_BSLASHED),
@@ -15,7 +15,7 @@ static const t_transition	g_trans_table[][1][E_SYMBOL_MAX] =
 	[E_QUOTED] =
 	{{
 			[E_CHAR] = TRANS(E_QUOTED),
-			[E_QUOTE] = TRANS(E_START),
+			[E_QUOTE] = TRANS(E_UNQUOTED),
 			[E_DQUOTE] = TRANS(E_QUOTED),
 			[E_BSLASH] = TRANS(E_QUOTED),
 		}},
@@ -23,15 +23,15 @@ static const t_transition	g_trans_table[][1][E_SYMBOL_MAX] =
 	{{
 			[E_CHAR] = TRANS(E_DQUOTED),
 			[E_QUOTE] = TRANS(E_DQUOTED),
-			[E_DQUOTE] = TRANS(E_START),
+			[E_DQUOTE] = TRANS(E_UNQUOTED),
 			[E_BSLASH] = TRANS(E_DQUOTEDBSLASHED),
 		}},
 	[E_BSLASHED] =
 	{{
-			[E_CHAR] = TRANS(E_START),
-			[E_QUOTE] = TRANS(E_START),
-			[E_DQUOTE] = TRANS(E_START),
-			[E_BSLASH] = TRANS(E_START),
+			[E_CHAR] = TRANS(E_UNQUOTED),
+			[E_QUOTE] = TRANS(E_UNQUOTED),
+			[E_DQUOTE] = TRANS(E_UNQUOTED),
+			[E_BSLASH] = TRANS(E_UNQUOTED),
 		}},
 	[E_DQUOTEDBSLASHED] =
 	{{
@@ -60,20 +60,45 @@ bool			is_char_quoted(t_automaton *a, char c)
 	state = a->current_state;
 	if (c == '"')
 	{
-		if (state == E_DQUOTED || state == E_START)
+		if (state == E_DQUOTED || state == E_UNQUOTED)
 			return (false);
 	}
 	else if (c == '\'')
 	{
-		if (state == E_START || state == E_QUOTED)
+		if (state == E_UNQUOTED || state == E_QUOTED)
 			return (false);
 	}
 	else if (c == '\\')
 	{
-		if (state == E_START || state == E_DQUOTED)
+		if (state == E_UNQUOTED || state == E_DQUOTED)
 			return (false);
 	}
-	else if (state == E_START)
+	else if (state == E_UNQUOTED)
+		return (false);
+	return (true);
+}
+
+bool			is_char_inhibited(t_automaton *a, char c)
+{
+	t_state	state;
+
+	state = a->current_state;
+	if (c == '"')
+	{
+		if (state == E_DQUOTED || state == E_UNQUOTED)
+			return (false);
+	}
+	else if (c == '\'')
+	{
+		if (state == E_UNQUOTED || state == E_QUOTED)
+			return (false);
+	}
+	else if (c == '\\')
+	{
+		if (state == E_UNQUOTED || state == E_DQUOTED)
+			return (false);
+	}
+	else if (state == E_UNQUOTED || state == E_DQUOTED)
 		return (false);
 	return (true);
 }

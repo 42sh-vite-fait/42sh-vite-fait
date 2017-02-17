@@ -3,7 +3,7 @@
 enum e_transitions
 {
 	E_ERROR = ERROR_STATE,
-	E_START = START_STATE,
+	E_UNQUOTED = START_STATE,
 	E_QUOTED,
 	E_DQUOTED,
 	E_BSLASHED,
@@ -25,3 +25,4 @@ typedef enum e_symbols		t_symbols;
 void			quoting_automaton_step(t_automaton *a, char c);
 t_automaton		*quoting_automaton_init(t_automaton *a);
 bool			is_char_quoted(t_automaton *a, char c);
+bool			is_char_inhibited(t_automaton *a, char c);
