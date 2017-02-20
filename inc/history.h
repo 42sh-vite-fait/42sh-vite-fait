@@ -62,9 +62,18 @@ size_t			history_add(t_string *command);
 **
 ** `history_get_last_id` returns the last added command id.
 ** Returns 0 if history is empty, 0 is an invalid id, IDs starts at 1.
+**
+** `history_get_first_id` returns the oldest command id.
+** Returns an id > 0, or 0 if history is empty.
+**
+** `history_get_last_str_id` returns the id of the newest entry
+** beginning with `str`.
+** Returns an id > 0 if such entry is found, 0 otherwise.
 */
 const t_string	*history_get(size_t id);
 size_t			history_get_last_id(void);
+size_t			history_get_first_id(void);
+size_t			history_get_last_str_id(const char *str);
 
 /*
 ** `history_find` find the last matching pattern starting from

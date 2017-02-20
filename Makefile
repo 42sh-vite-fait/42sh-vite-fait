@@ -160,6 +160,10 @@ SOURCES += ast_debug_print.c
 SRC_SUBDIR += expansion
 SOURCES += quote_removal.c
 
+# Builtins
+SRC_SUBDIR += builtins
+SOURCES += builtin_history.c
+
 # Generation
 vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
 OBJ_PATH   = .obj

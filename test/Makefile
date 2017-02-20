@@ -76,6 +76,10 @@ SOURCES += test_parser_ast_compress.c
 SRC_SUBDIR += expansion
 SOURCES += quote_removal.c
 
+# Builtins
+SRC_SUBDIR += builtins
+SOURCES += test_builtin_history.c
+
 SRC_PATH = src
 vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
 
