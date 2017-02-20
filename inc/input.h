@@ -8,9 +8,9 @@
 
 enum e_input_status
 {
-	E_INPUT_EOF,
-	E_INPUT_ERROR,
-	E_INPUT_OK,
+	E_INPUT_ERROR = -1,
+	E_INPUT_EOF = 0,
+	E_INPUT_OK = 1,
 };
 
 int	input_get_line(t_string *input, const char *prompt);

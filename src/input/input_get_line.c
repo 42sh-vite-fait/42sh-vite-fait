@@ -14,11 +14,11 @@ static int	input_arg_get_line(t_string *input)
 		return (E_INPUT_EOF);
 	offset = ft_strchrpos(arg + index, '\n');
 	if (offset == -1)
-		fatal_malloc(string_init_dup(input, arg + index));
+		fatal_malloc(string_cat(input, arg + index));
 	else
 	{
 		offset += 1;
-		fatal_malloc(string_init_ndup(input, arg + index, offset));
+		fatal_malloc(string_ncat(input, arg + index, offset));
 		index += offset;
 	}
 	return (E_INPUT_OK);
@@ -29,7 +29,6 @@ static int	input_notty_get_line(t_string *input)
 	ssize_t	ret;
 	char	c;
 
-	fatal_malloc(string_init(input));
 	while ((ret = read(STDIN_FILENO, &c, 1)) > 0)
 	{
 		fatal_malloc(string_ncat(input, &c, 1));
@@ -58,9 +57,6 @@ int	input_get_line(t_string *input, const char *prompt)
 	else
 		ret = input_notty_get_line(input);
 	if (ret == E_INPUT_ERROR)
-	{
 		error_print("input");
-		string_shutdown(input);
-	}
 	return (ret);
 }

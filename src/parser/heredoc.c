@@ -26,6 +26,7 @@ static int	fill_heredoc_file(const char *word, size_t len, int fd)
 {
 	t_string	line;
 
+	fatal_malloc(string_init(&line));
 	while (42)
 	{
 		request_input(&line);
@@ -36,9 +37,9 @@ static int	fill_heredoc_file(const char *word, size_t len, int fd)
 			error_set_context("heredoc: write failed: %s", strerror(errno));
 			return (ERR_HEREDOC);
 		}
+		string_truncate(&line, 0);
 	}
-	// TODO: Supprimer l'input
-	// TODO: Quoi faire si input_get_line() retourne NULL
+	string_shutdown(&line);
 }
 
 char 		*heredoc(const char *word, size_t len)

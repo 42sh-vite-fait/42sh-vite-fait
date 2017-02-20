@@ -6,8 +6,10 @@
 #include "opt.h"
 #include "input.h"
 
-static void	shell_struct_clear(t_array *tokens, t_parser *parser)
+static void	shell_struct_clear(t_string *input, t_array *tokens, t_parser *parser)
 {
+	string_truncate(input, 0);
+	string_shrink_to_fit(input);
 	array_clear(tokens);
 	parser_clear(parser);
 }
@@ -19,7 +21,7 @@ static int	interactive(t_string *input, t_array *tokens, t_parser *parser)
 	input_status = E_INPUT_OK;
 	while (input_status == E_INPUT_OK)
 	{
-		shell_struct_clear(tokens, parser);
+		shell_struct_clear(input, tokens, parser);
 
 		if ((input_status = shell_input(input, SHELL_PS1)) == E_INPUT_ERROR)
 			return (EXIT_FAILURE);
@@ -38,8 +40,6 @@ static int	interactive(t_string *input, t_array *tokens, t_parser *parser)
 
 		/* if (shell_exec(parser->ast) != EXEC_NO_ERROR) */
 		/* 	continue ; */
-
-		string_shutdown(input);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -51,7 +51,6 @@ static int	non_interactive(t_string *input, t_array *tokens, t_parser *parser)
 	input_status = shell_input(input, SHELL_PS1);
 	if (input_status == E_INPUT_ERROR)
 		return (EXIT_FAILURE);
-
 	if (input_status == E_INPUT_EOF && input->len == 0)
 		return (EXIT_SUCCESS);
 
@@ -75,6 +74,7 @@ int 		shell_loop(void)
 	t_parser	parser;
 	int			ret;
 
+	fatal_malloc(string_init(&input));
 	fatal_malloc(array_init(&tokens, sizeof(t_token)));
 	fatal_malloc(parser_init(&parser));
 	if (opt_is_set(OPT_INTERACTIVE))

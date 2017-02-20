@@ -94,7 +94,7 @@ int				ui_get_user_input(t_string *input, const char *prompt)
 	}
 	if (!e.must_leave)
 	{
-		fatal_malloc(string_init_ndup(input, e.entry.str, offset_nl + 1));
+		fatal_malloc(string_ncat(input, e.entry.str, offset_nl + 1));
 		cpy_buffer_mem = e.cpy;
 		ret = E_INPUT_OK;
 	}
