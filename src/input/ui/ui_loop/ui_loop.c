@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <errno.h>
 #include "input.h"
 #include "user_interface.h"
 #include "str_42.h"
@@ -20,10 +21,13 @@ static void		read_input(t_editenv *e)
 	ssize_t	ret;
 
 	ret = read(0, &c, 1);
-	if (ret < 0)
-		return ;
-	if (ret == 0)
+	if (ret <= 0)
 	{
+		if (ret < 0)
+		{
+			error_set_context("read: %s.", strerror(errno));
+			error_print("input");
+		}
 		e->must_leave = true;
 		return ;
 	}
