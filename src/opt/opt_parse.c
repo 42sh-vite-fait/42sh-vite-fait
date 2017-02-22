@@ -1,20 +1,21 @@
 #include "unistd_42.h"
 #include "opt.h"
+#include "shell.h"
 
 unsigned			g_opt_shell;
 static const char	*g_opt_command_line;
 
-static void	usage(const char *argv0)
+static void	usage(void)
 {
 	const char	*usage =
 		"usage:  %s [option] [cstring]\n"
 		"        %s -d {ast,lexer,input}\n";
 
-	ft_dprintf(2, usage, argv0, argv0);
+	ft_dprintf(2, usage, BIN_NAME, BIN_NAME);
 	exit(1);
 }
 
-static unsigned	get_debug_option(const char *argv0, const char *optarg)
+static unsigned	get_debug_option(const char *optarg)
 {
 	unsigned	options;
 
@@ -28,7 +29,7 @@ static unsigned	get_debug_option(const char *argv0, const char *optarg)
 	else if (!ft_strcmp(optarg, "exec"))
 		options = OPT_DEBUG_EXEC;
 	else
-		usage(argv0);
+		usage();
 	return (options);
 }
 
@@ -46,7 +47,7 @@ void		opt_parse(int argc, char *argv[])
 	while ((ch = ft_getopt(argc, argv, "c:d:i", &opt)) != -1)
 	{
 		if (ch == 'd')
-			g_opt_shell |= get_debug_option(argv[0], opt.optarg);
+			g_opt_shell |= get_debug_option(opt.optarg);
 		else if (ch == 'c')
 		{
 			g_opt_command_line = opt.optarg;
@@ -55,7 +56,7 @@ void		opt_parse(int argc, char *argv[])
 		else if (ch == 'i')
 			g_opt_shell |= OPT_INTERACTIVE;
 		else
-			usage(argv[0]);
+			usage();
 	}
 	if (!opt_is_set(OPT_CMD_STRING) && isatty(STDIN_FILENO))
 		g_opt_shell |= OPT_INTERACTIVE;

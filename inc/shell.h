@@ -5,6 +5,7 @@
 #include "array_42.h"
 #include "parser.h"
 
+# define BIN_NAME "42sh"
 # define SHELL_PS1 "42sh> "
 # define SHELL_PS2 "> "
 
