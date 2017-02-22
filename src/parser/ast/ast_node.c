@@ -10,7 +10,7 @@ t_ast_node	*ast_node_create(t_ast *ast)
 	p->right = NULL;
 	p->type = E_AST_NONE;
 	p->token = NULL;
-	ft_memset(&p->command, 0, sizeof(t_command));
+	ft_memset(&p->command, 0, sizeof(p->command));
 	return (p);
 }
 

@@ -12,7 +12,7 @@ static int	terminal_set_termios(const struct termios new)
 		error_set_context("tcgetattr: %s", strerror(errno));
 		return (ERR_TERM);
 	}
-	while (ft_memcmp(&new, &current, sizeof(struct termios)) != 0)
+	while (ft_memcmp(&new, &current, sizeof(current)) != 0)
 	{
 		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &new) < 0)
 		{
