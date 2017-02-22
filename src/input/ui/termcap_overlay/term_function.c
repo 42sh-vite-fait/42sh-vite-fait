@@ -2,8 +2,7 @@
 
 int			tputs_write(int c)
 {
-	write(0, &c, 1);
-	return (0);
+	return ((int)write(0, &c, 1));
 }
 
 void		term_move_cursor_row(int n)
