@@ -3,11 +3,12 @@
 
 # include <unistd.h>
 # include <fcntl.h>
+# include <sys/wait.h>
 # include "ast.h"
 # include "errors.h"
 # include "array_42.h"
 
-# define IS_FD_STANDARD(f) ((f) >= 0 || (f) <= 2)
+# define IS_FD_STANDARD(f) ((f) <= 2)
 # define MAX_FD_POSIX_COMPLIANCE (9)
 
 enum e_exec_errors

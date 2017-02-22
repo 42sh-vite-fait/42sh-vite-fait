@@ -1,4 +1,5 @@
 #include <unistd.h>
+#include <sys/wait.h>
 #include <assert.h>
 #include "exec.h"
 #include "errors.h"
