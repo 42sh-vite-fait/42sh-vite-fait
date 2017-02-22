@@ -11,11 +11,14 @@ static int	input_arg_get_line(t_string *input)
 
 	arg = opt_get_command_line();
 	assert(arg != NULL);
-	if (arg[index] == '\0')
+	if (arg[index] == '\0' && ft_strlen(arg) == 0)
 		return (E_INPUT_EOF);
 	offset = ft_strchrpos(arg + index, '\n');
 	if (offset == -1)
+	{
 		fatal_malloc(string_cat(input, arg + index));
+		index += ft_strlen(arg);
+	}
 	else
 	{
 		offset += 1;
@@ -41,7 +44,7 @@ static int	input_notty_get_line(t_string *input)
 		error_set_context("read: %s", strerror(errno));
 		return (E_INPUT_ERROR);
 	}
-	else if (ret == 0)
+	else if (ret == 0 && input->len == 0)
 		return (E_INPUT_EOF);
 	else
 		return (E_INPUT_OK);

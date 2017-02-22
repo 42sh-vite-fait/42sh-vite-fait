@@ -15,7 +15,8 @@ int	shell_input(t_string *input, const char *prompt)
 		return (status);
 	while (remove_trailing_escaped_newline(input) != LINE_COMPLETE)
 	{
-		if ((status = input_get_line(&more_input, SHELL_PS2)) == E_INPUT_OK)
+		status = input_get_line(&more_input, SHELL_PS2);
+		if (status == E_INPUT_OK)
 			string_append(input, &more_input);
 		else
 			return (status);
