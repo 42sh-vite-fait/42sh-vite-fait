@@ -11,7 +11,7 @@ static int	input_arg_get_line(t_string *input)
 
 	arg = opt_get_command_line();
 	assert(arg != NULL);
-	if (arg[index] == '\0' && ft_strlen(arg) == 0)
+	if (arg[index] == '\0')
 		return (E_INPUT_EOF);
 	offset = ft_strchrpos(arg + index, '\n');
 	if (offset == -1)
