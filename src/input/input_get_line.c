@@ -1,3 +1,4 @@
+#include <errno.h>
 #include "input.h"
 #include "user_interface.h"
 #include "errors.h"

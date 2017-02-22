@@ -1,3 +1,4 @@
+#include <errno.h>
 #include "terminal.h"
 
 static struct termios	g_termios_backup;
