@@ -32,15 +32,18 @@ static int	fill_heredoc_file(const char *word, size_t len, int fd)
 	{
 		request_input(&line);
 		if (ft_strncmp(line.str, word, len) == 0 && line.str[len] == '\n')
+		{
+			string_shutdown(&line);
 			return (NO_ERROR);
-		if (ft_dprintf(fd, "%s", line) == -1)
+		}
+		if (ft_dprintf(fd, "%s", line.str) == -1)
 		{
 			error_set_context("heredoc: write failed: %s", strerror(errno));
+			string_shutdown(&line);
 			return (ERR_HEREDOC);
 		}
 		string_truncate(&line, 0);
 	}
-	string_shutdown(&line);
 }
 
 char 		*heredoc(const char *word, size_t len)
