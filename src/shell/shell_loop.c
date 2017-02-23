@@ -92,19 +92,15 @@ int shell_loop(void)
 				if (opt_is_set(OPT_DEBUG_LEXER))
 					lexer_debug_print_tokens(input, tokens);
 			}
-			if (shell_parser(input, parser, tokens) != PARSER_NO_ERROR)
+			parser_init_with_tokens(input, parser, tokens);
+			ret = parser_parse(parser);
+			if (ret != PARSER_NO_ERROR)
 			{
-				parser_init_with_tokens(input, parser, tokens);
-				ret = parser_parse(parser);
-				if (ret != PARSER_NO_ERROR)
-				{
-					error_print("parser");
-					continue ;
-				}
-				else if (opt_is_set(OPT_DEBUG_AST))
-					ast_debug_print(&parser->ast, input->str);
+				error_print("parser");
+				continue ;
 			}
-				
+			else if (opt_is_set(OPT_DEBUG_AST))
+				ast_debug_print(&parser->ast, input->str);
 		}
 		/* if (shell_exec(parser->ast) != EXEC_NO_ERROR) */
 		/*	return (EXIT_FAILURE); */
@@ -162,18 +158,15 @@ int shell_loop(void)
 			if (opt_is_set(OPT_DEBUG_LEXER))
 				lexer_debug_print_tokens(input, tokens);
 			// ???
-			if (shell_parser(input, parser, tokens) != PARSER_NO_ERROR)
+			parser_init_with_tokens(input, parser, tokens);
+			ret = parser_parse(parser);
+			if (ret != PARSER_NO_ERROR)
 			{
-				parser_init_with_tokens(input, parser, tokens);
-				ret = parser_parse(parser);
-				if (ret != PARSER_NO_ERROR)
-				{
-					error_print("parser");
-					break ;
-				}
-				else if (opt_is_set(OPT_DEBUG_AST))
-					ast_debug_print(&parser->ast, input->str);
+				error_print("parser");
+				break ;
 			}
+			else if (opt_is_set(OPT_DEBUG_AST))
+				ast_debug_print(&parser->ast, input->str);
 		}
 		/* if (shell_exec(parser->ast) != EXEC_NO_ERROR) */
 		/*	return (EXIT_FAILURE); */
