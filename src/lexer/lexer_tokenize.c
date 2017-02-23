@@ -190,8 +190,6 @@ static int	lexer_tokenize_one(t_lexer *self, t_token *token,
 	return (SUCCESS);
 }
 
-// TODO
-// Voir le crash assert_parser_array_tokens_empty
 int			lexer_tokenize(t_lexer *self, t_array *tokens,
 		const t_string *input)
 {

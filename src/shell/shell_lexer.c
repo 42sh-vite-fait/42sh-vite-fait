@@ -12,7 +12,7 @@ static int shell_lexer_request_more(t_string *input, t_lexer *lexer,
 	int			input_status;
 	int			lexer_status;
 
-	input_status = shell_input(&line, SHELL_PS2); // TODO: PS2
+	input_status = shell_input(&line, SHELL_PS2);
 	if (input_status == E_INPUT_EOF)
 	{
 		if (!assert_stack_is_empty(lexer))
