@@ -37,9 +37,26 @@ pid_t	exec_fork(pid_t *pid)
 	return (NO_ERROR);
 }
 
-int exec_process_group_create(int pid, int pgid)
+int exec_process_group_child_side(int pid, int pgid)
 {
-	if (setpgid(pid, pgid))
+	if (setpgid(pid, pgid) == -1)
+	{
+		error_set_context("setpgid: %s", strerror(errno));
+		return (ERR_EXEC);
+	}
+	return (NO_ERROR);
+}
+
+/*
+** If the child perform the 'setpgid' and 'exec' call before the parent
+** is scheduled, then the 'setpgid' call from the parent side will fail
+** with errno set to 'EACCES'.
+** Thus we avoid reporting an error in that case.
+*/
+
+int exec_process_group_parent_side(int pid, int pgid)
+{
+	if (setpgid(pid, pgid) == -1 && errno != EACCES)
 	{
 		error_set_context("setpgid: %s", strerror(errno));
 		return (ERR_EXEC);

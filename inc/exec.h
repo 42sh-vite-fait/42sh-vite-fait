@@ -76,7 +76,8 @@ int	exec_redirection_output_duplicate(int io_number, const char *word);
 ** Utilities
 */
 pid_t	exec_fork(pid_t *pid);
-int exec_process_group_create(int pid, int pgid);
+int exec_process_group_child_side(int pid, int pgid);
+int exec_process_group_parent_side(int pid, int pgid);
 int exec_close_fd(int fd);
 int exec_dup_fd(int oldfd, int newfd);
 int get_exit_status(int status);

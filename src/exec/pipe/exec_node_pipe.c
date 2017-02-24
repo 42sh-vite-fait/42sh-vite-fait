@@ -20,11 +20,11 @@ int	exec_node_pipe(const t_ast_node *node)
 	}
 	else if (pid == 0)
 	{
-		if (exec_process_group_create(0, 0) != NO_ERROR)
+		if (exec_process_group_child_side(0, 0) != NO_ERROR)
 			_exit(EXIT_FAILURE);
 		exec_pipe_sequence(node);
 	}
-	if (exec_process_group_create(pid, pid) != NO_ERROR)
+	if (exec_process_group_parent_side(pid, pid) != NO_ERROR)
 		return (-1);
 	waitpid(pid, &status, 0); // On attend le fork de controle
 	// TODO: tester retours

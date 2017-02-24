@@ -9,7 +9,6 @@
 **	binary, nothing (process image is replaced)
 */
 
-#include <stdio.h>
 int exec_simple_command_binary(const t_command command)
 {
 	pid_t	pid;
@@ -25,16 +24,14 @@ int exec_simple_command_binary(const t_command command)
 	else if (pid == 0)
 	{
 		signal(SIGTTOU, SIG_DFL);
-		if (exec_process_group_create(0, 0) != NO_ERROR)
+		if (exec_process_group_child_side(0, 0) != NO_ERROR)
 			_exit(-1);
-		/* tcsetpgrp(STDIN_FILENO, getpgrp()); */
-
 		exec_binary(command);
 		status = -1;
 	}
 	else
 	{
-		if (exec_process_group_create(pid, pid) != NO_ERROR)
+		if (exec_process_group_parent_side(pid, pid) != NO_ERROR)
 			return (-1);
 		tcsetpgrp(STDIN_FILENO, pid);
 		status = wait_for_children(pid, pid);
