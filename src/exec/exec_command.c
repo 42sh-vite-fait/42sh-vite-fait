@@ -5,6 +5,10 @@
 
 #define BACKUP_PATH ("")
 
+/*
+** This function should never return in case of any failure !
+*/
+
 void exec_binary(const t_command command)
 {
 	const char		*paths;
@@ -14,7 +18,7 @@ void exec_binary(const t_command command)
 	if (exec_redirection(command.redirections) != NO_ERROR)
 	{
 		error_print("execution");
-		_exit(-1);
+		_exit(ERR_REDIR);
 	}
 	// signal_set_for_exec();
 
