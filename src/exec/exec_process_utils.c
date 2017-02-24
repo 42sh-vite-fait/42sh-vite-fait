@@ -11,7 +11,7 @@ static int get_exit_status(int status) // TODO
 	return (0);
 }
 
-int	wait_for_children(pid_t last_pid, pid_t pgid)
+int	wait_child_process_group(pid_t last_pid, pid_t pgid)
 {
 	pid_t		pid;
 	int			status;
@@ -37,43 +37,6 @@ pid_t	exec_fork(pid_t *pid)
 	if (*pid < 0)
 	{
 		error_set_context("fork: %s", strerror(errno));
-		return (ERR_EXEC);
-	}
-	return (NO_ERROR);
-}
-
-int exec_set_process_group_child_side(int pid, int pgid)
-{
-	if (setpgid(pid, pgid) == -1)
-	{
-		error_set_context("child setpgid: %s", strerror(errno));
-		return (ERR_EXEC);
-	}
-	return (NO_ERROR);
-}
-
-/*
-** If the child perform the 'setpgid' and 'exec' call before the parent
-** is scheduled, then the 'setpgid' call from the parent side will fail
-** with errno set to 'EACCES'.
-** Thus we avoid reporting an error in that case.
-*/
-
-int exec_set_process_group_parent_side(int pid, int pgid)
-{
-	if (setpgid(pid, pgid) == -1 && errno != EACCES)
-	{
-		error_set_context("parent setpgid: %s", strerror(errno));
-		return (ERR_EXEC);
-	}
-	return (NO_ERROR);
-}
-
-int exec_set_foreground_process_group(pid_t pgid)
-{
-	if (tcsetpgrp(STDIN_FILENO, pgid) == -1)
-	{
-		error_set_context("tcsetpgrp: %s", strerror(errno));
 		return (ERR_EXEC);
 	}
 	return (NO_ERROR);

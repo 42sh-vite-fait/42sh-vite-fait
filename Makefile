@@ -182,6 +182,7 @@ SOURCES += exec_command.c
 SOURCES += exec_io_utils.c
 SOURCES += exec_node_utils.c
 SOURCES += exec_process_utils.c
+SOURCES += exec_process_group_utils.c
 SOURCES += exec_with_path.c
 # List
 SRC_SUBDIR += exec/list

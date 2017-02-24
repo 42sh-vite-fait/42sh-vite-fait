@@ -121,5 +121,5 @@ void		exec_pipe_sequence(const t_ast_node *node)
 	last_pid = exec_last_child(node, read_end);
 
 	// wait for the last child and return his exit status
-	_exit(wait_for_children(last_pid, SELF_PGID));
+	_exit(wait_child_process_group(last_pid, SELF_PGID));
 }
