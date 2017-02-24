@@ -37,11 +37,9 @@ int exec_simple_command_binary(const t_command command)
 	pid_t	child;
 	int		status;
 
-	child = fork();
-	status = -1;
-	if (child < 0)
-		error_set_context("fork: %s", strerror(errno));
-	else if (child == 0)
+	if (exec_fork(&child) != NO_ERROR)
+		return (-1);
+	if (child == 0)
 		exec_child_command(command);
 	else
 		status = exec_parent_wait(child);
@@ -51,5 +49,5 @@ int exec_simple_command_binary(const t_command command)
 int exec_simple_command_builtin(const t_command command)
 {
 	(void)command;
-	return (-1);
+	return (0);
 }
