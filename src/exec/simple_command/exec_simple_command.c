@@ -30,9 +30,9 @@ int exec_simple_command_binary(const t_command command)
 	{
 		if (exec_process_group_parent_side(pid, pid) != NO_ERROR)
 			return (ERR_EXEC);
-		tcsetpgrp(STDIN_FILENO, pid);
+		tcsetpgrp(STDIN_FILENO, pid); // TODO: error
 		status = wait_for_children(pid, pid);
-		tcsetpgrp(STDIN_FILENO, getpid());
+		tcsetpgrp(STDIN_FILENO, getpid()); // TODO: error
 	}
 	return (status);
 }

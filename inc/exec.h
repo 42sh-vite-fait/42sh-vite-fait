@@ -80,7 +80,6 @@ int exec_process_group_child_side(int pid, int pgid);
 int exec_process_group_parent_side(int pid, int pgid);
 int exec_close_fd(int fd);
 int exec_dup_fd(int oldfd, int newfd);
-int get_exit_status(int status);
 int	wait_for_children(pid_t last_pid, pid_t pgid);
 t_array gather_nodes(const t_ast_node *node, int type);
 

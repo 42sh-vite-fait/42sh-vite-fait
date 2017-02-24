@@ -18,7 +18,7 @@ void exec_binary(const t_command command)
 	if (exec_redirection(command.redirections) != NO_ERROR)
 	{
 		error_print("execution");
-		_exit(ERR_REDIR);
+		_exit(ERR_EXEC);
 	}
 	// signal_set_for_exec();
 
