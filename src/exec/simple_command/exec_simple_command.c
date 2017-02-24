@@ -14,7 +14,6 @@ int exec_simple_command_binary(const t_command command)
 	pid_t	pid;
 	int		status;
 
-	signal(SIGTTOU, SIG_IGN); // TODO: pourquoi ?
 	pid = fork();
 	if (pid == -1)
 	{
@@ -23,7 +22,7 @@ int exec_simple_command_binary(const t_command command)
 	}
 	else if (pid == 0)
 	{
-		signal(SIGTTOU, SIG_DFL);
+		signal(SIGTTOU, SIG_DFL); // TODO: module signal
 		if (exec_process_group_child_side(0, 0) != NO_ERROR)
 			_exit(-1);
 		exec_binary(command);

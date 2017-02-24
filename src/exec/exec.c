@@ -18,5 +18,6 @@ t_tree_walker	*const g_walkers[] =
 
 int exec_ast(const t_ast ast)
 {
+	signal(SIGTTOU, SIG_IGN); // TODO: module signal
 	return (g_walkers[ast.root->type](ast.root));
 }
