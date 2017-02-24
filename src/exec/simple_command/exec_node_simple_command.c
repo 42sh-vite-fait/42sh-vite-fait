@@ -16,5 +16,7 @@ int		exec_node_simple_command(const t_ast_node *node)
 		ret = exec_simple_command_builtin(node->command);
 	else
 		ret = exec_simple_command_binary(node->command);
+	if (ret == -1)
+		error_print("execution simple command");
 	return (ret);
 }
