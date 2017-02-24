@@ -81,7 +81,6 @@ int shell_loop(void)
 				ft_printf("INPUT: [%s]\n", input->str);
 			if (lexer_status == LEXER_ERROR)
 			{
-				error_set_context("lexing error !");
 				error_print("lexer");
 				continue ;
 			}
@@ -149,7 +148,6 @@ int shell_loop(void)
 				ft_printf("INPUT: [%s]\n", input->str);
 			if (lexer_status == LEXER_ERROR)
 			{
-				error_set_context("lexing error !");
 				error_print("lexer");
 				break ;
 			}

@@ -174,7 +174,10 @@ static int	lexer_tokenize_one(t_lexer *self, t_token *token,
 	while (*i < input->len)
 	{
 		if (input->str[*i] < 0)
+		{
+			error_set_context("non-ascii character");
 			return (ERROR);
+		}
 		symbol = g_char_to_symbol[(int)input->str[*i]];
 		if (is_automaton_next_state_error(&self->tokenizer, symbol))
 			break ;
