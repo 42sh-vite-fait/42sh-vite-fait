@@ -43,7 +43,7 @@ int	exec_node_simple_command(const t_ast_node *node);
 */
 void	exec_pipe_sequence(const t_ast_node *node);
 void	exec_pipe_command(const t_command command);
-void	pipe_exit_on_child_error(void);
+void	pipe_kill_pipe_sequence(void);
 int		pipe_init(t_pipe *pype);
 int		pipe_replace_stdout(int write_end);
 int		pipe_replace_stdin(int read_end);

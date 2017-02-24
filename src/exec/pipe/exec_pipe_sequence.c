@@ -1,3 +1,4 @@
+#include <assert.h>
 #include "ast.h"
 #include "exec.h"
 #include "array_42.h"
@@ -5,85 +6,120 @@
 
 #define SELF_PGID	0
 
-static int	exec_last_child(const t_ast_node *node, pid_t *pid)
+/*
+** stdin -> pipe, read end
+*/
+
+static int	exec_last_child(const t_ast_node *node, int left_read)
 {
-	t_pipe	left;
+	pid_t	child;
 
-	if (pipe_init(&left) != NO_ERROR)
-		return (-1);
-	if (exec_fork(pid) != NO_ERROR)
-		return (-1);
-	if (*pid == 0)
+	assert(node != NULL);
+	child = -1;
+	if (exec_fork(&child) != NO_ERROR)
+		pipe_kill_pipe_sequence();
+	if (child == 0)
 	{
-		if (pipe_replace_stdin(left.read) != NO_ERROR
-				|| exec_close_fd(left.write) != NO_ERROR)
-			return (-1);
-		exec_pipe_command(node->command);
+		if (pipe_replace_stdin(left_read) == NO_ERROR)
+			exec_pipe_command(node->command);
+		pipe_kill_pipe_sequence();
 	}
-	if (exec_close_fd(left.read) != NO_ERROR)
-		return (-1);
-	return (left.write);
-}
-
-static int	exec_child(const t_ast_node *node, int right_write)
-{
-	t_pipe 	left;
-	pid_t	pid;
-
-	if (pipe_init(&left) != NO_ERROR)
-		return (-1);
-	if (exec_fork(&pid) != NO_ERROR)
-		return (-1);
-	else if (pid == 0)
+	else
 	{
-		if (pipe_replace_stdout(right_write) != NO_ERROR
-				|| pipe_replace_stdin(left.read) != NO_ERROR
-				|| exec_close_fd(left.write) != NO_ERROR)
-			return (-1);
-		exec_pipe_command(node->command);
+		if (exec_close_fd(left_read) != NO_ERROR)
+			pipe_kill_pipe_sequence();
 	}
-	if (exec_close_fd(left.read) != NO_ERROR
-			|| exec_close_fd(right_write) != NO_ERROR)
-		return (-1);
-	return (left.write);
-}
-
-static int	exec_first_child(const t_ast_node *node, int right_write)
-{
-	pid_t	pid;
-
-	if (exec_fork(&pid) != NO_ERROR)
-		return (-1);
-	else if (pid == 0)
-	{
-		pipe_replace_stdout(right_write);
-		exec_pipe_command(node->command);
-	}
-	if (exec_close_fd(right_write) != NO_ERROR)
-		return (-1);
-	return (NO_ERROR);
+	return (child);
 }
 
 /*
-** Currently in the control fork
+** stdin -> pipe, read end
+** stdout -> pipe, write end
 */
+
+static int	exec_middle_child(const t_ast_node *node, int left_read)
+{
+	t_pipe 	right;
+	pid_t	child;
+
+	assert(node != NULL);
+	child = -1;
+	if (pipe_init(&right) != NO_ERROR || exec_fork(&child) != NO_ERROR)
+		pipe_kill_pipe_sequence();
+	if (child == 0)
+	{
+		if (pipe_replace_stdin(left_read) == NO_ERROR
+				&& pipe_replace_stdout(right.write) == NO_ERROR
+				&& exec_close_fd(right.read) == NO_ERROR)
+			exec_pipe_command(node->command);
+		pipe_kill_pipe_sequence();
+	}
+	else
+	{
+		if (exec_close_fd(right.write) != NO_ERROR
+				|| exec_close_fd(left_read) != NO_ERROR)
+			pipe_kill_pipe_sequence();
+	}
+	return (right.read);
+}
+
+/*
+** stdout -> pipe, write end (right write)
+** return the read end of the pipe
+*/
+
+static int	exec_first_child(const t_ast_node *node)
+{
+	t_pipe	right;
+	pid_t	child;
+
+	assert(node != NULL);
+	child = -1;
+	if (pipe_init(&right) != NO_ERROR || exec_fork(&child) != NO_ERROR)
+		pipe_kill_pipe_sequence();
+	if (child == 0)
+	{
+		if (pipe_replace_stdout(right.write) == NO_ERROR
+				&& exec_close_fd(right.read) == NO_ERROR)
+			exec_pipe_command(node->command);
+		pipe_kill_pipe_sequence();
+	}
+	else
+	{
+		if (exec_close_fd(right.write) != NO_ERROR)
+			pipe_kill_pipe_sequence();
+	}
+	return (right.read);
+}
+
+/*
+** We are in the _control fork_
+*/
+
 void		exec_pipe_sequence(const t_ast_node *node)
 {
+	t_array	pipe_nodes_stack;
 	pid_t	last_pid;
-	int		write_end;
+	int		read_end;
 
-	if ((write_end = exec_last_child(node, &last_pid)) == -1)
-		pipe_exit_on_child_error();
-	node = node->left;
-	while (node->type == E_AST_PIPE_SEQUENCE)
+	// gather_nodes
+	pipe_nodes_stack = gather_nodes(node, E_AST_PIPE_SEQUENCE);
+
+	// first child
+	array_pop(&pipe_nodes_stack, &node);
+	read_end = exec_first_child(node);
+
+	// middle child(ren)
+	while (pipe_nodes_stack.len > 1)
 	{
-		if ((write_end = exec_child(node, write_end)) == -1)
-			pipe_exit_on_child_error();
-		node = node->left;
+		array_pop(&pipe_nodes_stack, &node);
+		read_end = exec_middle_child(node, read_end);
 	}
-	if (exec_first_child(node, write_end) == -1)
-		pipe_exit_on_child_error();
 
-	/* _exit(wait_for_children(last_pid, SELF_PGID)); */
+	// last child
+	array_pop(&pipe_nodes_stack, &node);
+	last_pid = exec_last_child(node, read_end);
+
+	// wait for the last child and return his exit status
+	_exit(wait_for_children(last_pid, SELF_PGID));
 }
-// TODO: Gerer les signaux

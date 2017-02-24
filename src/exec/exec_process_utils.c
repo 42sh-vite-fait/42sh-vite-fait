@@ -34,7 +34,7 @@ int	wait_for_children(pid_t last_pid, pid_t pgid)
 pid_t	exec_fork(pid_t *pid)
 {
 	*pid = fork();
-	if (*pid == -1)
+	if (*pid < 0)
 	{
 		error_set_context("fork: %s", strerror(errno));
 		return (ERR_EXEC);

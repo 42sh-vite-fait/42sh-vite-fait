@@ -1,8 +1,9 @@
 #include <unistd.h>
+#include <signal.h>
 #include "exec.h"
 #include "errors.h"
 
-int	pipe_replace_stdout(int write_end)
+int		pipe_replace_stdout(int write_end)
 {
 	if (dup2(write_end, STDOUT_FILENO) == -1)
 	{
@@ -17,7 +18,7 @@ int	pipe_replace_stdout(int write_end)
 	return (NO_ERROR);
 }
 
-int	pipe_replace_stdin(int read_end)
+int		pipe_replace_stdin(int read_end)
 {
 	if (dup2(read_end, STDIN_FILENO) == -1)
 	{
@@ -32,13 +33,13 @@ int	pipe_replace_stdin(int read_end)
 	return (NO_ERROR);
 }
 
-int	pipe_init(t_pipe *pype)
+int		pipe_init(t_pipe *pype)
 {
 	int	p[2];
 
 	if (pipe(p) == -1)
 	{
-		error_set_context("pipe: %s", strerror(errno));
+		error_set_context("pipe function: %s", strerror(errno));
 		return (ERR_EXEC);
 	}
 	pype->read = p[0];
@@ -46,9 +47,8 @@ int	pipe_init(t_pipe *pype)
 	return (NO_ERROR);
 }
 
-void	pipe_exit_on_child_error(void)
+void	pipe_kill_pipe_sequence(void)
 {
-	error_print("pipe");
-	// TODO: kill process group
-	_exit(EXIT_FAILURE);
+	error_print("execution: pipe");
+	kill(0, SIGABRT);
 }
