@@ -20,13 +20,13 @@ static int	exec_parent_wait(pid_t child)
 	if (exec_set_process_group_parent_side(child, child) != NO_ERROR)
 		error_print("execution: parent: failed to set process group");
 	else if (exec_set_foreground_process_group(child) != NO_ERROR)
-		error_print("execution: parent: failed to give the controlling terminal
-				to the child process");
+		error_print("execution: parent: failed to give the controlling terminal"
+				"to the child process");
 	status = wait_for_children(child, child);
 	if (exec_set_foreground_process_group(getpid()) != NO_ERROR)
 	{
-		error_print("execution: parent: failed to get back the controlling
-				terminal");
+		error_print("execution: parent: failed to get back the controlling"
+				"terminal");
 		exit(-1);
 	}
 	return (status);
