@@ -22,6 +22,7 @@ int	shell_lex(t_string *input, t_lexer *lexer, t_array *tokens)
 	while (lexer_status == LEXER_INPUT_INCOMPLETE)
 	{
 		string_truncate(&line, 0);
+		// TODO: INPUT_REQUEST_MORE if input incomplete
 		input_status = shell_input(&line, INPUT_REQUEST);
 		if (input_status != E_INPUT_OK)
 			return (input_status) ;
@@ -73,6 +74,7 @@ int shell_loop(void)
 		array_clear(&tokens);
 		parser_clear(&parser);
 
+		// TODO: error handling in non-interactive mode
 		ret = shell_parse(&input, &lexer, &tokens, &parser);
 		if (ret == OK_)
 		{
