@@ -13,6 +13,7 @@ t_array gather_nodes(const t_ast_node *node, int type)
 		fatal_malloc(array_push(&stack, &node->right));
 		node = node->left;
 	}
-	array_push(&stack, &node);
+	fatal_malloc(array_push(&stack, &node));
+	assert(stack.len > 0);
 	return (stack);
 }
