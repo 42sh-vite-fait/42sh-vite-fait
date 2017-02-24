@@ -5,23 +5,25 @@
 #include "opt.h"
 #include "input.h"
 
-int	shell_input(t_string *input, const char *prompt)
+int	shell_input(t_string *input, int status)
 {
-	t_string	more_input;
-	int			status;
+	int			ret;
+	const char	*prompt;
 
-	status = input_get_line(input, prompt);
-	if (status != E_INPUT_OK)
-		return (status);
-	while (remove_trailing_escaped_newline(input) != LINE_COMPLETE)
+	if (status == INPUT_REQUEST)
+		prompt = SHELL_PS1;
+	else
+		prompt = SHELL_PS2;
+	ret = E_INPUT_INCOMPLETE;
+	while (ret == E_INPUT_INCOMPLETE)
 	{
-		status = input_get_line(&more_input, SHELL_PS2);
-		if (status == E_INPUT_OK)
-			string_append(input, &more_input);
-		else
-			return (status);
+		ret = input_get_line(input, prompt);
+		if (ret == E_INPUT_OK)
+		{
+			if (remove_trailing_escaped_newline(input) != LINE_COMPLETE)
+				ret = E_INPUT_INCOMPLETE;
+		}
+		prompt = SHELL_PS2;
 	}
-	if (opt_is_set(OPT_DEBUG_INPUT))
-		ft_printf("INPUT: [%s]\n", input->str);
-	return (status);
+	return (ret);
 }

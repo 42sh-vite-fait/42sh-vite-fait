@@ -17,7 +17,7 @@ enum e_shell_errors
 };
 
 int	shell_loop(void);
-int	shell_input(t_string *input, const char *prompt);
+int	shell_input(t_string *input, int status);
 int	shell_lexer(t_string *input, t_array *tokens);
 int	shell_parser(const t_string *input, t_parser *parser, const t_array *tokens);
 int	shell_exec(t_ast ast);

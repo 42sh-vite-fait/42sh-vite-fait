@@ -2,6 +2,8 @@
 #include "input.h"
 #include "user_interface.h"
 #include "errors.h"
+#include "lexer.h"
+#include "shell.h"
 
 static int	input_arg_get_line(t_string *input)
 {
@@ -52,7 +54,7 @@ static int	input_notty_get_line(t_string *input)
 
 int	input_get_line(t_string *input, const char *prompt)
 {
-	int	ret;
+	int			ret;
 
 	if (opt_is_set(OPT_CMD_STRING))
 		ret = input_arg_get_line(input);
