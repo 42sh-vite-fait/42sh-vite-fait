@@ -42,7 +42,7 @@ pid_t	exec_fork(pid_t *pid)
 	return (NO_ERROR);
 }
 
-int exec_process_group_child_side(int pid, int pgid)
+int exec_set_process_group_child_side(int pid, int pgid)
 {
 	if (setpgid(pid, pgid) == -1)
 	{
@@ -59,11 +59,21 @@ int exec_process_group_child_side(int pid, int pgid)
 ** Thus we avoid reporting an error in that case.
 */
 
-int exec_process_group_parent_side(int pid, int pgid)
+int exec_set_process_group_parent_side(int pid, int pgid)
 {
 	if (setpgid(pid, pgid) == -1 && errno != EACCES)
 	{
 		error_set_context("parent setpgid: %s", strerror(errno));
+		return (ERR_EXEC);
+	}
+	return (NO_ERROR);
+}
+
+int exec_set_foreground_process_group(pid_t pgid)
+{
+	if (tcsetpgrp(STDIN_FILENO, pgid) == -1)
+	{
+		error_set_context("tcsetpgrp: %s", strerror(errno));
 		return (ERR_EXEC);
 	}
 	return (NO_ERROR);
