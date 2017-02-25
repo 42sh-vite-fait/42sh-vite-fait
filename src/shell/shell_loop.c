@@ -12,7 +12,7 @@
 #define OK_ 1
 #define INVALID_ 2
 
-int	shell_lex(t_string *input, t_lexer *lexer, t_array *tokens)
+static int	shell_lex(t_string *input, t_lexer *lexer, t_array *tokens)
 {
 	int			lexer_status;
 	int			input_status;
@@ -41,8 +41,8 @@ int	shell_lex(t_string *input, t_lexer *lexer, t_array *tokens)
 	return (OK_);
 }
 
-int shell_parse(t_string *input, t_lexer *lexer, t_array *tokens,
-				t_parser *parser)
+static int shell_parse(t_string *input, t_lexer *lexer, t_array *tokens,
+						t_parser *parser)
 {
 	int	lexer_status;
 	int	parser_status;
@@ -66,7 +66,8 @@ int shell_parse(t_string *input, t_lexer *lexer, t_array *tokens,
 	return (OK_);
 }
 
-int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser, t_lexer *lexer)
+static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
+						t_lexer *lexer)
 {
 	int	input_parsing_status;
 
