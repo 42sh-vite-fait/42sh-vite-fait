@@ -136,7 +136,7 @@ static void	ast_debug_print_recursive(const char *input, t_ast_node *node, unsig
 		ast_debug_print_recursive(input, node->right, padding + 1);
 }
 
-void	ast_debug_print(t_ast *ast, const char *input)
+void	ast_debug_print(const t_ast *ast, const char *input)
 {
 	setbuf(stdout, NULL);
 	printf("AST:\n");
