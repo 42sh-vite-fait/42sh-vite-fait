@@ -27,8 +27,6 @@ SOURCES    += main.c
 SRC_SUBDIR += shell
 SOURCES += shell_loop.c
 SOURCES += shell_input.c
-SOURCES += shell_lexer.c
-SOURCES += shell_parser.c
 
 # Errors
 SRC_SUBDIR += error
