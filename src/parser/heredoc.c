@@ -13,7 +13,7 @@ static void	request_input(t_string *line)
 {
 	int	status;
 
-	status = shell_input(line, INPUT_REQUEST_MORE); // TODO: PS2
+	status = shell_input(line, SHELL_PS2);
 	if (status == E_INPUT_EOF)
 	{
 		error_set_context("EOF unclosed");

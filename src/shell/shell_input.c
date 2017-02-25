@@ -5,15 +5,10 @@
 #include "opt.h"
 #include "input.h"
 
-int	shell_input(t_string *input, int status)
+int	shell_input(t_string *input, const char *prompt)
 {
 	int			ret;
-	const char	*prompt;
 
-	if (status == INPUT_REQUEST)
-		prompt = SHELL_PS1;
-	else
-		prompt = SHELL_PS2;
 	ret = E_INPUT_INCOMPLETE;
 	while (ret == E_INPUT_INCOMPLETE)
 	{

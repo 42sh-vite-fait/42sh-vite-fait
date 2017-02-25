@@ -16,23 +16,27 @@ int	shell_lex(t_string *input, t_lexer *lexer, t_array *tokens)
 	int			lexer_status;
 	int			input_status;
 	t_string	line;
+	const char	*prompt;
 
 	lexer_status = LEXER_INPUT_INCOMPLETE;
+	prompt = SHELL_PS1;
 	string_init(&line);
 	while (lexer_status == LEXER_INPUT_INCOMPLETE)
 	{
 		string_truncate(&line, 0);
-		// TODO: INPUT_REQUEST_MORE if input incomplete
-		input_status = shell_input(&line, INPUT_REQUEST);
+		input_status = shell_input(&line, prompt);
 		if (input_status != E_INPUT_OK)
-			return (input_status) ;
+			break ;
 		lexer_status = lexer_lex(lexer, tokens, &line);
 		if (lexer_status != LEXER_ERROR)
 			string_append(input, &line);
+		prompt = SHELL_PS2;
 	}
 	if (lexer_status == LEXER_ERROR)
 		error_print("lexer");
 	string_shutdown(&line);
+	if (input_status != E_INPUT_OK)
+		return (input_status);
 	return (OK_);
 }
 
