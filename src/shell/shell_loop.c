@@ -10,6 +10,7 @@
 #define EOF_ 0
 #define ERROR_ -1
 #define OK_ 1
+#define INVALID_ 2
 
 int	shell_lex(t_string *input, t_lexer *lexer, t_array *tokens)
 {
@@ -32,11 +33,14 @@ int	shell_lex(t_string *input, t_lexer *lexer, t_array *tokens)
 			string_append(input, &line);
 		prompt = SHELL_PS2;
 	}
-	if (lexer_status == LEXER_ERROR)
-		error_print("lexer");
 	string_shutdown(&line);
 	if (input_status != E_INPUT_OK)
 		return (input_status);
+	if (lexer_status == LEXER_ERROR)
+	{
+		error_print("lexer");
+		return (INVALID_);
+	}
 	return (OK_);
 }
 
@@ -54,7 +58,10 @@ int shell_parse(t_string *input, t_lexer *lexer, t_array *tokens,
 	parser_init_with_tokens(input, parser, tokens);
 	parser_status = parser_parse(parser);
 	if (parser_status != PARSER_NO_ERROR)
+	{
 		error_print("parser");
+		return (INVALID_);
+	}
 	return (OK_);
 }
 
@@ -78,7 +85,6 @@ int shell_loop(void)
 		array_clear(&tokens);
 		parser_clear(&parser);
 
-		// TODO: error handling in non-interactive mode
 		ret = shell_parse(&input, &lexer, &tokens, &parser);
 		if (ret == OK_)
 		{
@@ -98,6 +104,11 @@ int shell_loop(void)
 			if (!assert_stack_is_empty(&lexer)) // Unfinished lexing
 				error_print("lexer");
 			exit(0);
+		}
+		else if (ret == INVALID_)
+		{
+			if (!opt_is_set(OPT_INTERACTIVE))
+				exit(1);
 		}
 		else if (ret == ERROR_)
 		{
