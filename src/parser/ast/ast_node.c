@@ -33,7 +33,7 @@ void		ast_nodes_clear(t_ast *ast)
 		if (node->right != NULL)
 			fatal_malloc(array_push(&nodes, &node->right));
 		ast_node_command_shutdown(node);
-		ast_node_remove(ast, node); // TODO: segv ?
+		ast_node_remove(ast, node);
 		if (nodes.len != 0)
 			array_pop(&nodes, &node);
 		else
