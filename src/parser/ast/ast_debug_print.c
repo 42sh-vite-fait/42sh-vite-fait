@@ -89,7 +89,7 @@ static void	ast_debug_print_node_redirections(t_array redirections, unsigned pad
 static void ast_debug_print_node_simple_command(const t_ast_node *node, unsigned padding)
 {
 	printf("%s: ", g_ast_print_node[node->type].name); // AST node name
-	t_token	*token = array_get_first(&node->command.words);
+	t_token	*token = *(t_token**)array_get_first(&node->command.words);
 	printf("%.*s\n", (int)token->len, token->str);
 	padding += 1;
 
@@ -100,7 +100,7 @@ static void ast_debug_print_node_simple_command(const t_ast_node *node, unsigned
 	for (size_t i = 1; i < node->command.words.len; ++i)
 	{
 		ast_debug_print_padding(padding);
-		token = array_get_at(&node->command.words, i);
+		token = *(t_token**)array_get_at(&node->command.words, i);
 		printf("args#%zu: %.*s\n", i, (int)token->len, token->str);
 	}
 }

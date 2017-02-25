@@ -18,7 +18,7 @@ char * const	*expand_tokens_to_argv(t_array tokens)
 	i = 0;
 	while (i < tokens.len)
 	{
-		token = array_get_at(&tokens, i);
+		token = *(t_token**)array_get_at(&tokens, i);
 		word = expand_quote_removal(token->str, token->len);
 		array_push(&argv, &word);
 		i += 1;

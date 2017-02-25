@@ -192,7 +192,7 @@ bool		is_only_one_digit(const char *input);
 ** Print the tokens list
 */
 void		lexer_debug_print_tokens(const t_array *tokens);
-void		lexer_debug_print_token(const t_token *token, const char *prefix);
+void		lexer_debug_print_token(const t_token *token);
 const char	*lexer_debug_get_token_name(size_t i);
 
 #endif

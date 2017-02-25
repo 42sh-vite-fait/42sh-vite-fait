@@ -11,7 +11,7 @@ int		exec_node_simple_command(const t_ast_node *node)
 	int		ret;
 
 	assert(node != NULL);
-	token = array_get_first(&node->command.words);
+	token = *(t_token**)array_get_first(&node->command.words);
 	if (is_builtin(token->str, token->len))
 		ret = exec_simple_command_builtin(node->command);
 	else

@@ -33,7 +33,7 @@ int			predict_simple_command(t_parser *parser, t_ast_node *self)
 	if (!parser_check_current_token_type(parser, E_TOKEN_WORD))
 		return (ERR_PARSING);
 	self->token = parser_get_current_token(parser);
-	array_push(words, parser_get_current_token(parser));
+	array_push(words, &self->token);
 	parser_consume_token(parser);
 	if (check_requirements_cmd_suffix(parser))
 		if (predict_cmd_suffix(parser, words, redirections) != PARSER_NO_ERROR)

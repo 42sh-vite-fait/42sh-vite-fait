@@ -18,6 +18,7 @@ bool	check_requirements_cmd_prefix(const t_parser *parser)
 int		predict_cmd_prefix(t_parser *parser, t_array *redirections, t_array *assignments)
 {
 	struct	s_redirection	*redir;
+	const t_token			*token;
 	int						ret;
 
 	ret = PARSER_NO_ERROR;
@@ -30,7 +31,8 @@ int		predict_cmd_prefix(t_parser *parser, t_array *redirections, t_array *assign
 		}
 		else if (parser_check_current_token_type(parser, E_TOKEN_ASSIGNMENT_WORD))
 		{
-			array_push(assignments, parser_get_current_token(parser));
+			token = parser_get_current_token(parser);
+			array_push(assignments, &token);
 			parser_consume_token(parser);
 		}
 		else

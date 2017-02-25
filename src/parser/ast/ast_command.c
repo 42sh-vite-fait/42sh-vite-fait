@@ -6,12 +6,12 @@ void	ast_node_command_init(t_ast_node *node)
 
 	c = &node->command;
 	if (node->type == E_AST_SUBSHELL)
-		fatal_malloc(array_init(&c->redirections, sizeof(c->redirections)));
+		fatal_malloc(array_init(&c->redirections, sizeof(struct s_redirection)));
 	else if (node->type == E_AST_SIMPLE_COMMAND)
 	{
-		fatal_malloc(array_init(&c->words, sizeof(c->words)));
-		fatal_malloc(array_init(&c->redirections, sizeof(c->redirections)));
-		fatal_malloc(array_init(&c->assignments, sizeof(c->assignments)));
+		fatal_malloc(array_init(&c->words, sizeof(t_token*)));
+		fatal_malloc(array_init(&c->redirections, sizeof(struct s_redirection)));
+		fatal_malloc(array_init(&c->assignments, sizeof(t_token*)));
 	}
 }
 

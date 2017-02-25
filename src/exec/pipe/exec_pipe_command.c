@@ -14,7 +14,7 @@ void	exec_pipe_command(const t_command command)
 {
 	t_token	*token;
 
-	token = array_get_first(&command.words);
+	token = *(t_token**)array_get_first(&command.words);
 	if (is_builtin(token->str, token->len))
 		exec_pipe_wrapper_builtin(command);
 	else

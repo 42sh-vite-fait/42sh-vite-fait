@@ -225,7 +225,7 @@ BUILD_DIR  = $(OBJ_PATH) $(DEP_PATH)
 # Lib tierces
 LIB42_PATH = lib42
 LIB42      = $(LIB42_PATH)/lib42.a
-CFLAGS     += -I$(LIB42_PATH)/inc
+CFLAGS     += -I$(LIB42_PATH)/inc -I$(LIB42_PATH)/debug
 LDFLAGS    += -L $(LIB42_PATH) -l42
 
 # Termcap Multi-OS

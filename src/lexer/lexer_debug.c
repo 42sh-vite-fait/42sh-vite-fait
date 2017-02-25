@@ -30,19 +30,17 @@ static const char	*g_token_str[] = {
 	[E_TOKEN_END_OF_INPUT] = "END_OF_INPUT",
 };
 
-void	lexer_debug_print_token(const t_string *input, const t_token *token, const char *prefix)
+void	lexer_debug_print_token(const t_token *token)
 {
-	if (prefix && prefix[0])
-		printf("%s", prefix);
 	printf("%s (start: %zu, len: %zu) [%.*s]\n",
 			g_token_str[token->type],
 			token->start,
 			token->len,
 			(int)token->len,
-			input->str + token->start);
+			token->str);
 }
 
-void	lexer_debug_print_tokens(const t_string *input, const t_array *tokens)
+void	lexer_debug_print_tokens(const t_array *tokens)
 {
 	size_t		i;
 
@@ -50,7 +48,7 @@ void	lexer_debug_print_tokens(const t_string *input, const t_array *tokens)
 	ft_printf("TOKENS:\n");
 	while (i < tokens->len)
 	{
-		lexer_debug_print_token(input, array_get_at(tokens, i), NULL);
+		lexer_debug_print_token(array_get_at(tokens, i));
 		i += 1;
 	}
 }
