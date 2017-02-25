@@ -103,7 +103,7 @@ void		exec_pipe_sequence(const t_ast_node *node)
 	int		read_end;
 
 	// gather_nodes
-	pipe_nodes_stack = gather_nodes(node, E_AST_PIPE_SEQUENCE);
+	pipe_nodes_stack = gather_childrens_nodes(node, E_AST_PIPE_SEQUENCE);
 
 	// first child
 	array_pop(&pipe_nodes_stack, &node);

@@ -96,6 +96,7 @@ int 	exec_dup_fd(int oldfd, int newfd);
 /*
 ** Node utilities
 */
-t_array gather_nodes(const t_ast_node *node, int type);
+t_array gather_childrens_nodes(const t_ast_node *node, int type);
+t_array gather_nodes_token_type(const t_ast_node *node, int type);
 
 #endif

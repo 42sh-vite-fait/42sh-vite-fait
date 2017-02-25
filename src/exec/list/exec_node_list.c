@@ -10,7 +10,7 @@ int		exec_node_list(const t_ast_node *node)
 	int		ret;
 
 	assert(node != NULL);
-	list_nodes_stack = gather_nodes(node, E_AST_LIST);
+	list_nodes_stack = gather_childrens_nodes(node, E_AST_LIST);
 	array_pop(&list_nodes_stack, &node);
 	ret = g_walkers[node->type](node);
 	while (list_nodes_stack.len > 0)
