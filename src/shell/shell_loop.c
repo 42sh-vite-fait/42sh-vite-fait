@@ -80,7 +80,7 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 		input_parsing_status = shell_parse(input, lexer, tokens, parser);
 		if (input_parsing_status == OK_)
 		{
-			// TODO: cut lines multiple lines before pushing in history
+			// TODO: cut multiple lines before pushing in history
 			if (opt_is_set(OPT_INTERACTIVE))
 				history_add(fatal_malloc(string_create_dup(input->str)));
 		}
@@ -115,7 +115,7 @@ int shell_loop(void)
 	fatal_malloc(parser_init(&parser));
 	fatal_malloc(lexer_init(&lexer));
 	ret = shell_loop2(&input, &tokens, &parser, &lexer);
-	// Faire des trucs avant de quitter, genre historique tout ca.
+	// TODO: Faire des trucs avant de quitter, genre historique tout ca.
 	string_shutdown(&input);
 	array_shutdown(&tokens);
 	lexer_shutdown(&lexer);
