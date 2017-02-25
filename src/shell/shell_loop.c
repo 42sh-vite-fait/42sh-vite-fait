@@ -19,18 +19,15 @@ int	shell_lex(t_string *input, t_lexer *lexer, t_array *tokens)
 	t_string	line;
 	const char	*prompt;
 
-	lexer_status = LEXER_INPUT_INCOMPLETE;
 	prompt = SHELL_PS1;
 	string_init(&line);
-	while (lexer_status == LEXER_INPUT_INCOMPLETE)
+	lexer_status = LEXER_INPUT_INCOMPLETE;
+	while (lexer_status == LEXER_INPUT_INCOMPLETE &&
+			(input_status = shell_input(&line, prompt)) == E_INPUT_OK)
 	{
-		string_truncate(&line, 0);
-		input_status = shell_input(&line, prompt);
-		if (input_status != E_INPUT_OK)
-			break ;
-		lexer_status = lexer_lex(lexer, tokens, &line);
-		if (lexer_status != LEXER_ERROR)
+		if ((lexer_status = lexer_lex(lexer, tokens, &line)) != LEXER_ERROR)
 			string_append(input, &line);
+		string_truncate(&line, 0);
 		prompt = SHELL_PS2;
 	}
 	string_shutdown(&line);
