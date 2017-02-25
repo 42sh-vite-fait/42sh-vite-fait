@@ -187,6 +187,10 @@ SOURCES += exec_with_path.c
 # List
 SRC_SUBDIR += exec/list
 SOURCES += exec_node_list.c
+# Subshell
+SRC_SUBDIR += exec/subshell
+SOURCES += exec_node_subshell.c
+SOURCES += exec_node_term.c
 # And_Or
 SRC_SUBDIR += exec/and_or
 SOURCES += exec_node_and_or.c

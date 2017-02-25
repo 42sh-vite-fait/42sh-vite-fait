@@ -9,10 +9,10 @@ t_tree_walker	*const g_walkers[] =
 	[E_AST_LIST] = &exec_node_list,
 	[E_AST_AND_OR] = &exec_node_and_or,
 	[E_AST_PIPE_SEQUENCE] = &exec_node_pipe,
-	[E_AST_COMMAND] = NULL,
-	/* [E_AST_SUBSHELL] = &exec_node_subshell, */
-	[E_AST_COMPOUND_LIST] = NULL,
-	/* [E_AST_TERM] = &exec_node_term, */
+	/* [E_AST_COMMAND] = NULL, // TODO: peut-il survenir ? */
+	[E_AST_SUBSHELL] = &exec_node_subshell,
+	/* [E_AST_COMPOUND_LIST] = NULL, */
+	[E_AST_TERM] = &exec_node_term,
 	[E_AST_SIMPLE_COMMAND] = &exec_node_simple_command,
 };
 
