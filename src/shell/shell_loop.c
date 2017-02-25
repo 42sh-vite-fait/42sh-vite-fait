@@ -71,13 +71,15 @@ int shell_loop(void)
 	t_array		tokens;
 	t_parser	parser;
 	t_lexer		lexer;
-	int			ret;
+	int			input_parsing_status;
+	int			exit_status;
 
 	fatal_malloc(string_init(&input));
 	fatal_malloc(array_init(&tokens, sizeof(t_token)));
 	fatal_malloc(parser_init(&parser));
 	fatal_malloc(lexer_init(&lexer));
 
+	exit_status = 0;
 	while (1)
 	{
 		string_truncate(&input, 0);
@@ -85,43 +87,45 @@ int shell_loop(void)
 		array_clear(&tokens);
 		parser_clear(&parser);
 
-		ret = shell_parse(&input, &lexer, &tokens, &parser);
-		if (ret == OK_)
+		input_parsing_status = shell_parse(&input, &lexer, &tokens, &parser);
+		if (input_parsing_status == OK_)
 		{
 			// TODO: cut lines multiple lines before pushing in history
 			if (opt_is_set(OPT_INTERACTIVE))
 				history_add(fatal_malloc(string_create_dup(input.str)));
 			if (opt_is_set(OPT_DEBUG_INPUT))
-				ft_printf("INPUT: [%s]\n", input.str); // A mettre plus loin
+				ft_printf("INPUT: [%s]\n", input.str);
 			if (opt_is_set(OPT_DEBUG_LEXER))
 				lexer_debug_print_tokens(&input, &tokens);
 			if (opt_is_set(OPT_DEBUG_AST))
 				ast_debug_print(&parser.ast, input.str);
 		}
-		else if (ret == EOF_)
+		else if (input_parsing_status == EOF_)
 		{
-			// Faire des trucs avant de quitter, genre historique tout ca.
 			if (!assert_stack_is_empty(&lexer)) // Unfinished lexing
 				error_print("lexer");
-			exit(0);
+			break ;
 		}
-		else if (ret == INVALID_)
+		else if (input_parsing_status == INVALID_)
 		{
 			if (!opt_is_set(OPT_INTERACTIVE))
-				exit(1);
+			{
+				exit_status = 1;
+				break ;
+			}
 		}
-		else if (ret == ERROR_)
+		else if (input_parsing_status == ERROR_)
 		{
-			// Faire des trucs avant de quitter, genre historique tout ca.
-			exit(1);
+			exit_status = 1;
+			break ;
 		}
 		/* if (shell_exec(parser->ast) != EXEC_NO_ERROR) */
 		/*	return (EXIT_FAILURE); */
 	}
 
-	// Faire ca avant de quitter
+	// Faire des trucs avant de quitter, genre historique tout ca.
 	string_shutdown(&input);
 	array_shutdown(&tokens);
 	parser_shutdown(&parser);
-	return (ret);
+	return (input_parsing_status);
 }
