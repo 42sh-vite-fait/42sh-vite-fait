@@ -50,6 +50,8 @@ int shell_parse(t_string *input, t_lexer *lexer, t_array *tokens,
 	lexer_status = shell_lex(input, lexer, tokens);
 	if (lexer_status != OK_)
 		return (lexer_status);
+	if (opt_is_set(OPT_DEBUG_LEXER))
+		lexer_debug_print_tokens(input, tokens);
 	categorize_tokens(input, tokens);
 	lexer_clear_tokens(tokens);
 	parser_init_with_tokens(input, parser, tokens);
@@ -59,6 +61,8 @@ int shell_parse(t_string *input, t_lexer *lexer, t_array *tokens,
 		error_print("parser");
 		return (INVALID_);
 	}
+	if (opt_is_set(OPT_DEBUG_AST))
+		ast_debug_print(&parser->ast, input->str);
 	return (OK_);
 }
 
@@ -78,12 +82,6 @@ int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser, t_lexer *lex
 			// TODO: cut lines multiple lines before pushing in history
 			if (opt_is_set(OPT_INTERACTIVE))
 				history_add(fatal_malloc(string_create_dup(input->str)));
-			if (opt_is_set(OPT_DEBUG_INPUT))
-				ft_printf("INPUT: [%s]\n", input->str);
-			if (opt_is_set(OPT_DEBUG_LEXER))
-				lexer_debug_print_tokens(input, tokens);
-			if (opt_is_set(OPT_DEBUG_AST))
-				ast_debug_print(&parser->ast, input->str);
 		}
 		else if (input_parsing_status == EOF_)
 		{

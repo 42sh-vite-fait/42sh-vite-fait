@@ -20,5 +20,7 @@ int	shell_input(t_string *input, const char *prompt)
 		}
 		prompt = SHELL_PS2;
 	}
+	if (opt_is_set(OPT_DEBUG_INPUT) && ret == E_INPUT_OK)
+		ft_printf("INPUT: [%s]\n", input->str);
 	return (ret);
 }
