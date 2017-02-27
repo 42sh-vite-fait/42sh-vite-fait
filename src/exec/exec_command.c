@@ -6,7 +6,7 @@
 #define BACKUP_PATH ("")
 
 /*
-** This function should never return in case of any failure !
+** This function should never return in case of failure !
 */
 
 void exec_binary(const t_command command)
