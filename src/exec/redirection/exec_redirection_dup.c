@@ -19,12 +19,12 @@ static int	close_fd(int io_number)
 
 	if (IS_FD_STANDARD(io_number))
 	{
-		devnull = open("/dev/null", O_RDWR, 0666);
-		if (devnull == -1 || exec_dup_fd(devnull, io_number) == -1)
+		devnull = open("/dev/null", O_RDWR, OPEN_DEFAULT_MODE);
+		if (devnull == -1 || exec_dup_fd(devnull, io_number) != NO_ERROR)
 			return (ERR_EXEC);
 	}
 	else
-		exec_close_fd(io_number);
+		return (exec_close_fd(io_number));
 	return (NO_ERROR);
 }
 
@@ -39,17 +39,13 @@ static int	duplicate_fd(int io_number, int mode, unsigned word)
 		error_set_context("%d: %s", word, strerror(errno));
 		return (ERR_EXEC);
 	}
-	if (flags & mode)
-	{
-		if (exec_dup_fd(word, io_number) == -1)
-			return (ERR_EXEC);
-	}
+	else if (flags & mode)
+		return (exec_dup_fd(word, io_number));
 	else
 	{
 		error_set_context("%d: access mode invalid", word);
 		return (ERR_EXEC);
 	}
-	return (NO_ERROR);
 }
 
 static int	exec_redirection_dup(int io_number, int mode, const char *word)

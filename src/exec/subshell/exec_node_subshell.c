@@ -15,12 +15,12 @@ int		exec_node_subshell(const t_ast_node *node)
 	if (subshell == 0)
 	{
 		exec_child_set_context();
+		signal(SIGTTOU, SIG_IGN); // TODO: solution
 		/* if (exec_redirection(node->left->command.redirections) != NO_ERROR) */
 		/* { */
 		/* 	error_print("execution: subshell"); */
 		/* 	_exit(-1); */
 		/* } */
-		signal(SIGTTOU, SIG_IGN); // TODO: solution
 		_exit(g_walkers[node->left->type](node->left));
 	}
 	else

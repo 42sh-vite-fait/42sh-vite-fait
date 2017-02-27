@@ -10,6 +10,7 @@
 
 # define IS_FD_STANDARD(f) ((f) <= 2)
 # define MAX_FD_POSIX_COMPLIANCE (9)
+# define OPEN_DEFAULT_MODE (0644)
 
 enum e_exec_errors
 {

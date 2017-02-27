@@ -15,12 +15,13 @@ bool			check_requirements_io_redirect(const t_parser *parser)
 
 static size_t	get_default_io_number(int operator_type)
 {
-	if (operator_type == E_TOKEN_GREAT
-			|| operator_type == E_TOKEN_DGREAT
-			|| operator_type == E_TOKEN_CLOBBER)
-		return (STDOUT_FILENO);
-	else
+	if (operator_type == E_TOKEN_LESS
+			|| operator_type == E_TOKEN_DLESS
+			|| operator_type == E_TOKEN_DLESSDASH
+			|| operator_type == E_TOKEN_LESSAND)
 		return (STDIN_FILENO);
+	else
+		return (STDOUT_FILENO);
 }
 
 static size_t	parse_io_number(t_parser *parser)

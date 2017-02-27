@@ -9,6 +9,7 @@
 static bool	is_fd_open(int fd)
 {
 	errno = 0;
+
 	return (fcntl(fd, F_GETFD) != -1 || errno != EBADF);
 }
 
@@ -20,8 +21,7 @@ static int	restore_standard_fd(int io_number)
 static int	close_opened_file(int io_number)
 {
 	if (is_fd_open(io_number))
-		if (exec_close_fd(io_number) != NO_ERROR)
-			return (ERR_EXEC);
+		return (exec_close_fd(io_number));
 	return (NO_ERROR);
 }
 

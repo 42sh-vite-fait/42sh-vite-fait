@@ -5,15 +5,14 @@
 #include "errors.h"
 #include "stdlib_42.h"
 
-#define DEFAULT_MODE (0644)
 #define OUTPUT_TRUNC (O_WRONLY | O_CREAT | O_TRUNC)
-#define OUTPUT_APPEND (O_WRONLY | O_APPEND)
+#define OUTPUT_APPEND (O_WRONLY | O_APPEND | O_CREAT)
 
 static int	open_file_and_dup(int io_number, int flags, const char *word)
 {
 	int	fd;
 
-	fd = open(word, flags, DEFAULT_MODE);
+	fd = open(word, flags, OPEN_DEFAULT_MODE);
 	if (fd == -1)
 	{
 		error_set_context("can't open %s: %s", word, strerror(errno));
