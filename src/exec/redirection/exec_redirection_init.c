@@ -1,7 +1,7 @@
 #include "errors.h"
 #include "exec.h"
 
-int	startup_redirection_init(void)
+int	init_redirection_module(void)
 {
 	int	ret;
 	

@@ -62,7 +62,7 @@ void	exec_binary(const t_command command);
 /*
 ** Redirections
 */
-int	startup_redirection_init(void);
+int	init_redirection_module(void);
 int	exec_backup_get_standard_fd(size_t n);
 int	exec_backup_standard_fd(void);
 int	exec_redirection(t_array redirections);
