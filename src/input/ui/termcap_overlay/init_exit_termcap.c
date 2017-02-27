@@ -31,7 +31,8 @@ static int	terminal_set_termios(const struct termios new)
 int terminal_start_raw_mode(void)
 {
 	struct termios	raw;
-
+	if (isatty(1) == 0)
+		return (ERR_TERM);
 	raw = g_termios_backup;
 	raw.c_iflag &= ~(unsigned)IXON;
 	raw.c_lflag &= ~(unsigned)(ICANON | ECHO | IEXTEN | ISIG);
