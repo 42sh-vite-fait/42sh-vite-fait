@@ -5,7 +5,7 @@
 #include "memory_42.h"
 #include "string_42.h"
 
-char * const	*expand_tokens_to_argv(t_array tokens)
+t_array	expand_tokens_to_argv(t_array tokens)
 {
 	t_array	argv;
 	t_token	*token;
@@ -25,5 +25,5 @@ char * const	*expand_tokens_to_argv(t_array tokens)
 	}
 	word = NULL;
 	array_push(&argv, &word);
-	return (argv.data);
+	return (argv);
 }

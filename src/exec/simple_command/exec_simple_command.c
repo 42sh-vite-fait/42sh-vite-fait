@@ -1,6 +1,9 @@
+#include "expansion.h"
+#include "var.h"
 #include "exec.h"
 #include "ast.h"
 #include "errors.h"
+#include "builtins.h"
 
 int exec_simple_command_binary(const t_command command)
 {
@@ -22,6 +25,19 @@ int exec_simple_command_binary(const t_command command)
 
 int exec_simple_command_builtin(const t_command command)
 {
-	(void)command;
-	return (0);
+	t_array			argv;
+	char * const	*envp;
+	int				status;
+
+	if (exec_redirection(command.redirections) != NO_ERROR)
+	{
+		error_print("execution");
+		return (-1);
+	}
+	argv = expand_tokens_to_argv(command.words);
+	envp = var_get_environ();
+	status = exec_builtin(argv.len, argv.data, envp);
+	if (undo_redirection(command.redirections) != NO_ERROR)
+		error_print("execution");
+	return (status);
 }
