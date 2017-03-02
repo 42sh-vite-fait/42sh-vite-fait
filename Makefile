@@ -216,6 +216,10 @@ SOURCES += exec_redirection_init.c
 SOURCES += exec_redirection_undo.c
 SOURCES += exec_redirection_backup.c
 
+# Signal
+SRC_SUBDIR += signal
+SOURCES += signal.c
+SOURCES += signal_blocked.c
 
 
 # Generation
