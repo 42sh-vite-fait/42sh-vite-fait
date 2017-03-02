@@ -20,8 +20,6 @@ void exec_binary(const t_command command)
 		error_print("execution");
 		_exit(-1);
 	}
-	// signal_set_for_exec();
-
 	if (var_get("PATH", &paths) != NO_ERROR)
 		paths = BACKUP_PATH;
 	argv = expand_tokens_to_argv(command.words);

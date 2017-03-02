@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "exec.h"
 #include "errors.h"
+#include "sig.h"
 
 int exec_set_process_group_child_side(int pid, int pgid)
 {
@@ -42,10 +43,8 @@ int exec_set_foreground_process_group(pid_t pgid)
 
 void exec_child_set_context(void)
 {
-	// TODO: module signal
-	signal(SIGTTOU, SIG_DFL);
-
-	// Process group
+	signal_set_ignored_signals_to_default();
+	signal_unblock_blocked_signals();
 	if (exec_set_process_group_child_side(0, 0) != NO_ERROR)
 	{
 		error_print("execution: child: failed to set process group");

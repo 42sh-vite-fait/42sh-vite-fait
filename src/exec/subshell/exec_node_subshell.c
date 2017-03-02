@@ -1,6 +1,7 @@
 #include <assert.h>
 #include "exec.h"
 #include "ast.h"
+#include "sig.h"
 
 extern t_tree_walker	*const g_walkers[];
 
@@ -15,7 +16,7 @@ int		exec_node_subshell(const t_ast_node *node)
 	if (subshell == 0)
 	{
 		exec_child_set_context();
-		signal(SIGTTOU, SIG_IGN); // TODO: solution
+		signal_set_ignored_signals_to_ignore();
 		if (exec_redirection(node->command.redirections) != NO_ERROR)
 		{
 			error_print("execution: subshell");
