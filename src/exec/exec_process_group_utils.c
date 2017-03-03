@@ -4,11 +4,11 @@
 #include "errors.h"
 #include "sig.h"
 
-int exec_set_process_group_child_side(int pid, int pgid)
+static int exec_set_process_group_child_side(int pid, int pgid)
 {
 	if (setpgid(pid, pgid) == -1)
 	{
-		error_set_context("child setpgid: %s", strerror(errno));
+		error_set_context("child: setpgid: %s", strerror(errno));
 		return (ERR_EXEC);
 	}
 	return (NO_ERROR);
@@ -21,17 +21,17 @@ int exec_set_process_group_child_side(int pid, int pgid)
 ** Thus we avoid reporting an error in that case.
 */
 
-int exec_set_process_group_parent_side(int pid, int pgid)
+static int exec_set_process_group_parent_side(int pid, int pgid)
 {
 	if (setpgid(pid, pgid) == -1 && errno != EACCES)
 	{
-		error_set_context("parent setpgid: %s", strerror(errno));
+		error_set_context("parent: setpgid: %s", strerror(errno));
 		return (ERR_EXEC);
 	}
 	return (NO_ERROR);
 }
 
-int exec_set_foreground_process_group(pid_t pgid)
+static int exec_set_foreground_process_group(pid_t pgid)
 {
 	if (tcsetpgrp(STDIN_FILENO, pgid) == -1)
 	{
@@ -48,11 +48,15 @@ void exec_child_set_context(void)
 	if (exec_set_process_group_child_side(0, 0) != NO_ERROR)
 	{
 		error_print("execution: child: failed to set process group");
-		_exit(ERR_EXEC);
+		_exit(-1);
+	}
+	if (exec_set_foreground_process_group(getpid()) != NO_ERROR)
+	{
+		error_print("execution: child: failed to get the controlling terminal");
+		exit(-1);
 	}
 }
 
-// TODO: find better name
 int exec_parent_wait_child_process_group(pid_t child_pgid)
 {
 	int	status;

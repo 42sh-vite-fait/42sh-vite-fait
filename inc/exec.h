@@ -85,9 +85,6 @@ int		wait_child_process_group(pid_t last_pid, pid_t pgid);
 */
 void 	exec_child_set_context(void);
 int 	exec_parent_wait_child_process_group(pid_t child_pgid);
-int 	exec_set_process_group_child_side(int pid, int pgid);
-int 	exec_set_process_group_parent_side(int pid, int pgid);
-int 	exec_set_foreground_process_group(pid_t pgid);
 
 /*
 ** IO utilities
