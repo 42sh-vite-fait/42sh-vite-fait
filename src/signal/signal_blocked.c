@@ -57,18 +57,24 @@ void 			signal_set_blocked_signals(void)
 
 bool			signal_should_we_drop_the_command(void)
 {
-	sigset_t	blocked;
+	sigset_t	pending;
 	size_t		size;
+	size_t		i;
 
-	blocked = get_blocked_sigset();
-	if (sigpending(&blocked))
+	size = ARR_SIZ_MAX(g_signals_to_block);
+	i = 0;
+	sigpending(&pending);
+	while (i < size)
 	{
-		size = ARR_SIZ_MAX(g_signals_to_block);
-		signal_set_signals_handler_for(g_signals_to_block, size, SIG_IGN);
-		signal_unblock_blocked_signals();
-		signal_set_blocked_signals();
-		signal_set_signals_handler_for(g_signals_to_block, size, SIG_DFL);
-		return (true);
+		if (sigismember(&pending, g_signals_to_block[i]))
+		{
+			signal_set_signals_handler_for(g_signals_to_block, size, SIG_IGN);
+			signal_unblock_blocked_signals();
+			signal_set_blocked_signals();
+			signal_set_signals_handler_for(g_signals_to_block, size, SIG_DFL);
+			return (true);
+		}
+		i += 1;
 	}
 	return (false);
 }
