@@ -5,7 +5,7 @@
 #include "errors.h"
 #include "builtins.h"
 
-int exec_simple_command_binary(const t_command command)
+int exec_simple_command_binary(const t_command command, const t_string *input)
 {
 	pid_t	child;
 	int		status;
@@ -15,7 +15,7 @@ int exec_simple_command_binary(const t_command command)
 	if (child == 0)
 	{
 		exec_child_set_context();
-		exec_binary(command);
+		exec_binary(command, input);
 		_exit(-1);
 	}
 	else
@@ -23,18 +23,18 @@ int exec_simple_command_binary(const t_command command)
 	return (status);
 }
 
-int exec_simple_command_builtin(const t_command command)
+int exec_simple_command_builtin(const t_command command, const t_string *input)
 {
 	t_array			argv;
 	char * const	*envp;
 	int				status;
 
-	if (exec_redirection(command.redirections) != NO_ERROR)
+	if (exec_redirection(command.redirections, input) != NO_ERROR)
 	{
 		error_print("execution");
 		return (-1);
 	}
-	argv = expand_tokens_to_argv(command.words);
+	argv = expand_tokens_to_argv(command.words, input);
 	envp = var_get_environ();
 	status = exec_builtin(argv.len, argv.data, envp);
 	if (undo_redirection(command.redirections) != NO_ERROR)

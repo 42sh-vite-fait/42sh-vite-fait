@@ -18,7 +18,7 @@ enum e_exec_errors
 	ERR_EXEC,
 };
 
-typedef int (t_tree_walker)(const t_ast_node *);
+typedef int (t_tree_walker)(const t_ast_node *, const t_string *);
 typedef struct s_pipe	t_pipe;
 struct s_pipe
 {
@@ -29,21 +29,21 @@ struct s_pipe
 /*
 ** Tree Walker
 */
-int exec_ast(const t_ast ast);
-int	exec_node_complete_commands(const t_ast_node *node);
-int	exec_node_complete_command(const t_ast_node *node);
-int	exec_node_list(const t_ast_node *node);
-int	exec_node_and_or(const t_ast_node *node);
-int	exec_node_pipe(const t_ast_node *node);
-int	exec_node_term(const t_ast_node *node);
-int	exec_node_subshell(const t_ast_node *node);
-int	exec_node_simple_command(const t_ast_node *node);
+int exec_ast(const t_ast ast, const t_string *input);
+int	exec_node_complete_commands(const t_ast_node *node, const t_string *input);
+int	exec_node_complete_command(const t_ast_node *node, const t_string *input);
+int	exec_node_list(const t_ast_node *node, const t_string *input);
+int	exec_node_and_or(const t_ast_node *node, const t_string *input);
+int	exec_node_pipe(const t_ast_node *node, const t_string *input);
+int	exec_node_term(const t_ast_node *node, const t_string *input);
+int	exec_node_subshell(const t_ast_node *node, const t_string *input);
+int	exec_node_simple_command(const t_ast_node *node, const t_string *input);
 
 /*
 ** Pipe
 */
-void	exec_pipe_sequence(const t_ast_node *node);
-void	exec_pipe_command(const t_command command);
+void	exec_pipe_sequence(const t_ast_node *node, const t_string *input);
+void	exec_pipe_command(const t_command command, const t_string *input);
 void	pipe_kill_pipe_sequence(void);
 int		pipe_init(t_pipe *pype);
 int		pipe_replace_stdout(int write_end);
@@ -52,12 +52,12 @@ int		pipe_replace_stdin(int read_end);
 /*
 ** Simple Command
 */
-int		exec_simple_command_binary(const t_command command);
-int		exec_simple_command_builtin(const t_command command);
+int		exec_simple_command_binary(const t_command command, const t_string *input);
+int		exec_simple_command_builtin(const t_command command, const t_string *input);
 
 // Execution
 void	exec_with_path(const char *paths, char * const *av, char * const *envp);
-void	exec_binary(const t_command command);
+void	exec_binary(const t_command command, const t_string *input);
 
 /*
 ** Redirections
@@ -65,8 +65,8 @@ void	exec_binary(const t_command command);
 int	init_redirection_module(void);
 int	exec_backup_get_standard_fd(size_t n);
 int	exec_backup_standard_fd(void);
-int	exec_redirection(t_array redirections);
-int	undo_redirection(t_array redirections);
+int	exec_redirection(const t_array redirections, const t_string *input);
+int	undo_redirection(const t_array redirections);
 int	exec_redirection_input(int io_number, const char *word);
 int	exec_redirection_output_trunc(int io_number, const char *word);
 int	exec_redirection_output_append(int io_number, const char *word);

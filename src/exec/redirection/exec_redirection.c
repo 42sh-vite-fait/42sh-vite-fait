@@ -10,13 +10,12 @@
 ** And the command shall also fail
 */
 
-static int	exec_redirection_dispatch(struct s_redirection redir)
+static int	exec_redirection_dispatch(struct s_redirection redir,
+		const char *word)
 {
-	char	*word;
 	int		ret;
 
 	ret = ERR_EXEC;
-	word = ft_strsub(redir.word->str, 0, redir.word->len);
 	if (redir.operator == E_TOKEN_GREAT || redir.operator == E_TOKEN_CLOBBER)
 		ret = exec_redirection_output_trunc(redir.io_number, word);
 	else if (redir.operator == E_TOKEN_LESS)
@@ -32,13 +31,13 @@ static int	exec_redirection_dispatch(struct s_redirection redir)
 		ret = exec_redirection_output_duplicate(redir.io_number, word);
 	else
 		assert(0);
-	free(word);
 	return (ret);
 }
 
-int	exec_redirection(t_array redirections)
+int	exec_redirection(const t_array redirections, const t_string *input)
 {
 	struct s_redirection	*redir;
+	char					*word;
 	size_t					i;
 	int						ret;
 
@@ -47,7 +46,9 @@ int	exec_redirection(t_array redirections)
 	while (i < redirections.len)
 	{
 		redir = array_get_at(&redirections, i);
-		ret = exec_redirection_dispatch(*redir);
+		word = ft_strsub(input->str, redir->word->start, redir->word->len);
+		ret = exec_redirection_dispatch(*redir, word);
+		free(word);
 		if (ret != NO_ERROR)
 			break ;
 		i += 1;

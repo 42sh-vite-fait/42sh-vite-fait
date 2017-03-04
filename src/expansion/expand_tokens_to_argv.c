@@ -5,7 +5,7 @@
 #include "memory_42.h"
 #include "string_42.h"
 
-t_array	expand_tokens_to_argv(t_array tokens)
+t_array	expand_tokens_to_argv(t_array tokens, const t_string *input)
 {
 	t_array	argv;
 	t_token	*token;
@@ -19,7 +19,7 @@ t_array	expand_tokens_to_argv(t_array tokens)
 	while (i < tokens.len)
 	{
 		token = *(t_token**)array_get_at(&tokens, i);
-		word = expand_quote_removal(token->str, token->len);
+		word = expand_quote_removal(input->str + token->start, token->len);
 		array_push(&argv, &word);
 		i += 1;
 	}

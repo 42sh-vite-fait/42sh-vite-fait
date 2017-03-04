@@ -11,7 +11,7 @@
 ** The _control fork_ return the exit status for the last command of the pipe
 */
 
-int	exec_node_pipe(const t_ast_node *node)
+int	exec_node_pipe(const t_ast_node *node, const t_string *input)
 {
 	pid_t	control_fork;
 	int		status;
@@ -22,7 +22,7 @@ int	exec_node_pipe(const t_ast_node *node)
 	if (control_fork == 0)
 	{
 		exec_child_set_context();
-		exec_pipe_sequence(node);
+		exec_pipe_sequence(node, input);
 		_exit(-1);
 	}
 	else

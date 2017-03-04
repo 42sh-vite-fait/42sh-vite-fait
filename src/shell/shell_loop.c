@@ -4,6 +4,7 @@
 #include "parser.h"
 #include "shell.h"
 #include "opt.h"
+#include "exec.h"
 #include "input.h"
 #include "ft_printf.h"
 
@@ -97,8 +98,8 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 		}
 		else if (input_parsing_status == ERROR_)
 			return (1);
-		/* if (shell_exec(parser->ast) != EXEC_NO_ERROR) */
-		/*	return (EXIT_FAILURE); */
+		 if (exec_ast(parser->ast, input) != EXEC_NO_ERROR)
+			return (EXIT_FAILURE);
 	}
 }
 

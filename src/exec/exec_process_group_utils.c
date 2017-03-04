@@ -65,7 +65,7 @@ int exec_parent_wait_child_process_group(pid_t child_pgid)
 		error_print("execution: parent: failed to set process group");
 	else if (exec_set_foreground_process_group(child_pgid) != NO_ERROR)
 		error_print("execution: parent: failed to give the controlling terminal"
-				"to the child process");
+				" to the child process");
 	status = wait_child_process_group(child_pgid, child_pgid);
 	if (exec_set_foreground_process_group(getpid()) != NO_ERROR)
 	{

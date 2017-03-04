@@ -2,15 +2,19 @@
 #include "shell.h"
 #include "terminal.h"
 #include "history.h"
+#include "sig.h"
+#include "var.h"
 
 int		main(int argc, char *argv[])
 {
 	opt_parse(argc, argv);
+	init_signal_module();
 	if (init_terminal_module() != NO_ERROR)
 	{
 		error_print("terminal");
 		exit(1);
 	}
+	var_init();
 	history_init(4);
 	return (shell_loop());
 }

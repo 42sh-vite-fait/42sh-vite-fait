@@ -10,7 +10,8 @@
 ** stdin -> pipe, read end
 */
 
-static int	exec_last_child(const t_ast_node *node, int left_read)
+static int	exec_last_child(const t_ast_node *node, int left_read,
+		const t_string *input)
 {
 	pid_t	child;
 
@@ -21,7 +22,7 @@ static int	exec_last_child(const t_ast_node *node, int left_read)
 	if (child == 0)
 	{
 		if (pipe_replace_stdin(left_read) == NO_ERROR)
-			exec_pipe_command(node->command);
+			exec_pipe_command(node->command, input);
 		pipe_kill_pipe_sequence();
 	}
 	else
@@ -37,7 +38,8 @@ static int	exec_last_child(const t_ast_node *node, int left_read)
 ** stdout -> pipe, write end
 */
 
-static int	exec_middle_child(const t_ast_node *node, int left_read)
+static int	exec_middle_child(const t_ast_node *node, int left_read,
+		const t_string *input)
 {
 	t_pipe 	right;
 	pid_t	child;
@@ -51,7 +53,7 @@ static int	exec_middle_child(const t_ast_node *node, int left_read)
 		if (pipe_replace_stdin(left_read) == NO_ERROR
 				&& pipe_replace_stdout(right.write) == NO_ERROR
 				&& exec_close_fd(right.read) == NO_ERROR)
-			exec_pipe_command(node->command);
+			exec_pipe_command(node->command, input);
 		pipe_kill_pipe_sequence();
 	}
 	else
@@ -68,7 +70,7 @@ static int	exec_middle_child(const t_ast_node *node, int left_read)
 ** return the read end of the pipe
 */
 
-static int	exec_first_child(const t_ast_node *node)
+static int	exec_first_child(const t_ast_node *node, const t_string *input)
 {
 	t_pipe	right;
 	pid_t	child;
@@ -81,7 +83,7 @@ static int	exec_first_child(const t_ast_node *node)
 	{
 		if (pipe_replace_stdout(right.write) == NO_ERROR
 				&& exec_close_fd(right.read) == NO_ERROR)
-			exec_pipe_command(node->command);
+			exec_pipe_command(node->command, input);
 		pipe_kill_pipe_sequence();
 	}
 	else
@@ -96,7 +98,7 @@ static int	exec_first_child(const t_ast_node *node)
 ** We are in the _control fork_
 */
 
-void		exec_pipe_sequence(const t_ast_node *node)
+void		exec_pipe_sequence(const t_ast_node *node, const t_string *input)
 {
 	t_array	pipe_nodes_stack;
 	pid_t	last_pid;
@@ -107,18 +109,18 @@ void		exec_pipe_sequence(const t_ast_node *node)
 
 	// first child
 	array_pop(&pipe_nodes_stack, &node);
-	read_end = exec_first_child(node);
+	read_end = exec_first_child(node, input);
 
 	// middle child(ren)
 	while (pipe_nodes_stack.len > 1)
 	{
 		array_pop(&pipe_nodes_stack, &node);
-		read_end = exec_middle_child(node, read_end);
+		read_end = exec_middle_child(node, read_end, input);
 	}
 
 	// last child
 	array_pop(&pipe_nodes_stack, &node);
-	last_pid = exec_last_child(node, read_end);
+	last_pid = exec_last_child(node, read_end, input);
 
 	// wait for the last child and return his exit status
 	_exit(wait_child_process_group(last_pid, SELF_PGID));

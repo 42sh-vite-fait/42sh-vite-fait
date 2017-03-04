@@ -25,7 +25,7 @@ static int	close_opened_file(int io_number)
 	return (NO_ERROR);
 }
 
-int	undo_redirection(t_array redirections)
+int	undo_redirection(const t_array redirections)
 {
 	struct s_redirection	redir;
 	size_t					i;

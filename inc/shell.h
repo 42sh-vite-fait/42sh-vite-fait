@@ -20,6 +20,6 @@ int	shell_loop(void);
 int	shell_input(t_string *input, const char *prompt);
 int	shell_lexer(t_string *input, t_array *tokens);
 int	shell_parser(const t_string *input, t_parser *parser, const t_array *tokens);
-int	shell_exec(t_ast ast);
+int	shell_exec(const t_ast ast, const t_string *inpu);
 
 #endif

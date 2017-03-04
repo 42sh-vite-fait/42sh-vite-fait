@@ -16,7 +16,7 @@ t_tree_walker	*const g_walkers[] =
 	[E_AST_SIMPLE_COMMAND] = &exec_node_simple_command,
 };
 
-int exec_ast(const t_ast ast)
+int exec_ast(const t_ast ast, const t_string *input)
 {
-	return (g_walkers[ast.root->type](ast.root));
+	return (g_walkers[ast.root->type](ast.root, input));
 }
