@@ -277,7 +277,15 @@ check: $(NAME)
 	@# @cd $(TEST_PATH) && $(MAKE)
 	@# @./$(TEST_EXEC)
 	@# $(MAKE) -C $(TEST_PATH) script
-	zsh $(TEST_PATH)/yyang_bash_tests/use_case_diff_bash_tests.sh
+	make check_diff
+	@# make check_leaks
+
+check_diff: $(NAME)
+	@zsh $(TEST_PATH)/yyang_bash_tests/use_case_diff_bash_tests.sh
+
+check_leaks:
+	@$(MAKE) -C . DEBUG=yes re
+	@zsh $(TEST_PATH)/yyang_bash_tests/run_leaks.sh
 
 clean:
 	$(RM) -r $(OBJ_PATH)
