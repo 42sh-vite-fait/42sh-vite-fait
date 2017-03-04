@@ -274,9 +274,10 @@ $(LEXER_TABLE): $(RULES_XML) $(PYTHON_GEN_TABLE) $(LEXER_TEMPLATE)
 	python3 $(PYTHON_GEN_TABLE) $(RULES_XML)  $(LEXER_TEMPLATE) $@
 
 check: $(NAME)
-	@cd $(TEST_PATH) && $(MAKE)
-	@./$(TEST_EXEC)
-	$(MAKE) -C $(TEST_PATH) script
+	@# @cd $(TEST_PATH) && $(MAKE)
+	@# @./$(TEST_EXEC)
+	@# $(MAKE) -C $(TEST_PATH) script
+	zsh $(TEST_PATH)/yyang_bash_tests/use_case_diff_bash_tests.sh
 
 clean:
 	$(RM) -r $(OBJ_PATH)
