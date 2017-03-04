@@ -71,6 +71,7 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 						t_lexer *lexer)
 {
 	int	input_parsing_status;
+	int	ret;
 
 	while (1)
 	{
@@ -98,8 +99,8 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 		}
 		else if (input_parsing_status == ERROR_)
 			return (1);
-		 if (exec_ast(parser->ast, input) != EXEC_NO_ERROR)
-			return (EXIT_FAILURE);
+		if ((ret = exec_ast(parser->ast, input)) != EXEC_NO_ERROR)
+			return (ret);
 	}
 }
 
