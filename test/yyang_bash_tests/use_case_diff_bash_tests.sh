@@ -47,7 +47,7 @@ diff_test ()
 
     test_case_tmp="$test_case_path/.tmp"
     mkdir -p $test_case_tmp
-    rm -f $test_case_tmp/*
+    rm -f $test_case_tmp/* 2>&1 >/dev/null
 
     export TESTED_SHELL
 
@@ -90,7 +90,7 @@ diff_test ()
     diff $expected_exit_status_file $test_case_tmp_ftsh_exit_status
     print_result "$?" exit_status
 
-    echo "/tmp/bin/42sh $test_suite/$test_case/input.sh"
+    echo "$test_suite/$test_case/input.sh"
 }
 
 /usr/bin/printf "============================ START DIFF TESTS ==========================\n"
