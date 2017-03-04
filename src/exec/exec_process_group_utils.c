@@ -3,6 +3,7 @@
 #include "exec.h"
 #include "errors.h"
 #include "sig.h"
+#include "opt.h"
 
 static int exec_set_process_group_child_side(int pid, int pgid)
 {
@@ -33,7 +34,7 @@ static int exec_set_process_group_parent_side(int pid, int pgid)
 
 static int exec_set_foreground_process_group(pid_t pgid)
 {
-	if (tcsetpgrp(STDIN_FILENO, pgid) == -1)
+	if (opt_is_set(OPT_INTERACTIVE) && tcsetpgrp(STDIN_FILENO, pgid) == -1)
 	{
 		error_set_context("tcsetpgrp: %s", strerror(errno));
 		return (ERR_EXEC);
@@ -70,7 +71,7 @@ int exec_parent_wait_child_process_group(pid_t child_pgid)
 	if (exec_set_foreground_process_group(getpid()) != NO_ERROR)
 	{
 		error_print("execution: parent: failed to get back the controlling"
-				"terminal");
+				" terminal");
 		exit(-1);
 	}
 	return (status);

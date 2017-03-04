@@ -9,7 +9,7 @@ int		main(int argc, char *argv[])
 {
 	opt_parse(argc, argv);
 	init_signal_module();
-	if (init_terminal_module() != NO_ERROR)
+	if (opt_is_set(OPT_INTERACTIVE) && init_terminal_module() != NO_ERROR)
 	{
 		error_print("terminal");
 		exit(1);
