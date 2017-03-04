@@ -25,11 +25,13 @@ static size_t	get_default_io_number(int operator_type)
 
 static size_t	parse_io_number(t_parser *parser)
 {
-	size_t	io_number;
+	const t_token	*token;
+	size_t			io_number;
 
 	if (parser_check_current_token_type(parser, E_TOKEN_IO_NUMBER))
 	{
-		io_number = CHAR_TO_DIGIT(parser_get_current_token(parser)->str[0]);
+		token = parser_get_current_token(parser);
+		io_number = CHAR_TO_DIGIT(parser->input->str[token->start]);
 		parser_consume_token(parser);
 	}
 	else

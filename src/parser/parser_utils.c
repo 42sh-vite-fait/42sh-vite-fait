@@ -1,9 +1,9 @@
+#include <assert.h>
 #include "parser.h"
 
 const t_token 	*parser_get_lookahead_token(const t_parser *parser, size_t n)
 {
 	static const t_token	end_of_input = {
-		.str = NULL,
 		.start = 0,
 		.len = 0,
 		.type = E_TOKEN_END_OF_INPUT
@@ -28,6 +28,7 @@ void			parser_consume_token(t_parser *parser)
 
 bool			parser_check_current_token_type(const t_parser *parser, int type)
 {
+	assert(parser->current_token != NULL);
 	return (parser->current_token->type == type);
 }
 

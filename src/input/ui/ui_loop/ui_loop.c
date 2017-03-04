@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <errno.h>
+#include "input.h"
 #include "user_interface.h"
 #include "str_42.h"
 
@@ -15,18 +17,21 @@ static void		free_data(t_editenv *e)
 
 static void		read_input(t_editenv *e)
 {
-	char				buff[1];
-	ssize_t				ret;
+	char	c;
+	ssize_t	ret;
 
-	ret = read(0, buff, 1);
-	if (ret < 0)
-		return ;
-	if (ret == 0)
+	ret = read(0, &c, 1);
+	if (ret <= 0)
 	{
+		if (ret < 0)
+		{
+			error_set_context("read: %s.", strerror(errno));
+			error_print("input");
+		}
 		e->must_leave = true;
 		return ;
 	}
-	string_insert(&e->rbuff, 0, buff, (size_t)ret);
+	string_insert(&e->rbuff, 0, &c, (size_t)ret);
 }
 
 static void		compute_user_entry(t_editenv *e)
@@ -48,7 +53,7 @@ static void		compute_user_entry(t_editenv *e)
 	mem_buff = e->rbuff;
 }
 
-static void		init(t_editenv *e, t_string *cpy, const char *p)
+static int		init(t_editenv *e, t_string *cpy, const char *p)
 {
 	static bool first_init = false;
 
@@ -66,23 +71,24 @@ static void		init(t_editenv *e, t_string *cpy, const char *p)
 	e->entry_index = 0;
 	e->selection_size = 1;
 	e->cpos.x = (int)(prompt(p));
-	term_mode();
+	if (terminal_start_raw_mode() != NO_ERROR) 
+		return (ERR_TERM); 
 	e->prompt = p;
 	ui_display_user_entry(e);
 	first_init = true;
+	return (NO_ERROR);
 }
 
-t_string			ui_get_user_input(const char *prompt)
+int				ui_get_user_input(t_string *input, const char *prompt)
 {
 	t_editenv			e;
-	char				*output;
 	static t_string		cpy_buffer_mem;
 	ssize_t				offset_nl;
-	t_string			ret;
+	int					ret;
 
-	normal_mode();
-	init(&e, &cpy_buffer_mem, prompt);
-	output = NULL;
+	if (init(&e, &cpy_buffer_mem, prompt) != NO_ERROR)
+		exit(0);
+		//		return (E_INPUT_ERROR);
 	while ((offset_nl = ft_strchrpos(e.entry.str, '\n')) == -1 && !e.must_leave)
 	{
 		compute_user_entry(&e);
@@ -90,15 +96,14 @@ t_string			ui_get_user_input(const char *prompt)
 	}
 	if (!e.must_leave)
 	{
-		output= ft_strsub(e.entry.str, 0, (size_t)offset_nl + 1);
+		fatal_malloc(string_ncat(input, e.entry.str, offset_nl + 1));
 		cpy_buffer_mem = e.cpy;
+		ret = E_INPUT_OK;
 	}
-	normal_mode();
-	free_data(&e);
-	string_init(&ret);
-	if (output != NULL)
-		string_insert(&ret, 0, output, ft_strlen(output));
 	else
-		ret.str = NULL;
+		ret = E_INPUT_EOF;
+	if (terminal_stop_raw_mode() != NO_ERROR) 
+		ret = E_INPUT_ERROR; 
+	free_data(&e);
 	return (ret);
 }

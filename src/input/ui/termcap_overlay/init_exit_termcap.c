@@ -1,47 +1,80 @@
-#include "user_interface.h"
+#include <errno.h>
+#include "terminal.h"
 
-int		stop_termcap(void)
+static struct termios	g_termios_backup;
+
+static int	terminal_set_termios(const struct termios new)
 {
-	struct termios term;
+	struct termios	current;
 
-	term_command("ve");
-	if (tcgetattr(0, &term) == -1)
-		return (-1);
-	term.c_lflag |= (ICANON | ECHO);
-	if (tcsetattr(0, 0, &term) == -1)
-		return (-1);
-	return (1);
+	if (tcgetattr(STDIN_FILENO, &current) < 0)
+	{
+		error_set_context("tcgetattr: %s", strerror(errno));
+		return (ERR_TERM);
+	}
+	while (ft_memcmp(&new, &current, sizeof(current)) != 0)
+	{
+		if (tcsetattr(STDIN_FILENO, TCSADRAIN, &new) < 0)
+		{
+			error_set_context("tcsetattr: %s", strerror(errno));
+			return (ERR_TERM);
+		}
+		if (tcgetattr(STDIN_FILENO, &current) < 0)
+		{
+			error_set_context("tcgetattr: %s", strerror(errno));
+			return (ERR_TERM);
+		}
+	}
+	return (NO_ERROR);
 }
 
-int		start_termcap(void)
+int terminal_start_raw_mode(void)
 {
-	char				*name_term;
-	struct termios		term;
-
-
-	if ((name_term = getenv("TERM")) == NULL)
-		return (-1);
-	if (tgetent(NULL, name_term) == -1)
-		return (-1);
-	if (tcgetattr(0, &term) == -1)
-		return (-1);
-	term.c_lflag &= ~(unsigned long)(ICANON | ECHO);
-	term.c_cc[VMIN] = 1;
-	term.c_cc[VTIME] = 0;
-	if (tcsetattr(0, TCSADRAIN, &term) == -1)
-		return (-1);
-	return (1);
-}
-
-void	normal_mode(void)
-{
-	stop_termcap();
-}
-
-void	term_mode(void)
-{
-	if (start_termcap() < 0)
-		exit(0);
+	struct termios	raw;
+	if (isatty(1) == 0)
+		return (ERR_TERM);
+	raw = g_termios_backup;
+	raw.c_iflag &= ~(unsigned)IXON;
+	raw.c_lflag &= ~(unsigned)(ICANON | ECHO | IEXTEN | ISIG);
+	raw.c_cc[VMIN] = 1;
+	raw.c_cc[VTIME] = 0;
+	if (terminal_set_termios(raw) != NO_ERROR)
+		return (ERR_TERM);
 	term_command("vi");
 	term_command("bw");
+	return (NO_ERROR);
+}
+
+int terminal_stop_raw_mode(void)
+{
+	term_command("ve");
+	if (terminal_set_termios(g_termios_backup) != NO_ERROR)
+		return (ERR_TERM);
+	return (NO_ERROR);
+}
+
+int init_terminal_module(void)
+{
+	char	*name_term;
+
+	if (!isatty(STDIN_FILENO))
+		return (NO_ERROR);
+	if ((name_term = getenv("TERM")) == NULL)
+	{
+		error_set_context("TERM variable is missing");
+		return (ERR_TERM);
+	}
+	if (tgetent(NULL, name_term) < 1)
+	{
+		if (name_term[0] == '\0')
+			name_term = "(empty)";
+		error_set_context("tgetent: no such entry for %s", name_term);
+		return (ERR_TERM);
+	}
+	if (tcgetattr(STDIN_FILENO, &g_termios_backup) < 0)
+	{
+		error_set_context("tcgetattr: %s", strerror(errno));
+		return (ERR_TERM);
+	}
+	return (NO_ERROR);
 }

@@ -1,5 +1,6 @@
 #include <sys/time.h>
 #include <fcntl.h>
+#include <errno.h>
 #include "ft_printf.h"
 
 #ifdef P_tmpdir
@@ -33,7 +34,8 @@ static char	*gen_tmp_name(const char *prefix)
 	if (access(DFLT_PATH, W_OK) == -1)
 		return (NULL);
 	filename = gen_candidate(prefix);
-	while (filename != NULL && access(filename, F_OK) == -1)
+	while (filename != NULL &&
+			(access(filename, F_OK) == 0 || errno != ENOENT))
 		filename = gen_candidate(prefix);
 	return (filename);
 }

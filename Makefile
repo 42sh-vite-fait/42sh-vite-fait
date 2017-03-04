@@ -23,6 +23,11 @@ CFLAGS     += -I./inc
 SRC_PATH   += src
 SOURCES    += main.c
 
+# Shell
+SRC_SUBDIR += shell
+SOURCES += shell_loop.c
+SOURCES += shell_input.c
+
 # Errors
 SRC_SUBDIR += error
 SOURCES    += errors.c
@@ -55,7 +60,7 @@ SOURCES    += alias_clear.c
 
 # Input
 SRC_SUBDIR += input
-SOURCES    += readline.c
+SOURCES    += input_get_line.c
 
 # UI
 ## Handlers
@@ -125,6 +130,7 @@ SOURCES += quoting.c
 # Parser
 SRC_SUBDIR += parser
 SOURCES += parser.c
+SOURCES += parser_init.c
 SOURCES += parser_utils.c
 SOURCES += predict_and_or.c
 SOURCES += predict_cmd_prefix.c
@@ -149,8 +155,7 @@ SOURCES += predict_term.c
 SOURCES += heredoc.c
 
 # AST
-SRC_SUBDIR += ast
-SOURCES += ast.c
+SRC_SUBDIR += parser/ast
 SOURCES += ast_node.c
 SOURCES += ast_command.c
 SOURCES += ast_compress.c
@@ -163,6 +168,11 @@ SOURCES += quote_removal.c
 # Builtins
 SRC_SUBDIR += builtins
 SOURCES += builtin_history.c
+
+# Opt
+SRC_SUBDIR += opt
+SOURCES += opt_parse.c
+SOURCES += opt_is_set.c
 
 # Generation
 vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))

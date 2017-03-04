@@ -1,0 +1,50 @@
+# Test manuel à pratiquer sur l'input
+
+----
+## UI
+
+### EOF sur un prompt vide
+42sh> C-d
+
+### EOF dans le lexer
+42sh> '\n
+> C-d
+
+42sh> \\n
+> C-d
+
+### Forcer un octet NUL
+echo -n "\x00" | ./42sh -i
+
+### Forcer une string vide
+echo -n "" | ./42sh -i
+
+### Forcer un non clos
+echo -n "'" | ./42sh -i
+
+
+----
+## NoTTY
+
+### String vide
+echo -n "" | ./42sh
+
+### Un octet NUL seulement
+echo -n "\x00" | ./42sh
+
+### Token non clos
+echo -n "'" | ./42sh
+
+
+----
+## Command-line string
+
+### String simple
+./42sh -c 'abc'
+
+### String multi-lignes
+./42sh -c 'abc
+> def'
+
+### Token non clos
+./42sh -c "'"

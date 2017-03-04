@@ -1,4 +1,5 @@
 #include "lexer.h"
+#include "errors.h"
 
 /*
 ** Char -> Symbol Table
@@ -166,37 +167,42 @@ static enum e_token_type		g_state_to_token_table[] = {
 #define SUCCESS 0
 
 static int	lexer_tokenize_one(t_lexer *self, t_token *token,
-								const char **input)
+								const t_string *input, size_t *i)
 {
 	t_symbol	symbol;
 
-	while (**input)
+	while (*i < input->len)
 	{
-		if (**input < 0)
+		if (input->str[*i] < 0)
+		{
+			error_set_context("non-ascii character");
 			return (ERROR);
-		symbol = g_char_to_symbol[(int)**input];
+		}
+		symbol = g_char_to_symbol[(int)input->str[*i]];
 		if (is_automaton_next_state_error(&self->tokenizer, symbol))
 			break ;
 		automaton_step(&self->tokenizer, symbol);
 		self->input_current_index += 1;
-		*input += 1;
+		*i += 1;
 	}
 	if (self->tokenizer.current_state == START_STATE)
 		return (ERROR);
 	token->start = self->token_begin_index;
 	token->len = self->input_current_index - self->token_begin_index;
-	token->str = *input - token->len;
 	token->type = g_state_to_token_table[self->tokenizer.current_state];
 	return (SUCCESS);
 }
 
-int			lexer_tokenize(t_lexer *self, t_array *tokens, const char *input)
+int			lexer_tokenize(t_lexer *self, t_array *tokens,
+		const t_string *input)
 {
-	t_token		tok;
+	t_token	tok;
+	size_t	i;
 
-	while (*input)
+	i = 0;
+	while (i < input->len)
 	{
-		if (lexer_tokenize_one(self, &tok, &input) == ERROR)
+		if (lexer_tokenize_one(self, &tok, input, &i) == ERROR)
 			return (LEXER_ERROR);
 		if (ARRAY_IS_EMPTY(&self->tokenizer.state_stack))
 		{
@@ -208,4 +214,20 @@ int			lexer_tokenize(t_lexer *self, t_array *tokens, const char *input)
 	if (ARRAY_IS_EMPTY(&self->tokenizer.state_stack))
 		return (LEXER_INPUT_COMPLETE);
 	return (LEXER_INPUT_INCOMPLETE);
+}
+
+bool		assert_stack_is_empty(t_lexer *self)
+{
+	t_state state_stack;
+
+	if (ARRAY_IS_EMPTY(&self->tokenizer.state_stack))
+		return (true);
+	state_stack = *(t_state*)array_get_last(&self->tokenizer.state_stack);
+	if (state_stack == E_STACK_SQUOTE)
+		error_set_context("no closing simple quote");
+	else if (state_stack == E_STACK_DQUOTE)
+		error_set_context("no closing double quote");
+	else
+		error_set_context("unexpected EOF");
+	return (false);
 }

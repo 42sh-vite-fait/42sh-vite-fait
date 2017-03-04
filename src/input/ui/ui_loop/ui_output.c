@@ -38,6 +38,7 @@ static void		write_entry(char *str, size_t len, size_t xpos,
 {
 	size_t			writen;
 	size_t			to_write;
+	ssize_t			ret;
 
 	writen = 0;
 	xpos %= get_cols();
@@ -47,12 +48,12 @@ static void		write_entry(char *str, size_t len, size_t xpos,
 			*writen_before) % (size_t)get_cols());
 		if (to_write > len)
 			to_write = len;
-		write(1, str, to_write);
+		ret = write(1, str, to_write);
 		writen += to_write;
 		str += to_write;
 		len -= to_write;
 		if (((xpos + writen + *writen_before) % (size_t)get_cols()) == 0)
-			write(1, "\n\r", 2);
+			ret = write(1, "\n\r", 2);
 	}
 	*writen_before += writen;
 }
@@ -61,6 +62,7 @@ void			ui_display_user_entry(t_editenv *e)
 {
 	size_t		writen;
 	bool		cur_emulated_pad;
+	ssize_t		ret;
 
 	cur_emulated_pad = e->entry_index == e->entry.len ? true : false;
 	if (cur_emulated_pad)
@@ -82,5 +84,5 @@ void			ui_display_user_entry(t_editenv *e)
 	if (cur_emulated_pad)
 		string_remove(&e->entry, e->entry_index, 1);
 	if (ft_strchr(e->entry.str, '\n'))
-		write(1, "\r", 1);
+		ret = write(1, "\r", 1);
 }

@@ -19,10 +19,10 @@ Test(AST, Compress10000Pipe, .signal = 0, .fini = teardown)
 	tokens_pipe[i] = E_TOKEN_WORD;
 
 	setup_tokens(tokens_pipe);
-	ast_init(&parser.ast);
+	parser_init(&parser);
 
 	int ret = parser_parse(&parser);
 	cr_assert_eq(ret, NO_ERROR, "index: %zu", parser.index);
 
-	ast_shutdown(&parser.ast);
+	parser_shutdown(&parser);
 }

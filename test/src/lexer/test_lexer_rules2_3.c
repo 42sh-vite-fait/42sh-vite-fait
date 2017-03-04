@@ -22,7 +22,7 @@ Test(LexerRules2_3, RedirectionOpLess)
 {
 	char	*input = "<";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -33,7 +33,7 @@ Test(LexerRules2_3, RedirectionOpDLess)
 {
 	char	*input = "<<";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -44,7 +44,7 @@ Test(LexerRules2_3, RedirectionOpGreat)
 {
 	char	*input = ">";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -55,7 +55,7 @@ Test(LexerRules2_3, RedirectionOpDGreat)
 {
 	char	*input = ">>";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -66,7 +66,7 @@ Test(LexerRules2_3, RedirectionOpLessAnd)
 {
 	char	*input = "<&";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -77,7 +77,7 @@ Test(LexerRules2_3, RedirectionOpGreatAnd)
 {
 	char	*input = ">&";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -88,7 +88,7 @@ Test(LexerRules2_3, RedirectionOpLessGreat)
 {
 	char	*input = "<>";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -99,7 +99,7 @@ Test(LexerRules2_3, RedirectionOpDLessDash)
 {
 	char	*input = "<<-";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -110,7 +110,7 @@ Test(LexerRules2_3, RedirectionOpClobber)
 {
 	char	*input = ">|";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -121,7 +121,7 @@ Test(LexerRules2_3, ControlOpSemi)
 {
 	char	*input = ";";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -132,7 +132,7 @@ Test(LexerRules2_3, ControlOpDSemi)
 {
 	char	*input = ";;";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -143,7 +143,7 @@ Test(LexerRules2_3, ControlOpPipe)
 {
 	char	*input = "|";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -154,7 +154,7 @@ Test(LexerRules2_3, ControlOpOrIf)
 {
 	char	*input = "||";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -165,7 +165,7 @@ Test(LexerRules2_3, ControlOpAnd)
 {
 	char	*input = "&";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -176,7 +176,7 @@ Test(LexerRules2_3, ControlOpAndIf)
 {
 	char	*input = "&&";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -187,7 +187,7 @@ Test(LexerRules2_3, ControlOpLParen)
 {
 	char	*input = "(";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -198,7 +198,7 @@ Test(LexerRules2_3, ControlOpRParen)
 {
 	char	*input = ")";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(1, tokens.len);
@@ -209,7 +209,7 @@ Test(LexerRules2_3, AllOperatorWithSep)
 {
 	char	*input = "< > << >> <& >& >| <<- <> ; ;; | || & && ( )";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(17, tokens.len);
@@ -236,7 +236,7 @@ Test(LexerRules2_3, AllOpAmbigous)
 {
 	char	*input = "<>>><<<>>|<&&>&)();;;|||>||&&&&&>&&&";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(22, tokens.len);
@@ -268,7 +268,7 @@ Test(LexerRules2_3, QuotedOp)
 {
 	char	*input = "\\&&>\\>'|'|<<\\-\">\"";
 
-	int res = lexer_lex(&lexer, &tokens, input);
+	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
 	cr_assert_eq(7, tokens.len);

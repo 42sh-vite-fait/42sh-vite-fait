@@ -1,9 +1,11 @@
+#include <assert.h>
 #include "lexer.h"
 #include "string_42.h"
 #include "misc.h"
 
 int			remove_trailing_escaped_newline(t_string *input)
 {
+	assert(input->str != NULL);
 	if (input->len >= 2
 		&& input->str[input->len - 1] == '\n'
 		&& is_escaped(input->str + input->len - 1, input->str))

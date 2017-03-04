@@ -2,6 +2,7 @@
 #include <assert.h>
 #include "ft_printf.h"
 #include "errors.h"
+#include "shell.h"
 
 static char		*g_context;
 
