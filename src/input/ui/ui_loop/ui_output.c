@@ -54,10 +54,7 @@ static void		write_entry(char *str, size_t len, size_t xpos,
 		str += ret;
 		len -= ret;
 		if (((xpos + writen + *writen_before) % (size_t)get_cols()) == 0)
-		{
-			if ((ret = write(1, "\n\r", 2)) < 0)
-				ft_abort("42sh: fatal error: could not write on stdout.");
-		}
+			ft_dprintf(1, "\n\r");
 	}
 	*writen_before += writen;
 }
@@ -87,8 +84,5 @@ void			ui_display_user_entry(t_editenv *e)
 	if (cur_emulated_pad)
 		string_remove(&e->entry, e->entry_index, 1);
 	if (ft_strchr(e->entry.str, '\n'))
-	{
-		if (write(1, "\r", 1) < 0)
-			ft_abort("42sh: fatal error: could not write on stdout.");
-	}
+		ft_dprintf(1, "\r");
 }
