@@ -49,8 +49,6 @@ diff_test ()
     mkdir -p $test_case_tmp
     rm -f $test_case_tmp/* 2>&1 >/dev/null
 
-    export TESTED_SHELL
-
 	# 42sh
     test_case_tmp_ftsh_stdout="$test_case_tmp/actual_stdout"
     test_case_tmp_ftsh_stderr="$test_case_tmp/actual_stderr"
