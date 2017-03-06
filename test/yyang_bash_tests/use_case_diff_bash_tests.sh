@@ -93,9 +93,9 @@ diff_test ()
 
 /usr/bin/printf "============================ START DIFF TESTS ==========================\n"
 for TEST_SUITE in $TESTS_ROOT/*; do
-	if [ -d "${TEST_SUITE}" ] && test "$(basename ${TEST_SUITE})" != 'do_not_test'; then
+	if [ -d "${TEST_SUITE}" ] && [[ "${TEST_SUITE}" != *_NOLOAD ]]; then
         for TEST_CASE in $TEST_SUITE/*; do
-            if [ -d "${TEST_CASE}" ]; then
+            if [ -d "${TEST_CASE}" ] && [[ "${TEST_CASE}" != *_NOLOAD ]]; then
                 diff_test `basename $TEST_SUITE` `basename $TEST_CASE`
             fi
         done
