@@ -25,5 +25,6 @@ t_array	expand_tokens_to_argv(t_array tokens, const t_string *input)
 	}
 	word = NULL;
 	array_push(&argv, &word);
+	argv.len -= 1;
 	return (argv);
 }

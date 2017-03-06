@@ -36,7 +36,7 @@ int exec_simple_command_builtin(const t_command command, const t_string *input)
 	}
 	argv = expand_tokens_to_argv(command.words, input);
 	envp = var_get_environ();
-	status = exec_builtin(argv.len - 1, argv.data, envp);
+	status = exec_builtin(argv.len, argv.data, envp);
 	if (undo_redirection(command.redirections) != NO_ERROR)
 		error_print("execution");
 	return (status);
