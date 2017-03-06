@@ -41,6 +41,7 @@ SOURCES    += is_valid_name.c
 SOURCES    += is_valid_alias_name.c
 SOURCES    += ft_tmpfile.c
 SOURCES    += path_scanning.c
+SOURCES	   += str_token.c
 
 # History
 SRC_SUBDIR += history

@@ -52,4 +52,13 @@ char	*ft_tmpfile(const char *prefix);
 */
 const char	*get_next_path(t_string *path, char const *paths);
 
+/*
+** `str_token` is used to isolate tokens delimited by `sep`
+** in the null-terminated string `input`. `token` contains
+** said token.
+** `str_token` returns `input` stepped forward for the next token,
+** or NULL if no token remains.
+*/
+const char	*str_token(t_string *token, const char *input, char sep);
+
 #endif
