@@ -1,10 +1,9 @@
 #include "history_expansion.h"
+#include "ft_printf.h"
 
 void		print_error(t_exp exp, t_string command)
 {
-	(void)write(2, "Error in history_substitution: ", 31);
-	(void)write(2, &command.str[exp.offset], exp.size);
-	(void)write(2, "\n", 1);
+	ft_dprintf(2, "Error in history_substitution: %.*s\n", exp.size, &command.str[exp.offset]);
 }
 
 void		free_data(t_exp *listexp, t_string *list,
