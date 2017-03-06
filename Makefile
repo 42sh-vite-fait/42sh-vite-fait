@@ -169,6 +169,7 @@ SOURCES += quote_removal.c
 # Builtins
 SRC_SUBDIR += builtins
 SOURCES += builtin_history.c
+SOURCES += builtin_echo.c
 
 # Opt
 SRC_SUBDIR += opt

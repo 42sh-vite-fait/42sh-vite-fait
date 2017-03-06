@@ -30,4 +30,8 @@ int				exec_builtin(int ac, char *const *av, char *const *env);
 */
 bool			is_builtin(const char *name, size_t len);
 
+/*
+** Builtins
+*/
+int				builtin_echo(int ac, char * const *av, char * const *env);
 #endif

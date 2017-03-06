@@ -12,7 +12,7 @@
 t_pair_name_builtin	g_builtins[] =
 {
 	{"cd", NULL},
-	{"echo", NULL},
+	{"echo", &builtin_echo},
 	{"getenv", NULL},
 	{"pwd", NULL},
 	{"setenv", NULL},
