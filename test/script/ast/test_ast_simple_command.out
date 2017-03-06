@@ -1,4 +1,0 @@
-AST:
-SIMPLE_COMMAND: ls
-	args#1: de
-	args#2: merde

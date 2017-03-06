@@ -1,4 +1,0 @@
-AST:
-SIMPLE_COMMAND: a
-	redirections#0: IO=1, Operator=GREAT, Word=file1
-	redirections#1: IO=0, Operator=LESS, Word=file2

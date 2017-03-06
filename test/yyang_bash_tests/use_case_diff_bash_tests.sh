@@ -46,8 +46,8 @@ diff_test ()
     input_file=$test_case_path/input.sh
 
     test_case_tmp="$test_case_path/.tmp"
+    rm -rf $test_case_tmp/ 2>&1 >/dev/null
     mkdir -p $test_case_tmp
-    rm -f $test_case_tmp/* 2>&1 >/dev/null
 
 	# 42sh
     test_case_tmp_ftsh_stdout="$test_case_tmp/actual_stdout"
