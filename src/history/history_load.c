@@ -8,44 +8,12 @@
 
 extern t_history	g_history;
 
-static char			*next_real_unescaped_nl(const char *string)
-{
-	char		*match;
-	size_t		off;
-
-	off = 0;
-	while ((match = ft_strchr(string + off, '\n')) != NULL)
-	{
-		if (match == string || !is_escaped(match, string + off))
-			return (match);
-		off = (size_t)(match - string) + 1;
-	}
-	return (NULL);
-}
-
-static int			inject_commands(const t_string *file)
+static int			inject_commands(const char *file)
 {
 	t_string	command;
-	size_t		old_off;
-	size_t		off;
-	char		*match;
 
-	if (string_init(&command) == NULL)
-		return (-1);
-	off = 0;
-	while ((match = next_real_unescaped_nl(file->str + off)) != NULL)
-	{
-		old_off = off;
-		off = (size_t)(match - file->str);
-		if (!string_init_ndup(&command, file->str + old_off, off - old_off)
-			|| string_unescape_chars(&command, '\n') == NULL)
-		{
-			string_shutdown(&command);
-			return (-1);
-		}
+	while ((file = str_token(&command, file, '\n')) != NULL)
 		history_add(&command);
-		off += 1;
-	}
 	return (0);
 }
 
@@ -62,7 +30,7 @@ int					history_load_from_file(const char *path)
 		return (-1);
 	}
 	close(fd);
-	if (inject_commands(&file) == -1)
+	if (inject_commands(file.str) == -1)
 	{
 		string_shutdown(&file);
 		return (-1);

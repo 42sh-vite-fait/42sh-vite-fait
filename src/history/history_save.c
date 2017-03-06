@@ -11,8 +11,6 @@ static int	convert_and_write_to_file(t_string *command, size_t cmd_id, int fd)
 {
 	if (string_replace(command, history_get(cmd_id)->str) == NULL)
 		return (-1);
-	if (string_escape_chars(command, '\n') == NULL)
-		return (-1);
 	if (string_insert(command, command->len, "\n", 1) == NULL)
 		return (-1);
 	if (string_write_to_fd(command, fd) == -1)
