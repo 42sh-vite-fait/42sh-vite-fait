@@ -90,7 +90,7 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 		{
 			if (!assert_stack_is_empty(lexer))
 				error_print("lexer");
-			return (0);
+			return (ret);
 		}
 		else if (input_parsing_status == INVALID_)
 		{
@@ -99,8 +99,7 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 		}
 		else if (input_parsing_status == ERROR_)
 			return (1);
-		if ((ret = exec_ast(parser->ast, input)) != EXEC_NO_ERROR)
-			return (ret);
+		ret = exec_ast(parser->ast, input);
 	}
 }
 
