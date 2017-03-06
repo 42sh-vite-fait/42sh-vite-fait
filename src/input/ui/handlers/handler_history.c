@@ -31,6 +31,11 @@ void	ui_handler_down_history(t_editenv *e)
 			string_nreplace(&e->entry, history_entry->str, history_entry->len);
 		}
 	}
+	else if (e->history_index == 1)
+	{
+		string_nreplace(&e->entry, e->initial_entry.str, e->initial_entry.len);
+		e->history_index = 0;
+	}
 	else
 		string_nreplace(&e->entry, e->initial_entry.str, e->initial_entry.len);
 }
