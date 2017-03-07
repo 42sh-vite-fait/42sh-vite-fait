@@ -7,6 +7,7 @@
 #include "exec.h"
 #include "input.h"
 #include "ft_printf.h"
+#include "exit_status.h"
 
 #define EOF_ 0
 #define ERROR_ -1
@@ -71,7 +72,6 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 						t_lexer *lexer)
 {
 	int	input_parsing_status;
-	int	ret;
 
 	while (1)
 	{
@@ -90,7 +90,7 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 		{
 			if (!assert_stack_is_empty(lexer))
 				error_print("lexer");
-			return (ret);
+			return (exit_status_get_last());
 		}
 		else if (input_parsing_status == INVALID_)
 		{
@@ -99,7 +99,7 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 		}
 		else if (input_parsing_status == ERROR_)
 			return (1);
-		ret = exec_ast(parser->ast, input);
+		exec_ast(parser->ast, input);
 	}
 }
 

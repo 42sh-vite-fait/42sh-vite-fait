@@ -166,6 +166,10 @@ SRC_SUBDIR += expansion
 SOURCES += expand_tokens_to_argv.c
 SOURCES += quote_removal.c
 
+# Exit status
+SRC_SUBDIR += exit_status
+SOURCES += exit_status.c
+
 # Builtins
 SRC_SUBDIR += builtins
 SOURCES += builtin_history.c
