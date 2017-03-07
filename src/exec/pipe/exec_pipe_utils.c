@@ -1,3 +1,4 @@
+#define _POSIX_C_SOURCE 200809L
 #include <unistd.h>
 #include <signal.h>
 #include "exec.h"

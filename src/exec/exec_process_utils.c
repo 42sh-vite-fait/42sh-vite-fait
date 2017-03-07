@@ -11,7 +11,9 @@ static const char	*g_sig_to_str[] = {
      [SIGILL] = "Illegal instruction",
      [SIGTRAP] = "Trace/BPT trap",
 	 [SIGABRT] = "Abort trap",
+#if defined(__APPLE__)
      [SIGEMT] = "EMT trap",
+#endif
      [SIGFPE] = "Floating point exception",
      [SIGKILL] = "Killed",
      [SIGBUS] = "Bus error",
