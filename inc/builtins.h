@@ -34,4 +34,6 @@ bool			is_builtin(const char *name, size_t len);
 ** Builtins
 */
 int				builtin_echo(int ac, char * const *av, char * const *env);
+int 			builtin_exit(int ac, char * const *av, char * const *env);
+
 #endif

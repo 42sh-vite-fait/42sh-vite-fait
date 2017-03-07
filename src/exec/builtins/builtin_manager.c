@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include "builtins.h"
 #include "str_42.h"
+#include "exit_status.h"
 
 #define ARRAY_ELEMS(A)	(sizeof(A) / sizeof(A[0]))
 
@@ -13,6 +14,7 @@ t_pair_name_builtin	g_builtins[] =
 {
 	{"cd", NULL},
 	{"echo", &builtin_echo},
+	{"exit", &builtin_exit},
 	{"getenv", NULL},
 	{"pwd", NULL},
 	{"setenv", NULL},
@@ -70,8 +72,11 @@ bool		is_builtin(const char *name, size_t len)
 int			exec_builtin(int ac, char *const *av, char *const *env)
 {
 	int		id;
+	int	exit_status;
 
 	id = find_builtin_id(av[0], ft_strlen(av[0]) + 1);
 	assert(id != -1);
-	return (g_builtins[id].builtin(ac, av, env));
+	exit_status = g_builtins[id].builtin(ac, av, env);
+	exit_status_set_last(exit_status);
+	return (exit_status);
 }

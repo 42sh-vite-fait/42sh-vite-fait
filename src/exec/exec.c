@@ -1,5 +1,6 @@
 #include "exec.h"
 #include <assert.h>
+#include "exit_status.h"
 
 t_tree_walker	*const g_walkers[] =
 {
@@ -19,6 +20,10 @@ t_tree_walker	*const g_walkers[] =
 
 int exec_ast(const t_ast ast, const t_string *input)
 {
+	int	exit_status;
+
 	assert(ast.root != NULL);
-	return (g_walkers[ast.root->type](ast.root, input));
+	exit_status = g_walkers[ast.root->type](ast.root, input);
+	exit_status_set_last(exit_status);
+	return (exit_status);
 }

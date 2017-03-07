@@ -174,6 +174,7 @@ SOURCES += exit_status.c
 SRC_SUBDIR += builtins
 SOURCES += builtin_history.c
 SOURCES += builtin_echo.c
+SOURCES += builtin_exit.c
 
 # Opt
 SRC_SUBDIR += opt

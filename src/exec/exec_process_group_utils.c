@@ -4,6 +4,7 @@
 #include "errors.h"
 #include "sig.h"
 #include "opt.h"
+#include "exit_status.h"
 
 static int exec_set_process_group_child_side(int pid, int pgid)
 {
@@ -68,6 +69,7 @@ int exec_parent_wait_child_process_group(pid_t child_pgid)
 		error_print("execution: parent: failed to give the controlling terminal"
 				" to the child process");
 	status = wait_child_process_group(child_pgid, child_pgid);
+	exit_status_set_last(status);
 	if (exec_set_foreground_process_group(getpid()) != NO_ERROR)
 	{
 		error_print("execution: parent: failed to get back the controlling"

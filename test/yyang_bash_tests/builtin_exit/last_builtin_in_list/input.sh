@@ -1,0 +1,2 @@
+true
+setenv =; exit
