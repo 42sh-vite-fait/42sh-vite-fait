@@ -52,10 +52,10 @@ static int shell_parse(t_string *input, t_lexer *lexer, t_array *tokens,
 	lexer_status = shell_lex(input, lexer, tokens);
 	if (lexer_status != OK_)
 		return (lexer_status);
-	if (opt_is_set(OPT_DEBUG_LEXER))
-		lexer_debug_print_tokens(input, tokens);
 	categorize_tokens(input, tokens);
 	lexer_clear_tokens(tokens);
+	if (opt_is_set(OPT_DEBUG_LEXER))
+		lexer_debug_print_tokens(input, tokens);
 	parser_init_with_tokens(input, parser, tokens);
 	parser_status = parser_parse(parser);
 	if (parser_status != PARSER_NO_ERROR)
