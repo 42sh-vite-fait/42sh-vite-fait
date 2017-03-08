@@ -70,7 +70,7 @@ static void	ast_debug_print_padding(unsigned padding)
 
 	ft_memset(pad, '\t', padding);
 	pad[padding] = '\0';
-	ft_dprintf(1, "%.*s", padding, pad);
+	printf("%.*s", padding, pad);
 }
 
 static void	ast_debug_print_node_redirections(const char *input, t_array redirections, unsigned padding)
