@@ -1,2 +1,2 @@
 true
-setenv =; exit
+exit z; exit
