@@ -3,7 +3,7 @@
 #include "var.h"
 
 #define HIST_DEFAULT_SIZE 128
-#define HIST_DEFAULT_FILE ".sh_history"
+#define HIST_DEFAULT_FILE "/.sh_history"
 
 static size_t	atou(const char *str)
 {
@@ -50,6 +50,6 @@ void			shell_history_init(void)
 	{
 		string_init_dup(&default_hist_file, home); // fatal_malloc
 		string_cat(&default_hist_file, HIST_DEFAULT_FILE); // fatal_malloc
-		history_load_from_file(home);
+		history_load_from_file(default_hist_file.str);
 	}
 }
