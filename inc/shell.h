@@ -22,4 +22,7 @@ int	shell_lexer(t_string *input, t_array *tokens);
 int	shell_parser(const t_string *input, t_parser *parser, const t_array *tokens);
 int	shell_exec(const t_ast ast, const t_string *inpu);
 
+void	shell_history_init(void);
+void	shell_history_shutdown(void);
+
 #endif
