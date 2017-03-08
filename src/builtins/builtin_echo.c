@@ -15,7 +15,10 @@ int	builtin_echo(int ac, char * const *av, char * const *env)
 		string_ncat(&out, " ", 1);
 		i += 1;
 	}
-	string_set(&out, out.len - 1, 1, '\n');
+	if (out.len == 0)
+		string_ncat(&out, "\n", 1);
+	else
+		string_set(&out, out.len - 1, 1, '\n');
 	ft_printf("%s", out.str);
 	string_shutdown(&out);
 	return (0);
