@@ -32,13 +32,13 @@ int builtin_exit(int ac, char * const *av, char * const *env)
 	int	exit_status;
 
 	(void)env;
-	if (is_errors_in_args(ac, av[1]))
+	if (ac == 1)
+		exit_status = exit_status_get_last();
+	else if (is_errors_in_args(ac, av[1]))
 	{
 		error_print("exit");
 		return (1);
 	}
-	else if (ac == 1)
-		exit_status = exit_status_get_last();
 	else
 		exit_status = (unsigned char)ft_atou(av[1]);
 	exit(exit_status);
