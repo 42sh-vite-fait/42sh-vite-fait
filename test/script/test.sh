@@ -2,7 +2,7 @@
 
 set -e
 
-FTSH_PATH='../../42sh'
+export FTSH_PATH='../../42sh'
 
 cleanup() {
 	rm -f cmd.{err,out}
