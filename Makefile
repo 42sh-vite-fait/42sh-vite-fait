@@ -287,7 +287,7 @@ check: $(NAME)
 	@# make check_leaks
 
 check_diff: $(NAME)
-	@zsh $(TEST_PATH)/yyang_bash_tests/use_case_diff_bash_tests.sh
+	@zsh $(TEST_PATH)/yyang_bash_tests/use_case_diff_bash_tests.sh $(SUITE) $(CASE)
 
 check_leaks:
 	@$(MAKE) -C . DEBUG=yes re
