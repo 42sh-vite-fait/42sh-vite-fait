@@ -22,7 +22,7 @@ static void	ast_compress_remove_current_node(t_ast *ast, t_ast_node **node)
 **	- Sinon, le fils droit est push sur la stack et on avance dans le fils gauche
 */
 
-static void	ast_compress_node(t_ast *ast, t_ast_node **node, t_array stack)
+static void	ast_compress_node(t_ast *ast, t_ast_node **node, t_array *stack)
 {
 	while (*node != NULL)
 	{
@@ -30,8 +30,8 @@ static void	ast_compress_node(t_ast *ast, t_ast_node **node, t_array stack)
 			node = &(*node)->left;
 		else if ((*node)->type == E_AST_SIMPLE_COMMAND)
 		{
-			if (stack.len > 0)
-				array_pop(&stack, &node);
+			if (stack->len > 0)
+				array_pop(stack, &node);
 			else
 				return ;
 		}
@@ -42,7 +42,7 @@ static void	ast_compress_node(t_ast *ast, t_ast_node **node, t_array stack)
 			else
 			{
 				if ((*node)->right->type != E_AST_SIMPLE_COMMAND)
-					array_push(&stack, &(void*){&(*node)->right});
+					array_push(stack, &(void*){&(*node)->right});
 				node = &(*node)->left;
 			}
 		}
@@ -54,6 +54,6 @@ void		ast_compress(t_ast *ast)
 	t_array	stack;
 
 	fatal_malloc(array_init(&stack, sizeof(t_ast_node*)));
-	ast_compress_node(ast, &ast->root, stack);
+	ast_compress_node(ast, &ast->root, &stack);
 	array_shutdown(&stack);
 }
