@@ -12,22 +12,34 @@ static bool	is_only_digits(const char *s)
 	return (*s == '\0' ? true : false);
 }
 
+static bool	is_errors_in_args(int ac, const char *arg)
+{
+	if (ac > 2)
+	{
+		error_set_context("too many arguments");
+		return (true);
+	}
+	else if (!is_only_digits(arg))
+	{
+		error_set_context("%s: bad number", arg);
+		return (true);
+	}
+	return (false);
+}
+
 int builtin_exit(int ac, char * const *av, char * const *env)
 {
 	int	exit_status;
 
 	(void)env;
-	if (ac > 2)
+	if (is_errors_in_args(ac, av[1]))
 	{
-		error_set_context("too many arguments");
 		error_print("exit");
-		exit_status = 1;
+		return (1);
 	}
 	else if (ac == 1)
 		exit_status = exit_status_get_last();
-	else if (is_only_digits(av[1]))
-		exit_status = (unsigned char)ft_atou(av[1]);
 	else
-		exit_status = 255;
+		exit_status = (unsigned char)ft_atou(av[1]);
 	exit(exit_status);
 }
