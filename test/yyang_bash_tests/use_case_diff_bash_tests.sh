@@ -66,7 +66,7 @@ diff_test ()
 	# echo "========> $test_case_tmp_mksh_stdout <++++++"
 	# echo "========> $test_case_tmp_mksh_stderr <++++++"
 	# echo "========> $test_case_tmp_mksh_exit_status <++++++"
-	PS1='' /tmp/bin/mksh -i < ${input_file} > $test_case_tmp_mksh_stdout 2> $test_case_tmp_mksh_stderr
+	PS1='' PS2='' /tmp/bin/mksh -i < ${input_file} > $test_case_tmp_mksh_stdout 2> $test_case_tmp_mksh_stderr
 	echo "exit_code: $?" >> $test_case_tmp_mksh_exit_status
 
 	# Selection de la sortie voulu
