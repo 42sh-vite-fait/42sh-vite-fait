@@ -22,7 +22,7 @@ static int	exec_last_child(const t_ast_node *node, int left_read,
 	if (child == 0)
 	{
 		if (pipe_replace_stdin(left_read) == NO_ERROR)
-			exec_pipe_command(node->command, input);
+			exec_pipe_command(node, input);
 		pipe_kill_pipe_sequence();
 	}
 	else
@@ -53,7 +53,7 @@ static int	exec_middle_child(const t_ast_node *node, int left_read,
 		if (pipe_replace_stdin(left_read) == NO_ERROR
 				&& pipe_replace_stdout(right.write) == NO_ERROR
 				&& exec_close_fd(right.read) == NO_ERROR)
-			exec_pipe_command(node->command, input);
+			exec_pipe_command(node, input);
 		pipe_kill_pipe_sequence();
 	}
 	else
@@ -83,7 +83,7 @@ static int	exec_first_child(const t_ast_node *node, const t_string *input)
 	{
 		if (pipe_replace_stdout(right.write) == NO_ERROR
 				&& exec_close_fd(right.read) == NO_ERROR)
-			exec_pipe_command(node->command, input);
+			exec_pipe_command(node, input);
 		pipe_kill_pipe_sequence();
 	}
 	else

@@ -19,7 +19,7 @@ int		exec_node_subshell(const t_ast_node *node, const t_string *input)
 		signal_set_ignored_signals_to_ignore();
 		if (exec_redirection(node->command.redirections, input) != NO_ERROR)
 		{
-			error_print("execution: subshell");
+			error_print("execution");
 			_exit(-1);
 		}
 		_exit(g_walkers[node->left->type](node->left, input));

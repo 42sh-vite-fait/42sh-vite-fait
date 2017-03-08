@@ -35,7 +35,10 @@ static int exec_set_process_group_parent_side(int pid, int pgid)
 
 static int exec_set_foreground_process_group(pid_t pgid)
 {
-	if (opt_is_set(OPT_INTERACTIVE) && tcsetpgrp(STDIN_FILENO, pgid) == -1)
+	int	stdin_copy;
+
+	stdin_copy = exec_backup_get_standard_fd(0);
+	if (opt_is_set(OPT_INTERACTIVE) && tcsetpgrp(stdin_copy, pgid) == -1)
 	{
 		error_set_context("tcsetpgrp: %s", strerror(errno));
 		return (ERR_EXEC);
@@ -52,7 +55,7 @@ void exec_child_set_context(void)
 		error_print("execution: child: failed to set process group");
 		_exit(-1);
 	}
-	if (exec_set_foreground_process_group(getpid()) != NO_ERROR)
+	if (exec_set_foreground_process_group(getpgrp()) != NO_ERROR)
 	{
 		error_print("execution: child: failed to get the controlling terminal");
 		exit(-1);
@@ -70,7 +73,7 @@ int exec_parent_wait_child_process_group(pid_t child_pgid)
 				" to the child process");
 	status = wait_child_process_group(child_pgid, child_pgid);
 	exit_status_set_last(status);
-	if (exec_set_foreground_process_group(getpid()) != NO_ERROR)
+	if (exec_set_foreground_process_group(getpgrp()) != NO_ERROR)
 	{
 		error_print("execution: parent: failed to get back the controlling"
 				" terminal");
