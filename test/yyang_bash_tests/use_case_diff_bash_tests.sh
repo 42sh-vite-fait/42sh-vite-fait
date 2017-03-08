@@ -14,7 +14,7 @@ count_failure=0
 
 mkdir -p /tmp/bin
 cp $RENDU_PATH/42sh /tmp/bin/
-cp -f `which bash` /tmp/bin/bash
+cp -f `which mksh` /tmp/bin/mksh
 
 if [ "$?" -ne "0" ]; then
     exit 1
@@ -56,25 +56,25 @@ diff_test ()
     /tmp/bin/42sh < ${input_file} > $test_case_tmp_ftsh_stdout 2> $test_case_tmp_ftsh_stderr
     echo "exit_code: $?" > $test_case_tmp_ftsh_exit_status
 
-	# Bash
-    test_case_tmp_bash_stdout="$test_case_tmp/expected_stdout"
-    test_case_tmp_bash_stderr="$test_case_tmp/expected_stderr"
-    test_case_tmp_bash_exit_status="$test_case_tmp/expected_exit_status"
-    /tmp/bin/bash --posix < ${input_file} > $test_case_tmp_bash_stdout 2> $test_case_tmp_bash_stderr
-    echo "exit_code: $?" >> $test_case_tmp_bash_exit_status
+	# mksh
+    test_case_tmp_mksh="$test_case_tmp/expected_stdout"
+    test_case_tmp_mksh="$test_case_tmp/expected_stderr"
+    test_case_tmp_mksh="$test_case_tmp/expected_exit_status"
+    /tmp/bin/mksh < ${input_file} > $test_case_tmp_mksh_stdout 2> $test_case_tmp_mksh_stderr
+    echo "exit_code: $?" >> $test_case_tmp_mksh_exit_status
 
 	# Selection de la sortie voulu
     if [ -f $test_case_path/expected_stdout ]; then
         expected_stdout_file=$test_case_path/expected_stdout
     else
-        expected_stdout_file=$test_case_tmp_bash_stdout
+        expected_stdout_file=$test_case_tmp_mksh_stdout
     fi
     if [ -f $test_case_path/expected_stderr ]; then
         expected_stderr_file=$test_case_path/expected_stderr
     else
-        expected_stderr_file=$test_case_tmp_bash_stderr
+        expected_stderr_file=$test_case_tmp_mksh_stderr
     fi
-	expected_exit_status_file=$test_case_tmp_bash_exit_status
+	expected_exit_status_file=$test_case_tmp_mksh_exit_status
 
 	# Diff stdout
     diff $expected_stdout_file $test_case_tmp_ftsh_stdout
