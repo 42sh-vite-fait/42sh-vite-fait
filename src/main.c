@@ -17,6 +17,6 @@ int		main(int argc, char *argv[])
 		exit(1);
 	}
 	var_init();
-	history_init(4);
+	shell_history_init();
 	return (shell_loop());
 }
