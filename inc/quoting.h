@@ -1,4 +1,5 @@
 # include "automaton.h"
+# define DQUOTE_BACKSLASH_SPECIAL "\"\\\n"
 
 enum e_transitions
 {
@@ -24,5 +25,5 @@ typedef enum e_symbols		t_symbols;
 
 void			quoting_automaton_step(t_automaton *a, char c);
 t_automaton		*quoting_automaton_init(t_automaton *a);
-bool			is_char_quoted(t_automaton *a, char c);
+bool			is_char_quoted(t_automaton *a, char c, char next);
 bool			is_char_inhibited(t_automaton *a, char c);

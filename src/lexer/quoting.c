@@ -53,7 +53,7 @@ static t_symbol	to_symbol(char c)
 	return (E_CHAR);
 }
 
-bool			is_char_quoted(t_automaton *a, char c)
+bool			is_char_quoted(t_automaton *a, char c, char next)
 {
 	t_state	state;
 
@@ -70,7 +70,8 @@ bool			is_char_quoted(t_automaton *a, char c)
 	}
 	else if (c == '\\')
 	{
-		if (state == E_UNQUOTED || state == E_DQUOTED)
+		if (state == E_UNQUOTED || (state == E_DQUOTED &&
+					ft_strchr(DQUOTE_BACKSLASH_SPECIAL, next) != NULL))
 			return (false);
 	}
 	else if (state == E_UNQUOTED)

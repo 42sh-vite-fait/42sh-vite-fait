@@ -42,7 +42,16 @@ Test(QuoteRemoval, QuotedBackslashes) {
 */ CHECK("\"\\\"", "\"");
 /* in  : "\\"
 ** out : \
-*/ CHECK("\"\\\\\"", "\\"); }
+*/ CHECK("\"\\\\\"", "\\");
+/* in  : "\""
+** out : "
+*/ CHECK("\"\\\"\"", "\"");
+/* in  : "\a"
+** out : \a
+*/ CHECK("\"\\a\"", "\\a");
+/* in  : "\%"
+** out : \%
+*/ CHECK("\"\\%\"", "\\%"); }
 
 Test(QuoteRemoval, QuotedQuotes) {
 /* in  : "'"
