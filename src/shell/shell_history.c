@@ -29,7 +29,6 @@ static void		history_file_action(int (*action)(const char*))
 	if (status == NO_ERROR && hist_file != NULL
 		&& action(hist_file) == 0)
 		return ;
-
 	status = var_get("HOME", &home);
 	if (status == NO_ERROR && home != NULL)
 	{
