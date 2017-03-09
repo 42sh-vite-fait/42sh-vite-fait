@@ -125,7 +125,6 @@ int			shell_loop(void)
 	fatal_malloc(parser_init(&parser));
 	fatal_malloc(lexer_init(&lexer));
 	ret = shell_loop2(&input, &tokens, &parser, &lexer);
-	// TODO: Faire des trucs avant de quitter, genre historique tout ca.
 	string_shutdown(&input);
 	array_shutdown(&tokens);
 	lexer_shutdown(&lexer);
