@@ -19,8 +19,10 @@ int		main(int argc, char *argv[])
 		exit(1);
 	}
 	var_init();
-	shell_history_init();
+	if (opt_is_set(OPT_INTERACTIVE))
+		shell_history_init();
 	ret = shell_loop();
-	shell_history_shutdown();
+	if (opt_is_set(OPT_INTERACTIVE))
+		shell_history_shutdown();
 	return (ret);
 }
