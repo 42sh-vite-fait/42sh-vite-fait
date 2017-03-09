@@ -56,7 +56,15 @@ diff_test ()
 	# echo "========> $test_case_tmp_ftsh_stdout <++++++"
 	# echo "========> $test_case_tmp_ftsh_stderr <++++++"
 	# echo "========> $test_case_tmp_ftsh_exit_status <++++++"
-	/tmp/bin/42sh < ${input_file} > $test_case_tmp_ftsh_stdout 2> $test_case_tmp_ftsh_stderr
+	if [[ ${test_case} == *'_debug_ast' ]];
+	then
+		/tmp/bin/42sh -d ast < ${input_file} > $test_case_tmp_ftsh_stdout 2> $test_case_tmp_ftsh_stderr
+	elif [[ ${test_case} == *'_debug_lexer' ]];
+	then
+		/tmp/bin/42sh -d lexer < ${input_file} > $test_case_tmp_ftsh_stdout 2> $test_case_tmp_ftsh_stderr
+	else
+		/tmp/bin/42sh < ${input_file} > $test_case_tmp_ftsh_stdout 2> $test_case_tmp_ftsh_stderr
+	fi
 	echo "exit_code: $?" > $test_case_tmp_ftsh_exit_status
 
 	# shell
