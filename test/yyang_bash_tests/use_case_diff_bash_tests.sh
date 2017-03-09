@@ -59,39 +59,39 @@ diff_test ()
 	/tmp/bin/42sh < ${input_file} > $test_case_tmp_ftsh_stdout 2> $test_case_tmp_ftsh_stderr
 	echo "exit_code: $?" > $test_case_tmp_ftsh_exit_status
 
-	# mksh
-	test_case_tmp_mksh_stdout="$test_case_tmp/expected_stdout"
-	test_case_tmp_mksh_stderr="$test_case_tmp/expected_stderr"
-	test_case_tmp_mksh_exit_status="$test_case_tmp/expected_exit_status"
-	# echo "========> $test_case_tmp_mksh_stdout <++++++"
-	# echo "========> $test_case_tmp_mksh_stderr <++++++"
-	# echo "========> $test_case_tmp_mksh_exit_status <++++++"
-	PS1='' PS2='' /tmp/bin/mksh -i < ${input_file} > $test_case_tmp_mksh_stdout 2> $test_case_tmp_mksh_stderr
-	echo "exit_code: $?" >> $test_case_tmp_mksh_exit_status
+	# shell
+	test_case_tmp_shell_stdout="$test_case_tmp/expected_stdout"
+	test_case_tmp_shell_stderr="$test_case_tmp/expected_stderr"
+	test_case_tmp_shell_exit_status="$test_case_tmp/expected_exit_status"
+	# echo "========> $test_case_tmp_shell_stdout <++++++"
+	# echo "========> $test_case_tmp_shell_stderr <++++++"
+	# echo "========> $test_case_tmp_shell_exit_status <++++++"
+	PS1='' PS2='' /tmp/bin/mksh -i < ${input_file} > $test_case_tmp_shell_stdout 2> $test_case_tmp_shell_stderr
+	echo "exit_code: $?" >> $test_case_tmp_shell_exit_status
 
 	# Selection de la sortie voulu
 	if [ -f $test_case_path/expected_stdout ]; then
 		expected_stdout_file=$test_case_path/expected_stdout
 	else
-		expected_stdout_file=$test_case_tmp_mksh_stdout
+		expected_stdout_file=$test_case_tmp_shell_stdout
 	fi
 	if [ -f $test_case_path/expected_stderr ]; then
 		expected_stderr_file=$test_case_path/expected_stderr
 	else
-		expected_stderr_file=$test_case_tmp_mksh_stderr
+		expected_stderr_file=$test_case_tmp_shell_stderr
 	fi
-	expected_exit_status_file=$test_case_tmp_mksh_exit_status
+	expected_exit_status_file=$test_case_tmp_shell_exit_status
 
 	# Diff stdout
-	diff $expected_stdout_file $test_case_tmp_ftsh_stdout
+	diff $expected_stdout_file $test_case_tmp_ftsh_stdout 2>&1 >/dev/null
 	print_result "$?" stdout
 
 	# Diff stderr
-	diff $expected_stderr_file $test_case_tmp_ftsh_stderr
+	diff $expected_stderr_file $test_case_tmp_ftsh_stderr 2>&1 >/dev/null
 	print_result "$?" stderr
 
 	# Diff exit status
-	diff $expected_exit_status_file $test_case_tmp_ftsh_exit_status
+	diff $expected_exit_status_file $test_case_tmp_ftsh_exit_status 2>&1 >/dev/null
 	print_result "$?" exit_status
 
 	echo "$test_suite/$test_case/input.sh"
