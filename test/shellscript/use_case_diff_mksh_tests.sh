@@ -77,18 +77,26 @@ diff_test ()
 	PS1='' PS2='' /tmp/bin/mksh -i < ${input_file} > $test_case_tmp_shell_stdout 2> $test_case_tmp_shell_stderr
 	echo "exit_code: $?" >> $test_case_tmp_shell_exit_status
 
-	# Selection de la sortie voulu
+	# Selection de la sortie voulu: stdout
 	if [ -f $test_case_path/expected_stdout ]; then
 		expected_stdout_file=$test_case_path/expected_stdout
 	else
 		expected_stdout_file=$test_case_tmp_shell_stdout
 	fi
+
+	# Selection de la sortie voulu: stderr
 	if [ -f $test_case_path/expected_stderr ]; then
 		expected_stderr_file=$test_case_path/expected_stderr
 	else
 		expected_stderr_file=$test_case_tmp_shell_stderr
 	fi
-	expected_exit_status_file=$test_case_tmp_shell_exit_status
+
+	# Selection de la sortie voulu: exit_status
+	if [ -f $test_case_path/expected_exit_status ]; then
+		expected_exit_status_file=$test_case_path/expected_exit_status
+	else
+		expected_exit_status_file=$test_case_tmp_shell_exit_status
+	fi
 
 	# Diff stdout
 	diff $expected_stdout_file $test_case_tmp_ftsh_stdout 2>&1 >/dev/null
