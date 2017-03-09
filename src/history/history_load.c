@@ -23,9 +23,9 @@ int					history_load_from_file(const char *path)
 	int			fd;
 	struct stat	stat;
 
-	string_init(&file);
 	if ((fd = open(path, O_RDONLY | O_CLOEXEC)) == -1)
 		return (-1);
+	fatal_malloc(string_init(&file));
 	if (fstat(fd, &stat) == 0 &&
 		S_ISREG(stat.st_mode) &&
 		stat.st_size <= HIST_MAX_SIZE &&
