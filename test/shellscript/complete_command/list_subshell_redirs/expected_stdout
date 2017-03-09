@@ -26,3 +26,4 @@ LIST: ;
 				args#1: /tmp/useless_subshell_dir
 		SIMPLE_COMMAND: rmdir
 			args#1: /tmp/useless_subshell_dir
+useless commands

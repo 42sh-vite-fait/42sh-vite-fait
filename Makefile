@@ -280,22 +280,20 @@ $(LEXER_TABLE): $(RULES_XML) $(PYTHON_GEN_TABLE) $(LEXER_TEMPLATE)
 	python3 $(PYTHON_GEN_TABLE) $(RULES_XML)  $(LEXER_TEMPLATE) $@
 
 check: $(NAME)
-	@# @cd $(TEST_PATH) && $(MAKE)
-	@# @./$(TEST_EXEC)
-	@# $(MAKE) -C $(TEST_PATH) script
+	@# make check_unit
 	make check_diff
-	make check_debug
 	@# make check_leaks
 
-check_diff: $(NAME)
-	@zsh $(TEST_PATH)/yyang_bash_tests/use_case_diff_bash_tests.sh $(SUITE) $(CASE)
+check_unit: $(NAME)
+	@cd $(TEST_PATH) && $(MAKE)
+	@./$(TEST_EXEC)
 
-check_debug: $(NAME)
-	@zsh $(TEST_PATH)/debug_out/test.sh
+check_diff: $(NAME)
+	@zsh $(TEST_PATH)/shellscript/use_case_diff_mksh_tests.sh $(SUITE) $(CASE)
 
 check_leaks:
 	@$(MAKE) -C . DEBUG=yes re
-	@zsh $(TEST_PATH)/yyang_bash_tests/run_leaks.sh
+	@zsh $(TEST_PATH)/shellscript/run_leaks.sh
 
 clean:
 	$(RM) -r $(OBJ_PATH)

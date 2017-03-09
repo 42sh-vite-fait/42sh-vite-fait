@@ -6,7 +6,7 @@ C_RED="\033[31;1m"
 C_CLEAR="\033[0m"
 
 RENDU_PATH="`pwd`"
-TESTS_ROOT="$RENDU_PATH/test/yyang_bash_tests"
+TESTS_ROOT="$RENDU_PATH/test/shellscript"
 
 exit_status=0
 count_success=0
