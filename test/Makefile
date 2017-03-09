@@ -149,9 +149,6 @@ $(OBJECTS): $(OBJ_PATH)/%.o: %.c
 $(OBJ_PATH):
 	@-mkdir -p $@
 
-script:
-	@cd ./script && ./test.sh
-
 .PHONY: clean fclean re before_test
 
 clean:

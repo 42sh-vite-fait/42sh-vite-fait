@@ -284,14 +284,14 @@ check: $(NAME)
 	@# @./$(TEST_EXEC)
 	@# $(MAKE) -C $(TEST_PATH) script
 	make check_diff
-	@# make check_supp
+	make check_debug
 	@# make check_leaks
 
 check_diff: $(NAME)
 	@zsh $(TEST_PATH)/yyang_bash_tests/use_case_diff_bash_tests.sh $(SUITE) $(CASE)
 
-check_supp: $(NAME)
-	@zsh $(TEST_PATH)/script/test.sh
+check_debug: $(NAME)
+	@zsh $(TEST_PATH)/debug_out/test.sh
 
 check_leaks:
 	@$(MAKE) -C . DEBUG=yes re

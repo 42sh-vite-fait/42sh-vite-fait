@@ -1,0 +1,28 @@
+AST:
+LIST: ;
+	SIMPLE_COMMAND: echo
+		args#1: 'useless commands'
+	AND_OR: &&
+		AND_OR: ||
+			SUBSHELL: ()
+					redirections#0: IO=2, Operator=GREATAND, Word=1
+					redirections#1: IO=1, Operator=GREAT, Word=/tmp/subshell_out_err
+					PIPE_SEQUENCE: |
+						PIPE_SEQUENCE: |
+							SIMPLE_COMMAND: ls
+								redirections#0: IO=2, Operator=GREAT, Word=/dev/null
+								args#1: -1
+								args#2: .
+								args#3: NO_DIR
+							SIMPLE_COMMAND: head
+								args#1: -n
+								args#2: 1
+						SIMPLE_COMMAND: cat
+							args#1: -e
+							args#2: --
+							args#3: -
+							args#4: NO_FILE
+			SIMPLE_COMMAND: mkdir
+				args#1: /tmp/useless_subshell_dir
+		SIMPLE_COMMAND: rmdir
+			args#1: /tmp/useless_subshell_dir
