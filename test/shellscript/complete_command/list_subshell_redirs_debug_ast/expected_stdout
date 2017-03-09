@@ -1,10 +1,11 @@
 AST:
 LIST: ;
-	SIMPLE_COMMAND: echo
-		args#1: 'useless commands'
-	AND_OR: &&
-		AND_OR: ||
-			SUBSHELL: ()
+	LIST: ;
+		SIMPLE_COMMAND: echo
+			args#1: 'useless commands'
+		AND_OR: &&
+			AND_OR: ||
+				SUBSHELL: ()
 					redirections#0: IO=2, Operator=GREATAND, Word=1
 					redirections#1: IO=1, Operator=GREAT, Word=/tmp/subshell_out_err
 					PIPE_SEQUENCE: |
@@ -22,8 +23,12 @@ LIST: ;
 							args#2: --
 							args#3: -
 							args#4: NO_FILE
-			SIMPLE_COMMAND: mkdir
+				SIMPLE_COMMAND: mkdir
+					args#1: /tmp/useless_subshell_dir
+			SIMPLE_COMMAND: rmdir
 				args#1: /tmp/useless_subshell_dir
-		SIMPLE_COMMAND: rmdir
-			args#1: /tmp/useless_subshell_dir
+	SIMPLE_COMMAND: cat
+		args#1: /tmp/subshell_out_err
 useless commands
+cat: NO_FILE: No such file or directory
+.:$
