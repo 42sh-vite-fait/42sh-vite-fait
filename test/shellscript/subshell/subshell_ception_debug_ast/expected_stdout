@@ -29,7 +29,6 @@ SUBSHELL: ()
 								args#1: c12
 					SIMPLE_COMMAND: echo
 						args#1: d
-a
 b1
 c1
 c11
