@@ -25,12 +25,12 @@ int			history_save_into_file(const char *path)
 	if ((fd = open(path, O_CREAT | O_WRONLY | O_TRUNC | O_CLOEXEC, 0600)) == -1)
 		return (-1);
 	fatal_malloc(string_init(&command));
-	i = g_history.last_id;
-	while (i > g_history.last_id - g_history.commands.len)
+	i = g_history.last_id - g_history.commands.len + 1;
+	while (i <= g_history.last_id)
 	{
 		if (convert_and_write_to_file(&command, i, fd) == -1)
 			break ;
-		--i;
+		i++;
 	}
 	close(fd);
 	string_shutdown(&command);
