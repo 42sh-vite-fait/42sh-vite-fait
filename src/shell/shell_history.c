@@ -1,6 +1,7 @@
 #include "ctype_42.h"
 #include "history.h"
 #include "var.h"
+#include "shell.h"
 
 static size_t	atou(const char *str)
 {
