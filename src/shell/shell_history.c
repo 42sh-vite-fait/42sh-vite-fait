@@ -53,3 +53,23 @@ void			shell_history_init(void)
 		history_load_from_file(default_hist_file.str);
 	}
 }
+
+void			shell_history_shutdown(void)
+{
+	int			status;
+	const char	*hist_file;
+	const char	*home;
+	t_string	default_hist_file;
+
+	status = var_get("HISTFILE", &hist_file);
+	if (status == NO_ERROR && hist_file != NULL
+		&& history_save_into_file(hist_file) == 0)
+		return ;
+	status = var_get("HOME", &home);
+	if (status == NO_ERROR && home != NULL)
+	{
+		fatal_malloc(string_init_dup(&default_hist_file, home));
+		fatal_malloc(string_cat(&default_hist_file, HIST_DEFAULT_FILE));
+		history_save_into_file(default_hist_file.str);
+	}
+}
