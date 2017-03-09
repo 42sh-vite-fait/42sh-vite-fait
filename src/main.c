@@ -8,6 +8,8 @@
 
 int		main(int argc, char *argv[])
 {
+	int		ret;
+
 	opt_parse(argc, (const char * const *)argv);
 	init_signal_module();
 	exec_backup_standard_fd(); // TODO: que faire si ./42sh <&-
@@ -18,5 +20,7 @@ int		main(int argc, char *argv[])
 	}
 	var_init();
 	shell_history_init();
-	return (shell_loop());
+	ret = shell_loop();
+	shell_history_shutdown();
+	return (ret);
 }
