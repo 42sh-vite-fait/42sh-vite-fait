@@ -5,8 +5,6 @@
 #include "history.h"
 #include "misc.h"
 
-#define HIST_MAX_SIZE 0x1000000
-
 extern t_history	g_history;
 
 static void			inject_commands(const char *file)

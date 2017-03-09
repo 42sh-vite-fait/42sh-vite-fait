@@ -7,6 +7,21 @@
 # include "structs_42.h"
 # include "cbuffer_42.h"
 
+/*
+** HISTSIZE custom maximal value
+*/
+#define HIST_MAX_SIZE 0x100000
+
+/*
+** HISTSIZE minimal value mandated by POSIX
+*/
+#define HIST_DEFAULT_SIZE 128
+
+/*
+** HISTFILE default value mantated by POSIX
+*/
+#define HIST_DEFAULT_FILE "/.sh_history"
+
 struct		s_history
 {
 	t_cbuffer	commands;

@@ -2,9 +2,6 @@
 #include "history.h"
 #include "var.h"
 
-#define HIST_DEFAULT_SIZE 128
-#define HIST_DEFAULT_FILE "/.sh_history"
-
 static size_t	atou(const char *str)
 {
 	size_t		ret;
@@ -33,7 +30,7 @@ void			shell_history_init(void)
 	if (status == NO_ERROR && hist_size_str != NULL)
 	{
 		hist_size = atou(hist_size_str);
-		if (hist_size > 100000) // arbitrary value
+		if (hist_size > HIST_MAX_SIZE)
 			hist_size = HIST_DEFAULT_SIZE;
 	}
 	else
