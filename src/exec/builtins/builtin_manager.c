@@ -12,12 +12,13 @@
 */
 t_pair_name_builtin	g_builtins[] =
 {
-	{"cd", NULL},
+//	{"cd", NULL},
 	{"echo", &builtin_echo},
 	{"exit", &builtin_exit},
-	{"getenv", NULL},
-	{"pwd", NULL},
-	{"setenv", NULL},
+//	{"getenv", NULL},
+//	{"history", NULL},
+//	{"pwd", NULL},
+//	{"setenv", NULL},
 };
 const size_t		g_builtins_nb = sizeof(g_builtins) / sizeof(g_builtins[0]);
 
@@ -69,14 +70,14 @@ bool		is_builtin(const char *name, size_t len)
 	return (find_builtin_id(name, len) != -1);
 }
 
-int			exec_builtin(int ac, char *const *av, char *const *env)
+int			exec_builtin(int ac, const char *const *av)
 {
 	int		id;
 	int	exit_status;
 
 	id = find_builtin_id(av[0], ft_strlen(av[0]) + 1);
 	assert(id != -1);
-	exit_status = g_builtins[id].builtin(ac, av, env);
+	exit_status = g_builtins[id].builtin(ac, av);
 	exit_status_set_last(exit_status);
 	return (exit_status);
 }

@@ -26,7 +26,6 @@ int exec_simple_command_binary(const t_command command, const t_string *input)
 int exec_simple_command_builtin(const t_command command, const t_string *input)
 {
 	t_array			argv;
-	char * const	*envp;
 	int				status;
 
 	if (exec_redirection(command.redirections, input) != NO_ERROR)
@@ -35,8 +34,7 @@ int exec_simple_command_builtin(const t_command command, const t_string *input)
 		return (-1);
 	}
 	argv = expand_tokens_to_argv(command.words, input);
-	envp = var_get_environ();
-	status = exec_builtin(argv.len, argv.data, envp);
+	status = exec_builtin(argv.len, argv.data);
 	if (undo_redirection(command.redirections) != NO_ERROR)
 		error_print("execution");
 	return (status);

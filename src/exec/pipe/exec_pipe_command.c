@@ -11,7 +11,6 @@ static void	exec_pipe_wrapper_builtin(const t_command command,
 		const t_string *input)
 {
 	t_array			argv;
-	char * const	*envp;
 	int				status;
 
 	if (exec_redirection(command.redirections, input) != NO_ERROR)
@@ -20,8 +19,7 @@ static void	exec_pipe_wrapper_builtin(const t_command command,
 		_exit(-1);
 	}
 	argv = expand_tokens_to_argv(command.words, input);
-	envp = var_get_environ();
-	status = exec_builtin(argv.len, argv.data, envp);
+	status = exec_builtin(argv.len, argv.data);
 	_exit(status);
 }
 

@@ -27,11 +27,10 @@ static bool	is_errors_in_args(int ac, const char *arg)
 	return (false);
 }
 
-int builtin_exit(int ac, char * const *av, char * const *env)
+int builtin_exit(int ac, const char * const *av)
 {
 	int	exit_status;
 
-	(void)env;
 	if (ac == 1)
 		exit_status = exit_status_get_last();
 	else if (is_errors_in_args(ac, av[1]))

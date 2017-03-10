@@ -173,8 +173,10 @@ SOURCES += exit_status.c
 # Builtins
 SRC_SUBDIR += builtins
 SOURCES += builtin_history.c
-SOURCES += builtin_echo.c
 SOURCES += builtin_exit.c
+SOURCES += builtin_echo.c
+SOURCES += echo_handlers.c
+SOURCES += echo_handlers_2.c
 
 # Opt
 SRC_SUBDIR += opt
@@ -226,7 +228,6 @@ SOURCES += exec_redirection_backup.c
 SRC_SUBDIR += signal
 SOURCES += signal.c
 SOURCES += signal_blocked.c
-
 
 # Generation
 vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))
