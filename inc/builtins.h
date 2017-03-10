@@ -38,7 +38,7 @@ bool			is_builtin(const char *name, size_t len);
 */
 
 int builtin_exit(int ac, const char * const *av);
-//int builtin_history(int argc, const char *const *argv); change sig
+int builtin_history(int argc, const char *const *argv);
 int builtin_echo(int argc, const char *const *argv);
 int echo_handlers_alert(const char *arg, t_string *buf);
 int echo_handlers_backspace(const char *arg, t_string *buf);

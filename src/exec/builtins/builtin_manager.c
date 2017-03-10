@@ -16,7 +16,7 @@ t_pair_name_builtin	g_builtins[] =
 	{"echo", &builtin_echo},
 	{"exit", &builtin_exit},
 //	{"getenv", NULL},
-//	{"history", NULL},
+	{"history", &builtin_history},
 //	{"pwd", NULL},
 //	{"setenv", NULL},
 };

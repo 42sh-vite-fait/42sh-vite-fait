@@ -112,8 +112,8 @@ int				builtin_history(int ac, const char *const *av)
 	t_opt			o;
 	unsigned int	flags;
 
-	if (opt_is_set(OPT_INTERACTIVE))
-		return ((ft_dprintf(2, "%s: history functions not available") & 0) | 1);
+	if (opt_is_set(!OPT_INTERACTIVE))
+		return ((ft_dprintf(2, "%s: history functions not available", av[0]) & 0) | 1);
 	if (history_get_last_id() == 0)
 	{
 		ft_dprintf(2, "%s: no history (yet)\n", av[0]);
