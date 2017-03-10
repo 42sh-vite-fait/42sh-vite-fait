@@ -10,6 +10,7 @@ extern t_history	g_history;
 static int	convert_and_write_to_file(t_string *command, size_t cmd_id, int fd)
 {
 	fatal_malloc(string_replace(command, history_get(cmd_id)->str));
+	string_escape_chars(command, '\n');
 	fatal_malloc(string_insert(command, command->len, "\n", 1));
 	if (string_write_to_fd(command, fd) == -1)
 		return (-1);

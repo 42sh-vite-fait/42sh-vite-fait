@@ -9,15 +9,13 @@ extern t_history		g_history;
 
 size_t		history_add(t_string *command)
 {
-	const char	*command_str;
 	t_string	line;
 
 	assert(command != NULL);
-	command_str = command->str;
-	while ((command_str = str_token(&line, command_str, '\n')) != NULL)
-	{
-		g_history.last_id += 1;
-		cbuffer_push_back(&g_history.commands, &line);
-	}
+	fatal_malloc(string_clone(&line, command));
+	if (line.len && line.str[line.len - 1] == '\n')
+		string_truncate(&line, line.len - 1);
+	cbuffer_push_back(&g_history.commands, &line);
+	g_history.last_id += 1;
 	return (g_history.last_id);
 }

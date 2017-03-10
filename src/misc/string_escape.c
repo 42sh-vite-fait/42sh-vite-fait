@@ -27,8 +27,7 @@ t_string		*string_escape_chars(t_string *s, int c)
 	while ((match_pos = ft_strchrpos(s->str + offset, c)) != -1)
 	{
 		offset += (size_t)match_pos;
-		if (string_insert(s, offset, "\\", 1) == NULL)
-			return (NULL);
+		fatal_malloc(string_insert(s, offset, "\\", 1));
 		offset += 2;
 	}
 	return (s);
