@@ -218,6 +218,8 @@ SOURCES += exec_redirection_backup.c
 SRC_SUBDIR += signal
 SOURCES += signal.c
 SOURCES += signal_blocked.c
+SOURCES += signal_ignored.c
+SOURCES += signal_exit.c
 
 # Generation
 vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))

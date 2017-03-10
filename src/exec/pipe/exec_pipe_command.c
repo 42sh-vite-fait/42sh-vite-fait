@@ -37,7 +37,7 @@ static void	exec_pipe_simple_command(const t_command command,
 
 static void	exec_pipe_subshell(const t_ast_node *node, const t_string *input)
 {
-	signal_set_ignored_signals_to_ignore();
+	signal_set_ignored_signals();
 	_exit(g_walkers[node->type](node, input));
 }
 

@@ -9,6 +9,7 @@
 #include "ft_printf.h"
 #include "exit_status.h"
 #include "errors.h"
+#include "sig.h"
 
 static int	shell_lex(t_string *input, t_lexer *lexer, t_array *tokens)
 {
@@ -70,11 +71,16 @@ static int	shell_parse(t_string *input, t_lexer *lexer, t_array *tokens,
 static int	get_command(t_string *input, t_lexer *lexer, t_array *tokens,
 						t_parser *parser)
 {
+	int		parse_status;
+
 	string_truncate(input, 0);
 	string_shrink_to_fit(input);
 	array_clear(tokens);
 	parser_clear(parser);
-	return (shell_parse(input, lexer, tokens, parser));
+	parse_status = shell_parse(input, lexer, tokens, parser);
+	if (signal_should_we_restart_the_loop())
+		return (CMD_DROP_);
+	return (parse_status);
 }
 
 static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,

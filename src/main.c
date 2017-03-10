@@ -13,16 +13,18 @@ int		main(int argc, char *argv[])
 
 	// TODO ajouter un module d'init pour le shell
 	opt_parse(argc, (const char * const *)argv);
-	init_signal_module();
 	exec_backup_standard_fd(); // TODO: que faire si ./42sh <&-
-	if (opt_is_set(OPT_INTERACTIVE) && init_terminal_module() != OK_)
-	{
-		error_print("terminal");
-		exit(1);
-	}
 	var_init_with_environ(environ);
 	if (opt_is_set(OPT_INTERACTIVE))
+	{
+		if (init_terminal_module() != OK_)
+		{
+			error_print("terminal");
+			exit(1);
+		}
+		init_signal_module();
 		shell_history_init();
+	}
 	ret = shell_loop();
 	if (opt_is_set(OPT_INTERACTIVE))
 		shell_history_shutdown();

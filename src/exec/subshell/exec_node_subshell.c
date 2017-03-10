@@ -16,7 +16,7 @@ int		exec_node_subshell(const t_ast_node *node, const t_string *input)
 	if (subshell == 0)
 	{
 		exec_child_set_context();
-		signal_set_ignored_signals_to_ignore();
+		signal_set_ignored_signals();
 		if (exec_redirection(node->command.redirections, input) != OK_)
 		{
 			error_print("execution");

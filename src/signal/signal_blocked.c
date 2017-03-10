@@ -1,43 +1,45 @@
 #include <assert.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <signal.h>
 #include "macros_42.h"
 #include "sig.h"
 
-static int	g_signals_to_block[] = {
-	SIGINT,
-	SIGQUIT,
-	SIGTERM,
-};
+extern const int	g_exit_signals[];
+extern const size_t	g_exit_signals_len;
 
-static sigset_t	get_blocked_sigset(void)
+static sigset_t	get_exit_sigset(void)
 {
-	sigset_t	blocked;
+	sigset_t	exit_set;
+	size_t		i;
 
-	sigemptyset(&blocked);
-	sigaddset(&blocked, SIGINT);
-	sigaddset(&blocked, SIGQUIT);
-	sigaddset(&blocked, SIGTERM);
-	return (blocked);
+	sigemptyset(&exit_set);
+	i = 0;
+	while (i < g_exit_signals_len)
+	{
+		sigaddset(&exit_set, g_exit_signals[i]);
+		i += 1;
+	}
+	return (exit_set);
 }
 
-void			signal_unblock_blocked_signals(void)
+void			signal_unblock_exit_signals(void)
 {
 	sigset_t	blocked;
 	int			ret;
 
-	blocked = get_blocked_sigset();
+	blocked = get_exit_sigset();
 	ret = sigprocmask(SIG_UNBLOCK, &blocked, NULL);
 	assert(ret == 0);
 	(void)ret;
 }
 
-void 			signal_set_blocked_signals(void)
+void			signal_block_exit_signals(void)
 {
 	sigset_t	blocked;
 	int			ret;
 
-	blocked = get_blocked_sigset();
+	blocked = get_exit_sigset();
 	ret = sigprocmask(SIG_BLOCK, &blocked, NULL);
 	assert(ret == 0);
 	(void)ret;
@@ -57,23 +59,19 @@ void 			signal_set_blocked_signals(void)
 ** because an ignored signal is discarded and not blocked.
 */
 
-bool			signal_should_we_drop_the_command(void)
+bool			signal_should_we_restart_the_loop(void)
 {
 	sigset_t	pending;
-	size_t		size;
 	size_t		i;
 
-	size = ARR_SIZ_MAX(g_signals_to_block);
 	i = 0;
 	sigpending(&pending);
-	while (i < size)
+	while (i < g_exit_signals_len)
 	{
-		if (sigismember(&pending, g_signals_to_block[i]))
+		if (sigismember(&pending, g_exit_signals[i]))
 		{
-			signal_set_signals_handler_for(g_signals_to_block, size, SIG_IGN);
-			signal_unblock_blocked_signals();
-			signal_set_blocked_signals();
-			signal_set_signals_handler_for(g_signals_to_block, size, SIG_DFL);
+			signal_unblock_exit_signals();
+			signal_block_exit_signals();
 			return (true);
 		}
 		i += 1;

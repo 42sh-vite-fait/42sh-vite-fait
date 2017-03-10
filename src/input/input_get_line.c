@@ -3,6 +3,7 @@
 #include "input.h"
 #include "errors.h"
 #include "opt.h"
+#include "sig.h"
 
 static int	input_arg_get_line(t_string *line)
 {
@@ -58,7 +59,11 @@ int	input_get_line(t_string *line, const char *prompt)
 	if (opt_is_set(OPT_CMD_STRING))
 		ret = input_arg_get_line(line);
 	else if (opt_is_set(OPT_INTERACTIVE))
+	{
+		signal_set_input_context(); // TODO syscall might be stopped
 		ret = input_ui_get_line(line, prompt);
+		signal_set_post_input_context();
+	}
 	else
 		ret = input_notty_get_line(line);
 	if (ret == ERROR_)

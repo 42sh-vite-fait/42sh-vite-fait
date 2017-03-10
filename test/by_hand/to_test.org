@@ -24,3 +24,4 @@
 
 ** Signal
    - Envoyer un SIGHUP au 42sh. Est-ce que les enfants sont kill aussi ?
+   - =python -c 'print "ls | " * 100000 + "ls"' | ./42sh=

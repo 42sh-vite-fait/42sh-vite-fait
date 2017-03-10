@@ -4,14 +4,35 @@
 # include <signal.h>
 # include <stdbool.h>
 
+# define SIGACT_NO_FLAG	0
+
 typedef void (*t_sig) (int);
 
 void 	init_signal_module(void);
-void	signal_set_signals_handler_for(int sigs[], size_t size, t_sig handler);
-void 	signal_set_blocked_signals(void);
-void	signal_unblock_blocked_signals(void);
-bool	signal_should_we_drop_the_command(void);
-void	signal_set_ignored_signals_to_ignore(void);
-void 	signal_set_ignored_signals_to_default(void);
+void	signal_set_input_context(void);
+void	signal_set_post_input_context(void);
+void	signal_set_handler_for(const int sigs[], size_t len,
+		const struct sigaction *act);
+
+/*
+** Blocked signals
+*/
+
+bool	signal_should_we_restart_the_loop(void);
+void 	signal_block_exit_signals(void);
+void	signal_unblock_exit_signals(void);
+
+/*
+** Ignored signals
+*/
+
+void	signal_set_ignored_signals(void);
+void 	signal_unset_ignored_signals(void);
+
+/*
+** Input signals
+*/
+void	signal_mute_exit_signals(void);
+void	signal_unmute_exit_signals(void);
 
 #endif

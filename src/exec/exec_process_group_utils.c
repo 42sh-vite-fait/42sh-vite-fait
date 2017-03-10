@@ -37,19 +37,28 @@ static int exec_set_foreground_process_group(pid_t pgid)
 {
 	int	stdin_copy;
 
-	stdin_copy = exec_backup_get_standard_fd(0);
-	if (opt_is_set(OPT_INTERACTIVE) && tcsetpgrp(stdin_copy, pgid) == -1)
+	//TODO: le controlling terminal n'est pas grab en cas de './42sh < file'
+	// car le shell est non-interactif et donc le if echoue
+	/* stdin_copy = exec_backup_get_standard_fd(0); */
+	stdin_copy = exec_backup_get_standard_fd(1);
+	if (tcsetpgrp(stdin_copy, pgid) == -1)
 	{
 		error_set_context("tcsetpgrp: %s", strerror(errno));
 		return (ERROR_);
 	}
+	/* if (opt_is_set(OPT_INTERACTIVE) && tcsetpgrp(stdin_copy, pgid) == -1) */
+	/* { */
+	/* 	error_set_context("tcsetpgrp: %s", strerror(errno)); */
+	/* 	return (ERR_EXEC); */
+	/* } */
 	return (OK_);
 }
 
 void exec_child_set_context(void)
 {
-	signal_set_ignored_signals_to_default();
-	signal_unblock_blocked_signals();
+	signal_unmute_exit_signals();
+	signal_unset_ignored_signals();
+	signal_unblock_exit_signals();
 	if (exec_set_process_group_child_side(0, 0) != OK_)
 	{
 		error_print("execution: child: failed to set process group");

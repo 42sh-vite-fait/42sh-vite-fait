@@ -1,51 +1,56 @@
 #include <assert.h>
 #include <stdlib.h>
-#include "macros_42.h"
+#include <signal.h>
 #include "sig.h"
+#include "macros_42.h"
 
-static int	g_signals_to_ignore[] = {
+const int		g_signals_to_ignore[] = {
 	SIGTTIN,
 	SIGTTOU,
 	SIGTSTP,
+	SIGALRM,
 };
-
-void	signal_set_ignored_signals_to_ignore(void)
-{
-	size_t	size;
-
-	size = ARR_SIZ_MAX(g_signals_to_ignore);
-	signal_set_signals_handler_for(g_signals_to_ignore, size, SIG_IGN);
-}
-
-void 	signal_set_ignored_signals_to_default(void)
-{
-	size_t	size;
-
-	size = ARR_SIZ_MAX(g_signals_to_ignore);
-	signal_set_signals_handler_for(g_signals_to_ignore, size, SIG_DFL);
-}
+const int		g_exit_signals[] = {
+	SIGINT,
+	SIGQUIT,
+	SIGTERM,
+};
+const size_t	g_signals_to_ignore_len = ARR_SIZ_MAX(g_signals_to_ignore);
+const size_t	g_exit_signals_len = ARR_SIZ_MAX(g_exit_signals);
 
 /*
-** Must be call only if the shell is in interactive mode
+** Must be call only if the shell is in interactive mode TODO
 */
 
 void	init_signal_module(void)
 {
-	signal_set_ignored_signals_to_ignore();
-	signal_set_blocked_signals();
+	signal_set_ignored_signals();
+	signal_block_exit_signals();
 }
 
-void	signal_set_signals_handler_for(int sigs[], size_t size, t_sig handler)
+// TODO doit être hook à la fin de la shell loop, avant de refaire un tour
+void	signal_set_input_context(void)
 {
-	struct sigaction	act;
-	size_t				i;
-	int					ret;
+	signal_mute_exit_signals();
+	signal_unblock_exit_signals();
+}
 
-	act.sa_handler = handler;
+// TODO doit être call à la sortie du module d'input
+void	signal_set_post_input_context(void)
+{
+	signal_block_exit_signals();
+}
+
+void	signal_set_handler_for(const int sigs[], size_t len,
+		const struct sigaction *act)
+{
+	size_t	i;
+	int		ret;
+
 	i = 0;
-	while (i < size)
+	while (i < len)
 	{
-		ret = sigaction(sigs[i], &act, NULL);
+		ret = sigaction(sigs[i], act, NULL);
 		assert(ret == 0);
 		i += 1;
 	}

@@ -4,6 +4,7 @@
 #include "lexer.h"
 #include "opt.h"
 #include "input.h"
+#include "sig.h"
 
 int	shell_input(t_string *line, const char *prompt)
 {

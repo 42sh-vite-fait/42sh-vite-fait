@@ -115,7 +115,7 @@ int			builtin_env(int argc, const char *const *argv)
 	}
 	else
 	{
-		signal_set_ignored_signals_to_ignore();
+		signal_set_ignored_signals();
 		status = wait_child_process_group(child, child);
 		exit_status_set_last(status);
 	}
