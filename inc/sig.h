@@ -1,7 +1,6 @@
 #ifndef SIG_H
 # define SIG_H
 
-# define _POSIX_C_SOURCE 200809L
 # include <signal.h>
 # include <stdbool.h>
 

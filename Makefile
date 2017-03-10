@@ -3,6 +3,7 @@ CC     ?= clang # Need autoconf
 
 CFLAGS = -Wall -Werror -Wextra
 CFLAGS += -std=c11 -pedantic -pedantic-errors
+CFLAGS += -D_POSIX_C_SOURCE=200809L
 ifeq ($(DEBUG),yes)
 	CFLAGS += -g3 -O0 -fno-inline
 else
