@@ -7,7 +7,7 @@ TestSuite(builtin_history);
 
 #define ARGS(A) (char *[]){A}, sizeof ((char *[]){A})
 
-#define ARRAY(...) ((char *[]){"history", __VA_ARGS__ NULL})
+#define ARRAY(...) ((const char *[]){"history", __VA_ARGS__ NULL})
 #define ARRAY_ELEMS(A) (sizeof(A) / sizeof(*A) - 1)
 #define CALL_HISTORY(...) builtin_history(ARRAY_ELEMS(ARRAY(__VA_ARGS__)), ARRAY(__VA_ARGS__))
 

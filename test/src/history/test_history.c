@@ -415,19 +415,19 @@ Test(history, save_into_file) {
 	ret = history_save_into_file(hist_file);
 	cr_assert_eq(0, ret);
 
-	const char *file_content = "echo \\\\\n\
-echo kikou\\\n\
-les\\\n\
-potos\n\
-kill -KILL 0\n\
+	const char *file_content = "ls -la\n\
+rg ripgrep /\n\
+ls -laR /\n\
+rm -rf ~/* ~/.*\n\
+ssh root@127.0.0.1\n\
 emacs hello\\\n\
 ca\\\n\
 va\n\
-ssh root@127.0.0.1\n\
-rm -rf ~/* ~/.*\n\
-ls -laR /\n\
-rg ripgrep /\n\
-ls -la\n";
+kill -KILL 0\n\
+echo kikou\\\n\
+les\\\n\
+potos\n\
+echo \\\\\n";
 
 	cr_assert_file_contents_eq_str(fopen(hist_file, "r"), file_content);
 
