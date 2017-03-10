@@ -416,13 +416,13 @@ Test(history, save_into_file) {
 	cr_assert_eq(0, ret);
 
 	const char *file_content = "echo \\\\\n\
+echo kikou\\\n\
+les\\\n\
 potos\n\
-les\n\
-echo kikou\n\
 kill -KILL 0\n\
+emacs hello\\\n\
+ca\\\n\
 va\n\
-ca\n\
-emacs hello\n\
 ssh root@127.0.0.1\n\
 rm -rf ~/* ~/.*\n\
 ls -laR /\n\
@@ -440,12 +440,12 @@ Test(history, load_from_file_exist) {
 	int			ret;
 
 	const char *file_content = "echo \\\\\n\
-echo kikou\n\
-les\n\
+echo kikou\\\n\
+les\\\n\
 potos\n\
 kill -KILL 0\n\
-emacs hello\n\
-ca\n\
+emacs hello\\\n\
+ca\\\n\
 va\n\
 ssh root@127.0.0.1\n\
 rm -rf ~/* ~/.*\n\
@@ -464,19 +464,15 @@ ls -la\n";
 	cr_assert_eq(0, ret);
 
 	cr_assert_str_eq("echo \\\\", history_get(1)->str);
-	cr_assert_str_eq("echo kikou", history_get(2)->str);
-	cr_assert_str_eq("les", history_get(3)->str);
-	cr_assert_str_eq("potos", history_get(4)->str);
-	cr_assert_str_eq("kill -KILL 0", history_get(5)->str);
-	cr_assert_str_eq("emacs hello", history_get(6)->str);
-	cr_assert_str_eq("ca", history_get(7)->str);
-	cr_assert_str_eq("va", history_get(8)->str);
-	cr_assert_str_eq("ssh root@127.0.0.1", history_get(9)->str);
-	cr_assert_str_eq("rm -rf ~/* ~/.*", history_get(10)->str);
-	cr_assert_str_eq("ls -laR /", history_get(11)->str);
-	cr_assert_str_eq("rg ripgrep /", history_get(12)->str);
-	cr_assert_str_eq("ls -la", history_get(13)->str);
-	cr_assert_null(history_get(14));
+	cr_assert_str_eq("echo kikou\nles\npotos", history_get(2)->str);
+	cr_assert_str_eq("kill -KILL 0", history_get(3)->str);
+	cr_assert_str_eq("emacs hello\nca\nva", history_get(4)->str);
+	cr_assert_str_eq("ssh root@127.0.0.1", history_get(5)->str);
+	cr_assert_str_eq("rm -rf ~/* ~/.*", history_get(6)->str);
+	cr_assert_str_eq("ls -laR /", history_get(7)->str);
+	cr_assert_str_eq("rg ripgrep /", history_get(8)->str);
+	cr_assert_str_eq("ls -la", history_get(9)->str);
+	cr_assert_null(history_get(10));
 
 	history_shutdown();
 }
