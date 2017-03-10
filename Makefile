@@ -284,7 +284,7 @@ $(LEXER_TABLE): $(RULES_XML) $(PYTHON_GEN_TABLE) $(LEXER_TEMPLATE)
 	python3 $(PYTHON_GEN_TABLE) $(RULES_XML)  $(LEXER_TEMPLATE) $@
 
 check: $(NAME)
-	@# make check_unit
+	make check_unit
 	make check_diff
 	@# make check_leaks
 
