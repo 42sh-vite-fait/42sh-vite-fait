@@ -38,7 +38,7 @@ const char	*opt_get_command_line(void)
 	return (g_opt_command_line);
 }
 
-void		opt_parse(int argc, char *argv[])
+void		opt_parse(int argc, const char * const *argv)
 {
 	t_opt	opt;
 	int 	ch;

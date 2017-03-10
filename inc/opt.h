@@ -11,7 +11,7 @@
 #define OPT_CMD_STRING	(1U << 5)
 #define OPT_INTERACTIVE	(1U << 6)
 
-void		opt_parse(int argc, char *argv[]);
+void		opt_parse(int argc, const char * const *argv);
 const char	*opt_get_command_line(void);
 bool 		opt_is_set(unsigned opt);
 

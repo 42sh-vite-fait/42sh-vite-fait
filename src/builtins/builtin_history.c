@@ -61,7 +61,7 @@ static size_t	get_index(const char *a)
 	return (id);
 }
 
-static int		builtin_history_third_and_final(int ac, char *const *av,
+static int		builtin_history_third_and_final(int ac, const char *const *av,
 												unsigned int flags)
 {
 	size_t			first;
@@ -87,7 +87,7 @@ static int		builtin_history_third_and_final(int ac, char *const *av,
 }
 
 static int		builtin_history_part_ii(t_opt *o, unsigned int *flags,
-									int ac, char *const *av)
+									int ac, const char *const *av)
 {
 	int				option;
 
@@ -105,7 +105,7 @@ static int		builtin_history_part_ii(t_opt *o, unsigned int *flags,
 	return (0);
 }
 
-int				builtin_history(int ac, char *const *av)
+int				builtin_history(int ac, const char *const *av)
 {
 	t_opt			o;
 	unsigned int	flags;
