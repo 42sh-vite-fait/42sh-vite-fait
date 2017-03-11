@@ -10,7 +10,7 @@
 /*
 ** HISTSIZE custom maximal value
 */
-#define HIST_MAX_SIZE 0x100000
+#define HIST_MAX_SIZE 10000
 
 /*
 ** HISTSIZE minimal value mandated by POSIX
