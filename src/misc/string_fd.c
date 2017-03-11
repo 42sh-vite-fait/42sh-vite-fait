@@ -4,9 +4,9 @@
 
 #define NON_ASCII_MASK (0x8080808080808080U)
 
-bool		is_buff_ascii(const void *buff, size_t buff_size)
+static bool	is_buff_ascii(const void *buff, size_t buff_size)
 {
-	const uint32_t	*chunks_buff;
+	const uint64_t	*chunks_buff;
 	size_t			chunks_nbr;
 	size_t			i;
 
