@@ -13,6 +13,7 @@
 #define ERROR_ -1
 #define OK_ 1
 #define INVALID_ 2
+#define DROP_ 3
 
 static int	shell_lex(t_string *input, t_lexer *lexer, t_array *tokens)
 {
@@ -46,8 +47,8 @@ static int	shell_lex(t_string *input, t_lexer *lexer, t_array *tokens)
 static int shell_parse(t_string *input, t_lexer *lexer, t_array *tokens,
 						t_parser *parser)
 {
-	int	lexer_status;
-	int	parser_status;
+	int		lexer_status;
+	int		parser_status;
 
 	lexer_status = shell_lex(input, lexer, tokens);
 	if (lexer_status != OK_)
@@ -56,6 +57,9 @@ static int shell_parse(t_string *input, t_lexer *lexer, t_array *tokens,
 	lexer_clear_tokens(tokens);
 	if (opt_is_set(OPT_DEBUG_LEXER))
 		lexer_debug_print_tokens(input, tokens);
+	if (tokens->len == 1 &&
+		((t_token *)array_get_first(tokens))->type == E_TOKEN_NEWLINE)
+		return (DROP_);
 	parser_init_with_tokens(input, parser, tokens);
 	parser_status = parser_parse(parser);
 	if (parser_status != PARSER_NO_ERROR)
@@ -80,6 +84,8 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 		array_clear(tokens);
 		parser_clear(parser);
 		input_parsing_status = shell_parse(input, lexer, tokens, parser);
+		if (input_parsing_status == DROP_)
+			continue ;
 		if (input_parsing_status == OK_)
 		{
 			// TODO: cut multiple lines before pushing in history
