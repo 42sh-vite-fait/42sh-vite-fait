@@ -96,6 +96,7 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 		{
 			if (!opt_is_set(OPT_INTERACTIVE))
 				return (1);
+			continue ;
 		}
 		else if (input_parsing_status == ERROR_)
 			return (1);
