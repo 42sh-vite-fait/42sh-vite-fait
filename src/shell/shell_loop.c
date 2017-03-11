@@ -44,7 +44,7 @@ static int	shell_lex(t_string *input, t_lexer *lexer, t_array *tokens)
 	return (OK_);
 }
 
-static int shell_parse(t_string *input, t_lexer *lexer, t_array *tokens,
+static int	shell_parse(t_string *input, t_lexer *lexer, t_array *tokens,
 						t_parser *parser)
 {
 	int		lexer_status;
@@ -72,6 +72,16 @@ static int shell_parse(t_string *input, t_lexer *lexer, t_array *tokens,
 	return (OK_);
 }
 
+static int	get_command(t_string *input, t_lexer *lexer, t_array *tokens,
+						t_parser *parser)
+{
+	string_truncate(input, 0);
+	string_shrink_to_fit(input);
+	array_clear(tokens);
+	parser_clear(parser);
+	return (shell_parse(input, lexer, tokens, parser));
+}
+
 static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 						t_lexer *lexer)
 {
@@ -79,18 +89,12 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 
 	while (1)
 	{
-		string_truncate(input, 0);
-		string_shrink_to_fit(input);
-		array_clear(tokens);
-		parser_clear(parser);
-		input_parsing_status = shell_parse(input, lexer, tokens, parser);
-		if (input_parsing_status == DROP_)
-			continue ;
+		input_parsing_status = get_command(input, lexer, tokens, parser);
 		if (input_parsing_status == OK_)
 		{
-			// TODO: cut multiple lines before pushing in history
-			if (opt_is_set(OPT_INTERACTIVE))
-				history_add(fatal_malloc(string_create_dup(input->str)));
+			exec_ast(parser->ast, input);
+			if (opt_is_set(OPT_DEBUG_EXEC))
+				ft_printf("EXEC: %d\n", exit_status_get_last());
 		}
 		else if (input_parsing_status == EOF_)
 		{
@@ -98,21 +102,17 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 				error_print("lexer");
 			return (exit_status_get_last());
 		}
-		else if (input_parsing_status == INVALID_)
-		{
-			if (!opt_is_set(OPT_INTERACTIVE))
-				return (1);
-			continue ;
-		}
 		else if (input_parsing_status == ERROR_)
 			return (1);
-		exec_ast(parser->ast, input);
-		if (opt_is_set(OPT_DEBUG_EXEC))
-			ft_printf("EXEC: %d\n", exit_status_get_last());
+		else if (input_parsing_status == INVALID_ &&
+				!opt_is_set(OPT_INTERACTIVE))
+			return (1);
+		if (opt_is_set(OPT_INTERACTIVE) && input_parsing_status != ERROR_)
+			history_add(fatal_malloc(string_create_dup(input->str)));
 	}
 }
 
-int shell_loop(void)
+int			shell_loop(void)
 {
 	t_string	input;
 	t_array		tokens;
