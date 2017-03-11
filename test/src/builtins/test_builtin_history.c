@@ -158,7 +158,7 @@ Test(builtin_history, 0_cmds_list) {
 	history_init(1);
 	cr_redirect_stderr();
 	CALL_HISTORY();
-	cr_assert_file_contents_eq_str(cr_get_redirected_stderr(), "history: no history (yet)\n");
+	cr_assert_file_contents_eq_str(cr_get_redirected_stderr(), "42sh: history: no history (yet)\n");
 }
 
 Test(builtin_history, wrong_option) {
@@ -167,7 +167,7 @@ Test(builtin_history, wrong_option) {
 	history_add(string_init_dup(&str, "test"));
 	cr_redirect_stderr();
 	CALL_HISTORY("-l",);
-	cr_assert_file_contents_eq_str(cr_get_redirected_stderr(), "history: bad option: -l.\n");
+	cr_assert_file_contents_eq_str(cr_get_redirected_stderr(), "42sh: history: bad option: -l.\n");
 }
 
 Test(builtin_history, too_much_params) {
@@ -176,7 +176,7 @@ Test(builtin_history, too_much_params) {
 	history_add(string_init_dup(&str, "test"));
 	cr_redirect_stderr();
 	CALL_HISTORY("test", "test", "test",);
-	cr_assert_file_contents_eq_str(cr_get_redirected_stderr(), "usage: history [-nr] [first [last]].\n");
+	cr_assert_file_contents_eq_str(cr_get_redirected_stderr(), "42sh: usage: history [-nr] [first [last]].\n");
 }
 
 Test(builtin_history, str_not_in_history) {
