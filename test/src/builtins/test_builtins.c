@@ -8,8 +8,8 @@
 
 TestSuite(builtins_utils);
 
-#define CHECK_BUILTIN(NAME, SIZE, SHALL_BE_FOUND) {					\
-	return ((find_builtin_id(NAME, SIZE) != -1) == SHALL_BE_FOUND);	\
+#define CHECK_BUILTIN(NAME, SIZE, SHALL_BE_FOUND) {			\
+	cr_assert((is_builtin(NAME, SIZE) == SHALL_BE_FOUND));	\
 }
 
 Test(builtins_utils, simple_echo) {

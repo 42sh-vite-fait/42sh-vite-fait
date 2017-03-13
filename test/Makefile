@@ -78,6 +78,7 @@ SOURCES += quote_removal.c
 
 # Builtins
 SRC_SUBDIR += builtins
+SOURCES += test_builtins.c
 SOURCES += test_builtin_history.c
 
 SRC_PATH = src
