@@ -8,6 +8,8 @@
 
 bool			is_valid_alias_name(const char *string, size_t len);
 bool			is_valid_name(const char *string, size_t len);
+bool			is_valid_variable(const char *str);
+
 /*
 ** `is_escaped` take a 'pos'ition in an str and an 'end' pointer
 ** to stop reverse searching.

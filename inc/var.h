@@ -29,6 +29,7 @@ enum	e_variable_errors
 
 void			var_init(void);
 void			var_shutdown(void);
+void			var_clear(void);
 int				var_set(const char *name, const char *value, int attrs);
 int				var_get(const char *name, const char **value);
 char * const	*var_get_environ(void);

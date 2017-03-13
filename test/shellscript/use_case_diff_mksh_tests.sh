@@ -1,5 +1,3 @@
-#!/bin/sh
-
 C_CYAN="\033[36;1m"
 C_GREEN="\033[32;1m"
 C_RED="\033[31;1m"
@@ -44,6 +42,12 @@ diff_test ()
 	test_case=$2
 	test_case_path="$TESTS_ROOT/$test_suite/$test_case"
 	input_file=$test_case_path/input.sh
+
+	# Diff only if test is present
+	if ! [ -f ${input_file} ];
+	then
+		return
+	fi
 
 	test_case_tmp="$test_case_path/.tmp"
 	rm -rf $test_case_tmp 2>&1 >/dev/null

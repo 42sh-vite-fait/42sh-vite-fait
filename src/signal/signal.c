@@ -49,4 +49,5 @@ void	signal_set_signals_handler_for(int sigs[], size_t size, t_sig handler)
 		assert(ret == 0);
 		i += 1;
 	}
+	(void)ret;
 }

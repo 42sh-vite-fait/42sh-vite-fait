@@ -180,6 +180,9 @@ SOURCES += builtin_exit.c
 SOURCES += builtin_echo.c
 SOURCES += echo_handlers.c
 SOURCES += echo_handlers_2.c
+SOURCES += builtin_env.c
+SOURCES += builtin_setenv.c
+SOURCES += builtin_unsetenv.c
 
 # Opt
 SRC_SUBDIR += opt

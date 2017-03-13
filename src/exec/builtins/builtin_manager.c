@@ -11,11 +11,13 @@ t_pair_name_builtin	g_builtins[] =
 {
 //	{"cd", NULL},
 	{"echo", &builtin_echo},
+	{"env", &builtin_env},
 	{"exit", &builtin_exit},
 //	{"getenv", NULL},
 	{"history", &builtin_history},
 //	{"pwd", NULL},
-//	{"setenv", NULL},
+	{"setenv", &builtin_setenv},
+	{"unsetenv", &builtin_unsetenv},
 };
 
 const size_t		g_builtins_len = ARR_SIZ_MAX(g_builtins);

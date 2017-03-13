@@ -27,7 +27,7 @@ static int exec_set_process_group_parent_side(int pid, int pgid)
 {
 	if (setpgid(pid, pgid) == -1 && errno != EACCES)
 	{
-		error_set_context("parent: setpgid: %s", strerror(errno));
+		error_set_context("setpgid: %s", strerror(errno));
 		return (ERR_EXEC);
 	}
 	return (NO_ERROR);

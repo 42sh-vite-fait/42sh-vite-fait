@@ -1,2 +1,0 @@
-readonly AAA
-unset AAA

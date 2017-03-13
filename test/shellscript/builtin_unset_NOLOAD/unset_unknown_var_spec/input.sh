@@ -1,1 +1,0 @@
-unset unknown_var

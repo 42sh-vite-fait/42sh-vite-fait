@@ -29,6 +29,7 @@ void			signal_unblock_blocked_signals(void)
 	blocked = get_blocked_sigset();
 	ret = sigprocmask(SIG_UNBLOCK, &blocked, NULL);
 	assert(ret == 0);
+	(void)ret;
 }
 
 void 			signal_set_blocked_signals(void)
@@ -39,6 +40,7 @@ void 			signal_set_blocked_signals(void)
 	blocked = get_blocked_sigset();
 	ret = sigprocmask(SIG_BLOCK, &blocked, NULL);
 	assert(ret == 0);
+	(void)ret;
 }
 
 /*

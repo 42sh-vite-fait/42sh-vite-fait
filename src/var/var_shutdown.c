@@ -2,6 +2,7 @@
 
 extern t_var_priv	g_variables;
 extern t_var_priv	g_environ_priv;
+extern char			**g_environ;
 
 static void	free_environ_entry(void *entryptr)
 {
@@ -29,4 +30,14 @@ void		var_shutdown(void)
 	iter_array(g_environ_priv, &free_environ_entry);
 	array_shutdown(&g_variables);
 	array_shutdown(&g_environ_priv);
+}
+
+void		var_clear(void)
+{
+	void	*null;
+
+	null = NULL;
+	array_clear(&g_variables);
+	array_clear(&g_environ_priv);
+	fatal_malloc(array_push(&g_environ_priv, &null));
 }
