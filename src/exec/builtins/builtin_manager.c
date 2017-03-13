@@ -55,7 +55,7 @@ static int	find_builtin_id(char const *name, size_t len)
 	{
 		i = min + (max - min) / 2;
 		diff = ft_strncmp(name, g_builtins[i].name, len + 1);
-		if (diff == 0)
+		if (diff == 0 && g_builtins[i].name[len] == '\0')
 			return ((int)i);
 		else if (diff > 0)
 			min += (max - min + 1) / 2;
