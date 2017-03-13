@@ -113,22 +113,29 @@ diff_test ()
 	echo "$test_suite/$test_case/input.sh"
 }
 
-launch_all_tests() {
+launch_suite() {
+	TEST_SUITE=$1
+	for TEST_CASE in $TEST_SUITE/*; do
+		if [ -d "${TEST_CASE}" ] && [[ "${TEST_CASE}" != *_NOLOAD ]]; then
+			diff_test `basename $TEST_SUITE` `basename $TEST_CASE`
+		fi
+	done
+}
+
+launch_all_suites() {
 	for TEST_SUITE in $TESTS_ROOT/*; do
 		if [ -d "${TEST_SUITE}" ] && [[ "${TEST_SUITE}" != *_NOLOAD ]]; then
-			for TEST_CASE in $TEST_SUITE/*; do
-				if [ -d "${TEST_CASE}" ] && [[ "${TEST_CASE}" != *_NOLOAD ]]; then
-					diff_test `basename $TEST_SUITE` `basename $TEST_CASE`
-				fi
-			done
+			launch_suite $TEST_SUITE
 		fi
 	done
 }
 
 /usr/bin/printf "============================ START DIFF TESTS ==========================\n"
 if [ $# -eq 0 ]; then
-	launch_all_tests
-else
+	launch_all_suites
+elif [ $# -eq 1 ]; then
+	launch_suite $TESTS_ROOT/$1
+elif [ $# -eq 2 ]; then
 	diff_test $1 $2
 fi
 
