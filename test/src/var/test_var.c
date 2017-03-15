@@ -11,6 +11,10 @@ extern char		**g_environ;
 
 TestSuite(var, .init=var_init, .fini=var_shutdown);
 
+Test(var, init) {
+	cr_assert_not_null(g_environ);
+}
+
 Test(var, value_with_multiple_names) {
 
 	const char	*val;

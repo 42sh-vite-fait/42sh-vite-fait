@@ -9,11 +9,12 @@ t_var_priv	g_variables;
 t_var_priv	g_environ_priv;
 char		**g_environ;
 
-static void	var_init_environ(char **environ)
+void	var_init_with_environ(char **environ)
 {
 	ssize_t	equal_sign;
 
 	assert(environ != NULL);
+	var_init();
 	while (*environ)
 	{
 		equal_sign = ft_strchrpos(*environ, '=');
@@ -31,12 +32,11 @@ static void	var_init_environ(char **environ)
 
 void	var_init(void)
 {
-	extern char	**environ;
 	char		*null;
 
 	null = NULL;
 	fatal_malloc(array_init(&g_variables, sizeof(t_var)));
 	fatal_malloc(array_init(&g_environ_priv, sizeof(char *)));
 	fatal_malloc(array_push(&g_environ_priv, &null));
-	var_init_environ(environ);
+	g_environ = g_environ_priv.data;
 }

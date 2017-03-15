@@ -8,7 +8,8 @@
 
 int		main(int argc, char *argv[])
 {
-	int		ret;
+	extern char	**environ;
+	int			ret;
 
 	opt_parse(argc, (const char * const *)argv);
 	init_signal_module();
@@ -18,7 +19,7 @@ int		main(int argc, char *argv[])
 		error_print("terminal");
 		exit(1);
 	}
-	var_init();
+	var_init_with_environ(environ);
 	if (opt_is_set(OPT_INTERACTIVE))
 		shell_history_init();
 	ret = shell_loop();
