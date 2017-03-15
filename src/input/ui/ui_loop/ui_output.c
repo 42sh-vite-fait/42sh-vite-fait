@@ -66,7 +66,7 @@ void			ui_display_user_entry(t_editenv *e)
 
 	cur_emulated_pad = e->entry_index == e->entry.len ? true : false;
 	if (cur_emulated_pad)
-		string_insert(&e->entry, e->entry.len, " ", 1);
+		fatal_malloc(string_insert(&e->entry, e->entry.len, " ", 1));
 	writen = 0;
 	term_clear_bottom();
 	write_entry(e->entry.str, e->entry_index, (e->cpos.x), &writen);

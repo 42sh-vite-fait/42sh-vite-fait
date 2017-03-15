@@ -38,7 +38,7 @@ static enum e_state		apply_char(t_exp *outexp, enum e_state state,
 	}
 	if (state == E_STRING)
 	{
-		string_insert(&outexp->string, outexp->string.len, &c, 1);
+		fatal_malloc(string_insert(&outexp->string, outexp->string.len, &c, 1));
 	}
 	if (state == E_BACK_NUM && c == '!' && outexp->n_back == 0)
 	{
@@ -58,7 +58,7 @@ size_t					identify_expansion(t_exp *outexp,
 	state = E_START;
 	outexp->offset = i;
 	outexp->n_back = 0;
-	string_init(&(outexp->string));
+	fatal_malloc(string_init(&(outexp->string)));
 	j = 1;
 	while (i + j < command.len && state != E_FINISHED)
 	{

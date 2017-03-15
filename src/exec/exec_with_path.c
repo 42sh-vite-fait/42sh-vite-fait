@@ -38,7 +38,7 @@ static int	get_next_path(t_string *str, char const **paths, char const *name)
 	{
 		if (str->str[str->len - 1] != '/')
 			string_cat(str, "/");
-		string_cat(str, name);
+		fatal_malloc(string_cat(str, name));
 		return (PATH_FOUND);
 	}
 	return (ERROR);

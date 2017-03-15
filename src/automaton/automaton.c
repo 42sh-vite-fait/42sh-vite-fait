@@ -40,7 +40,7 @@ void				automaton_step(t_automaton *a, t_symbol s)
 
 	trans = get_transition(a, s);
 	if (trans.stack_action == E_PUSH)
-		array_push(&a->state_stack, &trans.pushed_state);
+		fatal_malloc(array_push(&a->state_stack, &trans.pushed_state));
 	else if (trans.stack_action == E_POP)
 		array_pop(&a->state_stack, NULL);
 	else if (trans.stack_action == E_NO_ACTION)

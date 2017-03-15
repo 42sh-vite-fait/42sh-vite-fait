@@ -9,7 +9,7 @@ char					*expand_quote_removal(const char *s, size_t len)
 
 	dst = fatal_malloc(malloc(len + 1));
 	res = dst;
-	quoting_automaton_init(&aut);
+	fatal_malloc(quoting_automaton_init(&aut));
 	while (len > 0)
 	{
 		if (!(*s == '"' || *s == '\'' || *s == '\\') ||

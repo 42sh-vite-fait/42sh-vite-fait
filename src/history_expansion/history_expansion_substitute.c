@@ -12,7 +12,7 @@ static int		get_back_num_history(size_t n, t_string *s)
 	tmp = (t_string*)history_get(last_id - n);
 	if (tmp == NULL)
 		return (-1);
-	string_insert(s, 0, tmp->str, tmp->len);
+	fatal_malloc(string_insert(s, 0, tmp->str, tmp->len));
 	return (0);
 }
 
@@ -27,7 +27,7 @@ static int		get_num_history(size_t n, t_string *s)
 	tmp = (t_string*)history_get(n);
 	if (tmp == NULL)
 		return (-1);
-	string_insert(s, 0, tmp->str, tmp->len);
+	fatal_malloc(string_insert(s, 0, tmp->str, tmp->len));
 	return (0);
 }
 
@@ -41,7 +41,7 @@ static int		get_string_history(t_string pat, t_string *s)
 	tmp = (t_string*)history_get(result.command_id);
 	if (tmp == NULL)
 		return (-1);
-	string_insert(s, 0, tmp->str, tmp->len);
+	fatal_malloc(string_insert(s, 0, tmp->str, tmp->len));
 	return (0);
 }
 
@@ -60,7 +60,7 @@ int				substitute(t_string *command, t_exp exp,
 					t_string string, int dephasage)
 {
 	string_remove(command, exp.offset + dephasage, exp.size);
-	string_insert(command, exp.offset + dephasage, string.str, string.len);
+	fatal_malloc(string_insert(command, exp.offset + dephasage, string.str, string.len));
 	dephasage += (int)string.len - (int)exp.size;
 	return (dephasage);
 }

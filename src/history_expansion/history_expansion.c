@@ -7,7 +7,7 @@ static size_t		parse_history_substitution(t_exp *out_listexp,
 	size_t		i;
 	t_automaton	a;
 
-	quoting_automaton_init(&a);
+	fatal_malloc(quoting_automaton_init(&a));
 	expnum = 0;
 	i = 0;
 	while (i < command.len && expnum < MAX_EXP)
@@ -38,7 +38,7 @@ static int			apply_substitution(t_string *command, t_exp *listexp,
 	dephasage = 0;
 	while (i < (int)expnum)
 	{
-		string_init(&list[i]);
+		fatal_malloc(string_init(&list[i]));
 		if (get_substitution(listexp[i], &list[i]) < 0 && listexp[i].size > 1)
 		{
 			print_error(listexp[i], *command);

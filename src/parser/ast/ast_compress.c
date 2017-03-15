@@ -42,7 +42,7 @@ static void	ast_compress_node(t_ast *ast, t_ast_node **node, t_array *stack)
 			else
 			{
 				if ((*node)->right->type != E_AST_SIMPLE_COMMAND)
-					array_push(stack, &(void*){&(*node)->right});
+					fatal_malloc(array_push(stack, &(void*){&(*node)->right}));
 				node = &(*node)->left;
 			}
 		}

@@ -31,7 +31,7 @@ static void		read_input(t_editenv *e)
 		e->must_leave = true;
 		return ;
 	}
-	string_insert(&e->rbuff, 0, &c, (size_t)ret);
+	fatal_malloc(string_insert(&e->rbuff, 0, &c, (size_t)ret));
 }
 
 static void		compute_user_entry(t_editenv *e)
@@ -39,7 +39,7 @@ static void		compute_user_entry(t_editenv *e)
 	static t_string		mem_buff = { .str = NULL, .len = 0 };
 
 	if (mem_buff.str == NULL)
-		string_init(&mem_buff);
+		fatal_malloc(string_init(&mem_buff));
 	e->rbuff = mem_buff;
 	e->rbuff_index = 0;
 	if (e->rbuff.len == 0)
@@ -58,12 +58,12 @@ static int		init(t_editenv *e, t_string *cpy, const char *p)
 	static bool first_init = false;
 
 	ft_memset(e, 0, sizeof(t_editenv));
-	string_init(&e->entry);
-	string_init(&e->initial_entry);
+	fatal_malloc(string_init(&e->entry));
+	fatal_malloc(string_init(&e->initial_entry));
 	if (!first_init)
 	{
-		string_init(&e->rbuff);
-		string_init(&e->cpy);
+		fatal_malloc(string_init(&e->rbuff));
+		fatal_malloc(string_init(&e->cpy));
 	}
 	else
 		e->cpy = *cpy;

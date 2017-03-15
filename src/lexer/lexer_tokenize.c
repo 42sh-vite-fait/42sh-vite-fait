@@ -207,7 +207,7 @@ int			lexer_tokenize(t_lexer *self, t_array *tokens,
 		if (ARRAY_IS_EMPTY(&self->tokenizer.state_stack))
 		{
 			automaton_reset(&self->tokenizer);
-			array_push(tokens, &tok);
+			fatal_malloc(array_push(tokens, &tok));
 			self->token_begin_index = self->input_current_index;
 		}
 	}

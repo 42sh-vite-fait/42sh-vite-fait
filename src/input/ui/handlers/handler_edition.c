@@ -7,8 +7,8 @@ void	ui_handler_do_nothing(t_editenv *e)
 
 void	ui_handler_valid_line(t_editenv *e)
 {
-	string_insert(&e->entry, e->entry.len,
-					&(e->rbuff.str[e->rbuff_index]), 1);
+	fatal_malloc(string_insert(&e->entry, e->entry.len,
+					&(e->rbuff.str[e->rbuff_index]), 1));
 	e->entry_index++;
 }
 
@@ -20,7 +20,7 @@ void	ui_handler_insert_char(t_editenv *e)
 		e->is_selecting = 0;
 		e->selection_size = 1;
 	}
-	string_insert(&e->entry, e->entry_index,
-					&(e->rbuff.str[e->rbuff_index]), 1);
+	fatal_malloc(string_insert(&e->entry, e->entry_index,
+					&(e->rbuff.str[e->rbuff_index]), 1));
 	e->entry_index++;
 }
