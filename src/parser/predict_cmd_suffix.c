@@ -32,7 +32,7 @@ int		predict_cmd_suffix(t_parser *parser, t_array *words, t_array *redirections)
 		else if (parser_check_current_token_type(parser, E_TOKEN_WORD))
 		{
 			token = parser_get_current_token(parser);
-			array_push(words, &token);
+			fatal_malloc(array_push(words, &token));
 			parser_consume_token(parser);
 		}
 		else
