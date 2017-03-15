@@ -85,29 +85,28 @@ static int	get_command(t_string *input, t_lexer *lexer, t_array *tokens,
 static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 						t_lexer *lexer)
 {
-	int	input_parsing_status;
+	int	command_status;
 
 	while (1)
 	{
-		input_parsing_status = get_command(input, lexer, tokens, parser);
-		if (input_parsing_status == OK_)
+		command_status = get_command(input, lexer, tokens, parser);
+		if (command_status == OK_)
 		{
 			exec_ast(parser->ast, input);
 			if (opt_is_set(OPT_DEBUG_EXEC))
 				ft_printf("EXEC: %d\n", exit_status_get_last());
 		}
-		else if (input_parsing_status == EOF_)
+		else if (command_status == EOF_)
 		{
 			if (!assert_stack_is_empty(lexer))
 				error_print("lexer");
 			return (exit_status_get_last());
 		}
-		else if (input_parsing_status == ERROR_)
+		else if (command_status == ERROR_)
 			return (1);
-		else if (input_parsing_status == INVALID_ &&
-				!opt_is_set(OPT_INTERACTIVE))
+		else if (!opt_is_set(OPT_INTERACTIVE) && command_status == INVALID_)
 			return (1);
-		if (opt_is_set(OPT_INTERACTIVE) && input_parsing_status != ERROR_)
+		if (opt_is_set(OPT_INTERACTIVE) && command_status != DROP_)
 			history_add(fatal_malloc(string_create_dup(input->str)));
 	}
 }
