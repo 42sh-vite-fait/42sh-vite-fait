@@ -86,7 +86,6 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 						t_lexer *lexer)
 {
 	int	command_status;
-	t_string	*tmp;
 
 	while (1)
 	{
@@ -108,10 +107,7 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 		else if (!opt_is_set(OPT_INTERACTIVE) && command_status == INVALID_)
 			return (1);
 		if (opt_is_set(OPT_INTERACTIVE) && command_status != DROP_)
-			tmp = fatal_malloc(string_create_dup(input->str));
-			history_add(tmp);
-			string_shutdown(tmp);
-		}
+			history_add(input);
 	}
 }
 
