@@ -24,8 +24,6 @@ def print_transition(symbol, stack_tree, state_dico, stack_state_dico):
     if symbol_elem is None:
         return print_fallback(stack_tree, state_dico)
 
-#    print('ceci: {}, text = {}'.format(symbol_elem, symbol_elem.text))
-#    print(state_dico, "\n")
     next_state = state_dico[symbol_elem.text]
 
     if 'push' in symbol_elem.attrib.keys():
@@ -34,21 +32,7 @@ def print_transition(symbol, stack_tree, state_dico, stack_state_dico):
         return '\n\t\t\tO({}),'.format(next_state)
     else:
         return '\n\t\t\tT({}),'.format(next_state)
-    
 
-    '''
-    symbol_elem = stack_tree.find(symbol) if stack_tree is not None else None
-#   trans_fallback = stack_tree.attrib['fallback'] if stack_tree.attrib.keys().find('fallback') is not None else None
-    next_state_txt = symbol_elem.text if symbol_elem is not None else 'error'
-    next_state = state_dico[next_state_txt]
-    is_defined = symbol_elem is not None
-    if is_defined and 'push' in symbol_elem.attrib.keys():
-        return 'U({}, {}), '.format(next_state, stack_state_dico[symbol_elem.attrib['push']])
-    elif is_defined and 'pop' in symbol_elem.attrib.keys():
-        return 'O({}), '.format(next_state)
-    else:
-        return 'T({}), '.format(next_state)
-    '''
 
 def create_file(table, src, dst):
     f = open(src, 'r')

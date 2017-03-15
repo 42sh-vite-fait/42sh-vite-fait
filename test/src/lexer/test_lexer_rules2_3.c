@@ -128,17 +128,6 @@ Test(LexerRules2_3, ControlOpSemi)
 	test_token(E_TOKEN_SEMI, 0, 1, ";");
 }
 
-Test(LexerRules2_3, ControlOpDSemi)
-{
-	char	*input = ";;";
-
-	int res = the_true_lexer_lex(&lexer, &tokens, input);
-
-	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
-	cr_assert_eq(1, tokens.len);
-	test_token(E_TOKEN_DSEMI, 0, 2, ";;");
-}
-
 Test(LexerRules2_3, ControlOpPipe)
 {
 	char	*input = "|";
@@ -207,12 +196,12 @@ Test(LexerRules2_3, ControlOpRParen)
 
 Test(LexerRules2_3, AllOperatorWithSep)
 {
-	char	*input = "< > << >> <& >& >| <<- <> ; ;; | || & && ( )";
+	char	*input = "< > << >> <& >& >| <<- <> ; | || & && ( )";
 
 	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
-	cr_assert_eq(17, tokens.len);
+	cr_assert_eq(16, tokens.len);
 	test_token(E_TOKEN_LESS, 0, 1, "<");
 	test_token(E_TOKEN_GREAT, 2, 1, ">");
 	test_token(E_TOKEN_DLESS, 4, 2, "<<");
@@ -223,13 +212,12 @@ Test(LexerRules2_3, AllOperatorWithSep)
 	test_token(E_TOKEN_DLESSDASH, 19, 3, "<<-");
 	test_token(E_TOKEN_LESSGREAT, 23, 2, "<>");
 	test_token(E_TOKEN_SEMI, 26, 1, ";");
-	test_token(E_TOKEN_DSEMI, 28, 2, ";;");
-	test_token(E_TOKEN_PIPE, 31, 1, "|");
-	test_token(E_TOKEN_OR_IF, 33, 2, "||");
-	test_token(E_TOKEN_AND, 36, 1, "&");
-	test_token(E_TOKEN_AND_IF, 38, 2, "&&");
-	test_token(E_TOKEN_LPAREN, 41, 1, "(");
-	test_token(E_TOKEN_RPAREN, 43, 1, ")");
+	test_token(E_TOKEN_PIPE, 28, 1, "|");
+	test_token(E_TOKEN_OR_IF, 30, 2, "||");
+	test_token(E_TOKEN_AND, 33, 1, "&");
+	test_token(E_TOKEN_AND_IF, 35, 2, "&&");
+	test_token(E_TOKEN_LPAREN, 38, 1, "(");
+	test_token(E_TOKEN_RPAREN, 40, 1, ")");
 }
 
 Test(LexerRules2_3, AllOpAmbigous)
@@ -239,7 +227,7 @@ Test(LexerRules2_3, AllOpAmbigous)
 	int res = the_true_lexer_lex(&lexer, &tokens, input);
 
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
-	cr_assert_eq(22, tokens.len);
+	cr_assert_eq(23, tokens.len);
 	test_token(E_TOKEN_LESSGREAT, 0, 2, "<>");
 	test_token(E_TOKEN_DGREAT, 2, 2, ">>");
 	test_token(E_TOKEN_DLESS, 4, 2, "<<");
@@ -251,7 +239,8 @@ Test(LexerRules2_3, AllOpAmbigous)
 	test_token(E_TOKEN_RPAREN, 15, 1, ")");
 	test_token(E_TOKEN_LPAREN, 16, 1, "(");
 	test_token(E_TOKEN_RPAREN, 17, 1, ")");
-	test_token(E_TOKEN_DSEMI, 18, 2, ";;");
+	test_token(E_TOKEN_SEMI, 18, 1, ";");
+	test_token(E_TOKEN_SEMI, 19, 1, ";");
 	test_token(E_TOKEN_SEMI, 20, 1, ";");
 	test_token(E_TOKEN_OR_IF, 21, 2, "||");
 	test_token(E_TOKEN_PIPE, 23, 1, "|");

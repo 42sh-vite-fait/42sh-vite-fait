@@ -18,11 +18,7 @@
 	<lparen />
 	<rparen />
 	<dash />
-	<dollar />
 	<bslash />
-	<lbrace />
-	<rbrace />
-	<bquote />
 	<hash />
   </char_types>
 
@@ -45,12 +41,10 @@
 	<clobber />
 	<and />
 	<and_if />
-	<dsemi />
 	<or_if />
 	<lparen />
 	<rparen />
 	<bslash />
-	<dollar />
 	<comment />
 
   </state_types>
@@ -59,12 +53,6 @@
 	<empty />
 	<squote />
 	<dquote />
-
-	<bquote />
-	<paren />
-	<param_exp />
-	<cmd_subst />
-
   </stack_types>
 
   <table>
@@ -83,11 +71,7 @@
 		<lparen>lparen</lparen>
 		<rparen>rparen</rparen>
 		<dash>word</dash>
-		<dollar>dollar</dollar>
 		<bslash>bslash</bslash>
-		<lbrace>word</lbrace>
-		<rbrace>word</rbrace>
-		<bquote push="bquote">word</bquote>
 		<hash>comment</hash>
 	  </empty>
 	</start>
@@ -104,11 +88,7 @@
 		<squote push="squote">word</squote>
 		<dquote push="dquote">word</dquote>
 		<dash>word</dash>
-		<dollar>dollar</dollar>
 		<bslash>bslash</bslash>
-		<lbrace>word</lbrace>
-		<rbrace>word</rbrace>
-		<bquote push="bquote">word</bquote>
 		<hash>word</hash>
 	  </empty>
 	  <squote fallback="word">
@@ -122,40 +102,6 @@
 		<bslash>bslash</bslash>
 		<bquote push="bquote">word</bquote>
 	  </dquote>
-	  <bquote fallback="word">
-		<none>error</none>
-		<bslash>bslash</bslash>
-		<bquote pop="">word</bquote>
-	  </bquote>
-	  <paren fallback="word">
-		<none>error</none>
-		<squote push="squote">word</squote>
-		<dquote push="dquote">word</dquote>
-		<lparen push="paren">word</lparen>
-		<rparen pop="">word</rparen>
-		<dollar>dollar</dollar>
-		<bslash>bslash</bslash>
-		<bquote push="bquote">word</bquote>
-	  </paren>
-	  <param_exp fallback="word">
-		<none>error</none>
-		<squote push="squote">word</squote>
-		<dquote push="dquote">word</dquote>
-		<dollar>dollar</dollar>
-		<rbrace pop="">word</rbrace>
-		<bslash>bslash</bslash>
-		<bquote push="bquote">word</bquote>
-	  </param_exp>
-	  <cmd_subst fallback="word">
-		<none>error</none>
-		<squote push="squote">word</squote>
-		<dquote push="dquote">word</dquote>
-		<lparen push="paren">word</lparen>
-		<rparen pop="">word</rparen>
-		<dollar>dollar</dollar>
-		<bslash>bslash</bslash>
-		<bquote push="bquote">word</bquote>
-	  </cmd_subst>
 	</word>
 
 	<less>
@@ -186,12 +132,6 @@
 	  </empty>
 	</and>
 
-	<semi>
-	  <empty>
-		<semi>dsemi</semi>
-	  </empty>
-	</semi>
-
 	<pipe>
 	  <empty>
 		<pipe>or_if</pipe>
@@ -208,78 +148,13 @@
 	  <dquote fallback="word">
 		<none>error</none>
 	  </dquote>
-	  <bquote fallback="word">
-		<none>error</none>
-	  </bquote>
-	  <paren fallback="word">
-		<none>error</none>
-	  </paren>
-	  <param_exp fallback="word">
-		<none>error</none>
-	  </param_exp>
-	  <cmd_subst fallback="word">
-		<none>error</none>
-	  </cmd_subst>
 	</bslash>
-
-	<dollar>
-	  <empty>
-		<letter>word</letter>
-		<squote push="squote">word</squote>
-		<dquote push="dquote">word</dquote>
-		<lparen push="cmd_subst">word</lparen>
-		<dash>word</dash>
-		<dollar>word</dollar>
-		<bslash>bslash</bslash>
-		<lbrace push="param_exp">word</lbrace>
-		<rbrace>word</rbrace>
-		<bquote push="bquote">word</bquote>
-		<hash>word</hash>
-	  </empty>
-	  <dquote fallback="word">
-		<dquote pop="">word</dquote>
-		<lparen push="cmd_subst">word</lparen>
-		<bslash>bslash</bslash>
-		<lbrace push="param_exp">word</lbrace>
-		<bquote push="bquote">word</bquote>
-	  </dquote>
-	  <paren fallback="word">
-		<dquote push="dquote">word</dquote>
-		<lparen push="cmd_subst">word</lparen>
-		<rparen pop="">word</rparen>
-		<bslash>bslash</bslash>
-		<lbrace push="param_exp">word</lbrace>
-		<bquote push="bquote">word</bquote>
-	  </paren>
-	  <param_exp fallback="word">
-		<dquote push="dquote">word</dquote>
-		<lparen push="cmd_subst">word</lparen>
-		<bslash>bslash</bslash>
-		<lbrace push="param_exp">word</lbrace>
-		<rbrace pop="">word</rbrace>
-		<bquote push="bquote">word</bquote>
-	  </param_exp>
-	  <cmd_subst fallback="word">
-		<dquote push="dquote">word</dquote>
-		<lparen push="cmd_subst">word</lparen>
-		<rparen pop="">word</rparen>
-		<bslash>bslash</bslash>
-		<lbrace push="param_exp">word</lbrace>
-		<bquote push="bquote">word</bquote>
-	  </cmd_subst>
-	</dollar>
 
 	<comment fallback="comment">
 	  <empty fallback="comment">
 		<none>error</none>
 		<newline>error</newline>
 	  </empty>
-	  <paren fallback="comment">
-		<newline>word</newline>
-	  </paren>
-	  <cmd_subst fallback="comment">
-		<newline>word</newline>
-	  </cmd_subst>
 	</comment>
 
   </table>

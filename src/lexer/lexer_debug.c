@@ -19,7 +19,6 @@ static const char	*g_token_str[] = {
 	[E_TOKEN_CLOBBER] = "CLOBBER",
 	[E_TOKEN_AND] = "AND",
 	[E_TOKEN_AND_IF] = "AND_IF",
-	[E_TOKEN_DSEMI] = "DSEMI",
 	[E_TOKEN_OR_IF] = "OR_IF",
 	[E_TOKEN_LPAREN] = "LPAREN",
 	[E_TOKEN_RPAREN] = "RPAREN",

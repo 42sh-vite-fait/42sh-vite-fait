@@ -48,26 +48,6 @@ Test(LexerRules9, EscapedComment)
 	test_token(E_TOKEN_NEWLINE, 9, 1, "\n");
 }
 
-Test(LexerRules9, ParameterExpansionInsteadOfComment)
-{
-	test_lexer("abc$#def\n", LEXER_INPUT_COMPLETE, 2);
-
-	test_token(E_TOKEN_WORD, 0, 8, "abc$#def");
-	test_token(E_TOKEN_NEWLINE, 8, 1, "\n");
-}
-
-Test(LexerRules9, CommentInCommandSubstitution)
-{
-	test_lexer("echo $(ls #com)\n", LEXER_INPUT_COMPLETE, 3);
-	test_token(E_TOKEN_WORD, 0, 4, "echo");
-	test_token(E_TOKEN_WORD, 5, 10, "$(ls #com)");
-	test_token(E_TOKEN_NEWLINE, 15, 1, "\n");
-
-	test_lexer("ls #com)\n", LEXER_INPUT_COMPLETE, 5);
-	test_token(E_TOKEN_WORD, 0, 2, "ls");
-	test_token(E_TOKEN_NEWLINE, 8, 1, "\n");
-}
-
 Test(LexerRules9, LowerPrecedenceThanRule8)
 {
 	test_lexer("abc#def abc #def $(ls#sl)", LEXER_INPUT_COMPLETE, 2);

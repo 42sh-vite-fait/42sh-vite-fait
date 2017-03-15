@@ -56,7 +56,6 @@ SRC_SUBDIR += lexer
 SOURCES += test_lexer_rules1.c
 SOURCES += test_lexer_rules2_3.c
 SOURCES += test_lexer_rules4.c
-SOURCES += test_lexer_rules5.c
 SOURCES += test_lexer_rules7.c
 SOURCES += test_lexer_rules8.c
 SOURCES += test_lexer_rules9.c
