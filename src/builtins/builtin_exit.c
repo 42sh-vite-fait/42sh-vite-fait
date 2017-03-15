@@ -7,7 +7,7 @@
 
 static bool	is_only_digits(const char *s)
 {
-	while (*s && FT_ISDIGIT(*s))
+	while (FT_ISDIGIT(*s))
 		s += 1;
 	return (*s == '\0' ? true : false);
 }

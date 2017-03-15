@@ -5,7 +5,7 @@
 #include "history.h"
 #include "misc.h"
 
-extern t_history	g_history;
+extern t_history	g_history; // can be removed
 
 static char			*next_real_unescaped_nl(const char *string)
 {
