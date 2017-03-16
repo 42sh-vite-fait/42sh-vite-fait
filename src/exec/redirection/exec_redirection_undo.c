@@ -2,17 +2,6 @@
 #include "array_42.h"
 #include "ast.h"
 
-/*
-** Source: http://stackoverflow.com/a/12340767
-*/
-
-static bool	is_fd_open(int fd)
-{
-	errno = 0;
-
-	return (fcntl(fd, F_GETFD) != -1 || errno != EBADF);
-}
-
 static int	restore_standard_fd(int io_number)
 {
 	return (exec_dup_fd(exec_backup_get_standard_fd(io_number), io_number));

@@ -40,7 +40,6 @@ SOURCES    += string_escape.c
 SOURCES    += string_fd.c
 SOURCES    += is_valid_name.c
 SOURCES    += is_valid_alias_name.c
-SOURCES    += ft_tmpfile.c
 SOURCES    += path_scanning.c
 SOURCES	   += str_token.c
 
@@ -155,7 +154,10 @@ SOURCES += predict_separator.c
 SOURCES += predict_simple_command.c
 SOURCES += predict_subshell.c
 SOURCES += predict_term.c
+# Heredoc
+SRC_SUBDIR += parser/heredoc
 SOURCES += heredoc.c
+SOURCES += ft_tmpfile.c
 
 # AST
 SRC_SUBDIR += parser/ast
@@ -291,11 +293,11 @@ check: $(NAME)
 	make check_diff
 	@# make check_leaks
 
-check_unit: $(NAME)
+check_unit:
 	@cd $(TEST_PATH) && $(MAKE)
 	@./$(TEST_EXEC)
 
-check_diff: $(NAME)
+check_diff:
 	@zsh $(TEST_PATH)/shellscript/use_case_diff_mksh_tests.sh $(SUITE) $(CASE)
 
 check_leaks:

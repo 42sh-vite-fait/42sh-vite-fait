@@ -62,16 +62,17 @@ void	exec_binary(const t_command command, const t_string *input);
 /*
 ** Redirections
 */
-int	init_redirection_module(void);
-int	exec_backup_get_standard_fd(size_t n);
-int	exec_backup_standard_fd(void);
-int	exec_redirection(const t_array redirections, const t_string *input);
-int	undo_redirection(const t_array redirections);
-int	exec_redirection_input(int io_number, const char *word);
-int	exec_redirection_output_trunc(int io_number, const char *word);
-int	exec_redirection_output_append(int io_number, const char *word);
-int	exec_redirection_input_duplicate(int io_number, const char *word);
-int	exec_redirection_output_duplicate(int io_number, const char *word);
+bool	is_fd_open(int fd);
+int		init_redirection_module(void);
+int		exec_backup_get_standard_fd(size_t n);
+int		exec_backup_standard_fd(void);
+int		exec_redirection(const t_array redirections, const t_string *input);
+int		undo_redirection(const t_array redirections);
+int		exec_redirection_input(int io_number, const char *word);
+int		exec_redirection_output_trunc(int io_number, const char *word);
+int		exec_redirection_output_append(int io_number, const char *word);
+int		exec_redirection_input_duplicate(int io_number, const char *word);
+int		exec_redirection_output_duplicate(int io_number, const char *word);
 
 
 /*

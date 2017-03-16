@@ -11,6 +11,7 @@ t_parser	*parser_init(t_parser *parser)
 	if (pool_init(&parser->ast.pool, sizeof(t_ast_node)) == NULL)
 		return (NULL);
 	parser->ast.root = NULL;
+	fatal_malloc(array_init(&parser->heredocs, sizeof(struct s_redirection*)));
 	return (parser);
 }
 
@@ -30,9 +31,11 @@ void		parser_clear(t_parser *parser)
 {
 	ast_nodes_clear(&parser->ast);
 	parser->ast.root = NULL;
+	array_clear(&parser->heredocs);
 }
 
 void		parser_shutdown(t_parser *parser)
 {
 	pool_shutdown(&parser->ast.pool);
+	array_shutdown(&parser->heredocs);
 }

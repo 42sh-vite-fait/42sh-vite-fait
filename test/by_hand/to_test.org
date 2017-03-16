@@ -19,7 +19,8 @@
    - =/a | cat /dev/random | base64 > /dev/null=
 
 ** Heredoc
-   Créer un heredoc, remonter l'historique, est-ce que le heredoc multi-ligne est présent ? Si oui, s'exécute t'il sans réafficher le prompt du heredoc ?
+   - Creer un heredoc avec une erreur de parsing apres le ~heredoc~. Est-ce que le heredoc s'affiche ?
+   - Créer un heredoc, remonter l'historique, est-ce que le heredoc multi-ligne est présent ? Si oui, s'exécute t'il sans réafficher le prompt du heredoc ?e
 
 ** Signal
    - Envoyer un SIGHUP au 42sh. Est-ce que les enfants sont kill aussi ?

@@ -15,6 +15,7 @@ struct	s_parser
 	t_ast			ast;
 	const t_string	*input;
 	const t_array	*tokens;
+	t_array			heredocs;
 	const t_token	*current_token;
 	size_t			index;
 	size_t			subshell_depth;
@@ -72,11 +73,12 @@ bool	check_requirements_io_here(const t_parser *parser);
 bool	check_requirements_io_file(const t_parser *parser);
 bool	check_requirements_io_redirect(const t_parser *parser);
 bool	check_requirements_redirect_list(const t_parser *parser);
-char 	*heredoc(const char *here_end, size_t len);
-int		predict_io_here(t_parser *parser, char **heredoc_filename);
+int		predict_io_here(t_parser *parser, struct s_redirection *redir);
 int		predict_io_file(t_parser *parser);
 int		predict_io_redirect(t_parser *parser, struct s_redirection *redir);
 int		predict_redirect_list(t_parser *parser, t_array *redirections);
+void	parser_heredoc_push(t_parser *parser, const struct s_redirection *redir);
+int		parser_heredoc_execute(const t_string *input, t_array *heredocs);
 
 // Simple Command
 bool	check_requirements_cmd_prefix(const t_parser *parser);

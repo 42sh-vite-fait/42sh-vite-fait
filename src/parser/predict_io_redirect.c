@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <unistd.h>
 #include "parser.h"
 #include "stdlib_42.h"
@@ -32,6 +33,7 @@ static size_t	parse_io_number(t_parser *parser)
 	if (parser_check_current_token_type(parser, E_TOKEN_IO_NUMBER))
 	{
 		token = parser_get_current_token(parser);
+		assert(token->len == 1);
 		io_number = CHAR_TO_DIGIT(parser->input->str[token->start]);
 		parser_consume_token(parser);
 	}
@@ -57,7 +59,7 @@ int			predict_io_redirect(t_parser *parser, struct s_redirection *redir)
 	if (check_requirements_io_file(parser))
 		ret = predict_io_file(parser);
 	else if (check_requirements_io_here(parser))
-		ret = predict_io_here(parser, &redir->heredoc_filename);
+		ret = predict_io_here(parser, redir);
 	else
 		ret = ERR_PARSING;
 	return (ret);

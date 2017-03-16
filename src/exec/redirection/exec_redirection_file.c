@@ -20,12 +20,11 @@ static int	open_file_and_dup(int io_number, int flags, const char *word)
 	}
 	if (exec_dup_fd(fd, io_number) != NO_ERROR)
 		return (ERR_EXEC);
-	if (exec_close_fd(fd) != NO_ERROR)
+	if (fd != io_number && exec_close_fd(fd) != NO_ERROR)
 		return (ERR_EXEC);
 	return (NO_ERROR);
 }
 
-// TODO: Heredoc
 // LESS DLESS DLESSDASH
 int	exec_redirection_input(int io_number, const char *word)
 {
