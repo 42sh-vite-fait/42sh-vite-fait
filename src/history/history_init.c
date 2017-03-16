@@ -7,14 +7,10 @@
 extern t_history	g_history;
 t_history			g_history;
 
-static void		del_string(void *string)
-{
-	free(((t_string*)string)->str);
-}
-
 int				history_init(size_t limit)
 {
-	fatal_malloc(cbuffer_init(&g_history.commands, limit, sizeof(t_string), del_string));
+	fatal_malloc(cbuffer_init(&g_history.commands, limit, sizeof(t_string),
+								(void (*)(void *))string_shutdown));
 	g_history.last_id = 0;
 	return (0);
 }
