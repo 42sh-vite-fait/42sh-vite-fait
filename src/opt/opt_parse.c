@@ -9,9 +9,10 @@ static void	usage(void)
 {
 	const char	*usage =
 		"usage:  %s [option] [cstring]\n"
-		"        %s -d {ast,lexer,input}\n";
+		"        %s -d {ast,lexer,input,exec}\n"
+		"        %s -c cmd\n";
 
-	ft_dprintf(2, usage, BIN_NAME, BIN_NAME);
+	ft_dprintf(2, usage, BIN_NAME, BIN_NAME, BIN_NAME);
 	exit(1);
 }
 
