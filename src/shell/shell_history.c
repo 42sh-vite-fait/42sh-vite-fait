@@ -35,6 +35,7 @@ static void		history_file_action(int (*action)(const char*))
 		fatal_malloc(string_init_dup(&default_hist_file, home));
 		fatal_malloc(string_cat(&default_hist_file, HIST_DEFAULT_FILE));
 		action(default_hist_file.str);
+		string_shutdown(&default_hist_file);
 	}
 }
 

@@ -29,8 +29,6 @@ static int			inject_commands(const t_string *file)
 	size_t		off;
 	char		*match;
 
-	if (string_init(&command) == NULL)
-		return (-1);
 	off = 0;
 	while ((match = next_real_unescaped_nl(file->str + off)) != NULL)
 	{
@@ -43,6 +41,7 @@ static int			inject_commands(const t_string *file)
 			return (-1);
 		}
 		history_add(&command);
+		string_shutdown(&command);
 		off += 1;
 	}
 	return (0);

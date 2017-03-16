@@ -23,6 +23,19 @@ int exec_simple_command_binary(const t_command command, const t_string *input)
 	return (status);
 }
 
+static void	free_args(t_array	*argv)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < argv->len)
+	{
+		free(*(void **)array_get_at(argv, i));
+		i += 1;
+	}
+	array_shutdown(argv);
+}
+
 int exec_simple_command_builtin(const t_command command, const t_string *input)
 {
 	t_array			argv;
@@ -35,6 +48,7 @@ int exec_simple_command_builtin(const t_command command, const t_string *input)
 	}
 	argv = expand_tokens_to_argv(command.words, input);
 	status = exec_builtin(argv.len, argv.data);
+	free_args(&argv);
 	if (undo_redirection(command.redirections) != NO_ERROR)
 		error_print("execution");
 	return (status);
