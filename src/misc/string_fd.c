@@ -10,7 +10,7 @@ static bool	is_buff_ascii(const void *buff, size_t buff_size)
 	size_t			chunks_nbr;
 	size_t			i;
 
-	chunks_nbr = buff_size / 8;
+	chunks_nbr = buff_size / sizeof(uint64_t);
 	chunks_buff = buff;
 	i = 0;
 	while (i < chunks_nbr)
@@ -29,7 +29,7 @@ t_string	*string_read_from_fd(t_string *s, int fd)
 
 	while ((ret = read(fd, buff, MEM_PAGE_SIZE)) > 0)
 	{
-		ft_memset(buff + ret, '\0', ret % 8);
+		ft_memset(buff + ret, '\0', ~((size_t)ret - 1) % 8);
 		if (!is_buff_ascii(buff, (size_t)ret))
 			return (NULL);
 		fatal_malloc(string_ncat(s, buff, (size_t)ret));
