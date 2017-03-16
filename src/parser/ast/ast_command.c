@@ -11,7 +11,6 @@ void	ast_node_command_init(t_ast_node *node)
 	{
 		fatal_malloc(array_init(&c->words, sizeof(t_token*)));
 		fatal_malloc(array_init(&c->redirections, sizeof(struct s_redirection)));
-		fatal_malloc(array_init(&c->assignments, sizeof(t_token*)));
 	}
 }
 
@@ -19,7 +18,6 @@ void	ast_node_command_shutdown(t_ast_node *node)
 {
 	if (node->type == E_AST_SIMPLE_COMMAND)
 	{
-		array_shutdown(&node->command.assignments);
 		array_shutdown(&node->command.redirections);
 		array_shutdown(&node->command.words);
 	}

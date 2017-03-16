@@ -20,15 +20,13 @@ int			predict_simple_command(t_parser *parser, t_ast_node *self)
 {
 	t_array	*words;
 	t_array	*redirections;
-	t_array	*assignments;
 
 	self->type = E_AST_SIMPLE_COMMAND;
 	ast_node_command_init(self);
 	words = &self->command.words;
 	redirections = &self->command.redirections;
-	assignments = &self->command.assignments;
 	if (check_requirements_cmd_prefix(parser))
-		if (predict_cmd_prefix(parser, redirections, assignments) != PARSER_NO_ERROR)
+		if (predict_cmd_prefix(parser, redirections) != PARSER_NO_ERROR)
 			return (ERR_PARSING);
 	if (!parser_check_current_token_type(parser, E_TOKEN_WORD))
 		return (ERR_PARSING);

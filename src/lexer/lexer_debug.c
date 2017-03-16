@@ -25,7 +25,6 @@ static const char	*g_token_str[] = {
 	[E_TOKEN_COMMENT] = "COMMENT",
 	[E_TOKEN_BLANK] = "BLANK",
 	[E_TOKEN_IO_NUMBER] = "IO_NUMBER",
-	[E_TOKEN_ASSIGNMENT_WORD] = "ASSIGNMENT_WORD",
 	[E_TOKEN_END_OF_INPUT] = "END_OF_INPUT",
 };
 

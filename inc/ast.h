@@ -36,7 +36,6 @@ struct	s_command
 {
 	t_array	words;
 	t_array	redirections;
-	t_array	assignments;
 };
 
 struct	s_ast_node

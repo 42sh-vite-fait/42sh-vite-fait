@@ -82,7 +82,7 @@ int		predict_redirect_list(t_parser *parser, t_array *redirections);
 bool	check_requirements_cmd_prefix(const t_parser *parser);
 bool	check_requirements_cmd_suffix(const t_parser *parser);
 bool	check_requirements_simple_command(const t_parser *parser);
-int		predict_cmd_prefix(t_parser *parser, t_array *redirections, t_array *assignments);
+int		predict_cmd_prefix(t_parser *parser, t_array *redirections);
 int		predict_cmd_suffix(t_parser *parser, t_array *words, t_array *redirections);
 int		predict_simple_command(t_parser *parser, t_ast_node *self);
 
