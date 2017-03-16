@@ -18,5 +18,8 @@
    - Vérifier les fds laissé ouvert par le shell. Faire un =lseek= de plusieurs Go sur le fd laissé ouvert
    - =/a | cat /dev/random | base64 > /dev/null=
 
+** Heredoc
+   Créer un heredoc, remonter l'historique, est-ce que le heredoc multi-ligne est présent ? Si oui, s'exécute t'il sans réafficher le prompt du heredoc ?
+
 ** Signal
    - Envoyer un SIGHUP au 42sh. Est-ce que les enfants sont kill aussi ?
