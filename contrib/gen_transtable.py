@@ -69,7 +69,7 @@ def main():
             table_text += '\t\t{'
             for symbol in char_table:
                 table_text += print_transition(symbol, stack_tree, state_dico, stack_dico)
-            table_text += '},\n'
+            table_text += ' },\n'
         table_text += '\t},\n'
     table_text += '};'
     create_file(table_text, template_path, output_path)
