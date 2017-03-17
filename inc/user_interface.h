@@ -18,8 +18,7 @@
 struct	s_key_action
 {
 	char	code[8];
-	void	(*behavior_nomod)(void *);
-	void	(*behavior_mod)(void *);
+	void	(*behavior)(void *);
 };
 
 enum	e_keys
@@ -181,5 +180,8 @@ struct s_input_sequence
 	char	data[8];
 	uint8_t	len;
 };
+
+void			handle_input_sequence(t_input_sequence *input);
+void			read_in_input_sequence(t_input_sequence *input);
 
 #endif
