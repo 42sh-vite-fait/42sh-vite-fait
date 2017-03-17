@@ -619,6 +619,7 @@ static void	handle_input_sequence(t_input_sequence *input, t_string *line)
 
 #include <stdio.h>
 #include "terminal.h"
+#include "ft_printf.h"
 
 int		input_ui_get_line(t_string *line, const char *prompt)
 {
@@ -628,6 +629,7 @@ int		input_ui_get_line(t_string *line, const char *prompt)
 
 	(void)prompt;
 	s.len = 0;
+	ft_printf(prompt);
 	while (1)
 	{
 		terminal_start_raw_mode();
@@ -649,7 +651,10 @@ int		input_ui_get_line(t_string *line, const char *prompt)
 	if (ret == 0)
 		return (CMD_EOF_);
 	else if (ret == -1 && errno == EINTR)
+	{
+		ft_printf("\n");
 		return (CMD_DROP_);
+	}
 	error_set_context("read : %s", strerror(errno));
 	return (ERROR_);
 }

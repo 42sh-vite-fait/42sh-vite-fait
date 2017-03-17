@@ -26,6 +26,7 @@ int			terminal_start_raw_mode(void)
 	raw = g_termios_backup;
 	raw.c_iflag &= ~(unsigned)IXON;
 	raw.c_lflag &= ~(unsigned)(ICANON | ECHO | IEXTEN);
+	raw.c_lflag |= ISIG;
 	raw.c_cc[VMIN] = 1;
 	raw.c_cc[VTIME] = 0;
 	if (terminal_set_termios(&raw) != OK_)
