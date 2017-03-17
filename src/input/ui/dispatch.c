@@ -1,5 +1,10 @@
 #include "user_interface.h"
 
+static void		ui_handler_do_nothing(void *a)
+{
+	(void)a;
+}
+
 static struct s_key_action	g_key_action_list[] = {
 	[E_CTRL_AT] = {
 		.code =	"\x00",
@@ -8,12 +13,12 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_CTRL_A] = {
 		.code =	"\x01",
-		.behavior_nomod = &ui_handler_move_left_word,
+		.behavior_nomod = &ui_handler_do_nothing,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_CTRL_B] = {
 		.code =	"\x02",
-		.behavior_nomod = &ui_handler_down_history,
+		.behavior_nomod = &ui_handler_do_nothing,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_CTRL_C] = {
@@ -23,7 +28,7 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_CTRL_D] = {
 		.code =	"\x04",
-		.behavior_nomod = &ui_leave,
+		.behavior_nomod = &ui_handler_do_nothing,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_CTRL_E] = {
@@ -33,7 +38,7 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_CTRL_F] = {
 		.code =	"\x06",
-		.behavior_nomod = &ui_handler_copy,
+		.behavior_nomod = &ui_handler_do_nothing,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_CTRL_G] = {
@@ -48,12 +53,12 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_CTRL_I] = {
 		.code =	"\t",
-		.behavior_nomod = &ui_handler_paste,
+		.behavior_nomod = &ui_handler_do_nothing,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_CTRL_J] = {
 		.code =	"\n",
-		.behavior_nomod = &ui_handler_valid_line,
+		.behavior_nomod = &ui_handler_do_nothing,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_CTRL_K] = {
@@ -63,7 +68,7 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_CTRL_L] = {
 		.code =	"\f",
-		.behavior_nomod = &ui_clear,
+		.behavior_nomod = &ui_handler_do_nothing,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_CTRL_M] = {
@@ -73,17 +78,17 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_CTRL_N] = {
 		.code =	"\x0e",
-		.behavior_nomod = &ui_change_case,
+		.behavior_nomod = &ui_handler_do_nothing,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_CTRL_O] = {
 		.code =	"\x0f",
-		.behavior_nomod = &ui_handler_up_history,
+		.behavior_nomod = &ui_handler_do_nothing,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_CTRL_P] = {
 		.code =	"\x10",
-		.behavior_nomod = &ui_handler_up_history,
+		.behavior_nomod = &ui_handler_do_nothing,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_CTRL_Q] = {
@@ -93,7 +98,7 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_CTRL_R] = {
 		.code =	"\x12",
-		.behavior_nomod = &ui_handler_move_right_word,
+		.behavior_nomod = &ui_handler_do_nothing,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_CTRL_S] = {
@@ -118,12 +123,12 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_CTRL_W] = {
 		.code =	"\x17",
-		.behavior_nomod = &ui_handler_visual_selection,
+		.behavior_nomod = &ui_handler_do_nothing,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_CTRL_X] = {
 		.code =	"\x18",
-		.behavior_nomod = &ui_handler_cut,
+		.behavior_nomod = &ui_handler_do_nothing,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_CTRL_Y] = {
@@ -638,27 +643,27 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_BACKSPACE] = {
 		.code =	"\x7f",
-		.behavior_nomod = &ui_handler_delete_left_char,
+		.behavior_nomod = &ui_handler_do_nothing,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_ARROW_UP] = {
 		.code =	"[A",
-		.behavior_nomod = &ui_handler_move_up,
+		.behavior_nomod = &ui_handler_do_nothing,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_ARROW_DOWN] = {
 		.code =	"[B",
-		.behavior_nomod = &ui_handler_move_down,
+		.behavior_nomod = &ui_handler_do_nothing,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_ARROW_RIGHT] = {
 		.code =	"[C",
-		.behavior_nomod = &ui_handler_move_right_char,
+		.behavior_nomod = &ui_handler_do_nothing,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_ARROW_LEFT] = {
 		.code =	"[D",
-		.behavior_nomod = &ui_handler_move_left_char,
+		.behavior_nomod = &ui_handler_do_nothing,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_SHIFT_TAB] = {
@@ -668,7 +673,7 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_HOME] = {
 		.code =	"[H",
-		.behavior_nomod = &ui_handler_move_home,
+		.behavior_nomod = &ui_handler_do_nothing,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_INSERT] = {
@@ -683,7 +688,7 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_END] = {
 		.code =	"[F",
-		.behavior_nomod = &ui_handler_move_end,
+		.behavior_nomod = &ui_handler_do_nothing,
 		.behavior_mod = &ui_handler_do_nothing
 	},
 	[E_PAGE_UP] = {
@@ -717,71 +722,3 @@ static struct s_key_action	g_key_action_list[] = {
 		.behavior_mod = &ui_handler_do_nothing
 	},
 };
-static bool			g_is_esc = false;
-
-static ssize_t		get_index_fn_for_esc_sequence(char current_char)
-{
-	static char		input_seq[8];
-	static size_t	i = 0;
-	ssize_t 		key_index;
-	bool 			is_seq_valid;
-
-	is_seq_valid = false;
-	key_index = E_START_ESC_SEQ;
-	input_seq[i] = current_char;
-	++i;
-	input_seq[i] = 0;
-	while (key_index < E_MAX_ASCII_CHAR)
-	{
-		if (!ft_strcmp(g_key_action_list[key_index].code, input_seq))
-		{
-			i = 0;
-			return (key_index);
-		}
-		if (!ft_strncmp(g_key_action_list[key_index].code, input_seq, i))
-			is_seq_valid = true;
-		key_index++;
-	}
-	if (!is_seq_valid)
-	{
-		i = 0;
-		g_is_esc = false;
-	}
-	return (-1);
-}
-
-static ssize_t		handle_esc_seq(char current_char)
-{
-	ssize_t 		ret;
-
-	ret = get_index_fn_for_esc_sequence(current_char);
-	if (ret >= 0)
-	{
-		g_is_esc = false;
-		return (ret);
-	}
-	return (-1);
-}
-
-void				ui_execute_handler(t_editenv *e)
-{
-	ssize_t key;
-	char	current_char;
-
-	current_char = e->rbuff.str[e->rbuff_index];
-	if (g_is_esc)
-	{
-		key = handle_esc_seq(current_char);
-		if (key < 0)
-			return ;
-	}
-	else if (current_char == E_ESC)
-	{
-		g_is_esc = true;
-		key = 0;
-	}
-	else
-		key = current_char;
-	if (key > 0 && key <= E_MAX_ASCII_CHAR - 2)
-		g_key_action_list[key].behavior_nomod(e);
-}

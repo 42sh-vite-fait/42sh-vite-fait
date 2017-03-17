@@ -15,41 +15,11 @@
 
 # define MEM_PAGE_SIZE 4096
 
-typedef struct s_cursor_pos		t_cursor_pos;
-typedef struct s_editenv	t_editenv;
-typedef struct s_key_mod	t_key_mod;
-
 struct	s_key_action
 {
 	char	code[8];
-	void	(*behavior_nomod)(t_editenv *);
-	void	(*behavior_mod)(t_editenv *);
-};
-
-struct	s_cursor_pos
-{
-	size_t		x;
-	size_t		y;
-};
-
-struct	s_editenv
-{
-	t_cursor_pos	cpos;
-	t_string		entry;
-	t_string		rbuff;
-	t_string		cpy;
-	t_string		initial_entry;
-	const char		*prompt;
-	size_t			last_entry_len;
-	size_t			selection_size;
-	size_t			selection_offset;
-	size_t			rbuff_index;
-	size_t			entry_index;
-	int				history_index;
-	int				arg_num;
-	bool			must_leave;
-	bool			is_selecting;
-	uint8_t			pad[2];
+	void	(*behavior_nomod)(void *);
+	void	(*behavior_mod)(void *);
 };
 
 enum	e_keys
@@ -197,80 +167,19 @@ enum	e_keys
 	E_CTRL_ARROW_DOWN,
 	E_CTRL_ARROW_RIGHT,
 	E_CTRL_ARROW_LEFT,
-	E_MAX_ASCII_CHAR,
+	E_MAX_ASCII_CHAR = 127,
 	E_START_ESC_SEQ = E_ARROW_UP,
 	E_ESC = E_CTRL_LBRACKET,
 	E_TAB = E_CTRL_I,
 	E_ENTER = E_CTRL_M,
 };
 
-/*
-** prompt interface
-*/
-size_t 		prompt(const char *prompt);
-/*
-** UI main interface
-*/
-int			ui_get_user_input(t_string *input, const char *prompt);
+typedef struct s_input_sequence t_input_sequence;
 
-/*
-**			UI workflow
-*/
-void		ui_display_user_entry(t_editenv *e);
-void		read_user_entry(t_editenv *e);
-void 		ui_execute_handler(t_editenv *e);
-void		ui_minimalist_display_user_entry(t_editenv *e);
-
-/*
-** handler
-*/
-void		ui_leave(t_editenv *e);
-void 		ui_clear(t_editenv *e);
-void 		ui_display_word_expansion(t_editenv *e);
-void 		ui_sharp(t_editenv *e);
-void 		ui_arg_num(t_editenv *e);
-void 		ui_change_case(t_editenv *e);
-void 		ui_move_to_first_non_blank(t_editenv *e);
-void		ui_move_position_count_right(t_editenv *e);
-void 		ui_move_position_count_left(t_editenv *e);
-
-// Edition
-void		ui_handler_do_nothing(t_editenv *env);
-void		ui_handler_insert_char(t_editenv *env);
-void		ui_handler_valid_line(t_editenv *e);
-
-// Left deletion
-void		ui_handler_delete_left_char(t_editenv *e);
-void		ui_handler_delete_left_word(t_editenv *e);
-void		ui_handler_delete_left_begin(t_editenv *e);
-
-// Right deletion
-void		ui_handler_delete_right_char(t_editenv *e);
-void		ui_handler_delete_right_word(t_editenv *e);
-void		ui_handler_delete_right_end(t_editenv *e);
-
-// Left motion
-void		ui_handler_move_left_word(t_editenv *e);
-void		ui_handler_move_left_char(t_editenv *e);
-void		ui_handler_move_home(t_editenv *e);
-
-// Right motion
-void		ui_handler_move_right_word(t_editenv *e);
-void		ui_handler_move_right_char(t_editenv *e);
-void		ui_handler_move_end(t_editenv *e);
-
-// Up/Down motion
-void		ui_handler_move_down(t_editenv *e);
-void		ui_handler_move_up(t_editenv *e);
-
-// Clipboard
-void		ui_handler_copy(t_editenv *e);
-void		ui_handler_cut(t_editenv *e);
-void		ui_handler_paste(t_editenv *e);
-void		ui_handler_visual_selection(t_editenv *e);
-
-// History
-void		ui_handler_up_history(t_editenv *e);
-void		ui_handler_down_history(t_editenv *e);
+struct s_input_sequence
+{
+	char	data[8];
+	uint8_t	len;
+};
 
 #endif
