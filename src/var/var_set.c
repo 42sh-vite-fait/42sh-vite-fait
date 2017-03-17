@@ -72,5 +72,5 @@ int			var_set(const char *name, const char *value, int attrs)
 	var->attrs |= attrs;
 	if (var->attrs & VAR_ATTR_EXPORT && var->value != NULL)
 		set_environ_entry(var);
-	return (VAR_NO_ERROR);
+	return (VAR_OK_);
 }

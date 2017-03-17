@@ -57,7 +57,7 @@ static int	shell_parse(t_string *input, t_lexer *lexer, t_array *tokens,
 		return (CMD_DROP_);
 	parser_init_with_tokens(input, parser, tokens);
 	parser_status = parser_parse(parser);
-	if (parser_status != PARSER_NO_ERROR)
+	if (parser_status != PARSER_OK_)
 	{
 		error_print("parser");
 		return (CMD_INVALID_);

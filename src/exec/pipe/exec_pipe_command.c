@@ -13,7 +13,7 @@ static void	exec_pipe_wrapper_builtin(const t_command command,
 	t_array			argv;
 	int				status;
 
-	if (exec_redirection(command.redirections, input) != NO_ERROR)
+	if (exec_redirection(command.redirections, input) != OK_)
 	{
 		error_print("execution");
 		_exit(-1);

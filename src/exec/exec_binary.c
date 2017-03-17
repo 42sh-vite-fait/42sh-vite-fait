@@ -15,12 +15,12 @@ void exec_binary(const t_command command, const t_string *input)
 	t_array			argv;
 	char * const	*envp;
 
-	if (exec_redirection(command.redirections, input) != NO_ERROR)
+	if (exec_redirection(command.redirections, input) != OK_)
 	{
 		error_print("execution");
 		_exit(-1);
 	}
-	if (var_get("PATH", &paths) != NO_ERROR)
+	if (var_get("PATH", &paths) != OK_)
 		paths = BACKUP_PATH;
 	argv = expand_tokens_to_argv(command.words, input);
 	envp = var_get_environ();

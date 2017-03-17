@@ -19,7 +19,7 @@ Test(Parser, SeparatorOp_SemiAnd)
 	int ret = predict_separator_op(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_SEMI);
 }
 
@@ -35,7 +35,7 @@ Test(Parser, SeparatorOp_AndSemi)
 	int ret = predict_separator_op(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_AND);
 }
 
@@ -53,7 +53,7 @@ Test(Parser, SeparatorOp_MultipleAnd)
 	int ret = predict_separator_op(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	cr_assert_eq(1, parser.index);
 	test_current_token(E_TOKEN_AND);
 }
@@ -72,7 +72,7 @@ Test(Parser, SeparatorOp_MultipleSemi)
 	int ret = predict_separator_op(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	cr_assert_eq(1, parser.index);
 	test_current_token(E_TOKEN_SEMI);
 }

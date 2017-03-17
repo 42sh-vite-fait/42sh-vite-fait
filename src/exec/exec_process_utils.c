@@ -74,5 +74,5 @@ pid_t	exec_fork(pid_t *pid)
 		error_set_context("fork: %s", strerror(errno));
 		return (ERR_EXEC);
 	}
-	return (NO_ERROR);
+	return (OK_);
 }

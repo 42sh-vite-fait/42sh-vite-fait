@@ -36,7 +36,7 @@ static int	fill_heredoc_file(const char *word, size_t len, int fd)
 		if (ft_strncmp(line.str, word, len) == 0 && line.str[len] == '\n')
 		{
 			string_shutdown(&line);
-			return (NO_ERROR);
+			return (OK_);
 		}
 		if (ft_dprintf(fd, "%s", line.str) == -1)
 		{
@@ -57,7 +57,7 @@ static char *heredoc(const char *word, size_t len)
 		return (NULL);
 	if ((fd = open(filename, O_CREAT | O_WRONLY, 0600)) == -1)
 		return (NULL);
-	if (fill_heredoc_file(word, len, fd) != NO_ERROR)
+	if (fill_heredoc_file(word, len, fd) != OK_)
 		filename = NULL;
 	if (close(fd) == -1)
 		return (NULL);
@@ -81,7 +81,7 @@ int		parser_heredoc_execute(const t_string *input, t_array *heredocs)
 			return (ERR_HEREDOC);
 		i += 1;
 	}
-	return (NO_ERROR);
+	return (OK_);
 }
 
 void	parser_heredoc_push(t_parser *parser, const struct s_redirection *redir)

@@ -11,7 +11,7 @@
 
 enum e_shell_errors
 {
-	SHELL_NO_ERROR = NO_ERROR,
+	SHELL_OK_ = OK_,
 	ERR_SHELL,
 	ERR_END_OF_INPUT,
 };

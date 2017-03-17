@@ -18,7 +18,7 @@ int		predict_newline_list(t_parser *parser)
 	while (parser_check_current_token_type(parser, E_TOKEN_NEWLINE))
 	{
 		parser_consume_token(parser);
-		ret = PARSER_NO_ERROR;
+		ret = PARSER_OK_;
 	}
 	return (ret);
 }

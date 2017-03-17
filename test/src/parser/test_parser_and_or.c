@@ -39,7 +39,7 @@ Test(Parser, AndOr_OnlyAnd)
 	int		ret = predict_and_or(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_AND);
 }
 
@@ -74,7 +74,7 @@ Test(Parser, AndOr_OnlyOr)
 	int		ret = predict_and_or(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_SEMI);
 }
 
@@ -99,7 +99,7 @@ Test(Parser, AndOr_WithLinebreak)
 	int		ret = predict_and_or(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_END_OF_INPUT);
 }
 

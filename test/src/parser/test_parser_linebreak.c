@@ -20,7 +20,7 @@ Test(Parser, Linebreak_OnlyNewlineList)
 	int		ret = predict_linebreak(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_END_OF_INPUT);
 }
 
@@ -34,6 +34,6 @@ Test(Parser, Linebreak_Empty)
 	int		ret = predict_linebreak(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_END_OF_INPUT);
 }

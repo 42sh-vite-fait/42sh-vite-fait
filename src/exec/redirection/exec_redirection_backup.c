@@ -16,14 +16,14 @@ static int	get_limit_max_open_files(struct rlimit *limit)
 		error_set_context("getrlimit: %s", strerror(errno));
 		return (ERR_EXEC);
 	}
-	return (NO_ERROR);
+	return (OK_);
 }
 
 static int	increase_open_files_limit(void)
 {
 	struct rlimit	limit;
 
-	if (get_limit_max_open_files(&limit) != NO_ERROR)
+	if (get_limit_max_open_files(&limit) != OK_)
 		return (ERR_EXEC);
 	if (limit.rlim_max < MAX_FD_TO_DUP + BACKUP_OFFSET)
 	{
@@ -39,7 +39,7 @@ static int	increase_open_files_limit(void)
 			return (ERR_EXEC);
 		}
 	}
-	return (NO_ERROR);
+	return (OK_);
 }
 
 static int	set_close_on_exec_flag(int fd)
@@ -58,7 +58,7 @@ static int	set_close_on_exec_flag(int fd)
 		error_set_context("fcntl: %s", strerror(errno));
 		return (ERR_EXEC);
 	}
-	return (NO_ERROR);
+	return (OK_);
 }
 
 int	exec_backup_standard_fd(void)
@@ -67,19 +67,19 @@ int	exec_backup_standard_fd(void)
 	int	i;
 
 	ret = increase_open_files_limit();
-	if (ret != NO_ERROR)
+	if (ret != OK_)
 		return (ret);
 	i = 0;
 	while (i < MAX_FD_TO_DUP)
 	{
 		g_backup_standard_fd[i] = BACKUP_OFFSET + i;
-		if (exec_dup_fd(i, g_backup_standard_fd[i]) != NO_ERROR)
+		if (exec_dup_fd(i, g_backup_standard_fd[i]) != OK_)
 			return (ERR_EXEC);
-		if (set_close_on_exec_flag(g_backup_standard_fd[i]) != NO_ERROR)
+		if (set_close_on_exec_flag(g_backup_standard_fd[i]) != OK_)
 			return (ERR_EXEC);
 		i += 1;
 	}
-	return (NO_ERROR);
+	return (OK_);
 }
 
 int	exec_backup_get_standard_fd(size_t n)

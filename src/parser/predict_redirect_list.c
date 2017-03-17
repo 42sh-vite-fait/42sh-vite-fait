@@ -17,13 +17,13 @@ int		predict_redirect_list(t_parser *parser, t_array *redirections)
 	struct	s_redirection	*redir;
 
 	redir = fatal_malloc(array_get_available(redirections));
-	if (predict_io_redirect(parser, redir) != PARSER_NO_ERROR)
+	if (predict_io_redirect(parser, redir) != PARSER_OK_)
 		return (ERR_PARSING);
 	while (check_requirements_io_redirect(parser))
 	{
 		redir = fatal_malloc(array_get_available(redirections));
-		if (predict_io_redirect(parser, redir) != PARSER_NO_ERROR)
+		if (predict_io_redirect(parser, redir) != PARSER_OK_)
 			return (ERR_PARSING);
 	}
-	return (PARSER_NO_ERROR);
+	return (PARSER_OK_);
 }

@@ -19,14 +19,14 @@ Test(var, value_with_multiple_names) {
 
 	const char	*val;
 
-	cr_assert_eq(var_set("", "empty", 0U), NO_ERROR);
-	cr_assert_eq(var_set("namedge_case", "lul", 0U), NO_ERROR);
-	cr_assert_eq(var_set("name", "value", 0U), NO_ERROR);
-	cr_assert_eq(var_get("name", &val), NO_ERROR);
+	cr_assert_eq(var_set("", "empty", 0U), OK_);
+	cr_assert_eq(var_set("namedge_case", "lul", 0U), OK_);
+	cr_assert_eq(var_set("name", "value", 0U), OK_);
+	cr_assert_eq(var_get("name", &val), OK_);
 	cr_assert_str_eq(val, "value");
-	cr_assert_eq(var_get("", &val), NO_ERROR);
+	cr_assert_eq(var_get("", &val), OK_);
 	cr_assert_str_eq(val, "empty");
-	cr_assert_eq(var_get("namedge_case", &val), NO_ERROR);
+	cr_assert_eq(var_get("namedge_case", &val), OK_);
 	cr_assert_str_eq(val, "lul");
 }
 
@@ -60,8 +60,8 @@ Test(var, null_value) {
 
 	const char	*val;
 
-	cr_assert_eq(var_set("name", NULL, 0U), NO_ERROR);
-	cr_assert_eq(var_get("name", &val), NO_ERROR);
+	cr_assert_eq(var_set("name", NULL, 0U), OK_);
+	cr_assert_eq(var_get("name", &val), OK_);
 	cr_assert_eq(val, NULL);
 }
 
@@ -70,13 +70,13 @@ Test(var, set_override_value) {
 	const char	*val;
 
 	var_set("foo", "bar", 0U);
-	cr_assert_eq(var_set("foo", "baz", 0U), NO_ERROR);
-	cr_assert_eq(var_get("foo", &val), NO_ERROR);
+	cr_assert_eq(var_set("foo", "baz", 0U), OK_);
+	cr_assert_eq(var_get("foo", &val), OK_);
 	cr_assert_str_eq(val, "baz");
 
 	var_set("null", NULL, 0U);
-	cr_assert_eq(var_set("null", "mmf", 0U), NO_ERROR);
-	cr_assert_eq(var_get("null", &val), NO_ERROR);
+	cr_assert_eq(var_set("null", "mmf", 0U), OK_);
+	cr_assert_eq(var_get("null", &val), OK_);
 	cr_assert_str_eq(val, "mmf");
 }
 
@@ -85,7 +85,7 @@ Test(var, can_not_override_readonly_value) {
 	const char	*val;
 	var_set("ro", NULL, VAR_ATTR_RDONLY);
 	cr_assert_eq(var_set("ro", "val", 0U), ERR_VAR_RDONLY);
-	cr_assert_eq(var_get("ro", &val), NO_ERROR);
+	cr_assert_eq(var_get("ro", &val), OK_);
 	cr_assert_null(val);
 }
 
@@ -117,14 +117,14 @@ Test(var, g_environ_not_updated) {
 
 	var_set("nullpublic", NULL, VAR_ATTR_EXPORT);
 	cr_assert_null(*g_environ);
-	cr_assert_eq(var_unset("nullpublic"), NO_ERROR);
+	cr_assert_eq(var_unset("nullpublic"), OK_);
 	cr_assert_null(*g_environ);
 	var_set("nullpublic", NULL, VAR_ATTR_RDONLY);
 	var_set("nullpublic", "failedassignement", 0U);
 	cr_assert_null(*g_environ);
 
 	var_set("null", NULL, VAR_ATTR_EXPORT);
-	cr_assert_eq(var_unset("null"), NO_ERROR);
+	cr_assert_eq(var_unset("null"), OK_);
 	cr_assert_null(*g_environ);
 
 	var_set("private", "noflag", 0U);
@@ -141,7 +141,7 @@ Test(var, cannot_unset_readonly_variable) {
 
 	var_set("ro", "val", VAR_ATTR_RDONLY);
 	cr_assert_eq(var_unset("ro"), ERR_VAR_RDONLY);
-	cr_assert_eq(var_get("ro", &val), NO_ERROR);
+	cr_assert_eq(var_get("ro", &val), OK_);
 	cr_assert_str_eq(val, "val");
 	// assert ro attr is still present
 	cr_assert_eq(var_unset("ro"), ERR_VAR_RDONLY);
@@ -152,7 +152,7 @@ Test(var, unset_clears_entry) {
 	const char	*val;
 
 	var_set("bar", "foo", VAR_ATTR_EXPORT);
-	cr_assert_eq(var_unset("bar"), NO_ERROR);
+	cr_assert_eq(var_unset("bar"), OK_);
 	cr_assert_eq(var_get("bar", &val), ERR_VAR_NOT_FOUND);
 	var_set("bar", "baz", 0U);
 	cr_assert_null(*g_environ);// asserts export attr does not remain
@@ -167,23 +167,23 @@ Test(var, attrs_append) {
 
 	const char	*val;
 
-	cr_assert_eq(var_set("public", "val1", VAR_ATTR_EXPORT), NO_ERROR);
-	cr_assert_eq(var_set("public", "val2", VAR_ATTR_RDONLY), NO_ERROR);
+	cr_assert_eq(var_set("public", "val1", VAR_ATTR_EXPORT), OK_);
+	cr_assert_eq(var_set("public", "val2", VAR_ATTR_RDONLY), OK_);
 	cr_assert_str_eq(*g_environ, "public=val2");
-	cr_assert_eq(var_set("public", NULL, 0U), NO_ERROR);
-	cr_assert_eq(var_set("public", NULL, VAR_ATTR_EXPORT), NO_ERROR);
-	cr_assert_eq(var_set("public", NULL, VAR_ATTR_RDONLY), NO_ERROR);
+	cr_assert_eq(var_set("public", NULL, 0U), OK_);
+	cr_assert_eq(var_set("public", NULL, VAR_ATTR_EXPORT), OK_);
+	cr_assert_eq(var_set("public", NULL, VAR_ATTR_RDONLY), OK_);
 	cr_assert_not_null(*g_environ);
 	cr_assert_eq(var_set("public", "val3", 0U), ERR_VAR_RDONLY);
 
 	// can append attrs to a readonly var
-	cr_assert_eq(var_set("ro", "val1", VAR_ATTR_RDONLY), NO_ERROR);
-	cr_assert_eq(var_set("ro", NULL, VAR_ATTR_EXPORT), NO_ERROR);
+	cr_assert_eq(var_set("ro", "val1", VAR_ATTR_RDONLY), OK_);
+	cr_assert_eq(var_set("ro", NULL, VAR_ATTR_EXPORT), OK_);
 	cr_assert_not_null(*g_environ);
 	cr_assert_not_null(*(g_environ + 1));
 
 	// can combine attrs
-	cr_assert_eq(var_set("bothflagged", "val4", VAR_ATTR_RDONLY | VAR_ATTR_EXPORT), NO_ERROR);
+	cr_assert_eq(var_set("bothflagged", "val4", VAR_ATTR_RDONLY | VAR_ATTR_EXPORT), OK_);
 	cr_assert_not_null(*g_environ);
 	cr_assert_not_null(*(g_environ + 1));
 	cr_assert_not_null(*(g_environ + 2));

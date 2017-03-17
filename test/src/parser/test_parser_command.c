@@ -36,7 +36,7 @@ Test(Parser, Command_SimpleSubshell)
 	int		ret = predict_command(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_END_OF_INPUT);
 }
 
@@ -87,7 +87,7 @@ Test(Parser, Command_SubshellInSubshellWithRedirection)
 	int		ret = predict_command(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_SEMI);
 }
 

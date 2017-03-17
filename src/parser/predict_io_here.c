@@ -22,5 +22,5 @@ int		predict_io_here(t_parser *parser, struct s_redirection *redir)
 		return (ERR_PARSING);
 	parser_consume_token(parser);
 	parser_heredoc_push(parser, redir);
-	return (NO_ERROR);
+	return (OK_);
 }

@@ -21,7 +21,7 @@ Test(Parser, Separator_OnlyNewlineList)
 	int		ret = predict_separator(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_SEMI);
 }
 
@@ -38,7 +38,7 @@ Test(Parser, Separator_SepOpWithLinebreakEmptyAndWordNext)
 	int		ret = predict_separator(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_WORD);
 }
 
@@ -55,7 +55,7 @@ Test(Parser, Separator_SepOpWithLinebreakNewline)
 	int		ret = predict_separator(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_WORD);
 }
 

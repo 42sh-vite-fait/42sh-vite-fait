@@ -10,7 +10,7 @@ int exec_simple_command_binary(const t_command command, const t_string *input)
 	pid_t	child;
 	int		status;
 
-	if (exec_fork(&child) != NO_ERROR)
+	if (exec_fork(&child) != OK_)
 		return (-1);
 	if (child == 0)
 	{
@@ -41,7 +41,7 @@ int exec_simple_command_builtin(const t_command command, const t_string *input)
 	t_array			argv;
 	int				status;
 
-	if (exec_redirection(command.redirections, input) != NO_ERROR)
+	if (exec_redirection(command.redirections, input) != OK_)
 	{
 		error_print("execution");
 		return (-1);
@@ -49,7 +49,7 @@ int exec_simple_command_builtin(const t_command command, const t_string *input)
 	argv = expand_tokens_to_argv(command.words, input);
 	status = exec_builtin(argv.len, argv.data);
 	free_args(&argv);
-	if (undo_redirection(command.redirections) != NO_ERROR)
+	if (undo_redirection(command.redirections) != OK_)
 		error_print("execution");
 	return (status);
 }

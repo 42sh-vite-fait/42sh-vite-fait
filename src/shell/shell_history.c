@@ -26,11 +26,11 @@ static void		history_file_action(int (*action)(const char*))
 	int			status;
 
 	status = var_get("HISTFILE", &hist_file);
-	if (status == NO_ERROR && hist_file != NULL
+	if (status == OK_ && hist_file != NULL
 		&& action(hist_file) == 0)
 		return ;
 	status = var_get("HOME", &home);
-	if (status == NO_ERROR && home != NULL)
+	if (status == OK_ && home != NULL)
 	{
 		fatal_malloc(string_init_dup(&default_hist_file, home));
 		fatal_malloc(string_cat(&default_hist_file, HIST_DEFAULT_FILE));
@@ -46,7 +46,7 @@ void			shell_history_init(void)
 	size_t		hist_size;
 
 	status = var_get("HISTSIZE", &hist_size_str);
-	if (status == NO_ERROR && hist_size_str != NULL)
+	if (status == OK_ && hist_size_str != NULL)
 	{
 		hist_size = atou(hist_size_str);
 		if (hist_size > HIST_MAX_SIZE)

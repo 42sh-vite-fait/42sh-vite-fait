@@ -13,7 +13,7 @@ static int exec_set_process_group_child_side(int pid, int pgid)
 		error_set_context("child: setpgid: %s", strerror(errno));
 		return (ERR_EXEC);
 	}
-	return (NO_ERROR);
+	return (OK_);
 }
 
 /*
@@ -30,7 +30,7 @@ static int exec_set_process_group_parent_side(int pid, int pgid)
 		error_set_context("setpgid: %s", strerror(errno));
 		return (ERR_EXEC);
 	}
-	return (NO_ERROR);
+	return (OK_);
 }
 
 static int exec_set_foreground_process_group(pid_t pgid)
@@ -43,19 +43,19 @@ static int exec_set_foreground_process_group(pid_t pgid)
 		error_set_context("tcsetpgrp: %s", strerror(errno));
 		return (ERR_EXEC);
 	}
-	return (NO_ERROR);
+	return (OK_);
 }
 
 void exec_child_set_context(void)
 {
 	signal_set_ignored_signals_to_default();
 	signal_unblock_blocked_signals();
-	if (exec_set_process_group_child_side(0, 0) != NO_ERROR)
+	if (exec_set_process_group_child_side(0, 0) != OK_)
 	{
 		error_print("execution: child: failed to set process group");
 		_exit(-1);
 	}
-	if (exec_set_foreground_process_group(getpgrp()) != NO_ERROR)
+	if (exec_set_foreground_process_group(getpgrp()) != OK_)
 	{
 		error_print("execution: child: failed to get the controlling terminal");
 		exit(-1);
@@ -66,14 +66,14 @@ int exec_parent_wait_child_process_group(pid_t child_pgid)
 {
 	int	status;
 
-	if (exec_set_process_group_parent_side(child_pgid, child_pgid) != NO_ERROR)
+	if (exec_set_process_group_parent_side(child_pgid, child_pgid) != OK_)
 		error_print("execution: parent: failed to set process group");
-	else if (exec_set_foreground_process_group(child_pgid) != NO_ERROR)
+	else if (exec_set_foreground_process_group(child_pgid) != OK_)
 		error_print("execution: parent: failed to give the controlling terminal"
 				" to the child process");
 	status = wait_child_process_group(child_pgid, child_pgid);
 	exit_status_set_last(status);
-	if (exec_set_foreground_process_group(getpgrp()) != NO_ERROR)
+	if (exec_set_foreground_process_group(getpgrp()) != OK_)
 	{
 		error_print("execution: parent: failed to get back the controlling"
 				" terminal");

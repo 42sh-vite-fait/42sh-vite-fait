@@ -14,7 +14,7 @@
 
 enum e_exec_errors
 {
-	EXEC_NO_ERROR = NO_ERROR,
+	EXEC_OK_ = OK_,
 	ERR_EXEC,
 };
 

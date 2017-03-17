@@ -17,7 +17,7 @@ struct		s_var {
 
 enum	e_variable_errors
 {
-	VAR_NO_ERROR = NO_ERROR,
+	VAR_OK_ = OK_,
 	ERR_VAR_NOT_FOUND,
 	ERR_VAR_RDONLY,
 	ERR_VAR_BAD_NAME,

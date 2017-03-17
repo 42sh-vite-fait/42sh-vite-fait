@@ -50,7 +50,7 @@ int			builtin_setenv(int argc, const char * const *argv)
 		ret = var_set(argv[1], "", VAR_ATTR_EXPORT);
 	else
 		ret = var_set(argv[1], argv[2], VAR_ATTR_EXPORT);
-	assert(ret == NO_ERROR);
+	assert(ret == OK_);
 	(void)ret;
 	return (0);
 }

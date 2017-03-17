@@ -37,7 +37,7 @@ Test(Parser, IOFile_LessWithWord)
 	int		ret = predict_io_file(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_LESS);
 	cr_assert_eq(parser.index, 2);
 }
@@ -111,7 +111,7 @@ Test(Parser, IOFile_LessandWithWord)
 	int		ret = predict_io_file(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_LESSAND);
 	cr_assert_eq(parser.index, 2);
 }
@@ -185,7 +185,7 @@ Test(Parser, IOFile_GreatWithWord)
 	int		ret = predict_io_file(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_GREAT);
 	cr_assert_eq(parser.index, 2);
 }
@@ -259,7 +259,7 @@ Test(Parser, IOFile_GreatandWithWord)
 	int		ret = predict_io_file(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_GREATAND);
 	cr_assert_eq(parser.index, 2);
 }
@@ -333,7 +333,7 @@ Test(Parser, IOFile_DgreatWithWord)
 	int		ret = predict_io_file(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_DGREAT);
 	cr_assert_eq(parser.index, 2);
 }
@@ -405,7 +405,7 @@ Test(Parser, IOFile_LessgreatWithWord)
 	int		ret = predict_io_file(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_LESSGREAT);
 	cr_assert_eq(parser.index, 2);
 }
@@ -477,7 +477,7 @@ Test(Parser, IOFile_ClobberWithWord)
 	int		ret = predict_io_file(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_CLOBBER);
 	cr_assert_eq(parser.index, 2);
 }

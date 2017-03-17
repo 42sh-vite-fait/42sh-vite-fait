@@ -9,7 +9,7 @@ static int	terminal_set_termios(const struct termios *new)
 		error_set_context("tcsetattr: %s", strerror(errno));
 		return (ERR_TERM);
 	}
-	return (NO_ERROR);
+	return (OK_);
 }
 
 int terminal_start_raw_mode(void)
@@ -21,19 +21,19 @@ int terminal_start_raw_mode(void)
 	raw.c_lflag &= ~(unsigned)(ICANON | ECHO | IEXTEN | ISIG);
 	raw.c_cc[VMIN] = 1;
 	raw.c_cc[VTIME] = 0;
-	if (terminal_set_termios(&raw) != NO_ERROR)
+	if (terminal_set_termios(&raw) != OK_)
 		return (ERR_TERM);
 	term_command("vi");
 	term_command("bw");
-	return (NO_ERROR);
+	return (OK_);
 }
 
 int terminal_stop_raw_mode(void)
 {
 	term_command("ve");
-	if (terminal_set_termios(&g_termios_backup) != NO_ERROR)
+	if (terminal_set_termios(&g_termios_backup) != OK_)
 		return (ERR_TERM);
-	return (NO_ERROR);
+	return (OK_);
 }
 
 int init_terminal_module(void)
@@ -57,5 +57,5 @@ int init_terminal_module(void)
 		error_set_context("tcgetattr: %s", strerror(errno));
 		return (ERR_TERM);
 	}
-	return (NO_ERROR);
+	return (OK_);
 }

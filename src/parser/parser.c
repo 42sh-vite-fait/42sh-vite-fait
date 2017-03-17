@@ -25,18 +25,18 @@ int		parser_parse(t_parser *parser)
 	int	ret;
 
 	ret = predict_program(parser, &parser->ast.root);
-	if (ret != PARSER_NO_ERROR)
+	if (ret != PARSER_OK_)
 	{
 		parser_set_error(parser, ret);
 		return (ret);
 	}
 	ret = parser_consume_if_match(parser, E_TOKEN_END_OF_INPUT);
-	if (ret != PARSER_NO_ERROR)
+	if (ret != PARSER_OK_)
 	{
 		parser_set_error(parser, ret);
 		return (ret);
 	}
 	ast_compress(&parser->ast);
 	parser_heredoc_execute(parser->input, &parser->heredocs);
-	return (PARSER_NO_ERROR);
+	return (PARSER_OK_);
 }

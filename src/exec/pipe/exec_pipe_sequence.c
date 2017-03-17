@@ -17,17 +17,17 @@ static int	exec_last_child(const t_ast_node *node, int left_read,
 
 	assert(node != NULL);
 	child = -1;
-	if (exec_fork(&child) != NO_ERROR)
+	if (exec_fork(&child) != OK_)
 		pipe_kill_pipe_sequence();
 	if (child == 0)
 	{
-		if (pipe_replace_stdin(left_read) == NO_ERROR)
+		if (pipe_replace_stdin(left_read) == OK_)
 			exec_pipe_command(node, input);
 		pipe_kill_pipe_sequence();
 	}
 	else
 	{
-		if (exec_close_fd(left_read) != NO_ERROR)
+		if (exec_close_fd(left_read) != OK_)
 			pipe_kill_pipe_sequence();
 	}
 	return (child);
@@ -46,20 +46,20 @@ static int	exec_middle_child(const t_ast_node *node, int left_read,
 
 	assert(node != NULL);
 	child = -1;
-	if (pipe_init(&right) != NO_ERROR || exec_fork(&child) != NO_ERROR)
+	if (pipe_init(&right) != OK_ || exec_fork(&child) != OK_)
 		pipe_kill_pipe_sequence();
 	if (child == 0)
 	{
-		if (pipe_replace_stdin(left_read) == NO_ERROR
-				&& pipe_replace_stdout(right.write) == NO_ERROR
-				&& exec_close_fd(right.read) == NO_ERROR)
+		if (pipe_replace_stdin(left_read) == OK_
+				&& pipe_replace_stdout(right.write) == OK_
+				&& exec_close_fd(right.read) == OK_)
 			exec_pipe_command(node, input);
 		pipe_kill_pipe_sequence();
 	}
 	else
 	{
-		if (exec_close_fd(right.write) != NO_ERROR
-				|| exec_close_fd(left_read) != NO_ERROR)
+		if (exec_close_fd(right.write) != OK_
+				|| exec_close_fd(left_read) != OK_)
 			pipe_kill_pipe_sequence();
 	}
 	return (right.read);
@@ -77,18 +77,18 @@ static int	exec_first_child(const t_ast_node *node, const t_string *input)
 
 	assert(node != NULL);
 	child = -1;
-	if (pipe_init(&right) != NO_ERROR || exec_fork(&child) != NO_ERROR)
+	if (pipe_init(&right) != OK_ || exec_fork(&child) != OK_)
 		pipe_kill_pipe_sequence();
 	if (child == 0)
 	{
-		if (pipe_replace_stdout(right.write) == NO_ERROR
-				&& exec_close_fd(right.read) == NO_ERROR)
+		if (pipe_replace_stdout(right.write) == OK_
+				&& exec_close_fd(right.read) == OK_)
 			exec_pipe_command(node, input);
 		pipe_kill_pipe_sequence();
 	}
 	else
 	{
-		if (exec_close_fd(right.write) != NO_ERROR)
+		if (exec_close_fd(right.write) != OK_)
 			pipe_kill_pipe_sequence();
 	}
 	return (right.read);

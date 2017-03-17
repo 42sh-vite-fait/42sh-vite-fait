@@ -41,7 +41,7 @@ Test(Parser, IORedirect_Correct)
 
 	// Check Parser
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_LESS);
 	cr_assert_eq(parser.index, 2);
 
@@ -65,7 +65,7 @@ Test(Parser, IORedirect_CorrectWithIONumber)
 	int		ret = predict_io_redirect(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_IO_NUMBER);
 	cr_assert_eq(parser.index, 3);
 }

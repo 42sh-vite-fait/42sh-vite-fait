@@ -5,7 +5,7 @@ int	init_redirection_module(void)
 {
 	int	ret;
 	
-	if ((ret = exec_backup_standard_fd()) != NO_ERROR)
+	if ((ret = exec_backup_standard_fd()) != OK_)
 		return (ret);
-	return (NO_ERROR);
+	return (OK_);
 }

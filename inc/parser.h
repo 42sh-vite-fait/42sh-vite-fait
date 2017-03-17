@@ -23,14 +23,14 @@ struct	s_parser
 
 enum e_parser_errors
 {
-	PARSER_NO_ERROR = NO_ERROR,
+	PARSER_OK_ = OK_,
 	ERR_PARSING,
 	ERR_HEREDOC,
 };
 
 /*
 ** Vérifie la correspondance entre le token courant et les paramètres attendus.
-** Si ça match, on consomme le token courant, et on retourne NO_ERROR.
+** Si ça match, on consomme le token courant, et on retourne OK_.
 ** Sinon on retourne l'erreur ERR_PARSING.
 */
 int		parser_consume_if_match(t_parser *parser, int type);
@@ -49,7 +49,7 @@ const t_token	*parser_get_current_token(const t_parser *parser);
 const t_token	*parser_get_lookahead_token(const t_parser *parser, size_t n);
 
 /*
-** Reçoit une liste de tokens et retourne `NO_ERROR` si la phrase est correcte.
+** Reçoit une liste de tokens et retourne `OK_` si la phrase est correcte.
 ** `ERR_PARSING` sinon.
 */
 int		parser_parse(t_parser *parser);

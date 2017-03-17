@@ -16,7 +16,7 @@ int		pipe_replace_stdout(int write_end)
 		error_set_context("close: %s", strerror(errno));
 		return (ERR_EXEC);
 	}
-	return (NO_ERROR);
+	return (OK_);
 }
 
 int		pipe_replace_stdin(int read_end)
@@ -31,7 +31,7 @@ int		pipe_replace_stdin(int read_end)
 		error_set_context("close: %s", strerror(errno));
 		return (ERR_EXEC);
 	}
-	return (NO_ERROR);
+	return (OK_);
 }
 
 int		pipe_init(t_pipe *pype)
@@ -45,7 +45,7 @@ int		pipe_init(t_pipe *pype)
 	}
 	pype->read = p[0];
 	pype->write = p[1];
-	return (NO_ERROR);
+	return (OK_);
 }
 
 void	pipe_kill_pipe_sequence(void)

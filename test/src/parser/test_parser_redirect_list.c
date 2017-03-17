@@ -19,7 +19,7 @@ Test(Parser, RedirectList_OneValidRedirection)
 	int		ret = predict_io_redirect(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_END_OF_INPUT);
 }
 
@@ -36,7 +36,7 @@ Test(Parser, RedirectList_OneValidRedirectionWithIONumber)
 	int		ret = predict_io_redirect(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_END_OF_INPUT);
 }
 
@@ -94,7 +94,7 @@ Test(Parser, RedirectList_MultiplesValidRedirection)
 	int		ret = predict_io_redirect(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_END_OF_INPUT);
 }
 
@@ -118,7 +118,7 @@ Test(Parser, RedirectList_MultiplesValidRedirectionWithIONumber)
 	int		ret = predict_io_redirect(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_END_OF_INPUT);
 }
 
@@ -152,7 +152,7 @@ Test(Parser, RedirectList_AllRedirection)
 	int		ret = predict_io_redirect(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_END_OF_INPUT);
 
 }

@@ -11,7 +11,7 @@ static int	close_opened_file(int io_number)
 {
 	if (is_fd_open(io_number))
 		return (exec_close_fd(io_number));
-	return (NO_ERROR);
+	return (OK_);
 }
 
 int	undo_redirection(const t_array redirections)
@@ -21,7 +21,7 @@ int	undo_redirection(const t_array redirections)
 	int						ret;
 
 	i = redirections.len;
-	ret = NO_ERROR;
+	ret = OK_;
 	while (i > 0)
 	{
 		i -= 1;
@@ -30,7 +30,7 @@ int	undo_redirection(const t_array redirections)
 			ret = restore_standard_fd(redir.io_number);
 		else
 			ret = close_opened_file(redir.io_number);
-		if (ret != NO_ERROR)
+		if (ret != OK_)
 			break ;
 	}
 	return (ret);

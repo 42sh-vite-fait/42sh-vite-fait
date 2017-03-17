@@ -21,7 +21,7 @@ Test(Parser, CmdPrefix_OneAssignment)
 	int		ret = predict_cmd_prefix(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_END_OF_INPUT);
 }
 
@@ -39,7 +39,7 @@ Test(Parser, CmdPrefix_MultiplesAssignment)
 	int		ret = predict_cmd_prefix(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_END_OF_INPUT);
 }
 
@@ -55,7 +55,7 @@ Test(Parser, CmdPrefix_OneIORedirect)
 	int		ret = predict_cmd_prefix(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_END_OF_INPUT);
 }
 
@@ -76,7 +76,7 @@ Test(Parser, CmdPrefix_MultiplesIORedirect)
 	int		ret = predict_cmd_prefix(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_END_OF_INPUT);
 }
 
@@ -94,7 +94,7 @@ Test(Parser, CmdPrefix_OneAssignmentOneRedirection)
 	int		ret = predict_cmd_prefix(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_END_OF_INPUT);
 }
 
@@ -117,7 +117,7 @@ Test(Parser, CmdPrefix_MultiplesAssignmentMultiplesRedirection)
 	int		ret = predict_cmd_prefix(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_END_OF_INPUT);
 }
 
@@ -141,7 +141,7 @@ Test(Parser, CmdPrefix_RedirectionAfterWord)
 	int		ret = predict_cmd_prefix(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_WORD);
 	cr_assert_eq(parser.index, 5);
 }
@@ -163,7 +163,7 @@ Test(Parser, CmdPrefix_ErrorAfterPrefixEnd)
 	int		ret = predict_cmd_prefix(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_WORD);
 	cr_assert_eq(parser.index, 3);
 }

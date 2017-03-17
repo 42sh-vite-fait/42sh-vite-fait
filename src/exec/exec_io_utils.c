@@ -10,7 +10,7 @@ int exec_close_fd(int fd)
 		error_set_context("close: %s", strerror(errno));
 		return (ERR_EXEC);
 	}
-	return (NO_ERROR);
+	return (OK_);
 }
 
 /*
@@ -26,5 +26,5 @@ int exec_dup_fd(int origin, int dup)
 		error_set_context("dup2: %s", strerror(errno));
 		return (ERR_EXEC);
 	}
-	return (NO_ERROR);
+	return (OK_);
 }

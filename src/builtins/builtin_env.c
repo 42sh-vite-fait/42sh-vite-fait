@@ -88,7 +88,7 @@ static void	env_exec_utility(int argc, const char *const *argv, int pos)
 	}
 	else
 	{
-		if (var_get("PATH", &paths) != NO_ERROR)
+		if (var_get("PATH", &paths) != OK_)
 			paths = g_backup_paths_value;
 		exec_with_path(paths, (char *const *)argv + pos, envp);
 		_exit(-1);
@@ -101,7 +101,7 @@ int			builtin_env(int argc, const char *const *argv)
 	int		status;
 	int		pos;
 
-	if (exec_fork(&child) != NO_ERROR)
+	if (exec_fork(&child) != OK_)
 	{
 		error_print("env");
 		return (-1);

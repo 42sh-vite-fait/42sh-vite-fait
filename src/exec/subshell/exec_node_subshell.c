@@ -11,13 +11,13 @@ int		exec_node_subshell(const t_ast_node *node, const t_string *input)
 	int		status;
 
 	assert(node != NULL);
-	if (exec_fork(&subshell) != NO_ERROR)
+	if (exec_fork(&subshell) != OK_)
 		return (-1);
 	if (subshell == 0)
 	{
 		exec_child_set_context();
 		signal_set_ignored_signals_to_ignore();
-		if (exec_redirection(node->command.redirections, input) != NO_ERROR)
+		if (exec_redirection(node->command.redirections, input) != OK_)
 		{
 			error_print("execution");
 			_exit(-1);

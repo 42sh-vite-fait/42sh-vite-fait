@@ -25,11 +25,11 @@ static int	parse_right_list(t_parser *parser, t_ast_node *node)
 {
 	node->type = E_AST_LIST;
 	node->token = parser_get_current_token(parser);
-	if (predict_separator_op(parser) != PARSER_NO_ERROR)
+	if (predict_separator_op(parser) != PARSER_OK_)
 		return (ERR_PARSING);
-	if (predict_and_or(parser, &node->right) != PARSER_NO_ERROR)
+	if (predict_and_or(parser, &node->right) != PARSER_OK_)
 		return (ERR_PARSING);
-	return (PARSER_NO_ERROR);
+	return (PARSER_OK_);
 }
 
 /*
@@ -44,12 +44,12 @@ int		predict_list(t_parser *parser, t_ast_node **from_parent)
 	node = ast_node_create(&parser->ast);
 	*from_parent = node;
 
-	if (predict_and_or(parser, &node->left) != PARSER_NO_ERROR)
+	if (predict_and_or(parser, &node->left) != PARSER_OK_)
 		return (ERR_PARSING);
 
 	if (check_requirements_ambiguous_sep_rule(parser))
 	{
-		if (parse_right_list(parser, node) != PARSER_NO_ERROR)
+		if (parse_right_list(parser, node) != PARSER_OK_)
 			return (ERR_PARSING);
 
 		while (check_requirements_ambiguous_sep_rule(parser))
@@ -57,10 +57,10 @@ int		predict_list(t_parser *parser, t_ast_node **from_parent)
 			node = ast_node_create(&parser->ast);
 			node->left = *from_parent;
 			*from_parent = node;
-			if (parse_right_list(parser, node) != PARSER_NO_ERROR)
+			if (parse_right_list(parser, node) != PARSER_OK_)
 				return (ERR_PARSING);
 		}
 	}
 
-	return (PARSER_NO_ERROR);
+	return (PARSER_OK_);
 }

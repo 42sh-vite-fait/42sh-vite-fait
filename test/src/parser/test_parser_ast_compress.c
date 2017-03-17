@@ -22,7 +22,7 @@ Test(AST, Compress10000Pipe, .signal = 0, .fini = teardown)
 	parser_init(&parser);
 
 	int ret = parser_parse(&parser);
-	cr_assert_eq(ret, NO_ERROR, "index: %zu", parser.index);
+	cr_assert_eq(ret, OK_, "index: %zu", parser.index);
 
 	parser_shutdown(&parser);
 }

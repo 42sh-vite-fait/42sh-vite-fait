@@ -12,7 +12,7 @@
 
 enum e_terminal_errors
 {
-	TERMINAL_NO_ERROR = NO_ERROR,
+	TERMINAL_OK_ = OK_,
 	ERR_TERM,
 };
 

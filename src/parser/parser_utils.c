@@ -37,7 +37,7 @@ int				parser_consume_if_match(t_parser *parser, int type)
 	if (parser_check_current_token_type(parser, type))
 	{
 		parser_consume_token(parser);
-		return (PARSER_NO_ERROR);
+		return (PARSER_OK_);
 	}
 	return (ERR_PARSING);
 }

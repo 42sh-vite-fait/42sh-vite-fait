@@ -30,7 +30,7 @@ Test(Parser, PipeSequence_MultiplesSimpleCommandWithoutLinebreak)
 	int		ret = predict_pipe_sequence(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_NEWLINE);
 }
 
@@ -62,7 +62,7 @@ Test(Parser, PipeSequence_MultiplesSimpleCommandWithLinebreak)
 	int		ret = predict_pipe_sequence(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_SEMI);
 }
 
@@ -106,7 +106,7 @@ Test(Parser, PipeSequence_SeparatorPrecedence)
 	int		ret = predict_pipe_sequence(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_SEMI);
 }
 

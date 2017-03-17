@@ -32,7 +32,7 @@ Test(Parser, IOHere_DlessWithWord)
 	int		ret = predict_io_here(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_DLESS);
 	cr_assert_eq(parser.index, 2);
 }
@@ -106,7 +106,7 @@ Test(Parser, IOHere_DlessdashWithWord)
 	int		ret = predict_io_here(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, NO_ERROR);
+	cr_assert_eq(ret, OK_);
 	test_current_token(E_TOKEN_DLESSDASH);
 	cr_assert_eq(parser.index, 2);
 }

@@ -17,7 +17,7 @@ int	exec_node_pipe(const t_ast_node *node, const t_string *input)
 	int		status;
 
 	assert(node != NULL);
-	if (exec_fork(&control_fork) != NO_ERROR)
+	if (exec_fork(&control_fork) != OK_)
 		return (-1);
 	if (control_fork == 0)
 	{
