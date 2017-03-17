@@ -65,7 +65,10 @@ SRC_SUBDIR += input
 SOURCES    += input_get_line.c
 
 # UI
-
+SRC_SUBDIR += input/ui
+SOURCES += terminal_init.c
+SOURCES += terminal_caps.c
+SOURCES += terminal_get_winsize.c
 
 # Variable
 SRC_SUBDIR += var

@@ -1,3 +1,10 @@
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+#include <term.h>
+#include <stdlib.h>
+#include <termios.h>
+#include "errors.h"
 #include "terminal.h"
 
 static struct termios	g_termios_backup;
@@ -12,7 +19,7 @@ static int	terminal_set_termios(const struct termios *new)
 	return (OK_);
 }
 
-int terminal_start_raw_mode(void)
+int			terminal_start_raw_mode(void)
 {
 	struct termios	raw;
 
@@ -23,20 +30,21 @@ int terminal_start_raw_mode(void)
 	raw.c_cc[VTIME] = 0;
 	if (terminal_set_termios(&raw) != OK_)
 		return (ERROR_);
-	term_command("vi");
-	term_command("bw");
 	return (OK_);
 }
 
-int terminal_stop_raw_mode(void)
+int			terminal_stop_raw_mode(void)
 {
-	term_command("ve");
 	if (terminal_set_termios(&g_termios_backup) != OK_)
 		return (ERROR_);
 	return (OK_);
 }
 
-int init_terminal_module(void)
+/*
+** Must be called only if the shell is in interactive mode
+*/
+
+int			init_terminal_module(void)
 {
 	char	*name_term;
 
@@ -57,5 +65,5 @@ int init_terminal_module(void)
 		error_set_context("tcgetattr: %s", strerror(errno));
 		return (ERROR_);
 	}
-	return (OK_);
+	return (terminal_check_caps());
 }

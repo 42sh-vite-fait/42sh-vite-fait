@@ -1,35 +1,19 @@
-#ifndef TERM_H
-# define TERM_H
+#ifndef TERMINAL_H
+# define TERMINAL_H
 
-# include <unistd.h>
-# include <string.h>
-# include <stdlib.h>
-# include <termios.h>
-# include <term.h>
-# include <sys/ioctl.h>
-# include "errors.h"
-# include "memory_42.h"
+# define CAPS_CURSOR_UP		"up"
+# define CAPS_CURSOR_DOWN	"do"
+# define CAPS_CURSOR_LEFT	"le"
+# define CAPS_CURSOR_RIGHT	"nd"
+# define CAPS_CLEAR_EOL		"ce"
+# define CAPS_CLEAR_EOS		"cd"
 
-/*
-** Termios
-*/
-int 	init_terminal_module(void);
-int 	terminal_start_raw_mode(void);
-int 	terminal_stop_raw_mode(void);
-
-/*
-** Termcaps
-*/
-void	term_command(char *entry);
-void	term_newline(void);
-void	term_clear_bottom(void);
-void	term_restore_cursor(void);
-void	term_toggle_video_mode(void);
-void	term_save_cursor(void);
-void	term_delete(int len);
-void	term_move_cursor_row(int n);
-int		get_cols(void);
-int		get_lines(void);
-int		tputs_write(int c);
+int				init_terminal_module(void);
+int				terminal_start_raw_mode(void);
+int				terminal_stop_raw_mode(void);
+struct winsize	terminal_get_winsize(void);
+void			terminal_move_cursor(const char *cap, unsigned len);
+void			terminal_execute_caps(const char *cap);
+int				terminal_check_caps(void);
 
 #endif
