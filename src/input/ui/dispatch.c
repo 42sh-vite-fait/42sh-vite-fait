@@ -722,3 +722,33 @@ static struct s_key_action	g_key_action_list[] = {
 		.behavior_mod = &ui_handler_do_nothing
 	},
 };
+
+void				handle_input_sequence(t_input_sequence *input)
+{
+	size_t				i;
+	struct s_key_action	action;
+
+ 	i = E_ARROW_UP;
+	if (input->data[0] == E_ESC)
+	{
+		while (i <= E_CTRL_ARROW_LEFT)
+		{
+			action = g_key_action_list[i];
+			if (!ft_strcmp(action.code, input->data) &&
+				ft_strlen(action.code) == input->len)
+				break;
+			else
+				input->len = 0;
+		}
+	}
+	else if (input->data[0] >= 0)
+		action = g_key_action_list[(size_t)input->data[0]];
+	else
+	{
+		input->len = 0;
+		return ;
+	}
+	input->len = 0;
+	action.behavior_nomod(NULL) //TODO: send real parameters;
+}
+
