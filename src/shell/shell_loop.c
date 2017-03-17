@@ -8,12 +8,7 @@
 #include "input.h"
 #include "ft_printf.h"
 #include "exit_status.h"
-
-#define EOF_ 0
-#define ERROR_ -1
-#define OK_ 1
-#define INVALID_ 2
-#define DROP_ 3
+#include "errors.h"
 
 static int	shell_lex(t_string *input, t_lexer *lexer, t_array *tokens)
 {
@@ -35,11 +30,11 @@ static int	shell_lex(t_string *input, t_lexer *lexer, t_array *tokens)
 	}
 	string_shutdown(&line);
 	if (input_status != E_INPUT_OK)
-		return (input_status);
+		return (input_status); // TODO !!!! problem
 	if (lexer_status == LEXER_ERROR)
 	{
 		error_print("lexer");
-		return (INVALID_);
+		return (CMD_INVALID_);
 	}
 	return (OK_);
 }
@@ -59,13 +54,13 @@ static int	shell_parse(t_string *input, t_lexer *lexer, t_array *tokens,
 		lexer_debug_print_tokens(input, tokens);
 	if (tokens->len == 1 &&
 		((t_token *)array_get_first(tokens))->type == E_TOKEN_NEWLINE)
-		return (DROP_);
+		return (CMD_DROP_);
 	parser_init_with_tokens(input, parser, tokens);
 	parser_status = parser_parse(parser);
 	if (parser_status != PARSER_NO_ERROR)
 	{
 		error_print("parser");
-		return (INVALID_);
+		return (CMD_INVALID_);
 	}
 	if (opt_is_set(OPT_DEBUG_AST))
 		ast_debug_print(&parser->ast, input->str);
@@ -96,7 +91,7 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 			if (opt_is_set(OPT_DEBUG_EXEC))
 				ft_printf("EXEC: %d\n", exit_status_get_last());
 		}
-		else if (command_status == EOF_)
+		else if (command_status == CMD_EOF_)
 		{
 			if (!assert_stack_is_empty(lexer))
 				error_print("lexer");
@@ -104,9 +99,9 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 		}
 		else if (command_status == ERROR_)
 			return (1);
-		else if (!opt_is_set(OPT_INTERACTIVE) && command_status == INVALID_)
+		else if (!opt_is_set(OPT_INTERACTIVE) && command_status == CMD_INVALID_)
 			return (1);
-		if (opt_is_set(OPT_INTERACTIVE) && command_status != DROP_)
+		if (opt_is_set(OPT_INTERACTIVE) && command_status != CMD_DROP_)
 			history_add(input);
 		// TODO unlink heredocs files (doit être call en cas d'echec ou de succes)
 	}
