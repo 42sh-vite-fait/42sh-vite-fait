@@ -1,41 +1,36 @@
 #include "user_interface.h"
+#include "history.h"
 
-void	ui_handler_up_history(t_editenv *e)
+void	ui_handler_history_prev(t_term_env *env, char c)
 {
-	const t_string	*history_entry;
+	const	t_string	*entry;
 
-	e->is_selecting = 0;
-	e->selection_size = 1;
-	e->entry_index = 0;
-	history_entry = history_get(history_get_last_id() - e->history_index);
-	if (history_entry != NULL)
+	(void)c;
+	entry = history_get(history_get_last_id() - env->history_index);
+	if (entry != NULL)
 	{
-		e->history_index += 1;
-		fatal_malloc(string_nreplace(&e->entry, history_entry->str, history_entry->len));
+		env->history_index += 1;
+		line_replace(&env->line, entry->str, entry->len);
 	}
 }
 
-void	ui_handler_down_history(t_editenv *e)
+void	ui_handler_history_next(t_term_env *env, char c)
 {
-	const t_string	*history_entry;
+	const	t_string	*entry;
 
-	e->is_selecting = 0;
-	e->selection_size = 1;
-	e->entry_index = 0;
-	if (e->history_index > 1)
+	(void)c;
+	if (env->history_index > 1)
 	{
-		history_entry = history_get(history_get_last_id() - e->history_index + 2);
-		if (history_entry != NULL)
+		entry = history_get(history_get_last_id() - (env->history_index - 2));
+		if (entry != NULL)
 		{
-			e->history_index -= 1;
-			fatal_malloc(string_nreplace(&e->entry, history_entry->str, history_entry->len));
+			env->history_index -= 1;
+			line_replace(&env->line, entry->str, entry->len);
 		}
 	}
-	else if (e->history_index == 1)
+	else if (env->history_index == 1)
 	{
-		fatal_malloc(string_nreplace(&e->entry, e->initial_entry.str, e->initial_entry.len));
-		e->history_index = 0;
+		env->history_index = 0;
+		line_replace(&env->line, "", 0);
 	}
-	else
-		fatal_malloc(string_nreplace(&e->entry, e->initial_entry.str, e->initial_entry.len));
 }

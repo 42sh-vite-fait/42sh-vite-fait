@@ -1,29 +1,23 @@
 #include <assert.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#include "terminal.h"
+#include "user_interface.h"
 
-static struct winsize	g_winsize;
-
-/*
- * TODO
- * Le fd d'ecriture doit être un fd lié avec un terminal
- */
-
-struct winsize	terminal_get_winsize(void)
+static struct winsize	terminal_get_winsize(void)
 {
-	int	ret;
+	int				ret;
+	struct winsize	sizes;
 
-	ret = ioctl(STDOUT_FILENO, TIOCGWINSZ, &g_winsize);
+	assert(isatty(STDIN_FILENO));
+	ret = ioctl(STDIN_FILENO, TIOCGWINSZ, &sizes);
 	assert(ret != -1);
-	return (g_winsize);
+	return (sizes);
 }
 
-unsigned		terminal_get_rows(void)
+void					term_env_update_for_resize(t_term_env *env)
 {
-	return (g_winsize.ws_row);
-}
-
-unsigned		terminal_get_cols(void)
-{
-	return (g_winsize.ws_col);
+	env->line.term_x = terminal_get_winsize().ws_col;
+	env->line.cursor_x = (env->prompt_size + env->line.string_index)
+		% (env->line.term_x);
 }

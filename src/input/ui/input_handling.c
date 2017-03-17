@@ -1,17 +1,4 @@
-#include "input.h"
 #include "user_interface.h"
-#include "errors.h"
-
-static void		ui_handler_do_nothing(t_string *a, char c)
-{
-	(void)a;
-	(void)c;
-}
-
-static void		ui_handler_insert_char(t_string *a, char c)
-{
-	string_insert(a, a->len, &c, 1);
-}
 
 static struct s_key_action	g_key_action_list[] = {
 	[E_CTRL_AT] = {
@@ -20,11 +7,11 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_CTRL_A] = {
 		.code =	"\x01",
-		.behavior = &ui_handler_do_nothing,
+		.behavior = &ui_handler_jump_start,
 	},
 	[E_CTRL_B] = {
 		.code =	"\x02",
-		.behavior = &ui_handler_do_nothing,
+		.behavior = &ui_handler_jump_prev_word,
 	},
 	[E_CTRL_C] = {
 		.code =	"\x03",
@@ -36,11 +23,11 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_CTRL_E] = {
 		.code =	"\x05",
-		.behavior = &ui_handler_do_nothing,
+		.behavior = &ui_handler_jump_end,
 	},
 	[E_CTRL_F] = {
 		.code =	"\x06",
-		.behavior = &ui_handler_do_nothing,
+		.behavior = &ui_handler_jump_next_word,
 	},
 	[E_CTRL_G] = {
 		.code =	"\a",
@@ -52,7 +39,7 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_CTRL_I] = {
 		.code =	"\t",
-		.behavior = &ui_handler_do_nothing,
+		.behavior = &ui_handler_autocomplete,
 	},
 	[E_CTRL_J] = {
 		.code =	"\n",
@@ -60,7 +47,7 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_CTRL_K] = {
 		.code =	"\v",
-		.behavior = &ui_handler_do_nothing,
+		.behavior = &ui_handler_kill_right,
 	},
 	[E_CTRL_L] = {
 		.code =	"\f",
@@ -76,11 +63,11 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_CTRL_O] = {
 		.code =	"\x0f",
-		.behavior = &ui_handler_do_nothing,
+		.behavior = &ui_handler_kill_left_word,
 	},
 	[E_CTRL_P] = {
 		.code =	"\x10",
-		.behavior = &ui_handler_do_nothing,
+		.behavior = &ui_handler_kill_right_word,
 	},
 	[E_CTRL_Q] = {
 		.code =	"\x11",
@@ -116,7 +103,7 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_CTRL_Y] = {
 		.code =	"\x19",
-		.behavior = &ui_handler_do_nothing,
+		.behavior = &ui_handler_yank,
 	},
 	[E_CTRL_Z] = {
 		.code =	"\x1a",
@@ -524,23 +511,23 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_BACKSPACE] = {
 		.code =	"\x7f",
-		.behavior = &ui_handler_do_nothing,
+		.behavior = &ui_handler_delete_left,
 	},
 	[E_ARROW_UP] = {
 		.code =	"[A",
-		.behavior = &ui_handler_do_nothing,
+		.behavior = &ui_handler_history_prev,
 	},
 	[E_ARROW_DOWN] = {
 		.code =	"[B",
-		.behavior = &ui_handler_do_nothing,
+		.behavior = &ui_handler_history_next,
 	},
 	[E_ARROW_RIGHT] = {
 		.code =	"[C",
-		.behavior = &ui_handler_do_nothing,
+		.behavior = &ui_handler_move_right,
 	},
 	[E_ARROW_LEFT] = {
 		.code =	"[D",
-		.behavior = &ui_handler_do_nothing,
+		.behavior = &ui_handler_move_left,
 	},
 	[E_SHIFT_TAB] = {
 		.code =	"[Z",
@@ -556,7 +543,7 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_DELETE] = {
 		.code =	"[3~",
-		.behavior = &ui_handler_do_nothing,
+		.behavior = &ui_handler_delete_right,
 	},
 	[E_END] = {
 		.code =	"[F",
@@ -564,11 +551,11 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_PAGE_UP] = {
 		.code =	"[5~",
-		.behavior = &ui_handler_do_nothing,
+		.behavior = &ui_handler_move_up,
 	},
 	[E_PAGE_DOWN] = {
 		.code =	"[6~",
-		.behavior = &ui_handler_do_nothing,
+		.behavior = &ui_handler_move_down,
 	},
 	[E_CTRL_ARROW_UP] = {
 		.code =	"OA",
@@ -588,73 +575,48 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 };
 
-static void	handle_input_sequence(t_input_sequence *input, t_string *line)
+static t_input_handler	*get_escape_sequence_handler(t_input_sequence *input)
 {
-	size_t				i;
 	struct s_key_action	action;
+	size_t				i;
 
- 	i = E_ARROW_UP;
-	if (input->data[0] == E_ESC)
+	i = E_ARROW_UP;
+	if (input->len == 1)
+		return (NULL);
+	while (i <= E_CTRL_ARROW_LEFT)
 	{
-		while (i <= E_CTRL_ARROW_LEFT)
+		action = g_key_action_list[i];
+		if (!ft_strncmp(action.code, input->data + 1, input->len - 1))
 		{
-			action = g_key_action_list[i];
-			if (!ft_strcmp(action.code, input->data) &&
-				ft_strlen(action.code) == input->len)
-				break;
-			else
+			if (ft_strlen(action.code) == input->len - 1)
+			{
 				input->len = 0;
+				return (action.behavior);
+			}
+			else
+				return (NULL);
 		}
-	}
-	else if (input->data[0] >= 0)
-		action = g_key_action_list[(size_t)input->data[0]];
-	else
-	{
-		input->len = 0;
-		return ;
+		i += 1;
 	}
 	input->len = 0;
-	action.behavior(line, input->data[0]); //TODO: send real parameters;
+	return (NULL);
 }
 
-#include <stdio.h>
-#include "terminal.h"
-#include "ft_printf.h"
-
-int		input_ui_get_line(t_string *line, const char *prompt)
+void					input_sequence_handle(t_input_sequence *input,
+											t_term_env *env)
 {
-	t_input_sequence	s;
-	ssize_t				ret;
-	char				c;
+	t_input_handler	*action;
 
-	(void)prompt;
-	s.len = 0;
-	ft_printf(prompt);
-	while (1)
+	action = NULL;
+	if (input->data[0] == E_ESC)
+		action = get_escape_sequence_handler(input);
+	else if (input->data[0] >= 0)
 	{
-		terminal_start_raw_mode();
-		ret = read(0, &c, 1);
-		if (ret != 1)
-			break ;
-		terminal_stop_raw_mode();
-		if ((c == E_CTRL_J || c == E_ENTER) && s.len == 0)
-		{
-			fatal_malloc(string_ncat(line, "\n", 1));
-			return (OK_);
-		}
-		else if (c == E_CTRL_D && s.len == 0 && line->len == 0)
-			return (CMD_EOF_);
-		s.data[s.len] = c;
-		s.len += 1;
-		handle_input_sequence(&s, line);
+		action = g_key_action_list[(size_t)input->data[0]].behavior;
+		input->len = 0;
 	}
-	if (ret == 0)
-		return (CMD_EOF_);
-	else if (ret == -1 && errno == EINTR)
-	{
-		ft_printf("\n");
-		return (CMD_DROP_);
-	}
-	error_set_context("read : %s", strerror(errno));
-	return (ERROR_);
+	else
+		input->len = 0;
+	if (action != NULL)
+		action(env, input->data[0]);
 }

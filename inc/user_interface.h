@@ -4,18 +4,47 @@
 # include <stdint.h>
 # include "string_42.h"
 
-typedef struct s_input_sequence t_input_sequence;
+typedef struct s_input_sequence	t_input_sequence;
+typedef struct s_term_line		t_term_line;
+typedef struct s_term_env		t_term_env;
+typedef void					(t_input_handler)(t_term_env *, char);
 
 struct	s_key_action
 {
-	char	code[8];
-	void	(*behavior)(t_string *, char);
+	char			code[8];
+	t_input_handler	*behavior;
 };
 
 struct s_input_sequence
 {
 	char	data[8];
 	uint8_t	len;
+};
+
+struct s_term_line
+{
+	t_string	*str;
+	uint64_t	string_index;
+	uint16_t	cursor_x;
+	uint16_t	term_x;
+};
+
+enum	e_autocomplete_state
+{
+	E_NO_AUTOCOMPLETE,
+	E_LAST_CMD_WAS_AUTOCOMPLETE,
+	E_LAST_CMD_REALLY_WAS_AUTOCOMPLETE,
+};
+
+struct s_term_env
+{
+	t_string	kill_buffer;
+	t_array		autocomplete_matches;
+	t_term_line	line;
+	size_t		history_index;
+	uint32_t	prompt_size;
+	uint16_t	autocomplete_index;
+	uint8_t		autocomplete_state;
 };
 
 enum	e_keys
@@ -170,8 +199,62 @@ enum	e_keys
 	E_ENTER = E_CTRL_M,
 };
 
-//void			handle_input_sequence(t_input_sequence *input);
-//void			read_in_input_sequence(t_input_sequence *input);
+/*
+** Line edition utilities
+*/
+void	line_move_cursor(t_term_line *line, int move);
+int		line_move_offset_y(t_term_line *line, int move);
+int		line_move_offset_x(t_term_line *line, int move);
 
+void	line_print(t_term_line *line);
+void	line_insert(t_term_line *line, const char *s, size_t len);
+void	line_replace(t_term_line *line, const char *new_str, size_t new_str_len);
+void	line_remove_left(t_term_line *line, size_t removed_len);
+void	line_remove_right(t_term_line *line, size_t removed_len);
+
+size_t	line_next_word_size(t_term_line *line);
+size_t	line_prev_word_size(t_term_line *line);
+
+/*
+** Input handling
+*/
+void	input_sequence_handle(t_input_sequence *input, t_term_env *env);
+
+/*
+** Handlers
+*/
+void	ui_handler_kill_left(t_term_env *env, char c);
+void	ui_handler_kill_right(t_term_env *env, char c);
+void	ui_handler_kill_left_word(t_term_env *env, char c);
+void	ui_handler_kill_right_word(t_term_env *env, char c);
+void	ui_handler_yank(t_term_env *env, char c);
+
+void	ui_handler_jump_end(t_term_env *env, char c);
+void	ui_handler_jump_start(t_term_env *env, char c);
+void	ui_handler_jump_next_word(t_term_env *env, char c);
+void	ui_handler_jump_prev_word(t_term_env *env, char c);
+
+void	ui_handler_do_nothing(t_term_env *env, char c);
+void	ui_handler_delete_left(t_term_env *env, char c);
+void	ui_handler_delete_right(t_term_env *env, char c);
+void	ui_handler_insert_char(t_term_env *env, char c);
+
+void	ui_handler_move_right(t_term_env *env, char c);
+void	ui_handler_move_left(t_term_env *env, char c);
+void	ui_handler_move_up(t_term_env *env, char c);
+void	ui_handler_move_down(t_term_env *env, char c);
+
+void	ui_handler_history_prev(t_term_env *env, char c);
+void	ui_handler_history_next(t_term_env *env, char c);
+
+void	ui_handler_autocomplete(t_term_env *env, char c);
+
+/*
+** Term environment utilities
+*/
+void	init_term_env(t_term_env *env, t_string *line, const char *prompt);
+void	shutdown_term_env(t_term_env *env);
+
+void	term_env_update_for_resize(t_term_env *env);
 
 #endif

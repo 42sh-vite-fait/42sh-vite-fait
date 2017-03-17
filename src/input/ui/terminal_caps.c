@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <unistd.h>
 #include <term.h>
 #include "errors.h"
@@ -11,6 +12,7 @@ static const char	*g_needed_caps_list[] = {
 	CAPS_CURSOR_RIGHT,
 	CAPS_CLEAR_EOL,
 	CAPS_CLEAR_EOS,
+	CAPS_SCROLL_UP,
 };
 
 static int	wrap_putchar(int c)
@@ -20,12 +22,25 @@ static int	wrap_putchar(int c)
 
 void		terminal_move_cursor(const char *cap, unsigned len)
 {
-	tputs(cap, len, &wrap_putchar);
+	char	buf[32];
+	char	*pbuf;
+	void	*ret;
+
+	pbuf = buf;
+	ret = tgetstr((char *)cap, &pbuf);
+	assert(ret != NULL);
+	pbuf = tgoto(buf, 0, len);
+	assert(pbuf != NULL);
+	tputs(pbuf, 1, &wrap_putchar);
 }
 
 void		terminal_execute_caps(const char *cap)
 {
-	tputs(cap, 1, &wrap_putchar);
+	const char	*str;
+
+	str = tgetstr((char*)cap, NULL);
+	assert(str != NULL);
+	tputs(str, 1, &wrap_putchar);
 }
 
 int			terminal_check_caps(void)

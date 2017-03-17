@@ -73,7 +73,18 @@ SRC_SUBDIR += input/ui
 SOURCES += terminal_init.c
 SOURCES += terminal_caps.c
 SOURCES += terminal_get_winsize.c
-SOURCES += dispatch.c
+SOURCES += ui_get_line.c
+SOURCES += input_handling.c
+SOURCES += line.c
+SOURCES += line_cursor.c
+SOURCES += line_words.c
+SOURCES += handler_move.c
+SOURCES += handler_edition.c
+SOURCES += handler_kill_yank.c
+SOURCES += handler_jump.c
+SOURCES += handler_history.c
+SOURCES += handler_autocomplete.c
+SOURCES += init_shutdown_term_env.c
 
 # Variable
 SRC_SUBDIR += var
@@ -223,6 +234,12 @@ SOURCES += signal.c
 SOURCES += signal_blocked.c
 SOURCES += signal_ignored.c
 SOURCES += signal_exit.c
+
+# Autocompletion
+SRC_SUBDIR += autocompletion
+SOURCES += autocomplete.c
+SOURCES += autocomplete_builtin.c
+SOURCES += autocomplete_binary.c
 
 # Generation
 vpath %.c $(SRC_PATH) $(addprefix $(SRC_PATH)/,$(SRC_SUBDIR))

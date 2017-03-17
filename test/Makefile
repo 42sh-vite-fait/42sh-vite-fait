@@ -75,6 +75,11 @@ SOURCES += test_parser_ast_compress.c
 SRC_SUBDIR += expansion
 SOURCES += quote_removal.c
 
+# Autocompletion
+SRC_SUBDIR += autocompletion
+SOURCES += test_complete_binary.c
+SOURCES += test_complete_builtin.c
+
 # Builtins
 SRC_SUBDIR += builtins
 SOURCES += test_builtins.c

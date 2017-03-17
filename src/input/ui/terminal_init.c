@@ -4,6 +4,7 @@
 #include <term.h>
 #include <stdlib.h>
 #include <termios.h>
+#include <sys/ioctl.h>
 #include "errors.h"
 #include "terminal.h"
 #include "exec.h"

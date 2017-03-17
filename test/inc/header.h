@@ -27,5 +27,6 @@
 #include "automaton.h"
 #include "user_interface.h"
 #include "parser.h"
+#include "autocompletion.h"
 
 #endif
