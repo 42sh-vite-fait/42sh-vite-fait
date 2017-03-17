@@ -14,11 +14,11 @@ int		main(int argc, char *argv[])
 	opt_parse(argc, (const char * const *)argv);
 	init_signal_module();
 	exec_backup_standard_fd(); // TODO: que faire si ./42sh <&-
-	if (opt_is_set(OPT_INTERACTIVE) && init_terminal_module() != NO_ERROR)
-	{
-		error_print("terminal");
-		exit(1);
-	}
+	/* if (opt_is_set(OPT_INTERACTIVE) && init_terminal_module() != NO_ERROR) */
+	/* { */
+	/* 	error_print("terminal"); */
+	/* 	exit(1); */
+	/* } */
 	var_init_with_environ(environ);
 	if (opt_is_set(OPT_INTERACTIVE))
 		shell_history_init();

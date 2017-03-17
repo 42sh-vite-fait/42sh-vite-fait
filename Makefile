@@ -65,29 +65,7 @@ SRC_SUBDIR += input
 SOURCES    += input_get_line.c
 
 # UI
-## Handlers
-SRC_SUBDIR += input/ui/handlers
-SOURCES    += dispatch.c
-SOURCES    += handler_edition.c
-SOURCES    += handler_left_deletion.c
-SOURCES    += handler_right_deletion.c
-SOURCES    += handler_left_motion.c
-SOURCES    += handler_right_motion.c
-SOURCES    += handler_updown_motion.c
-SOURCES    += handler_clipboard.c
-SOURCES    += handler_history.c
-SOURCES    += handlers.c
-## Termcap Overlay
-SRC_SUBDIR += input/ui/termcap_overlay
-SOURCES    += init_exit_termcap.c
-SOURCES    += term_function.c
-SOURCES    += term_getter.c
-SOURCES    += termcap_command.c
-## Ui Loop
-SRC_SUBDIR += input/ui/ui_loop
-SOURCES    += ui_prompt.c
-SOURCES    += ui_loop.c
-SOURCES    += ui_output.c
+
 
 # Variable
 SRC_SUBDIR += var

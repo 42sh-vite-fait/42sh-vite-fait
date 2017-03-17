@@ -59,7 +59,10 @@ int	input_get_line(t_string *input, const char *prompt)
 	if (opt_is_set(OPT_CMD_STRING))
 		ret = input_arg_get_line(input);
 	else if (opt_is_set(OPT_INTERACTIVE))
-		ret = ui_get_user_input(input, prompt);
+	{
+		(void)prompt;
+		ret = 0;
+	}
 	else
 		ret = input_notty_get_line(input);
 	if (ret == E_INPUT_ERROR)
