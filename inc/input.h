@@ -6,7 +6,7 @@
 # include "string_42.h"
 # include "opt.h"
 
-enum e_input_status
+enum e_input_status // TODO migrate to errors.h
 {
 	E_INPUT_ERROR = -1,
 	E_INPUT_EOF = 0,

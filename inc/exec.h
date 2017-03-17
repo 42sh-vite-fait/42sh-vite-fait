@@ -12,12 +12,6 @@
 # define MAX_FD_POSIX_COMPLIANCE (9)
 # define OPEN_DEFAULT_MODE (0644)
 
-enum e_exec_errors
-{
-	EXEC_OK_ = OK_,
-	ERR_EXEC,
-};
-
 typedef int (t_tree_walker)(const t_ast_node *, const t_string *);
 typedef struct s_pipe	t_pipe;
 struct s_pipe

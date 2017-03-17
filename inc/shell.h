@@ -9,13 +9,6 @@
 # define SHELL_PS1 "42sh> "
 # define SHELL_PS2 "> "
 
-enum e_shell_errors
-{
-	SHELL_OK_ = OK_,
-	ERR_SHELL,
-	ERR_END_OF_INPUT,
-};
-
 int	shell_loop(void);
 int	shell_input(t_string *input, const char *prompt);
 int	shell_lexer(t_string *input, t_array *tokens);

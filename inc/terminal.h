@@ -10,12 +10,6 @@
 # include "errors.h"
 # include "memory_42.h"
 
-enum e_terminal_errors
-{
-	TERMINAL_OK_ = OK_,
-	ERR_TERM,
-};
-
 /*
 ** Termios
 */

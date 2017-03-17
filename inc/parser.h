@@ -21,13 +21,6 @@ struct	s_parser
 	size_t			subshell_depth;
 };
 
-enum e_parser_errors
-{
-	PARSER_OK_ = OK_,
-	ERR_PARSING,
-	ERR_HEREDOC,
-};
-
 /*
 ** Vérifie la correspondance entre le token courant et les paramètres attendus.
 ** Si ça match, on consomme le token courant, et on retourne OK_.

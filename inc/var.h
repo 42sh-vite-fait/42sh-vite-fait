@@ -15,14 +15,6 @@ struct		s_var {
 	unsigned	attrs;
 };
 
-enum	e_variable_errors
-{
-	VAR_OK_ = OK_,
-	ERR_VAR_NOT_FOUND,
-	ERR_VAR_RDONLY,
-	ERR_VAR_BAD_NAME,
-};
-
 /*
 ** extern char	**g_environ;
 */
