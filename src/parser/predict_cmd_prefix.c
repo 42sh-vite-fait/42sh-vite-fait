@@ -17,8 +17,8 @@ int		predict_cmd_prefix(t_parser *parser, t_array *redirections)
 	struct	s_redirection	*redir;
 	int						ret;
 
-	ret = PARSER_OK_;
-	while (ret == PARSER_OK_)
+	ret = OK_;
+	while (ret == OK_)
 	{
 		if (check_requirements_io_redirect(parser))
 		{

@@ -15,11 +15,11 @@ int		predict_subshell(t_parser *parser, t_ast_node *self)
 {
 	self->token = parser_get_current_token(parser);
 	self->type = E_AST_SUBSHELL;
-	if (parser_consume_if_match(parser, E_TOKEN_LPAREN) != PARSER_OK_)
+	if (parser_consume_if_match(parser, E_TOKEN_LPAREN) != OK_)
 		return (ERROR_);
-	if (predict_compound_list(parser, &self->left) != PARSER_OK_)
+	if (predict_compound_list(parser, &self->left) != OK_)
 		return (ERROR_);
-	if (parser_consume_if_match(parser, E_TOKEN_RPAREN) != PARSER_OK_)
+	if (parser_consume_if_match(parser, E_TOKEN_RPAREN) != OK_)
 		return (ERROR_);
-	return (PARSER_OK_);
+	return (OK_);
 }

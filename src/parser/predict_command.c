@@ -25,7 +25,7 @@ int		predict_command(t_parser *parser, t_ast_node **from_parent)
 		parser->subshell_depth += 1;
 		if (parser->subshell_depth >= SUBSHELL_MAX_DEPTH)
 			return (ERROR_);
-		if (predict_subshell(parser, node) != PARSER_OK_)
+		if (predict_subshell(parser, node) != OK_)
 			return (ERROR_);
 		ast_node_command_init(node);
 		if (check_requirements_redirect_list(parser))
@@ -34,5 +34,5 @@ int		predict_command(t_parser *parser, t_ast_node **from_parent)
 	}
 	else
 		return (predict_simple_command(parser, node));
-	return (PARSER_OK_);
+	return (OK_);
 }

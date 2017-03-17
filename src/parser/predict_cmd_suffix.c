@@ -21,8 +21,8 @@ int		predict_cmd_suffix(t_parser *parser, t_array *words, t_array *redirections)
 	const t_token			*token;
 	int						ret;
 
-	ret = PARSER_OK_;
-	while (ret == PARSER_OK_)
+	ret = OK_;
+	while (ret == OK_)
 	{
 		if (check_requirements_io_redirect(parser))
 		{
