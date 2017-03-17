@@ -88,6 +88,6 @@ Test(Parser, SeparatorOp_NoAndOrSemi)
 	int ret = predict_separator_op(&parser);
 
 	cr_assert_not(req);
-	cr_assert_eq(ret, ERR_PARSING);
+	cr_assert_eq(ret, ERROR_);
 	test_current_token(E_TOKEN_WORD);
 }

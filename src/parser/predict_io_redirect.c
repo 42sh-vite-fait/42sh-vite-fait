@@ -61,6 +61,6 @@ int			predict_io_redirect(t_parser *parser, struct s_redirection *redir)
 	else if (check_requirements_io_here(parser))
 		ret = predict_io_here(parser, redir);
 	else
-		ret = ERR_PARSING;
+		ret = ERROR_;
 	return (ret);
 }

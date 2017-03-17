@@ -30,5 +30,5 @@ int		predict_io_file(t_parser *parser)
 		parser_consume_token(parser);
 		return (parser_consume_if_match(parser, E_TOKEN_WORD));
 	}
-	return (ERR_PARSING);
+	return (ERROR_);
 }

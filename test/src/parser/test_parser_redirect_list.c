@@ -53,7 +53,7 @@ Test(Parser, RedirectList_OneInvalidRedirection)
 	int		ret = predict_io_redirect(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, ERR_PARSING);
+	cr_assert_eq(ret, ERROR_);
 	test_current_token(E_TOKEN_LESS);
 	cr_assert(parser.index, 1);
 }
@@ -72,7 +72,7 @@ Test(Parser, RedirectList_OneInvalidRedirectionWithIONumber)
 	int		ret = predict_io_redirect(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, ERR_PARSING);
+	cr_assert_eq(ret, ERROR_);
 	test_current_token(E_TOKEN_LESS);
 	cr_assert(parser.index, 2);
 }

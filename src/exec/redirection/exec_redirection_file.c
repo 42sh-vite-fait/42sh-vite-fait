@@ -16,12 +16,12 @@ static int	open_file_and_dup(int io_number, int flags, const char *word)
 	if (fd == -1)
 	{
 		error_set_context("can't open %s: %s", word, strerror(errno));
-		return (ERR_EXEC);
+		return (ERROR_);
 	}
 	if (exec_dup_fd(fd, io_number) != OK_)
-		return (ERR_EXEC);
+		return (ERROR_);
 	if (fd != io_number && exec_close_fd(fd) != OK_)
-		return (ERR_EXEC);
+		return (ERROR_);
 	return (OK_);
 }
 

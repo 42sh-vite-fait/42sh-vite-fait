@@ -83,7 +83,7 @@ Test(Parser, PipeSequence_ErrorNoCommandAfterLinebreak)
 	int		ret = predict_pipe_sequence(&parser);
 
 	cr_assert_not(req);
-	cr_assert_eq(ret, ERR_PARSING);
+	cr_assert_eq(ret, ERROR_);
 	test_current_token(E_TOKEN_SEMI);
 }
 
@@ -126,7 +126,7 @@ Test(Parser, PipeSequence_ErrorBeginWithPipe)
 	int		ret = predict_pipe_sequence(&parser);
 
 	cr_assert_not(req);
-	cr_assert_eq(ret, ERR_PARSING);
+	cr_assert_eq(ret, ERROR_);
 	test_current_token(E_TOKEN_PIPE);
 	cr_assert_eq(parser.index, 0);
 }
@@ -147,6 +147,6 @@ Test(Parser, PipeSequence_ErrorSeparatorBetweenCommand)
 	int		ret = predict_pipe_sequence(&parser);
 
 	cr_assert_not(req);
-	cr_assert_eq(ret, ERR_PARSING);
+	cr_assert_eq(ret, ERROR_);
 	test_current_token(E_TOKEN_SEMI);
 }

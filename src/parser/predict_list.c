@@ -26,9 +26,9 @@ static int	parse_right_list(t_parser *parser, t_ast_node *node)
 	node->type = E_AST_LIST;
 	node->token = parser_get_current_token(parser);
 	if (predict_separator_op(parser) != PARSER_OK_)
-		return (ERR_PARSING);
+		return (ERROR_);
 	if (predict_and_or(parser, &node->right) != PARSER_OK_)
-		return (ERR_PARSING);
+		return (ERROR_);
 	return (PARSER_OK_);
 }
 
@@ -45,12 +45,12 @@ int		predict_list(t_parser *parser, t_ast_node **from_parent)
 	*from_parent = node;
 
 	if (predict_and_or(parser, &node->left) != PARSER_OK_)
-		return (ERR_PARSING);
+		return (ERROR_);
 
 	if (check_requirements_ambiguous_sep_rule(parser))
 	{
 		if (parse_right_list(parser, node) != PARSER_OK_)
-			return (ERR_PARSING);
+			return (ERROR_);
 
 		while (check_requirements_ambiguous_sep_rule(parser))
 		{
@@ -58,7 +58,7 @@ int		predict_list(t_parser *parser, t_ast_node **from_parent)
 			node->left = *from_parent;
 			*from_parent = node;
 			if (parse_right_list(parser, node) != PARSER_OK_)
-				return (ERR_PARSING);
+				return (ERROR_);
 		}
 	}
 

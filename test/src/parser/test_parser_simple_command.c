@@ -61,7 +61,7 @@ Test(Parser, SimpleCommand_ErrorAssignmentAfterCmdWord)
 	int		ret = predict_cmd_prefix(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, ERR_PARSING);
+	cr_assert_eq(ret, ERROR_);
 	test_current_token(E_TOKEN_ASSIGNMENT_WORD);
 	cr_assert_eq(parser.index, 1);
 }

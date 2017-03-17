@@ -9,7 +9,7 @@ static void	parser_set_error(const t_parser *parser, int err)
 	const char		*token_name;
 	char			*token_word;
 
-	if (err == ERR_PARSING)
+	if (err == ERROR_)
 	{
 		token = parser_get_current_token(parser);
 		token_name = lexer_debug_get_token_name(token->type);

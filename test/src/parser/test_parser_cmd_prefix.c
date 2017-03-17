@@ -182,7 +182,7 @@ Test(Parser, CmdPrefix_AssignmentWordAfterRedirection)
 	int		ret = predict_cmd_prefix(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, ERR_PARSING);
+	cr_assert_eq(ret, ERROR_);
 	test_current_token(E_TOKEN_WORD);
 	cr_assert_eq(parser.index, 2);
 }

@@ -51,7 +51,7 @@ Test(Parser, IOHere_DoubleDless)
 	int		ret = predict_io_here(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, ERR_PARSING);
+	cr_assert_eq(ret, ERROR_);
 	test_current_token(E_TOKEN_DLESS);
 	cr_assert_eq(parser.index, 1);
 }
@@ -67,7 +67,7 @@ Test(Parser, IOHere_DlessNoRedirection)
 	int		ret = predict_io_here(&parser);
 
 	cr_assert_not(req);
-	cr_assert_eq(ret, ERR_PARSING);
+	cr_assert_eq(ret, ERROR_);
 	test_current_token(E_TOKEN_WORD);
 	cr_assert_eq(parser.index, 0);
 }
@@ -85,7 +85,7 @@ Test(Parser, IOHere_DlessIONumberFirst)
 	int		ret = predict_io_here(&parser);
 
 	cr_assert_not(req);
-	cr_assert_eq(ret, ERR_PARSING);
+	cr_assert_eq(ret, ERROR_);
 	test_current_token(E_TOKEN_IO_NUMBER);
 	cr_assert_eq(parser.index, 0);
 }
@@ -125,7 +125,7 @@ Test(Parser, IOHere_DoubleDlessdash)
 	int		ret = predict_io_here(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, ERR_PARSING);
+	cr_assert_eq(ret, ERROR_);
 	test_current_token(E_TOKEN_DLESSDASH);
 	cr_assert_eq(parser.index, 1);
 }
@@ -141,7 +141,7 @@ Test(Parser, IOHere_DlessdasNoRedirection)
 	int		ret = predict_io_here(&parser);
 
 	cr_assert_not(req);
-	cr_assert_eq(ret, ERR_PARSING);
+	cr_assert_eq(ret, ERROR_);
 	test_current_token(E_TOKEN_WORD);
 	cr_assert_eq(parser.index, 0);
 }
@@ -159,7 +159,7 @@ Test(Parser, IOHere_DlessdasIONumberFirst)
 	int		ret = predict_io_here(&parser);
 
 	cr_assert_not(req);
-	cr_assert_eq(ret, ERR_PARSING);
+	cr_assert_eq(ret, ERROR_);
 	test_current_token(E_TOKEN_IO_NUMBER);
 	cr_assert_eq(parser.index, 0);
 }

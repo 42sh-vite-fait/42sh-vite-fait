@@ -18,7 +18,7 @@ static int	close_fd(int io_number)
 	{
 		devnull = open("/dev/null", O_RDWR, OPEN_DEFAULT_MODE);
 		if (devnull == -1 || exec_dup_fd(devnull, io_number) != OK_)
-			return (ERR_EXEC);
+			return (ERROR_);
 	}
 	else
 		return (exec_close_fd(io_number));
@@ -31,7 +31,7 @@ static int	duplicate_fd(int io_number, unsigned word)
 	if (!is_fd_open(word))
 	{
 		error_set_context("%d: %s", word, strerror(errno));
-		return (ERR_EXEC);
+		return (ERROR_);
 	}
 	else
 	   return (exec_dup_fd(word, io_number) != OK_);
@@ -48,7 +48,7 @@ static int	exec_redirection_dup(int io_number, const char *word)
 	else
 	{
 		error_set_context("%s: illegal file descriptor name", word);
-		ret = ERR_EXEC;
+		ret = ERROR_;
 	}
 	return (ret);
 }

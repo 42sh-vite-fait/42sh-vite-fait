@@ -15,7 +15,7 @@ static int	exec_redirection_dispatch(struct s_redirection redir,
 {
 	int		ret;
 
-	ret = ERR_EXEC;
+	ret = ERROR_;
 	if (redir.operator == E_TOKEN_GREAT || redir.operator == E_TOKEN_CLOBBER)
 		ret = exec_redirection_output_trunc(redir.io_number, word);
 	else if (redir.operator == E_TOKEN_LESS)

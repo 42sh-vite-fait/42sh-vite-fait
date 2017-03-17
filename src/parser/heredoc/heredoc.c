@@ -42,7 +42,7 @@ static int	fill_heredoc_file(const char *word, size_t len, int fd)
 		{
 			error_set_context("heredoc: write failed: %s", strerror(errno));
 			string_shutdown(&line);
-			return (ERR_HEREDOC);
+			return (ERROR_);
 		}
 		string_truncate(&line, 0);
 	}
@@ -78,7 +78,7 @@ int		parser_heredoc_execute(const t_string *input, t_array *heredocs)
 		redir->heredoc_filename = heredoc(here_end, ft_strlen(here_end));
 		free(here_end);
 		if (redir->heredoc_filename == NULL)
-			return (ERR_HEREDOC);
+			return (ERROR_);
 		i += 1;
 	}
 	return (OK_);

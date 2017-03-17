@@ -24,9 +24,9 @@ int		predict_command(t_parser *parser, t_ast_node **from_parent)
 	{
 		parser->subshell_depth += 1;
 		if (parser->subshell_depth >= SUBSHELL_MAX_DEPTH)
-			return (ERR_PARSING);
+			return (ERROR_);
 		if (predict_subshell(parser, node) != PARSER_OK_)
-			return (ERR_PARSING);
+			return (ERROR_);
 		ast_node_command_init(node);
 		if (check_requirements_redirect_list(parser))
 			return (predict_redirect_list(parser, &node->command.redirections));

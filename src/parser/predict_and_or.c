@@ -13,9 +13,9 @@ static int	parse_right_and_or(t_parser *parser, t_ast_node *node)
 	node->token = parser_get_current_token(parser);
 	parser_consume_token(parser);
 	if (predict_linebreak(parser) != PARSER_OK_)
-		return (ERR_PARSING);
+		return (ERROR_);
 	if (predict_pipe_sequence(parser, &node->right) != PARSER_OK_)
-		return (ERR_PARSING);
+		return (ERROR_);
 	return (PARSER_OK_);
 }
 
@@ -33,13 +33,13 @@ int		predict_and_or(t_parser *parser, t_ast_node **from_parent)
 	*from_parent = node;
 
 	if (predict_pipe_sequence(parser, &node->left) != PARSER_OK_)
-		return (ERR_PARSING);
+		return (ERROR_);
 
 	if (parser_check_current_token_type(parser, E_TOKEN_AND_IF)
 			|| parser_check_current_token_type(parser, E_TOKEN_OR_IF))
 	{
 		if (parse_right_and_or(parser, node) != PARSER_OK_)
-			return (ERR_PARSING);
+			return (ERROR_);
 
 		while (parser_check_current_token_type(parser, E_TOKEN_AND_IF)
 				|| parser_check_current_token_type(parser, E_TOKEN_OR_IF))
@@ -48,7 +48,7 @@ int		predict_and_or(t_parser *parser, t_ast_node **from_parent)
 			node->left = *from_parent;
 			*from_parent = node;
 			if (parse_right_and_or(parser, node) != PARSER_OK_)
-				return (ERR_PARSING);
+				return (ERROR_);
 		}
 	}
 	return (PARSER_OK_);

@@ -11,7 +11,7 @@ static int exec_set_process_group_child_side(int pid, int pgid)
 	if (setpgid(pid, pgid) == -1)
 	{
 		error_set_context("child: setpgid: %s", strerror(errno));
-		return (ERR_EXEC);
+		return (ERROR_);
 	}
 	return (OK_);
 }
@@ -28,7 +28,7 @@ static int exec_set_process_group_parent_side(int pid, int pgid)
 	if (setpgid(pid, pgid) == -1 && errno != EACCES)
 	{
 		error_set_context("setpgid: %s", strerror(errno));
-		return (ERR_EXEC);
+		return (ERROR_);
 	}
 	return (OK_);
 }
@@ -41,7 +41,7 @@ static int exec_set_foreground_process_group(pid_t pgid)
 	if (opt_is_set(OPT_INTERACTIVE) && tcsetpgrp(stdin_copy, pgid) == -1)
 	{
 		error_set_context("tcsetpgrp: %s", strerror(errno));
-		return (ERR_EXEC);
+		return (ERROR_);
 	}
 	return (OK_);
 }

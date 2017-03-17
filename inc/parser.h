@@ -24,7 +24,7 @@ struct	s_parser
 /*
 ** Vérifie la correspondance entre le token courant et les paramètres attendus.
 ** Si ça match, on consomme le token courant, et on retourne OK_.
-** Sinon on retourne l'erreur ERR_PARSING.
+** Sinon on retourne l'erreur ERROR_.
 */
 int		parser_consume_if_match(t_parser *parser, int type);
 void	parser_consume_token(t_parser *parser);
@@ -43,7 +43,7 @@ const t_token	*parser_get_lookahead_token(const t_parser *parser, size_t n);
 
 /*
 ** Reçoit une liste de tokens et retourne `OK_` si la phrase est correcte.
-** `ERR_PARSING` sinon.
+** `ERROR_` sinon.
 */
 int		parser_parse(t_parser *parser);
 t_parser	*parser_init(t_parser *parser);

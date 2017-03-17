@@ -15,7 +15,7 @@ bool	check_requirements_complete_command(const t_parser *parser)
 int		predict_complete_command(t_parser *parser, t_ast_node **from_parent)
 {
 	if (predict_list(parser, from_parent) != PARSER_OK_) // Evite la compression
-		return (ERR_PARSING);
+		return (ERROR_);
 	if (check_requirements_separator_op(parser))
 		return (predict_separator_op(parser));
 	return (PARSER_OK_);

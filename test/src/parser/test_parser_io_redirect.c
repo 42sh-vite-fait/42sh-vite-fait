@@ -85,7 +85,7 @@ Test(Parser, IORedirect_MultipleIONumber)
 	int		ret = predict_io_redirect(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, ERR_PARSING);
+	cr_assert_eq(ret, ERROR_);
 	test_current_token(E_TOKEN_IO_NUMBER);
 	cr_assert_eq(parser.index, 1);
 }
@@ -101,7 +101,7 @@ Test(Parser, IORedirect_NoRedirection)
 	int		ret = predict_io_redirect(&parser);
 
 	cr_assert_not(req);
-	cr_assert_eq(ret, ERR_PARSING);
+	cr_assert_eq(ret, ERROR_);
 	test_current_token(E_TOKEN_WORD);
 }
 
@@ -119,7 +119,7 @@ Test(Parser, IORedirect_WrongTokenForWordAfterRedirection)
 	int		ret = predict_io_redirect(&parser);
 
 	cr_assert_not(req);
-	cr_assert_eq(ret, ERR_PARSING);
+	cr_assert_eq(ret, ERROR_);
 	test_current_token(E_TOKEN_LESS);
 	cr_assert_eq(parser.index, 2);
 }

@@ -55,6 +55,6 @@ Test(Parser, NewlineList_NoNewline)
 	int ret = predict_newline_list(&parser);
 
 	cr_assert_not(req);
-	cr_assert_eq(ret, ERR_PARSING);
+	cr_assert_eq(ret, ERROR_);
 	test_current_token(E_TOKEN_WORD);
 }

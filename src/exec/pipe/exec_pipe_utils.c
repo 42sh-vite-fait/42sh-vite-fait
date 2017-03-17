@@ -9,12 +9,12 @@ int		pipe_replace_stdout(int write_end)
 	if (dup2(write_end, STDOUT_FILENO) == -1)
 	{
 		error_set_context("dup2: %s", strerror(errno));
-		return (ERR_EXEC);
+		return (ERROR_);
 	}
 	if (close(write_end) == -1)
 	{
 		error_set_context("close: %s", strerror(errno));
-		return (ERR_EXEC);
+		return (ERROR_);
 	}
 	return (OK_);
 }
@@ -24,12 +24,12 @@ int		pipe_replace_stdin(int read_end)
 	if (dup2(read_end, STDIN_FILENO) == -1)
 	{
 		error_set_context("dup2: %s", strerror(errno));
-		return (ERR_EXEC);
+		return (ERROR_);
 	}
 	if (close(read_end) == -1)
 	{
 		error_set_context("close: %s", strerror(errno));
-		return (ERR_EXEC);
+		return (ERROR_);
 	}
 	return (OK_);
 }
@@ -41,7 +41,7 @@ int		pipe_init(t_pipe *pype)
 	if (pipe(p) == -1)
 	{
 		error_set_context("pipe function: %s", strerror(errno));
-		return (ERR_EXEC);
+		return (ERROR_);
 	}
 	pype->read = p[0];
 	pype->write = p[1];

@@ -125,7 +125,7 @@ Test(Parser, AndOr_ErrorWithLinebreak)
 	int		ret = predict_and_or(&parser);
 
 	cr_assert(req);
-	cr_assert_eq(ret, ERR_PARSING);
+	cr_assert_eq(ret, ERROR_);
 	test_current_token(E_TOKEN_OR_IF);
 	cr_assert_eq(parser.index, 7);
 }

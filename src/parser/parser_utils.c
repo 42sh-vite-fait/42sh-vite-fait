@@ -39,5 +39,5 @@ int				parser_consume_if_match(t_parser *parser, int type)
 		parser_consume_token(parser);
 		return (PARSER_OK_);
 	}
-	return (ERR_PARSING);
+	return (ERROR_);
 }
