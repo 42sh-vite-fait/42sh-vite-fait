@@ -1,8 +1,16 @@
+#include "input.h"
 #include "user_interface.h"
+#include "errors.h"
 
-static void		ui_handler_do_nothing(void *a)
+static void		ui_handler_do_nothing(t_string *a, char c)
 {
 	(void)a;
+	(void)c;
+}
+
+static void		ui_handler_insert_char(t_string *a, char c)
+{
+	string_insert(a, a->len, &c, 1);
 }
 
 static struct s_key_action	g_key_action_list[] = {
@@ -580,7 +588,7 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 };
 
-void				handle_input_sequence(t_input_sequence *input)
+static void	handle_input_sequence(t_input_sequence *input, t_string *line)
 {
 	size_t				i;
 	struct s_key_action	action;
@@ -606,5 +614,42 @@ void				handle_input_sequence(t_input_sequence *input)
 		return ;
 	}
 	input->len = 0;
-	action.behavior(NULL) //TODO: send real parameters;
+	action.behavior(line, input->data[0]); //TODO: send real parameters;
+}
+
+#include <stdio.h>
+#include "terminal.h"
+
+int		input_ui_get_line(t_string *line, const char *prompt)
+{
+	t_input_sequence	s;
+	ssize_t				ret;
+	char				c;
+
+	(void)prompt;
+	s.len = 0;
+	while (1)
+	{
+		terminal_start_raw_mode();
+		ret = read(0, &c, 1);
+		if (ret != 1)
+			break ;
+		terminal_stop_raw_mode();
+		if ((c == E_CTRL_J || c == E_ENTER) && s.len == 0)
+		{
+			fatal_malloc(string_ncat(line, "\n", 1));
+			return (OK_);
+		}
+		else if (c == E_CTRL_D && s.len == 0 && line->len == 0)
+			return (CMD_EOF_);
+		s.data[s.len] = c;
+		s.len += 1;
+		handle_input_sequence(&s, line);
+	}
+	if (ret == 0)
+		return (CMD_EOF_);
+	else if (ret == -1 && errno == EINTR)
+		return (CMD_DROP_);
+	error_set_context("read : %s", strerror(errno));
+	return (ERROR_);
 }

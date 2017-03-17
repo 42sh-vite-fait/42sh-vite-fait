@@ -16,12 +16,12 @@ static void	request_input(t_string *line)
 
 	// TODO mode interactif
 	status = shell_input(line, SHELL_PS2);
-	if (status == E_INPUT_EOF)
+	if (status == CMD_EOF_)
 	{
 		error_set_context("EOF unclosed");
 		error_print("heredoc");
 	}
-	if (status != E_INPUT_OK) // TODO exit ???
+	if (status != OK_) // TODO exit ???
 		exit(1);
 }
 

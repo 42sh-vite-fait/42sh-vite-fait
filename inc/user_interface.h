@@ -1,24 +1,21 @@
 #ifndef USER_INTERFACE_H
 # define USER_INTERFACE_H
 
-# include <sys/ioctl.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdbool.h>
 # include <stdint.h>
-# include "lib42.h"
-# include "history.h"
-# include "terminal.h"
+# include "string_42.h"
 
-# define UI_COLOR_CYAN "\x1b[37m"
-# define UI_COLOR_RESET "\x1b[36m"
-
-# define MEM_PAGE_SIZE 4096
+typedef struct s_input_sequence t_input_sequence;
 
 struct	s_key_action
 {
 	char	code[8];
-	void	(*behavior)(void *);
+	void	(*behavior)(t_string *, char);
+};
+
+struct s_input_sequence
+{
+	char	data[8];
+	uint8_t	len;
 };
 
 enum	e_keys
@@ -173,15 +170,8 @@ enum	e_keys
 	E_ENTER = E_CTRL_M,
 };
 
-typedef struct s_input_sequence t_input_sequence;
+//void			handle_input_sequence(t_input_sequence *input);
+//void			read_in_input_sequence(t_input_sequence *input);
 
-struct s_input_sequence
-{
-	char	data[8];
-	uint8_t	len;
-};
-
-void			handle_input_sequence(t_input_sequence *input);
-void			read_in_input_sequence(t_input_sequence *input);
 
 #endif

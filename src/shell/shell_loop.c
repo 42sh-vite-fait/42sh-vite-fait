@@ -21,7 +21,7 @@ static int	shell_lex(t_string *input, t_lexer *lexer, t_array *tokens)
 	fatal_malloc(string_init(&line));
 	lexer_status = LEXER_INPUT_INCOMPLETE;
 	while (lexer_status == LEXER_INPUT_INCOMPLETE &&
-			(input_status = shell_input(&line, prompt)) == E_INPUT_OK)
+			(input_status = shell_input(&line, prompt)) == OK_)
 	{
 		if ((lexer_status = lexer_lex(lexer, tokens, &line)) != LEXER_ERROR)
 			fatal_malloc(string_append(input, &line));
@@ -29,7 +29,7 @@ static int	shell_lex(t_string *input, t_lexer *lexer, t_array *tokens)
 		prompt = SHELL_PS2;
 	}
 	string_shutdown(&line);
-	if (input_status != E_INPUT_OK)
+	if (input_status != OK_)
 		return (input_status); // TODO !!!! problem
 	if (lexer_status == LEXER_ERROR)
 	{

@@ -1,11 +1,10 @@
-#include <errno.h>
+#include <assert.h>
+#include "str_42.h"
 #include "input.h"
-#include "user_interface.h"
 #include "errors.h"
-#include "lexer.h"
-#include "shell.h"
+#include "opt.h"
 
-static int	input_arg_get_line(t_string *input)
+static int	input_arg_get_line(t_string *line)
 {
 	const char		*arg;
 	static size_t	index = 0;
@@ -14,58 +13,55 @@ static int	input_arg_get_line(t_string *input)
 	arg = opt_get_command_line();
 	assert(arg != NULL);
 	if (arg[index] == '\0')
-		return (E_INPUT_EOF);
+		return (CMD_EOF_);
 	offset = ft_strchrpos(arg + index, '\n');
 	if (offset == -1)
 	{
-		fatal_malloc(string_cat(input, arg + index));
+		fatal_malloc(string_cat(line, arg + index));
 		index += ft_strlen(arg);
 	}
 	else
 	{
 		offset += 1;
-		fatal_malloc(string_ncat(input, arg + index, offset));
+		fatal_malloc(string_ncat(line, arg + index, offset));
 		index += offset;
 	}
-	return (E_INPUT_OK);
+	return (OK_);
 }
 
-static int	input_notty_get_line(t_string *input)
+static int	input_notty_get_line(t_string *line)
 {
 	ssize_t	ret;
 	char	c;
 
 	while ((ret = read(STDIN_FILENO, &c, 1)) > 0)
 	{
-		fatal_malloc(string_ncat(input, &c, 1));
+		fatal_malloc(string_ncat(line, &c, 1));
 		if (c == '\n')
 			break ;
 	}
 	if (ret == -1)
 	{
 		error_set_context("read: %s", strerror(errno));
-		return (E_INPUT_ERROR);
+		return (ERROR_);
 	}
-	else if (ret == 0 && input->len == 0)
-		return (E_INPUT_EOF);
+	else if (ret == 0 && line->len == 0)
+		return (CMD_EOF_);
 	else
-		return (E_INPUT_OK);
+		return (OK_);
 }
 
-int	input_get_line(t_string *input, const char *prompt)
+int	input_get_line(t_string *line, const char *prompt)
 {
 	int			ret;
 
 	if (opt_is_set(OPT_CMD_STRING))
-		ret = input_arg_get_line(input);
+		ret = input_arg_get_line(line);
 	else if (opt_is_set(OPT_INTERACTIVE))
-	{
-		(void)prompt;
-		ret = 0;
-	}
+		ret = input_ui_get_line(line, prompt);
 	else
-		ret = input_notty_get_line(input);
-	if (ret == E_INPUT_ERROR)
+		ret = input_notty_get_line(line);
+	if (ret == ERROR_)
 		error_print("input");
 	return (ret);
 }
