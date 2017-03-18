@@ -6,12 +6,13 @@
 #include <termios.h>
 #include "errors.h"
 #include "terminal.h"
+#include "exec.h"
 
 static struct termios	g_termios_backup;
 
 static int	terminal_set_termios(const struct termios *new)
 {
-	if (tcsetattr(STDIN_FILENO, TCSADRAIN, new) < 0)
+	if (tcsetattr(exec_get_tty_fd(), TCSADRAIN, new) < 0)
 	{
 		error_set_context("tcsetattr: %s", strerror(errno));
 		return (ERROR_);
@@ -61,7 +62,7 @@ int			init_terminal_module(void)
 		error_set_context("tgetent: no such entry for %s", name_term);
 		return (ERROR_);
 	}
-	if (tcgetattr(STDIN_FILENO, &g_termios_backup) < 0)
+	if (tcgetattr(exec_get_tty_fd(), &g_termios_backup) < 0)
 	{
 		error_set_context("tcgetattr: %s", strerror(errno));
 		return (ERROR_);

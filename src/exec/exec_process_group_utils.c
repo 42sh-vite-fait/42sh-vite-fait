@@ -33,24 +33,23 @@ static int exec_set_process_group_parent_side(int pid, int pgid)
 	return (OK_);
 }
 
+/*
+ * 42sh        # [0, 1, 2]
+ * 42sh < file # [1, 2]
+ * test 42sh   # []
+ */
 static int exec_set_foreground_process_group(pid_t pgid)
 {
-	int	stdin_copy;
+	int	tty_fd;
 
 	//TODO: le controlling terminal n'est pas grab en cas de './42sh < file'
 	// car le shell est non-interactif et donc le if echoue
-	/* stdin_copy = exec_backup_get_standard_fd(0); */
-	stdin_copy = exec_backup_get_standard_fd(1);
-	if (tcsetpgrp(stdin_copy, pgid) == -1)
+	tty_fd = exec_get_tty_fd();
+	if (opt_is_set(OPT_INTERACTIVE) && tcsetpgrp(tty_fd, pgid) == -1)
 	{
 		error_set_context("tcsetpgrp: %s", strerror(errno));
 		return (ERROR_);
 	}
-	/* if (opt_is_set(OPT_INTERACTIVE) && tcsetpgrp(stdin_copy, pgid) == -1) */
-	/* { */
-	/* 	error_set_context("tcsetpgrp: %s", strerror(errno)); */
-	/* 	return (ERR_EXEC); */
-	/* } */
 	return (OK_);
 }
 

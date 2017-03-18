@@ -24,6 +24,10 @@ CFLAGS     += -I./inc
 SRC_PATH   += src
 SOURCES    += main.c
 
+# Init
+SRC_SUBDIR += init
+SOURCES += init_shell.c
+
 # Shell
 SRC_SUBDIR += shell
 SOURCES += shell_loop.c
@@ -182,6 +186,8 @@ SOURCES += exec_node_utils.c
 SOURCES += exec_process_utils.c
 SOURCES += exec_process_group_utils.c
 SOURCES += exec_with_path.c
+SOURCES += exec_backup_fd.c
+SOURCES += exec_tty_fd.c
 # List
 SRC_SUBDIR += exec/list
 SOURCES += exec_node_list.c
@@ -210,9 +216,7 @@ SRC_SUBDIR += exec/redirection
 SOURCES += exec_redirection.c
 SOURCES += exec_redirection_dup.c
 SOURCES += exec_redirection_file.c
-SOURCES += exec_redirection_init.c
 SOURCES += exec_redirection_undo.c
-SOURCES += exec_redirection_backup.c
 
 # Signal
 SRC_SUBDIR += signal

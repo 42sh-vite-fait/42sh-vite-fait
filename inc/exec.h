@@ -23,15 +23,15 @@ struct s_pipe
 /*
 ** Tree Walker
 */
-int exec_ast(const t_ast ast, const t_string *input);
-int	exec_node_complete_commands(const t_ast_node *node, const t_string *input);
-int	exec_node_complete_command(const t_ast_node *node, const t_string *input);
-int	exec_node_list(const t_ast_node *node, const t_string *input);
-int	exec_node_and_or(const t_ast_node *node, const t_string *input);
-int	exec_node_pipe(const t_ast_node *node, const t_string *input);
-int	exec_node_term(const t_ast_node *node, const t_string *input);
-int	exec_node_subshell(const t_ast_node *node, const t_string *input);
-int	exec_node_simple_command(const t_ast_node *node, const t_string *input);
+int 	exec_ast(const t_ast ast, const t_string *input);
+int		exec_node_complete_commands(const t_ast_node *node, const t_string *input);
+int		exec_node_complete_command(const t_ast_node *node, const t_string *input);
+int		exec_node_list(const t_ast_node *node, const t_string *input);
+int		exec_node_and_or(const t_ast_node *node, const t_string *input);
+int		exec_node_pipe(const t_ast_node *node, const t_string *input);
+int		exec_node_term(const t_ast_node *node, const t_string *input);
+int		exec_node_subshell(const t_ast_node *node, const t_string *input);
+int		exec_node_simple_command(const t_ast_node *node, const t_string *input);
 
 /*
 ** Pipe
@@ -54,12 +54,17 @@ void	exec_with_path(const char *paths, char * const *av, char * const *envp);
 void	exec_binary(const t_command command, const t_string *input);
 
 /*
+** Backup fd
+*/
+int		init_exec_fd(void);
+int		exec_get_tty_fd();
+int		exec_get_standard_fd(unsigned n);
+int		exec_backup_fd(int fd, int new_fd);
+
+/*
 ** Redirections
 */
 bool	is_fd_open(int fd);
-int		init_redirection_module(void);
-int		exec_backup_get_standard_fd(size_t n);
-int		exec_backup_standard_fd(void);
 int		exec_redirection(const t_array redirections, const t_string *input);
 int		undo_redirection(const t_array redirections);
 int		exec_redirection_input(int io_number, const char *word);

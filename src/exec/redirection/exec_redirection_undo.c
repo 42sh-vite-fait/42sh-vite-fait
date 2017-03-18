@@ -4,7 +4,7 @@
 
 static int	restore_standard_fd(int io_number)
 {
-	return (exec_dup_fd(exec_backup_get_standard_fd(io_number), io_number));
+	return (exec_dup_fd(exec_get_standard_fd(io_number), io_number));
 }
 
 static int	close_opened_file(int io_number)
