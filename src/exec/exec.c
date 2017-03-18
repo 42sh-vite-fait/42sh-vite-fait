@@ -18,12 +18,10 @@ t_tree_walker	*const g_walkers[] =
 	[E_AST_SIMPLE_COMMAND] = &exec_node_simple_command,
 };
 
-#include <stdio.h>
 int exec_ast(const t_ast ast, const t_string *input)
 {
 	int	exit_status;
 
-	printf("### DEBUG %s\n", __func__);
 	assert(ast.root != NULL);
 	exit_status = g_walkers[ast.root->type](ast.root, input);
 	exit_status_set_last(exit_status);
