@@ -11,6 +11,7 @@ void	disable_rawmode(void);
 int		get_winsize(struct winsize *ws);
 void	move_cursor(int x, int y);
 int		get_cursor_pos(size_t *x, size_t *y);
+void	execute_caps(char *cap);
 
 /*
 ** Input flags
@@ -107,4 +108,9 @@ int			get_cursor_pos(size_t *x, size_t *y)
 	if (buf[i] != 'R')
 		return (1);
 	return (0);
+}
+
+void		execute_caps(char *cap)
+{
+	tputs(tgetstr(cap, NULL), 1, &wrap_putchar);
 }

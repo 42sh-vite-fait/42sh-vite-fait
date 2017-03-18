@@ -4,6 +4,7 @@
 
 void	enable_rawmode(void);
 void	disable_rawmode(void);
+void	execute_caps(char *cap);
 
 int main(void)
 {
@@ -15,7 +16,8 @@ int main(void)
 	setbuf(stdout, NULL);
 
 	printf("%s", c);
-	printf("\x1b[4A");
+	/* printf("\x1b[4A"); */
+	execute_caps("UP");
 	printf("HERE");
 	printf("\x1b[2B");
 	printf("HERE");
