@@ -27,7 +27,7 @@ static int	env_add_args(char *const *argv, int optind)
 		name = argv[optind];
 		value = argv[optind] + offset + 1;
 		if (name[0] && is_valid_name(name, offset))
-			var_set(name, value, VAR_ATTR_EXPORT);
+			var_set(name, value);
 		else
 		{
 			error_set_context("%s: not a valid identifier", name);
@@ -43,7 +43,7 @@ static void	env_clean_environ(void)
 	int	ret;
 
 	ret = var_get("PATH", &g_backup_paths_value);
-	if (ret == ERR_VAR_NOT_FOUND)
+	if (ret == ERROR_)
 		g_backup_paths_value = "";
 	var_clear();
 }

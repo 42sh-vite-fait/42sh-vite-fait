@@ -77,11 +77,9 @@ SOURCES += dispatch.c
 
 # Variable
 SRC_SUBDIR += var
-SOURCES += var_get.c
 SOURCES += var_init.c
-SOURCES += var_shutdown.c
+SOURCES += var_get.c
 SOURCES += var_set.c
-SOURCES += var_unset.c
 
 # Automaton
 SRC_SUBDIR += automaton

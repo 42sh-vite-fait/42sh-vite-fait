@@ -13,12 +13,12 @@ static void	update_shell_lvl(void)
 
 	var_get("SHLVL", &value);
 	if (value == NULL)
-		var_set("SHLVL", "1", VAR_ATTR_EXPORT);
+		var_set("SHLVL", "1");
 	else
 	{
 		value = ft_utoa_base(ft_atou_base(value, 10) + 1, 10);
 		fatal_malloc((void*)value);
-		var_set("SHLVL", value, VAR_ATTR_EXPORT);
+		var_set("SHLVL", value);
 		free((void*)value);
 	}
 }
@@ -31,7 +31,7 @@ void		init_shell(int argc, const char *const *argv, char **environ)
 		error_print("init");
 		exit(1);
 	}
-	var_init_with_environ(environ);
+	var_init(environ);
 	update_shell_lvl();
 	if (opt_is_set(OPT_INTERACTIVE))
 	{

@@ -3,6 +3,7 @@
 #include "var.h"
 #include "misc.h"
 #include "ft_printf.h"
+#include "errors.h"
 
 static void	unset_args(const char *const *argv)
 {

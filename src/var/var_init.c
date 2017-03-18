@@ -1,42 +1,40 @@
 #include <assert.h>
+#include "array_42.h"
 #include "var.h"
 
-extern t_var_priv		g_variables;
-extern t_var_priv		g_environ_priv;
-extern char				**g_environ;
+t_array	g_environ;
 
-t_var_priv	g_variables;
-t_var_priv	g_environ_priv;
-char		**g_environ;
-
-void	var_init_with_environ(char **environ)
+void	var_init(char **environ)
 {
-	ssize_t	equal_sign;
+	char	*str;
 
 	assert(environ != NULL);
-	var_init();
+	fatal_malloc(array_init(&g_environ, sizeof(char*)));
 	while (*environ)
 	{
-		equal_sign = ft_strchrpos(*environ, '=');
-		if (equal_sign == -1)
-			var_set(*environ, "", VAR_ATTR_EXPORT);
-		else
-		{
-			environ[0][equal_sign] = '\0';
-			var_set(*environ, *environ + equal_sign + 1, VAR_ATTR_EXPORT);
-			environ[0][equal_sign] = '=';
-		}
+		str = ft_strdup(*environ);
+		fatal_malloc(array_push(&g_environ, &str));
 		environ += 1;
 	}
+	str = NULL;
+	fatal_malloc(array_push(&g_environ, &str));
 }
 
-void	var_init(void)
+void	var_shutdown(void)
 {
-	char		*null;
+	var_clear();
+	array_shutdown(&g_environ);
+}
 
-	null = NULL;
-	fatal_malloc(array_init(&g_variables, sizeof(t_var)));
-	fatal_malloc(array_init(&g_environ_priv, sizeof(char *)));
-	fatal_malloc(array_push(&g_environ_priv, &null));
-	g_environ = g_environ_priv.data;
+void	var_clear(void)
+{
+	void	*ptr;
+
+	while (g_environ.len)
+	{
+		array_pop(&g_environ, &ptr);
+		free(ptr);
+	}
+	ptr = NULL;
+	fatal_malloc(array_push(&g_environ, &ptr));
 }

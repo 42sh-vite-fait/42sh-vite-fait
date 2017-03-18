@@ -1,76 +1,65 @@
-#include "errors.h"
+#include <assert.h>
+#include "str_42.h"
+#include "array_42.h"
+#include "ft_printf.h"
 #include "var.h"
+#include "errors.h"
 #include "misc.h"
 
-extern t_var_priv	g_environ_priv;
-extern t_var_priv	g_variables;
-extern char			**g_environ;
+extern t_array	g_environ;
 
-static int	match_var_by_name(const void *var, const void *name)
+static ssize_t	get_entry_index(const char *name, size_t name_len)
 {
-	return (!ft_strcmp(((t_var*)var)->name, name));
-}
+	char	*entry;
+	size_t	i;
 
-static int	match_env_var_by_name(const void *env_var, const void *name)
-{
-	size_t	len;
-
-	if (*((char**)env_var) == NULL)
-		return (0);
-	len = ft_strlen((char*)name);
-	if (ft_strncmp(*((char**)env_var), (char*)name, len) == 0)
-		if ((*((char**)env_var))[len] == '=')
-			return (1);
-	return (0);
-}
-
-static void	set_environ_entry(t_var *var)
-{
-	t_string	buf;
-
-	fatal_malloc(string_init(&buf));
-	fatal_malloc(string_cat(&buf, var->name));
-	fatal_malloc(string_cat(&buf, "="));
-	fatal_malloc(string_cat(&buf, var->value));
-	fatal_malloc(array_insert_at(&g_environ_priv,
-				g_environ_priv.len - 1, &(buf.str)));
-	g_environ = g_environ_priv.data;
-}
-
-static void	remove_environ_entry(const char *name)
-{
-	void	*elem;
-
-	elem = array_find(g_environ_priv, &match_env_var_by_name, name);
-	free(*((char**)elem));
-	array_remove_elem(&g_environ_priv, elem);
-	g_environ = g_environ_priv.data;
-}
-
-int			var_set(const char *name, const char *value, int attrs)
-{
-	t_var	*var;
-
-	if (!is_valid_name(name, ft_strlen(name)))
-		return (ERR_VAR_BAD_NAME);
-	if ((var = array_find(g_variables, &match_var_by_name, name)) == NULL)
+	i = 0;
+	while (i < g_environ.len)
 	{
-		var = fatal_malloc(array_get_available(&g_variables));
-		var->name = fatal_malloc(ft_strdup(name));
-		var->value = NULL;
-		var->attrs = 0U;
+		entry = *(char**)array_get_at(&g_environ, i);
+		if (entry == NULL)
+			break ;
+		if (!ft_strncmp(entry, name, name_len) && entry[name_len] == '=')
+			return (i);
+		i += 1;
 	}
-	if (value != NULL && var->attrs & VAR_ATTR_RDONLY)
-		return (ERR_VAR_RDONLY);
-	if (var->attrs & VAR_ATTR_EXPORT && var->value != NULL)
-		remove_environ_entry(name);
-	if (value)
+	return (-1);
+}
+
+int				var_set(const char *name, const char *value)
+{
+	void	*old_entry;
+	char	*new_entry;
+	ssize_t	old_entry_index;
+	size_t	name_len;
+
+	name_len = ft_strlen(name);
+	assert(is_valid_name(name, name_len));
+	if (ft_asprintf(&new_entry, "%s=%s", name, value) == -1)
+		fatal_malloc(NULL);
+	old_entry_index = get_entry_index(name, name_len);
+	if (old_entry_index != -1)
 	{
-		free(var->value);
-		var->value = fatal_malloc(ft_strdup(value));
+		array_replace_at(&g_environ, old_entry_index, &new_entry, &old_entry);
+		free(old_entry);
 	}
-	var->attrs |= attrs;
-	if (var->attrs & VAR_ATTR_EXPORT && var->value != NULL)
-		set_environ_entry(var);
-	return (VAR_OK_);
+	else
+		fatal_malloc(array_insert_at(&g_environ, g_environ.len - 1, &new_entry));
+	return (OK_);
+}
+
+int				var_unset(const char *name)
+{
+	void	*removed_entry;
+	ssize_t	removed_entry_index;
+	size_t	name_len;
+
+	name_len = ft_strlen(name);
+	assert(is_valid_name(name, name_len));
+	removed_entry_index = get_entry_index(name, name_len);
+	if (removed_entry_index == -1)
+		return (ERROR_);
+	array_remove_at(&g_environ, removed_entry_index, &removed_entry);
+	free(removed_entry);
+	return (OK_);
 }

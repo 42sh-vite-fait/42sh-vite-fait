@@ -47,9 +47,9 @@ int			builtin_setenv(int argc, const char * const *argv)
 		return (0);
 	}
 	else if (argc == 2)
-		ret = var_set(argv[1], "", VAR_ATTR_EXPORT);
+		ret = var_set(argv[1], "");
 	else
-		ret = var_set(argv[1], argv[2], VAR_ATTR_EXPORT);
+		ret = var_set(argv[1], argv[2]);
 	assert(ret == OK_);
 	(void)ret;
 	return (0);

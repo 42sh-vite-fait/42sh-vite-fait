@@ -1,36 +1,52 @@
+#include <assert.h>
+#include "str_42.h"
+#include "array_42.h"
 #include "var.h"
 #include "errors.h"
-#include "array_42.h"
 #include "misc.h"
 
-extern t_var_priv	g_variables;
-extern char			**g_environ;
+extern t_array	g_environ;
 
-static int		match_var_by_name(const void *var, const void *name)
+static ssize_t	get_entry_index(const char *name, size_t name_len)
 {
-	return (!ft_strcmp(((t_var*)var)->name, name));
+	char	*entry;
+	size_t	i;
+
+	i = 0;
+	while (i < g_environ.len)
+	{
+		entry = *(char**)array_get_at(&g_environ, i);
+		if (entry == NULL)
+			break ;
+		if (!ft_strncmp(entry, name, name_len) && entry[name_len] == '=')
+			return (i);
+		i += 1;
+	}
+	return (-1);
 }
 
 int				var_get(const char *name, const char **value)
 {
-	void	*match;
+	void	*entry;
+	ssize_t	entry_index;
+	size_t	name_len;
 
-	if (!is_valid_name(name, ft_strlen(name)))
+	name_len = ft_strlen(name);
+	assert(is_valid_name(name, name_len));
+	entry_index = get_entry_index(name, name_len);
+	if (entry_index == -1)
 	{
 		*value = NULL;
-		return (ERR_VAR_BAD_NAME);
+		return (ERROR_);
 	}
-	match = array_find(g_variables, &match_var_by_name, name);
-	if (match)
-	{
-		*value = ((t_var*)match)->value;
-		return (VAR_OK_);
-	}
-	*value = NULL;
-	return (ERR_VAR_NOT_FOUND);
+	entry = *(char**)array_get_at(&g_environ, entry_index);
+	*value = ft_strchr(entry, '=');
+	if (*value == NULL)
+		*value = "";
+	return (OK_);
 }
 
 char * const	*var_get_environ(void)
 {
-	return ((char * const *)g_environ);
+	return ((char * const *)g_environ.data);
 }
