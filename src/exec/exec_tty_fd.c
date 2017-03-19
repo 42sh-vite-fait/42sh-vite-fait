@@ -1,35 +1,20 @@
+#include <assert.h>
 #include <unistd.h>
-#include "opt.h"
 #include "exec.h"
 
-#define MAX_FD_TO_BACKUP 	(3)
-#define BACKUP_OFFSET		(10)
-#define BACKUP_TTY_FD		(4)
-
-static const int	g_standard_fd[] = {
-	[STDIN_FILENO] = BACKUP_OFFSET + STDIN_FILENO,
-	[STDOUT_FILENO] = BACKUP_OFFSET + STDOUT_FILENO,
-	[STDERR_FILENO] = BACKUP_OFFSET + STDERR_FILENO,
+static int	g_backup_fd[] = {
+	[STDIN_FILENO] = BACKUP_FD_OFFSET + STDIN_FILENO,
+	[STDOUT_FILENO] = BACKUP_FD_OFFSET + STDOUT_FILENO,
+	[STDERR_FILENO] = BACKUP_FD_OFFSET + STDERR_FILENO,
+	[BACKUP_TTY_FD] = BACKUP_FD_OFFSET + BACKUP_TTY_FD,
 };
-static const int	g_tty_fd = BACKUP_OFFSET + BACKUP_TTY_FD;
 
-int	init_exec_fd(void)
+int		exec_get_backup_fd(unsigned n)
 {
-	if (exec_backup_fd(0, g_standard_fd[0]) != OK_
-			|| exec_backup_fd(1, g_standard_fd[1]) != OK_
-			|| exec_backup_fd(2, g_standard_fd[2]) != OK_)
-		return (ERROR_);
-	if (opt_is_set(OPT_INTERACTIVE) && exec_backup_fd(0, g_tty_fd) != OK_)
-		return (ERROR_);
-	return (OK_);
+	return (g_backup_fd[n]);
 }
 
-int	exec_get_tty_fd()
+void	exec_set_backup_fd(unsigned index, int new_fd)
 {
-	return (g_tty_fd);
-}
-
-int	exec_get_standard_fd(unsigned n)
-{
-	return (g_standard_fd[n]);
+	g_backup_fd[index] = new_fd;
 }

@@ -176,6 +176,7 @@ SOURCES += opt_is_set.c
 # Execution
 SRC_SUBDIR += exec
 SOURCES += exec.c
+SOURCES += exec_init.c
 SOURCES += exec_binary.c
 SOURCES += exec_io_utils.c
 SOURCES += exec_node_utils.c

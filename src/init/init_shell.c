@@ -26,7 +26,7 @@ static void	update_shell_lvl(void)
 void		init_shell(int argc, const char *const *argv, char **environ)
 {
 	opt_parse(argc, argv);
-	if (init_exec_fd() != OK_) // TODO: que faire si ./42 <&-
+	if (init_exec_module() != OK_)
 	{
 		error_print("init");
 		exit(1);

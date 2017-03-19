@@ -44,7 +44,7 @@ static int exec_set_foreground_process_group(pid_t pgid)
 {
 	int	tty_fd;
 
-	tty_fd = exec_get_tty_fd();
+	tty_fd = exec_get_backup_fd(BACKUP_TTY_FD);
 	if (opt_is_set(OPT_INTERACTIVE) && tcsetpgrp(tty_fd, pgid) == -1)
 	{
 		error_set_context("tcsetpgrp: %s", strerror(errno));

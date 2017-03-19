@@ -1,10 +1,19 @@
+#include <assert.h>
 #include "exec.h"
 #include "array_42.h"
 #include "ast.h"
 
+#include <stdio.h>
 static int	restore_standard_fd(int io_number)
 {
-	return (exec_dup_fd(exec_get_standard_fd(io_number), io_number));
+	int	fd_copy;
+
+	fd_copy = exec_get_backup_fd(io_number);
+	printf("### DEBUG %s\n", __func__);
+	assert(fd_copy == FD_CLOSED);
+	if (fd_copy != FD_CLOSED)
+		return (exec_dup_fd(fd_copy, io_number));
+	return (OK_);
 }
 
 static int	close_opened_file(int io_number)
