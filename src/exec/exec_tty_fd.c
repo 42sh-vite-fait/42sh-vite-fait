@@ -1,4 +1,5 @@
 #include <unistd.h>
+#include "opt.h"
 #include "exec.h"
 
 #define MAX_FD_TO_BACKUP 	(3)
@@ -18,13 +19,9 @@ int	init_exec_fd(void)
 			|| exec_backup_fd(1, g_standard_fd[1]) != OK_
 			|| exec_backup_fd(2, g_standard_fd[2]) != OK_)
 		return (ERROR_);
-	if (isatty(0) && exec_backup_fd(0, g_tty_fd) == OK_)
-		return (OK_);
-	if (isatty(1) && exec_backup_fd(1, g_tty_fd) == OK_)
-		return (OK_);
-	if (isatty(2) && exec_backup_fd(2, g_tty_fd) == OK_)
-		return (OK_);
-	return (ERROR_);
+	if (opt_is_set(OPT_INTERACTIVE) && exec_backup_fd(0, g_tty_fd) != OK_)
+		return (ERROR_);
+	return (OK_);
 }
 
 int	exec_get_tty_fd()
