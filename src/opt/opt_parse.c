@@ -45,7 +45,7 @@ void		opt_parse(int argc, const char * const *argv)
 	int 	ch;
 
 	OPT_INIT(opt);
-	while ((ch = ft_getopt(argc, argv, "c:d:i", &opt)) != -1)
+	while ((ch = ft_getopt(argc, argv, "c:d:", &opt)) != -1)
 	{
 		if (ch == 'd')
 			g_opt_shell |= get_debug_option(opt.optarg);
@@ -54,8 +54,6 @@ void		opt_parse(int argc, const char * const *argv)
 			g_opt_command_line = opt.optarg;
 			g_opt_shell |= (OPT_CMD_STRING);
 		}
-		else if (ch == 'i')
-			g_opt_shell |= OPT_INTERACTIVE;
 		else
 			usage();
 	}
