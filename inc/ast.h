@@ -60,5 +60,6 @@ void		ast_node_command_init(t_ast_node *node);
 void		ast_node_command_shutdown(t_ast_node *node);
 void		ast_nodes_clear(t_ast *ast);
 void		ast_debug_print(const t_ast *ast, const char *input);
+void 		ast_debug_print_node(const t_ast_node *node, const char *input);
 
 #endif

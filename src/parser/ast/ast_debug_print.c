@@ -5,13 +5,13 @@
 struct s_ast_debug_print
 {
 	const char	*name;
-	void		(*print_node)(const char*, t_ast_node*, unsigned);
+	void		(*print_node)(const char*, const t_ast_node*, unsigned);
 };
 
-static void	ast_debug_print_node_generic(const char *input, t_ast_node *node, unsigned padding);
-static void	ast_debug_print_node_redirections(const char *input, t_array redirections, unsigned padding);
-static void ast_debug_print_node_simple_command(const char *input, t_ast_node *node, unsigned padding);
-static void	ast_debug_print_node_subshell(const char *input, t_ast_node *node, unsigned padding);
+static void	ast_debug_print_node_generic(const char *input, const t_ast_node *node, unsigned padding);
+static void	ast_debug_print_node_redirections(const char *input, const t_array redirections, unsigned padding);
+static void ast_debug_print_node_simple_command(const char *input, const t_ast_node *node, unsigned padding);
+static void	ast_debug_print_node_subshell(const char *input, const t_ast_node *node, unsigned padding);
 
 static const struct s_ast_debug_print	g_ast_print_node[] = {
 	[E_AST_NONE] = {
@@ -86,7 +86,7 @@ static void	ast_debug_print_node_redirections(const char *input, t_array redirec
 	}
 }
 
-static void ast_debug_print_node_simple_command(const char *input, t_ast_node *node, unsigned padding)
+static void ast_debug_print_node_simple_command(const char *input, const t_ast_node *node, unsigned padding)
 {
 	printf("%s: ", g_ast_print_node[node->type].name); // AST node name
 	t_token	*token = *(t_token**)array_get_first(&node->command.words);
@@ -105,7 +105,7 @@ static void ast_debug_print_node_simple_command(const char *input, t_ast_node *n
 	}
 }
 
-static void	ast_debug_print_node_subshell(const char *input, t_ast_node *node, unsigned padding)
+static void	ast_debug_print_node_subshell(const char *input, const t_ast_node *node, unsigned padding)
 {
 	printf("%s: ()\n", g_ast_print_node[node->type].name); // AST node name
 	padding += 1;
@@ -114,7 +114,7 @@ static void	ast_debug_print_node_subshell(const char *input, t_ast_node *node, u
 	ast_debug_print_node_redirections(input, node->command.redirections, padding);
 }
 
-static void	ast_debug_print_node_generic(const char *input, t_ast_node *node, unsigned padding)
+static void	ast_debug_print_node_generic(const char *input, const t_ast_node *node, unsigned padding)
 {
 	(void)padding;
 	printf("%s: ", g_ast_print_node[node->type].name); // AST node name
@@ -126,7 +126,7 @@ static void	ast_debug_print_node_generic(const char *input, t_ast_node *node, un
 		printf("%.*s\n", (int)node->token->len, input + node->token->start); // Token symbol
 }
 
-static void	ast_debug_print_recursive(const char *input, t_ast_node *node, unsigned padding)
+static void	ast_debug_print_recursive(const char *input, const t_ast_node *node, unsigned padding)
 {
 	ast_debug_print_padding(padding);
 	g_ast_print_node[node->type].print_node(input, node, padding);
@@ -134,6 +134,11 @@ static void	ast_debug_print_recursive(const char *input, t_ast_node *node, unsig
 		ast_debug_print_recursive(input, node->left, padding + 1);
 	if (node->right != NULL)
 		ast_debug_print_recursive(input, node->right, padding + 1);
+}
+
+void ast_debug_print_node(const t_ast_node *node, const char *input)
+{
+	g_ast_print_node[node->type].print_node(input, node, 0);
 }
 
 void	ast_debug_print(const t_ast *ast, const char *input)
