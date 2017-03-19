@@ -98,8 +98,6 @@ static int	exec_first_child(const t_ast_node *node, const t_string *input)
 ** We are in the _control fork_
 */
 
-/* #include <stdio.h> */
-/* #include "sig.h" */
 void		exec_pipe_sequence(const t_ast_node *node, const t_string *input)
 {
 	t_array	pipe_nodes_stack;
@@ -108,30 +106,12 @@ void		exec_pipe_sequence(const t_ast_node *node, const t_string *input)
 
 	// gather_nodes
 	pipe_nodes_stack = gather_childrens_nodes(node, E_AST_PIPE_SEQUENCE);
-	/* printf("before pause\n"); */
-	/* 	pause(); */
-	/* printf("after pause\n"); */
 
 	// first child
 	array_pop(&pipe_nodes_stack, &node);
 	read_end = exec_first_child(node, input);
-
-	// middle child(ren)
-	/* signal_unwatch_exit_signals(); */
-	/* signal_unset_ignored_signals(); */
-	/* signal_unblock_exit_signals(); */
 	while (pipe_nodes_stack.len > 1)
 	{
-		/* sigset_t blocked; */
-		/* sigemptyset(&blocked); */
-		/* sigsuspend(&blocked); */
-		/* printf("After suspend\n"); */
-		/* if (signal_should_we_restart_the_loop()) */
-		/* { */
-		/* 	printf("OUT\n"); */
-		/* 	pipe_kill_pipe_sequence(); */
-		/* } */
-		/* printf("### DEBUG %s\n", __func__); */
 		array_pop(&pipe_nodes_stack, &node);
 		read_end = exec_middle_child(node, read_end, input);
 	}

@@ -11,6 +11,7 @@
 # define IS_FD_STANDARD(f)			((f) <= 2)
 # define BACKUP_FD_OFFSET			(10)
 # define BACKUP_TTY_FD				(3)
+# define BACKUP_PIPE_OFFSET			(BACKUP_FD_OFFSET + BACKUP_TTY_FD + 1)
 # define FD_CLOSED					(-1)
 # define MAX_FD_POSIX_COMPLIANCE	(9)
 # define OPEN_DEFAULT_MODE			(0644)

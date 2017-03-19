@@ -43,8 +43,46 @@ int		pipe_init(t_pipe *pype)
 		error_set_context("pipe function: %s", strerror(errno));
 		return (ERROR_);
 	}
-	pype->read = p[0];
-	pype->write = p[1];
+
+	/*
+	 * Le probleme vient du fait que si des fds standard sont fermés
+	 * au lancement du shell, alors la creation de pipe peut les overlaps
+	 * Ce qui devient chiant quand on fait le linkage (dup/close)
+	 * La solution (?) est de dup les fds du pipe dés leurs creations
+	 * vers des numeros au-dessus de 13.
+	 * On verifie si le fd est open, si il ne l'est pas, on dup
+	 *
+	 * Ne pas oublier d'augmenter la limite soft des fds open
+	 * Faire le tests d'afficher les fds des pipes apres dup pour voir le cycle
+	 * ./42sh -c 'env | cat -e | wc | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e' <&- >&- 2>&- 11>file
+	 */
+	if (IS_FD_STANDARD(p[0]))
+	{
+		int i;
+		for (i = BACKUP_PIPE_OFFSET; is_fd_open(i); ++i)
+			;
+		exec_dup_fd(p[0], i);
+		exec_close_fd(p[0]);
+		pype->read = i;
+	}
+	else
+		pype->read = p[0];
+
+	if (IS_FD_STANDARD(p[1]))
+	{
+		int i;
+		for (i = BACKUP_PIPE_OFFSET; is_fd_open(i); ++i)
+			;
+		exec_dup_fd(p[1], i);
+		exec_close_fd(p[1]);
+		pype->write = i;
+	}
+	else
+		pype->write = p[1];
+
+	/* dprintf(11, "### DEBUG %s\n", __func__); */
+	/* dprintf(11, "read %d\n", pype->read); */
+	/* dprintf(11, "write %d\n", pype->write); */
 	return (OK_);
 }
 

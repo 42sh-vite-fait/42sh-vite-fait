@@ -37,7 +37,7 @@ static int	backup_tty_fd(void)
 
 int	init_exec_module(void)
 {
-	if (!is_fd_open(0) && !opt_is_set(OPT_CMD_STRING))
+	if (!is_fd_open(STDIN_FILENO) && !opt_is_set(OPT_CMD_STRING))
 	{
 		error_set_context("stdin is closed");
 		return (ERROR_);
