@@ -40,11 +40,14 @@ static int	env_add_args(char *const *argv, int optind)
 
 static void	env_clean_environ(void)
 {
-	int	ret;
+	const char	*paths;
+	int			ret;
 
-	ret = var_get("PATH", &g_backup_paths_value);
+	ret = var_get("PATH", &paths);
 	if (ret == ERROR_)
 		g_backup_paths_value = "";
+	else
+		g_backup_paths_value = ft_strdup(paths);
 	var_clear();
 }
 
