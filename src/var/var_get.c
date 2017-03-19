@@ -43,6 +43,8 @@ int				var_get(const char *name, const char **value)
 	*value = ft_strchr(entry, '=');
 	if (*value == NULL)
 		*value = "";
+	else
+		*value += 1;
 	return (OK_);
 }
 
