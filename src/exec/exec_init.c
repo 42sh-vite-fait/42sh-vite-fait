@@ -21,10 +21,10 @@ static int	increase_open_files_limit(unsigned max_fd)
 	}
 	if (limit.rlim_cur < max_fd)
 	{
-		limit.rlim_cur = limit.rlim_max;
+		limit.rlim_cur = max_fd;
 		if (setrlimit(RLIMIT_NOFILE, &limit) == -1)
 		{
-			error_set_context("setrlimit: %s", strerror(errno));
+			error_set_context("setrlimit: %u: %s", max_fd, strerror(errno));
 			return (ERROR_);
 		}
 	}
