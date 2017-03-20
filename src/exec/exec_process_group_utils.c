@@ -34,19 +34,15 @@ static int exec_set_process_group_parent_side(int pid, int pgid)
 	return (OK_);
 }
 
-/*
- * 42sh        # [0, 1, 2]
- * 42sh < file # [1, 2]
- * test 42sh   # []
- *TODO: le controlling terminal n'est pas grab en cas de './42sh < file'
- * car le shell est non-interactif et donc le if echoue
- */
 static int exec_set_foreground_process_group(pid_t pgid)
 {
-	if (opt_is_set(OPT_INTERACTIVE) && tcsetpgrp(E_TTY_FD, pgid) == -1)
+	if (opt_is_set(OPT_INTERACTIVE))
 	{
-		error_set_context("tcsetpgrp: %s", strerror(errno));
-		return (ERROR_);
+		if (tcsetpgrp(E_TTY_FD, pgid) == -1)
+		{
+			error_set_context("tcsetpgrp: %s", strerror(errno));
+			return (ERROR_);
+		}
 	}
 	return (OK_);
 }
