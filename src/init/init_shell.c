@@ -11,8 +11,7 @@ static void	update_shell_lvl(void)
 {
 	const char    *value;
 
-	var_get("SHLVL", &value);
-	if (value == NULL)
+	if (var_get("SHLVL", &value) == ERROR_)
 		var_set("SHLVL", "1");
 	else
 	{
