@@ -5,9 +5,18 @@
    - TERM=dumb ./42sh
    - Lancer le shell comme shell par défaut d'un terminal, ne pas passer par un shell intermédiaire
    - Changer le caractere d'INTR du terminal, avec =stty=, et voir si le changement est pris en compte
+*** Ulimit
+#+BEGIN_SRC
+$> ulimit -n 10
+$> ./42sh
+42sh> env | (cat -e | cat -e); echo abc
+#+END_SRC
    
 ** Input
   - =./42sh < file.cmd=
+
+** UI
+   - Checker les chars =C-u=, =DEL=, =C-w= dans l'UI
 
 ** Lexer/Parser
    - =cmd 'abc\<RET>def'
