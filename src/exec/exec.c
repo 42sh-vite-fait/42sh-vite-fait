@@ -6,8 +6,8 @@ t_tree_walker	*const g_walkers[] =
 {
 	[E_AST_NONE] = NULL,
 	[E_AST_PROGRAM] = NULL,
-	/* [E_AST_COMPLETE_COMMANDS] = &exec_node_complete_commands, */
-	/* [E_AST_COMPLETE_COMMAND] = &exec_node_complete_command, */
+	[E_AST_COMPLETE_COMMANDS] = &exec_node_complete_commands,
+	[E_AST_COMPLETE_COMMAND] = &exec_node_complete_command,
 	[E_AST_LIST] = &exec_node_list,
 	[E_AST_AND_OR] = &exec_node_and_or,
 	[E_AST_PIPE_SEQUENCE] = &exec_node_pipe,
