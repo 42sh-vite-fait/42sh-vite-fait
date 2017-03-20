@@ -14,6 +14,7 @@ $> ./42sh
    
 ** Input
   - =./42sh < file.cmd=
+  - Fermeture de fd au lancement =./42sh >&- 2>&-=
 
 ** UI
    - Checker les chars =C-u=, =DEL=, =C-w= dans l'UI
