@@ -24,6 +24,15 @@
 abc
 42sh> echo def
 #+END_SRC
+*** file descriptors
+    - Un fd peut être clos, via <&- >&-
+    - Un fd peut pointer vers /dev/null
+    - Un fd peut pointer vers un fichier
+    - Un fd peut pointer vers un tty
+*** fd clos au lancement avec des pipes en commandes
+    Ne pas oublier d'augmenter la limite soft des fds open
+    =./42sh -c 'env | cat -e | wc | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e' <&- >&-=
+
 
 ** Heredoc
    - Creer un heredoc avec une erreur de parsing apres le ~heredoc~. Est-ce que le heredoc s'affiche ?

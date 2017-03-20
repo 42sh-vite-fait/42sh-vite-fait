@@ -61,12 +61,6 @@ int	init_exec_module(void)
 	}
 	if (increase_open_files_limit(E_MAX_FD_NEEDED) != OK_)
 		return (ERROR_);
-/*
- * Un fd peut être clos, via <&- >&-
- * Un fd peut pointer vers /dev/null
- * Un fd peut pointer vers un fichier
- * Un fd peut pointer vers un tty
- */
 	if (dup_fd_to_backup(STDIN_FILENO) != OK_)
 		return (ERROR_);
 	if (dup_fd_to_backup(STDOUT_FILENO) != OK_)
