@@ -17,6 +17,13 @@
 ** Execution
    - Vérifier les fds laissé ouvert par le shell. Faire un =lseek= de plusieurs Go sur le fd laissé ouvert
    - =/a | cat /dev/random | base64 > /dev/null=
+*** restauration de fd clos via builtin
+#+BEGIN_SRC
+./42sh >&-
+42sh> echo abc >&2
+abc
+42sh> echo def
+#+END_SRC
 
 ** Heredoc
    - Creer un heredoc avec une erreur de parsing apres le ~heredoc~. Est-ce que le heredoc s'affiche ?

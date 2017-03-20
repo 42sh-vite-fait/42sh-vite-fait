@@ -3,24 +3,22 @@
 #include "array_42.h"
 #include "ast.h"
 
-#include <stdio.h>
-static int	restore_standard_fd(int io_number)
-{
-	int	fd_copy;
-
-	fd_copy = exec_get_backup_fd(io_number);
-	printf("### DEBUG %s\n", __func__);
-	assert(fd_copy == FD_CLOSED);
-	if (fd_copy != FD_CLOSED)
-		return (exec_dup_fd(fd_copy, io_number));
-	return (OK_);
-}
-
 static int	close_opened_file(int io_number)
 {
 	if (is_fd_open(io_number))
 		return (exec_close_fd(io_number));
 	return (OK_);
+}
+
+static int	restore_standard_fd(int io_number)
+{
+	int	fd_backup;
+
+	fd_backup = io_number + E_FD_BACKUP_OFFSET;
+	if (is_fd_open(fd_backup))
+		return (exec_dup_fd(fd_backup, io_number));
+	else
+		return (close_opened_file(io_number));
 }
 
 int	undo_redirection(const t_array redirections)

@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <signal.h>
 #include <stdlib.h>
 #include "exec.h"
@@ -42,10 +43,7 @@ static int exec_set_process_group_parent_side(int pid, int pgid)
  */
 static int exec_set_foreground_process_group(pid_t pgid)
 {
-	int	tty_fd;
-
-	tty_fd = exec_get_backup_fd(BACKUP_TTY_FD);
-	if (opt_is_set(OPT_INTERACTIVE) && tcsetpgrp(tty_fd, pgid) == -1)
+	if (opt_is_set(OPT_INTERACTIVE) && tcsetpgrp(E_TTY_FD, pgid) == -1)
 	{
 		error_set_context("tcsetpgrp: %s", strerror(errno));
 		return (ERROR_);

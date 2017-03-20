@@ -27,7 +27,7 @@ static int	close_fd(int io_number)
 
 static int	duplicate_fd(int io_number, unsigned word)
 {
-	assert(word <= MAX_FD_POSIX_COMPLIANCE);
+	assert(word <= E_MAX_FD_POSIX_COMPLIANCE);
 	if (!is_fd_open(word))
 	{
 		error_set_context("%d: %s", word, strerror(errno));
@@ -56,13 +56,13 @@ static int	exec_redirection_dup(int io_number, const char *word)
 // LESSAND
 int	exec_redirection_input_duplicate(int io_number, const char *word)
 {
-	assert(io_number >= 0 && io_number <= MAX_FD_POSIX_COMPLIANCE);
+	assert(io_number >= 0 && io_number <= E_MAX_FD_POSIX_COMPLIANCE);
 	return (exec_redirection_dup(io_number, word));
 }
 
 // GREATAND
 int	exec_redirection_output_duplicate(int io_number, const char *word)
 {
-	assert(io_number >= 0 && io_number <= MAX_FD_POSIX_COMPLIANCE);
+	assert(io_number >= 0 && io_number <= E_MAX_FD_POSIX_COMPLIANCE);
 	return (exec_redirection_dup(io_number, word));
 }

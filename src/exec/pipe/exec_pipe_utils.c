@@ -59,7 +59,7 @@ int		pipe_init(t_pipe *pype)
 	if (IS_FD_STANDARD(p[0]))
 	{
 		int i;
-		for (i = BACKUP_PIPE_OFFSET; is_fd_open(i); ++i)
+		for (i = E_PIPE_UTIL; is_fd_open(i); ++i)
 			;
 		exec_dup_fd(p[0], i);
 		exec_close_fd(p[0]);
@@ -71,7 +71,7 @@ int		pipe_init(t_pipe *pype)
 	if (IS_FD_STANDARD(p[1]))
 	{
 		int i;
-		for (i = BACKUP_PIPE_OFFSET; is_fd_open(i); ++i)
+		for (i = E_PIPE_UTIL; is_fd_open(i); ++i)
 			;
 		exec_dup_fd(p[1], i);
 		exec_close_fd(p[1]);

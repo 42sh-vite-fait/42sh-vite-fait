@@ -9,11 +9,6 @@
 # include "array_42.h"
 
 # define IS_FD_STANDARD(f)			((f) <= 2)
-# define BACKUP_FD_OFFSET			(10)
-# define BACKUP_TTY_FD				(3)
-# define BACKUP_PIPE_OFFSET			(BACKUP_FD_OFFSET + BACKUP_TTY_FD + 1)
-# define FD_CLOSED					(-1)
-# define MAX_FD_POSIX_COMPLIANCE	(9)
 # define OPEN_DEFAULT_MODE			(0644)
 
 typedef int (t_tree_walker)(const t_ast_node *, const t_string *);
@@ -22,6 +17,20 @@ struct s_pipe
 {
 	int	read;
 	int	write;
+};
+
+enum	e_fd_needed
+{
+	E_MAX_FD_POSIX_COMPLIANCE = 9,
+	E_FD_BACKUP_OFFSET,
+	E_BACKUP_STDIN = E_FD_BACKUP_OFFSET,
+	E_BACKUP_STDOUT,
+	E_BACKUP_STDERR,
+	E_TTY_FD,
+	E_PIPE_UTIL,
+	E_PIPE_UTIL2,
+	E_PIPE_UTIL3,
+	E_MAX_FD_NEEDED,
 };
 
 /*
@@ -61,8 +70,6 @@ void	exec_binary(const t_command command, const t_string *input);
 ** Backup fd
 */
 int		init_exec_module(void);
-int		exec_get_backup_fd(unsigned n);
-void	exec_set_backup_fd(unsigned index, int new_fd);
 int		exec_backup_fd(int fd, int new_fd);
 
 /*
