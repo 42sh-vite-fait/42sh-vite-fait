@@ -1,4 +1,17 @@
 * Tests Shell
+   - ='a RET \ RET C-d=
+   - =./42sh <<< '('=
+   - =./42sh <<< '"'=
+   - =./42sh <<< ''=
+   - =echo "cat\nzut" | ./42sh=
+   - Test pour savoir le sens de construction des pipes: =echo a > file | echo b > file; cat file= doit afficher ~b~
+   - =true || false && ls= Affiche =ls=
+   - subshell =(cd / ; ls)=
+   - =cmd >out<in=
+   - =cat | merde | ls=
+   - =cat /dev/random|base64|head -c8=
+   - =42sh> cat -e 3<Makefile <&3=
+   - =./42sh -c 'env | (cat -e | wc)' <&-=
 ** Terminal
    - TERM= ./42sh
    - TERM=merde ./42sh
@@ -13,8 +26,11 @@ $> ./42sh
 #+END_SRC
    
 ** Input
-  - =./42sh < file.cmd=
-  - Fermeture de fd au lancement =./42sh >&- 2>&-=
+   - =./42sh < file.cmd=
+   - =./42sh <&-=
+   - =./42sh <&- -c 'cmd'=
+   - =./42sh </dev/null=
+   - Fermeture de fd au lancement =./42sh >&- 2>&-=
 
 ** UI
    - Checker les chars =C-u=, =DEL=, =C-w= dans l'UI
