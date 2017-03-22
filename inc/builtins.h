@@ -44,18 +44,4 @@ int				builtin_env(int argc, const char *const *argv);
 int				builtin_setenv(int argc, const char * const *argv);
 int				builtin_unsetenv(int argc, const char * const *argv);
 
-/*
-** Echo handlers
-*/
-int				echo_handlers_alert(const char *arg, t_string *buf);
-int				echo_handlers_backspace(const char *arg, t_string *buf);
-int				echo_handlers_no_newline(const char *arg, t_string *buf);
-int				echo_handlers_form_feed(const char *arg, t_string *buf);
-int				echo_handlers_newline(const char *arg, t_string *buf);
-int				echo_handlers_carriage_return(const char *arg, t_string *buf);
-int				echo_handlers_tab(const char *arg, t_string *buf);
-int				echo_handlers_vertical_tab(const char *arg, t_string *buf);
-int				echo_handlers_backslash(const char *arg, t_string *buf);
-int				echo_handlers_num(const char *arg, t_string *buf);
-
 #endif
