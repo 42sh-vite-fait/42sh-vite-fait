@@ -83,6 +83,7 @@ int		exec_redirection_output_trunc(int io_number, const char *word);
 int		exec_redirection_output_append(int io_number, const char *word);
 int		exec_redirection_input_duplicate(int io_number, const char *word);
 int		exec_redirection_output_duplicate(int io_number, const char *word);
+int		exec_redirection_output_input(int io_number, const char *word);
 
 
 /*

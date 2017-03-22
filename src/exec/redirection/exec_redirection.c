@@ -29,8 +29,10 @@ static int	exec_redirection_dispatch(struct s_redirection redir,
 		ret = exec_redirection_input_duplicate(redir.io_number, word);
 	else if (redir.operator == E_TOKEN_GREATAND)
 		ret = exec_redirection_output_duplicate(redir.io_number, word);
+	else if (redir.operator == E_TOKEN_LESSGREAT)
+		ret = exec_redirection_output_input(redir.io_number, word);
 	else
-		assert(0);
+		error_set_context("redirection operator unknown");
 	return (ret);
 }
 

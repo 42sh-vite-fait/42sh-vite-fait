@@ -7,6 +7,7 @@
 
 #define OUTPUT_TRUNC (O_WRONLY | O_CREAT | O_TRUNC)
 #define OUTPUT_APPEND (O_WRONLY | O_APPEND | O_CREAT)
+#define OUTPUT_INPUT (O_RDWR | O_CREAT)
 
 static int	open_file_and_dup(int io_number, int flags, const char *word)
 {
@@ -44,4 +45,11 @@ int	exec_redirection_output_append(int io_number, const char *word)
 {
 	assert(io_number >= 0 && io_number <= E_MAX_FD_POSIX_COMPLIANCE);
 	return (open_file_and_dup(io_number, OUTPUT_APPEND, word));
+}
+
+// LESSGREAT
+int	exec_redirection_output_input(int io_number, const char *word)
+{
+	assert(io_number >= 0 && io_number <= E_MAX_FD_POSIX_COMPLIANCE);
+	return (open_file_and_dup(io_number, OUTPUT_INPUT, word));
 }

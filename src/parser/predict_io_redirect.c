@@ -19,7 +19,8 @@ static size_t	get_default_io_number(int operator_type)
 	if (operator_type == E_TOKEN_LESS
 			|| operator_type == E_TOKEN_DLESS
 			|| operator_type == E_TOKEN_DLESSDASH
-			|| operator_type == E_TOKEN_LESSAND)
+			|| operator_type == E_TOKEN_LESSAND
+			|| operator_type == E_TOKEN_LESSGREAT)
 		return (STDIN_FILENO);
 	else
 		return (STDOUT_FILENO);
