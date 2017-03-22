@@ -1,13 +1,8 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-# include <stddef.h>
-# include <stdlib.h>
-# include <unistd.h>
 # include <stdbool.h>
-# include <stdint.h>
-# include "lib42.h"
-# include "string_42.h"
+# include <stdlib.h>
 
 /*
 ** Builtin interface

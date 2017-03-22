@@ -7,6 +7,7 @@
 #include "ft_printf.h"
 #include "sig.h"
 #include "exit_status.h"
+#include "unistd_42.h"
 
 static const char	*g_backup_paths_value;
 static const char	*g_usage = "env: illegal option -- %c\n"

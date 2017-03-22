@@ -4,6 +4,7 @@
 #include "var.h"
 #include "errors.h"
 #include "misc.h"
+#include "ft_printf.h"
 
 static bool	setenv_is_args_valid(int argc, const char *const *argv)
 {
