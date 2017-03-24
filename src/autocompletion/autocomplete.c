@@ -1,6 +1,7 @@
 #include <assert.h>
 #include "autocompletion.h"
 #include "var.h"
+#include "errors.h"
 
 void	autocomplete(t_array *matches, const char *cmd, size_t len)
 {
