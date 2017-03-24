@@ -38,3 +38,8 @@ cat > /tmp/shells-heredoc <<EOF -e
 /bin/zsh				
 EOF
 rm -f /tmp/shells-heredoc 
+sh << "EOF"
+#! /bin/sh
+echo $#
+echo in script
+EOF
