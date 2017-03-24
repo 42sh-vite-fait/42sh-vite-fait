@@ -145,11 +145,11 @@ int		cd(const char *dir, const char *home, const char *pwd, bool P)
 			return 1;
 		}
 		/* Rule 9 */
-		if (ft_strncmp(pwd, curpath.str, ft_strlen(dir)) && curpath.str[ft_strlen(dir)] == '/')
+		if (!ft_strncmp(pwd, curpath.str, ft_strlen(pwd)) && curpath.str[ft_strlen(pwd)] == '/')
 		{
 			//TODO: Replace by string_sub_replace()
 			string_clone(&backup, &curpath);
-			string_remove(&curpath, 0, ft_strlen(dir - 1));
+			string_remove(&curpath, 0, ft_strlen(pwd));
 			string_insert(&curpath, 0, ".", 1);
 			is_backup = true;
 		}
