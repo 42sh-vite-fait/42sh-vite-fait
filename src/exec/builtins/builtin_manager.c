@@ -9,7 +9,7 @@
 
 t_pair_name_builtin	g_builtins[] =
 {
-//	{"cd", NULL},
+	{"cd", &builtin_cd},
 	{"echo", &builtin_echo},
 	{"env", &builtin_env},
 	{"exit", &builtin_exit},

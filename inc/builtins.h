@@ -38,5 +38,6 @@ int				builtin_echo(int argc, const char *const *argv);
 int				builtin_env(int argc, const char *const *argv);
 int				builtin_setenv(int argc, const char * const *argv);
 int				builtin_unsetenv(int argc, const char * const *argv);
+int				builtin_cd(int argc, const char * const *argv);
 
 #endif

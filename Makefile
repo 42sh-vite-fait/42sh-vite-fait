@@ -178,6 +178,7 @@ SOURCES += builtin_echo.c
 SOURCES += builtin_env.c
 SOURCES += builtin_setenv.c
 SOURCES += builtin_unsetenv.c
+SOURCES += builtin_cd.c
 
 # Opt
 SRC_SUBDIR += opt

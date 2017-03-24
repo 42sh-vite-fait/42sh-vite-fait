@@ -99,9 +99,10 @@ int		cd(const char *dir, const char *home, const char *pwd, bool P)
 	t_string	comp;
 	t_string	backup;
 	bool		is_backup;
+	char		*new_pwd;
 
+	is_backup = false;
 	string_init(&curpath);
-	string_init(&comp);
 	if (dir == NULL)
 	{
 		if (home != NULL) /* Rule 2 */
@@ -113,26 +114,34 @@ int		cd(const char *dir, const char *home, const char *pwd, bool P)
 		string_cat(&curpath, dir);
 	else
 	{
+		string_init(&comp);
 		get_next_component(&comp, curpath.str);
 		if (ft_strcmp(comp.str, ".") || ft_strcmp(comp.str, "..")) /* Rule 4 */
 			string_cat(&curpath, dir); /* Rule 6 */
 		else
 			rule_5(&curpath, dir); /* Rule 5 + 6 */
+		string_shutdown(&comp);
 	}
 	if (!P) /* Rule 7 */
 	{
 		if (curpath.str[0] != '/')
+		{
+			string_insert(&curpath, 0, "/", 1);
 			string_insert(&curpath, 0, pwd, ft_strlen(pwd));
+		}
 		if (rule_8(&curpath) == -1) /* Rule 8 */
 		{
 			error_print("cd");
 			return 1;
 		}
-		if (ft_strncmp(pwd, curpath.str, ft_strlen(dir))) /* Rule 9 */
+		/* Rule 9 */
+		if (ft_strncmp(pwd, curpath.str, ft_strlen(dir)) && curpath.str[ft_strlen(dir)] == '/')
 		{
 			//TODO: Replace by string_sub_replace()
+			string_clone(&backup, &curpath);
 			string_remove(&curpath, 0, ft_strlen(dir - 1));
 			string_insert(&curpath, 0, ".", 1);
+			is_backup = true;
 		}
 		if (chdir(curpath.str) == -1) /* Rule 10 */
 		{
@@ -140,6 +149,36 @@ int		cd(const char *dir, const char *home, const char *pwd, bool P)
 			error_print("cd");
 			return 1;
 		}
+		var_set("OLDPWD", pwd);
+		if (!P && is_backup)
+			var_set("PWD", backup.str);
+		else
+		{
+			new_pwd = getcwd(NULL, 0);
+			if (new_pwd != NULL)
+				var_set("PWD", new_pwd);
+			free(new_pwd);
+		}
 	}
+	string_shutdown(&curpath);
 	return (0);
+}
+
+int		builtin_cd(int ac, const char *const *av)
+{
+	const char	*dir;
+	const char	*home;
+	const char	*pwd;
+	bool		p;
+
+	p = false;
+	if (ac > 2)
+		return (1); // Print error
+	if (ac == 2)
+		dir = av[1];
+	else
+		dir = NULL;
+	var_get("HOME", &home);
+	var_get("PWD", &pwd);
+	return (cd(dir, home, pwd, p));
 }
