@@ -46,6 +46,50 @@ static void	rule_5(t_string *curpath, const char *dir)
 	string_cat(curpath, dir); /* Rule 6 */
 }
 
+static int	rule_8(t_string *curpath)
+{
+	char	*tmp;
+	char	*prev_component;
+	size_t	i;
+
+	tmp = curpath->str;
+	prev_component = NULL;
+	while (*tmp)
+	{
+		if (tmp[0] == '.' && (!tmp[1] || tmp[1] == '/'))
+		{
+			i = 1;
+			while (tmp[1] == '/')
+				i += 1;
+			string_remove(curpath, tmp - curpath->str, i);
+		}
+		else if (tmp[0] == '.' && tmp[1] == '.' && (!tmp[2] || tmp[3] == '/') && prev_component != NULL)
+		{
+			tmp[-1] = '\0';
+			if (!is_dir(curpath->str))
+			{
+				error_set_context("%s", strerror(errno));
+				return (-1);
+			}
+			tmp[-1] = '/';
+			i = 2;
+			while (tmp[1] == '/')
+				i += 1;
+			string_remove(curpath, prev_component - curpath->str, tmp - prev_component + i);
+			tmp = prev_component;
+			if (prev_component == curpath->str)
+				prev_component = NULL;
+		}
+		else
+		{
+			prev_component = tmp;
+			while (*tmp && *tmp != '/')
+				tmp += 1;
+		}
+	}
+	return (0);
+}
+
 /*
 ** home, dir and pwd shall have a trailing slash character ('/')
 */
@@ -79,8 +123,11 @@ int		cd(const char *dir, const char *home, const char *pwd, bool P)
 	{
 		if (curpath.str[0] != '/')
 			string_insert(&curpath, 0, pwd, ft_strlen(pwd));
-		if (rule_8() == -1) /* Rule 8 */
+		if (rule_8(&curpath) == -1) /* Rule 8 */
+		{
+			error_print("cd");
 			return 1;
+		}
 		if (ft_strncmp(pwd, curpath.str, ft_strlen(dir))) /* Rule 9 */
 		{
 			//TODO: Replace by string_sub_replace()
@@ -89,7 +136,8 @@ int		cd(const char *dir, const char *home, const char *pwd, bool P)
 		}
 		if (chdir(curpath.str) == -1) /* Rule 10 */
 		{
-			error_set_context("cd: %d", strerror(errno));
+			error_set_context("%d", strerror(errno));
+			error_print("cd");
 			return 1;
 		}
 	}
