@@ -194,7 +194,12 @@ int		builtin_cd(int ac, const char *const *av)
 	if (ac > 2)
 		return (1); // Print error
 	if (ac == 2)
-		dir = av[1];
+	{
+		if (!ft_strcmp(av[1], "-"))
+			var_get("OLDPWD", &dir);
+		else
+			dir = av[1];
+	}
 	else
 		dir = NULL;
 	var_get("HOME", &home);
