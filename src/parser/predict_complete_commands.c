@@ -1,6 +1,6 @@
 #include "parser.h"
 
-bool	check_requirements_complete_commands(const t_parser *parser)
+bool		check_requirements_complete_commands(const t_parser *parser)
 {
 	if (check_requirements_complete_command(parser))
 		return (true);
@@ -37,21 +37,19 @@ static int	parse_right_complete_commands(t_parser *parser, t_ast_node *node)
 **                  |                                complete_command
 */
 
-int		predict_complete_commands(t_parser *parser, t_ast_node **from_parent)
+int			predict_complete_commands(t_parser *parser,
+		t_ast_node **from_parent)
 {
 	t_ast_node	*node;
 
 	node = ast_node_create(&parser->ast);
 	*from_parent = node;
-
 	if (predict_complete_command(parser, &node->left) != OK_)
 		return (ERROR_);
-
 	if (check_requirements_ambiguous_newline_rule(parser))
 	{
 		if (parse_right_complete_commands(parser, node) != OK_)
 			return (ERROR_);
-
 		while (check_requirements_ambiguous_newline_rule(parser))
 		{
 			node = ast_node_create(&parser->ast);

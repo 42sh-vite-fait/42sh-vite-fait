@@ -19,7 +19,8 @@ static void	ast_compress_remove_current_node(t_ast *ast, t_ast_node **node)
 **	- Si la stack est vide, on a terminé la compression
 ** Si c'est ni un subshell ni une simple_command
 **	- Si le fils droit est NULL, le node est compressé
-**	- Sinon, le fils droit est push sur la stack et on avance dans le fils gauche
+**	- Sinon, le fils droit est push sur la stack
+**	et on avance dans le fils gauche
 */
 
 static void	ast_compress_node(t_ast *ast, t_ast_node **node, t_array *stack)

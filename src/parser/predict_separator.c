@@ -13,7 +13,7 @@ bool	check_requirements_separator_op(const t_parser *parser)
 **              | ';'
 */
 
-int 	predict_separator_op(t_parser *parser)
+int		predict_separator_op(t_parser *parser)
 {
 	if (check_requirements_separator_op(parser))
 	{

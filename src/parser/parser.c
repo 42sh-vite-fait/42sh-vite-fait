@@ -13,14 +13,15 @@ static void	parser_set_error(const t_parser *parser, int err)
 	{
 		token = parser_get_current_token(parser);
 		token_name = lexer_debug_get_token_name(token->type);
-		token_word = fatal_malloc(ft_strsub(parser->input->str, token->start, token->len));
+		token_word = fatal_malloc(
+				ft_strsub(parser->input->str, token->start, token->len));
 		error_set_context("unexpected token %s: %s",
 				token_name, token_word);
 		free(token_word);
 	}
 }
 
-int		parser_parse(t_parser *parser)
+int			parser_parse(t_parser *parser)
 {
 	int	ret;
 

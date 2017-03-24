@@ -1,6 +1,6 @@
 #include "parser.h"
 
-bool	check_requirements_list(const t_parser *parser)
+bool		check_requirements_list(const t_parser *parser)
 {
 	if (check_requirements_and_or(parser))
 		return (true);
@@ -37,21 +37,18 @@ static int	parse_right_list(t_parser *parser, t_ast_node *node)
 **      |                   and_or
 */
 
-int		predict_list(t_parser *parser, t_ast_node **from_parent)
+int			predict_list(t_parser *parser, t_ast_node **from_parent)
 {
 	t_ast_node	*node;
 
 	node = ast_node_create(&parser->ast);
 	*from_parent = node;
-
 	if (predict_and_or(parser, &node->left) != OK_)
 		return (ERROR_);
-
 	if (check_requirements_ambiguous_sep_rule(parser))
 	{
 		if (parse_right_list(parser, node) != OK_)
 			return (ERROR_);
-
 		while (check_requirements_ambiguous_sep_rule(parser))
 		{
 			node = ast_node_create(&parser->ast);
@@ -61,6 +58,5 @@ int		predict_list(t_parser *parser, t_ast_node **from_parent)
 				return (ERROR_);
 		}
 	}
-
 	return (OK_);
 }

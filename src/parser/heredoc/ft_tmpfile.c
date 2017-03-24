@@ -50,7 +50,7 @@ static char	*gen_tmp_name(const char *prefix)
 	return (filename);
 }
 
-char	*ft_tmpfile(const char *prefix)
+char		*ft_tmpfile(const char *prefix)
 {
 	if (prefix == NULL)
 		prefix = "";

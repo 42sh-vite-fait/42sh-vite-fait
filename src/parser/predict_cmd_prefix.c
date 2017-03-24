@@ -14,7 +14,7 @@ bool	check_requirements_cmd_prefix(const t_parser *parser)
 
 int		predict_cmd_prefix(t_parser *parser, t_array *redirections)
 {
-	struct	s_redirection	*redir;
+	struct s_redirection	*redir;
 	int						ret;
 
 	ret = OK_;

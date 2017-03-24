@@ -15,7 +15,8 @@ t_parser	*parser_init(t_parser *parser)
 	return (parser);
 }
 
-void		parser_init_with_tokens(const t_string *input, t_parser *parser, const t_array *tokens)
+void		parser_init_with_tokens(const t_string *input,
+		t_parser *parser, const t_array *tokens)
 {
 	assert(!ARRAY_IS_EMPTY(tokens));
 	assert(parser != NULL);

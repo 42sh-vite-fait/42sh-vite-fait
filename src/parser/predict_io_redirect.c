@@ -38,7 +38,8 @@ static size_t	parse_io_number(t_parser *parser)
 		parser_consume_token(parser);
 	}
 	else
-		io_number = get_default_io_number(parser_get_current_token(parser)->type);
+		io_number = get_default_io_number(
+				parser_get_current_token(parser)->type);
 	return (io_number);
 }
 
@@ -49,7 +50,8 @@ static size_t	parse_io_number(t_parser *parser)
 **			   | IO_NUMBER io_here
 */
 
-int			predict_io_redirect(t_parser *parser, struct s_redirection *redir)
+int				predict_io_redirect(t_parser *parser,
+		struct s_redirection *redir)
 {
 	int	ret;
 

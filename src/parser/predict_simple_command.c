@@ -1,6 +1,6 @@
 #include "parser.h"
 
-bool		check_requirements_simple_command(const t_parser *parser)
+bool	check_requirements_simple_command(const t_parser *parser)
 {
 	if (parser_check_current_token_type(parser, E_TOKEN_WORD)
 			|| check_requirements_cmd_prefix(parser))
@@ -16,7 +16,7 @@ bool		check_requirements_simple_command(const t_parser *parser)
 **				  | cmd_name
 */
 
-int			predict_simple_command(t_parser *parser, t_ast_node *self)
+int		predict_simple_command(t_parser *parser, t_ast_node *self)
 {
 	t_array	*words;
 	t_array	*redirections;

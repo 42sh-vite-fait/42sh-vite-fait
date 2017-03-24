@@ -1,6 +1,6 @@
 #include "parser.h"
 
-bool	check_requirements_term(const t_parser *parser)
+bool		check_requirements_term(const t_parser *parser)
 {
 	if (check_requirements_and_or(parser))
 		return (true);
@@ -21,7 +21,6 @@ static bool	check_requirements_ambiguous_sep_rule(const t_parser *parser)
 	return (false);
 }
 
-
 static int	parse_right_term(t_parser *parser, t_ast_node *node)
 {
 	node->type = E_AST_TERM;
@@ -39,7 +38,7 @@ static int	parse_right_term(t_parser *parser, t_ast_node *node)
 **      |                and_or
 */
 
-int		predict_term(t_parser *parser, t_ast_node **from_parent)
+int			predict_term(t_parser *parser, t_ast_node **from_parent)
 {
 	t_ast_node	*node;
 
@@ -60,6 +59,5 @@ int		predict_term(t_parser *parser, t_ast_node **from_parent)
 				return (ERROR_);
 		}
 	}
-
 	return (OK_);
 }

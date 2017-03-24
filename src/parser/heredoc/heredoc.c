@@ -64,7 +64,7 @@ static char *heredoc(const char *word, size_t len)
 	return (filename);
 }
 
-int		parser_heredoc_execute(const t_string *input, t_array *heredocs)
+int			parser_heredoc_execute(const t_string *input, t_array *heredocs)
 {
 	struct s_redirection	*redir;
 	char					*here_end;
@@ -84,7 +84,7 @@ int		parser_heredoc_execute(const t_string *input, t_array *heredocs)
 	return (OK_);
 }
 
-void	parser_heredoc_push(t_parser *parser, const struct s_redirection *redir)
+void		parser_heredoc_push(t_parser *parser, const struct s_redirection *redir)
 {
 	fatal_malloc(array_push(&parser->heredocs, &redir));
 }

@@ -15,9 +15,10 @@ bool	check_requirements_cmd_suffix(const t_parser *parser)
 **			  | cmd_suffix WORD
 */
 
-int		predict_cmd_suffix(t_parser *parser, t_array *words, t_array *redirections)
+int		predict_cmd_suffix(t_parser *parser, t_array *words,
+		t_array *redirections)
 {
-	struct	s_redirection	*redir;
+	struct s_redirection	*redir;
 	const t_token			*token;
 	int						ret;
 
