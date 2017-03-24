@@ -52,24 +52,24 @@ static void	env_clean_environ(void)
 	var_clear();
 }
 
-static int	env_parse_args(int argc, const char *const *argv)
+static int	env_parse_args(const char *const *argv)
 {
 	t_opt	opt;
 	int		c;
 	int		pos;
 
 	OPT_INIT(opt);
-	while ((c = ft_getopt(argc, argv, "i", &opt)) != -1)
+	while ((c = ft_getopt(argv, "i", &opt)) != -1)
 	{
 		if (c == 'i')
 			env_clean_environ();
 		else
 		{
-			ft_dprintf(2, g_usage, opt.optopt);
+			ft_dprintf(2, g_usage, opt.unknown_opt);
 			_exit(1);
 		}
 	}
-	pos = env_add_args((char *const *)argv, opt.optind);
+	pos = env_add_args((char *const *)argv, opt.end);
 	if (pos == -1)
 		error_print("env");
 	return (pos);
@@ -112,7 +112,7 @@ int			builtin_env(int argc, const char *const *argv)
 	}
 	if (child == 0)
 	{
-		pos = env_parse_args(argc, argv);
+		pos = env_parse_args(argv);
 		if (pos != -1)
 			env_exec_utility(argc, argv, pos);
 		_exit(1);

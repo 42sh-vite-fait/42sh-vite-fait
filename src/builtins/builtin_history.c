@@ -6,6 +6,7 @@
 #include "str_42.h"
 #include "builtins.h"
 #include "opt.h"
+#include "ft_printf.h"
 
 #define FLAG_REVERSE (1U << 1)
 #define FLAG_NONUMBER (1U << 2)
@@ -92,7 +93,8 @@ static int		builtin_history_part_ii(t_opt *o, unsigned int *flags,
 {
 	int				option;
 
-	while ((option = ft_getopt(ac, av, "nr", o)) != -1)
+	(void)ac;
+	while ((option = ft_getopt(av, "nr", o)) != -1)
 	{
 		if (option == 'n')
 			*flags |= FLAG_NONUMBER;
@@ -101,7 +103,7 @@ static int		builtin_history_part_ii(t_opt *o, unsigned int *flags,
 		else if (option == '?')
 		{
 			ft_dprintf(2, "%s: %s: bad option: -%c.\n",
-						BIN_NAME, av[0], o->optopt);
+						BIN_NAME, av[0], o->unknown_opt);
 			return (1);
 		}
 	}
@@ -125,10 +127,10 @@ int				builtin_history(int ac, const char *const *av)
 	OPT_INIT(o);
 	if (builtin_history_part_ii(&o, &flags, ac, av) == 1)
 		return (1);
-	ac -= o.optind;
+	ac -= o.end;
 	if (ac <= 2)
 	{
-		if (builtin_history_third_and_final(ac, av + o.optind, flags) == 0)
+		if (builtin_history_third_and_final(ac, av + o.end, flags) == 0)
 			return (0);
 		error_print(av[0]);
 		return (1);

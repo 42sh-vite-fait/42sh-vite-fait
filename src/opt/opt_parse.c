@@ -1,6 +1,7 @@
 #include "unistd_42.h"
 #include "opt.h"
 #include "shell.h"
+#include "ft_printf.h"
 
 unsigned			g_opt_shell;
 static const char	*g_opt_command_line;
@@ -44,14 +45,15 @@ void		opt_parse(int argc, const char * const *argv)
 	t_opt	opt;
 	int 	ch;
 
+	(void)argc;
 	OPT_INIT(opt);
-	while ((ch = ft_getopt(argc, argv, "c:d:", &opt)) != -1)
+	while ((ch = ft_getopt(argv, "c:d:", &opt)) != -1)
 	{
 		if (ch == 'd')
-			g_opt_shell |= get_debug_option(opt.optarg);
+			g_opt_shell |= get_debug_option(opt.arg);
 		else if (ch == 'c')
 		{
-			g_opt_command_line = opt.optarg;
+			g_opt_command_line = opt.arg;
 			g_opt_shell |= (OPT_CMD_STRING);
 		}
 		else
