@@ -81,6 +81,13 @@ static int	rule_8(t_string *curpath)
 			tmp = prev_component;
 			if (prev_component == curpath->str)
 				prev_component = NULL;
+			else
+			{
+				while (prev_component[-1] == '/')
+					prev_component -= 1;
+				while (prev_component[-1] != '/')
+					prev_component -= 1;
+			}
 		}
 		else /* Skip one directory element */
 		{
