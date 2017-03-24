@@ -7,14 +7,6 @@
 
 static void	concat_args(t_string *buf, const char *const *argv)
 {
-	bool	newline;
-
-	newline = true;
-	if (ft_strcmp(*argv, "-n") == 0)
-	{
-		newline = false;
-		argv += 1;
-	}
 	while (*argv)
 	{
 		fatal_malloc(string_cat(buf, *argv));
@@ -22,18 +14,25 @@ static void	concat_args(t_string *buf, const char *const *argv)
 			fatal_malloc(string_ncat(buf, " ", 1));
 		argv += 1;
 	}
-	if (newline)
-		fatal_malloc(string_ncat(buf, "\n", 1));
 }
 
 int			builtin_echo(int argc, const char *const *argv)
 {
 	t_string	buf;
+	bool		newline;
 
 	fatal_malloc(string_init(&buf));
 	argv += 1;
+	newline = true;
+	if (*argv != NULL && ft_strcmp(*argv, "-n") == 0)
+	{
+		newline = false;
+		argv += 1;
+	}
 	if (argc > 1)
 		concat_args(&buf, argv);
+	if (newline)
+		fatal_malloc(string_ncat(&buf, "\n", 1));
 	ft_printf("%s", buf.str);
 	string_shutdown(&buf);
 	return (0);
