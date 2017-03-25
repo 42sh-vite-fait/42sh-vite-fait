@@ -5,6 +5,7 @@
 #include "misc.h"
 #include "errors.h"
 #include "builtins.h"
+#include "unistd_42.h"
 
 const char	*get_next_component(t_string *next, const char *from)
 {
@@ -189,16 +190,36 @@ int		builtin_cd(int ac, const char *const *av)
 	const char	*home;
 	const char	*pwd;
 	bool		p;
+	t_opt		opt;
+	char		ret;
 
+	OPT_INIT(opt);
 	p = false;
-	if (ac > 2)
-		return (1); // Print error
-	if (ac == 2)
+	while ((ret = ft_getopt(av, "PL", &opt)) != -1)
 	{
-		if (!ft_strcmp(av[1], "-"))
+		if (ret == '?' || ret == ':')
+		{
+			ft_dprintf(2, "%s: unknown option -%c\n", av[0], opt.unknown_opt);
+			return (1);
+		}
+		else if (ret == 'P')
+			p = true;
+		else if (ret == 'L')
+			p = false;
+	}
+	ac -= opt.end;
+	if (ac >= 2)
+	{
+		ft_dprintf(2, "usage: %s [-L|-P] [directory]\n", av[0]);
+		return (1);
+	}
+	av += opt.end;
+	if (ac == 1)
+	{
+		if (!ft_strcmp(av[0], "-"))
 			var_get("OLDPWD", &dir);
 		else
-			dir = av[1];
+			dir = av[0];
 	}
 	else
 		dir = NULL;
