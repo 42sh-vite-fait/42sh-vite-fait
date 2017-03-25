@@ -42,5 +42,6 @@ int				builtin_unsetenv(int argc, const char * const *argv);
 
 int				builtin_cd(int argc, const char * const *argv);
 int				builtin_cd_rule_8(t_string *curpath);
+const char		*get_next_component(t_string *component, const char *path);
 
 #endif

@@ -180,6 +180,7 @@ SOURCES += builtin_setenv.c
 SOURCES += builtin_unsetenv.c
 SOURCES += builtin_cd.c
 SOURCES += builtin_cd_rule_8.c
+SOURCES += builtin_cd_utils.c
 
 # Opt
 SRC_SUBDIR += opt

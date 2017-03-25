@@ -5,25 +5,6 @@
 #include "misc.h"
 #include "builtins.h"
 
-static const char	*get_next_component(t_string *component, const char *path)
-{
-	ssize_t		sep;
-
-	if (path[0] == '\0')
-		return (NULL);
-	string_truncate(component, 0);
-	sep = ft_strchrpos(path, '/');
-	if (sep == -1)
-	{
-		string_cat(component, path);
-		return (ft_strchr(path, '\0'));
-	}
-	string_ncat(component, path, sep);
-	while (path[sep] == '/')
-		sep += 1;
-	return (path + sep);
-}
-
 static int			rewind_path(t_string *curpath)
 {
 	if (!is_dir(curpath->str))
@@ -49,20 +30,19 @@ int					builtin_cd_rule_8(t_string *curpath)
 	path = curpath->str;
 	while ((path = get_next_component(&component, path)) != NULL)
 	{
-		if (ft_streq(component.str, "."))
-			continue ;
 		if (ft_streq(component.str, ".."))
 		{
 			if (rewind_path(&build_path) == ERROR_)
 				return (ERROR_);
 		}
-		else
+		else if (!ft_streq(component.str, "."))
 		{
 			string_append(&build_path, &component);
 			string_ncat(&build_path, "/", 1);
 		}
 	}
 	string_shutdown(curpath);
+	string_shutdown(&component);
 	*curpath = build_path;
 	return (OK_);
 }
