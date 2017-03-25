@@ -161,24 +161,24 @@ int		cd(const char *dir, const char *home, const char *pwd, bool P)
 			string_insert(&curpath, 0, ".", 1);
 			is_backup = true;
 		}
-		if (chdir(curpath.str) == -1) /* Rule 10 */
-		{
-			error_set_context("%s: %s", strerror(errno), curpath.str);
-			error_print("cd");
-			return 1;
-		}
-		var_set("OLDPWD", pwd);
-		if (is_backup)
-			var_set("PWD", backup.str);
-		else if (!P)
-			var_set("PWD", curpath.str);
-		else
-		{
-			new_pwd = getcwd(NULL, 0);
-			if (new_pwd != NULL)
-				var_set("PWD", new_pwd);
-			free(new_pwd);
-		}
+	}
+	if (chdir(curpath.str) == -1) /* Rule 10 */
+	{
+		error_set_context("%s: %s", strerror(errno), curpath.str);
+		error_print("cd");
+		return 1;
+	}
+	var_set("OLDPWD", pwd);
+	if (is_backup)
+		var_set("PWD", backup.str);
+	else if (!P)
+		var_set("PWD", curpath.str);
+	else
+	{
+		new_pwd = getcwd(NULL, 0);
+		if (new_pwd != NULL)
+			var_set("PWD", new_pwd);
+		free(new_pwd);
 	}
 	string_shutdown(&curpath);
 	return (0);
