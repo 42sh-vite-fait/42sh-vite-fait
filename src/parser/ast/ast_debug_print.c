@@ -88,9 +88,16 @@ static void	ast_debug_print_node_redirections(const char *input, t_array redirec
 
 static void ast_debug_print_node_simple_command(const char *input, const t_ast_node *node, unsigned padding)
 {
+	t_token	*token;
 	printf("%s: ", g_ast_print_node[node->type].name); // AST node name
-	t_token	*token = *(t_token**)array_get_first(&node->command.words);
-	printf("%.*s\n", (int)token->len, input + token->start);
+
+	// cmd name
+	if (node->command.words.len > 0)
+	{
+		token = *(t_token**)array_get_first(&node->command.words);
+		printf("%.*s", (int)token->len, input + token->start);
+	}
+	printf("\n");
 	padding += 1;
 
 	// redirections

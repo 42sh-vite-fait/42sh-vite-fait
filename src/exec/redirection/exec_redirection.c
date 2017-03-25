@@ -59,7 +59,8 @@ int	exec_redirection(const t_array redirections, const t_string *input)
 	while (i < redirections.len)
 	{
 		redir = array_get_at(&redirections, i);
-		word = fatal_malloc(ft_strsub(input->str, redir->word->start, redir->word->len));
+		word = fatal_malloc(ft_strsub(input->str, redir->word->start,
+					redir->word->len));
 		ret = exec_redirection_dispatch(*redir, word);
 		free(word);
 		if (ret != OK_)

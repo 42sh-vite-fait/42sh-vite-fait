@@ -28,6 +28,8 @@ static void	exec_pipe_simple_command(const t_command command,
 {
 	t_token	*token;
 
+	if (command.words.len == 0)
+		exec_binary(command, input);
 	token = *(t_token**)array_get_first(&command.words);
 	if (is_builtin(input->str + token->start, token->len))
 		exec_pipe_wrapper_builtin(command, input);

@@ -8,6 +8,18 @@ bool	check_requirements_simple_command(const t_parser *parser)
 	return (false);
 }
 
+static int	only_redirections(t_ast_node *self)
+{
+	static const t_token	only_redir = {
+
+	.start = 0,
+	.len = 0,
+	.type = E_TOKEN_WORD
+	};
+	self->token = &only_redir;
+	return (OK_);
+}
+
 /*
 ** simple_command : cmd_prefix cmd_word cmd_suffix
 **                | cmd_prefix cmd_word
@@ -29,7 +41,7 @@ int		predict_simple_command(t_parser *parser, t_ast_node *self)
 		if (predict_cmd_prefix(parser, redirections) != OK_)
 			return (ERROR_);
 	if (!parser_check_current_token_type(parser, E_TOKEN_WORD))
-		return (ERROR_);
+		return (only_redirections(self));
 	self->token = parser_get_current_token(parser);
 	fatal_malloc(array_push(words, &self->token));
 	parser_consume_token(parser);
