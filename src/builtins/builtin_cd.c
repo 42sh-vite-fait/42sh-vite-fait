@@ -53,9 +53,13 @@ static int	rule_8(t_string *curpath)
 	char	*tmp;
 	char	*prev_component;
 	size_t	i;
+	char	*root;
 
+	root = curpath->str;
 	tmp = curpath->str;
 	prev_component = NULL;
+	while (*root == '/')
+		root += 1;
 	while (*tmp)
 	{
 		if (tmp[0] == '.' && (!tmp[1] || tmp[1] == '/'))
@@ -65,29 +69,38 @@ static int	rule_8(t_string *curpath)
 				i += 1;
 			string_remove(curpath, tmp - curpath->str, i);
 		}
-		else if (tmp[0] == '.' && tmp[1] == '.' && (!tmp[2] || tmp[2] == '/') && prev_component != NULL
-				 && (prev_component[0] != '.' || prev_component[1] != '.' || prev_component[2] != '/'))
+		else if (tmp[0] == '.' && tmp[1] == '.' && (!tmp[2] || tmp[2] == '/'))
 		{
-			tmp[-1] = '\0';
-			if (!is_dir(curpath->str))
+			if  (prev_component != NULL && (prev_component[0] != '.' || prev_component[1] != '.' || prev_component[2] != '/'))
 			{
-				error_set_context("%s: %s", strerror(errno), curpath->str);
-				return (-1);
+				tmp[-1] = '\0';
+				if (!is_dir(curpath->str))
+				{
+					error_set_context("%s: %s", strerror(errno), curpath->str);
+					return (-1);
+				}
+				tmp[-1] = '/';
+				i = 2;
+				while (tmp[i] == '/')
+					i += 1;
+				string_remove(curpath, prev_component - curpath->str, tmp - prev_component + i);
+				tmp = prev_component;
+				if (prev_component == root)
+					prev_component = NULL;
+				else
+				{
+					while (prev_component[-1] == '/')
+						prev_component -= 1;
+					while (prev_component[-1] != '/')
+						prev_component -= 1;
+				}
 			}
-			tmp[-1] = '/';
-			i = 2;
-			while (tmp[i] == '/')
-				i += 1;
-			string_remove(curpath, prev_component - curpath->str, tmp - prev_component + i);
-			tmp = prev_component;
-			if (prev_component == curpath->str)
-				prev_component = NULL;
-			else
+			else if (prev_component == NULL)
 			{
-				while (prev_component[-1] == '/')
-					prev_component -= 1;
-				while (prev_component[-1] != '/')
-					prev_component -= 1;
+				i = 2;
+				while (tmp[i] == '/')
+					i += 1;
+				string_remove(curpath, 0, i);
 			}
 		}
 		else /* Skip one directory element */
@@ -106,6 +119,8 @@ static int	rule_8(t_string *curpath)
 		tmp -= 1;
 		i += 1;
 	}
+	if (i == curpath->len)
+		i -= 1;
 	if (i > 0)
 		string_remove(curpath, curpath->len - i, i);
 	return (0);
@@ -225,5 +240,7 @@ int		builtin_cd(int ac, const char *const *av)
 		dir = NULL;
 	var_get("HOME", &home);
 	var_get("PWD", &pwd);
+	if (!ft_strcmp(pwd, "/"))
+		pwd += 1;
 	return (cd(dir, home, pwd, p));
 }
