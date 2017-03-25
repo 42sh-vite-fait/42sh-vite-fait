@@ -6,20 +6,20 @@ there
 EOF2
 
 # check quoted here-doc is protected
-cat << 'EOF'
-hi\
-there
-stuff
-EOF
+#cat << 'EOF'
+#hi\
+#there
+#stuff
+#EOF
 
 # check that quoted here-documents don't have \newline processing done
-cat << 'EOF'
-hi\
-there
-EO\
-F
-EOF
-true
+#cat << 'EOF'
+#hi\
+#there
+#EO\
+#F
+#EOF
+#true
 
 # check that \newline is removed at start of here-doc
 cat << EO\
@@ -54,15 +54,10 @@ abc
 EOF
 echo end
 
-# check that end of file delimits a here-document
-# THIS MUST BE LAST!
-cat << EOF
-hi
-there
+# subshell
 (cat <<EOF)
 more text in a subshell
 EOF
-
 (cat <<EOF; )
 some more text in a different subshell
 EOF
@@ -100,8 +95,3 @@ hello
 \END
 END
 echo end 'hello<NL>\END'
-
-# this has to be last -- results in a syntax error
-(cat <<EOF)
-still more text in a subshell
-EOF)
