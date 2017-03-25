@@ -42,8 +42,8 @@ SRC_SUBDIR += string
 SOURCES += test_string_escape.c
 
 # Variable
-SRC_SUBDIR += var
-SOURCES += test_var.c
+# SRC_SUBDIR += var
+# SOURCES += test_var.c
 
 # Misc
 SRC_SUBDIR += misc
