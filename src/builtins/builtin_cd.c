@@ -6,6 +6,7 @@
 #include "errors.h"
 #include "builtins.h"
 #include "unistd_42.h"
+#include "ft_printf.h"
 
 const char	*get_next_component(t_string *next, const char *from)
 {
@@ -17,16 +18,6 @@ const char	*get_next_component(t_string *next, const char *from)
 	string_truncate(next, 0);
 	string_ncat(next, from, i);
 	return (from + i);
-}
-
-#include <sys/stat.h>
-
-static bool		is_dir(const char *file)
-{
-	struct stat	file_stat;
-
-	return (stat(file, &file_stat) == 0 &&
-			S_ISDIR(file_stat.st_mode));
 }
 
 static void	rule_5(t_string *curpath, const char *dir)
@@ -46,84 +37,6 @@ static void	rule_5(t_string *curpath, const char *dir)
 		}
 	}
 	string_cat(curpath, dir); /* Rule 6 */
-}
-
-static int	rule_8(t_string *curpath)
-{
-	char	*tmp;
-	char	*prev_component;
-	size_t	i;
-	char	*root;
-
-	root = curpath->str;
-	tmp = curpath->str;
-	prev_component = NULL;
-	while (*root == '/')
-		root += 1;
-	while (*tmp)
-	{
-		if (tmp[0] == '.' && (!tmp[1] || tmp[1] == '/'))
-		{
-			i = 1;
-			while (tmp[i] == '/')
-				i += 1;
-			string_remove(curpath, tmp - curpath->str, i);
-		}
-		else if (tmp[0] == '.' && tmp[1] == '.' && (!tmp[2] || tmp[2] == '/'))
-		{
-			if  (prev_component != NULL && (prev_component[0] != '.' || prev_component[1] != '.' || prev_component[2] != '/'))
-			{
-				tmp[-1] = '\0';
-				if (!is_dir(curpath->str))
-				{
-					error_set_context("%s: %s", strerror(errno), curpath->str);
-					return (-1);
-				}
-				tmp[-1] = '/';
-				i = 2;
-				while (tmp[i] == '/')
-					i += 1;
-				string_remove(curpath, prev_component - curpath->str, tmp - prev_component + i);
-				tmp = prev_component;
-				if (prev_component == root)
-					prev_component = NULL;
-				else
-				{
-					while (prev_component[-1] == '/')
-						prev_component -= 1;
-					while (prev_component[-1] != '/')
-						prev_component -= 1;
-				}
-			}
-			else if (prev_component == NULL)
-			{
-				i = 2;
-				while (tmp[i] == '/')
-					i += 1;
-				string_remove(curpath, 0, i);
-			}
-		}
-		else /* Skip one directory element */
-		{
-			prev_component = tmp;
-			while (*tmp && *tmp != '/')
-				tmp += 1;
-			while (*tmp == '/')
-				tmp += 1;
-		}
-	}
-	i = 0;
-	tmp = curpath->str + curpath->len - 1;
-	while (tmp >= curpath->str && *tmp == '/')
-	{
-		tmp -= 1;
-		i += 1;
-	}
-	if (i == curpath->len)
-		i -= 1;
-	if (i > 0)
-		string_remove(curpath, curpath->len - i, i);
-	return (0);
 }
 
 int		cd(const char *dir, const char *home, const char *pwd, bool P)
@@ -162,7 +75,7 @@ int		cd(const char *dir, const char *home, const char *pwd, bool P)
 			string_insert(&curpath, 0, "/", 1);
 			string_insert(&curpath, 0, pwd, ft_strlen(pwd));
 		}
-		if (rule_8(&curpath) == -1) /* Rule 8 */
+		if (builtin_cd_rule_8(&curpath) == -1) /* Rule 8 */
 		{
 			error_print("cd");
 			return 1;

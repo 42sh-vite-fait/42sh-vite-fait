@@ -17,7 +17,7 @@ static ssize_t	get_next_path_len(const char *paths)
 		return (len);
 }
 
-static bool		is_dir(const char *file)
+bool			is_dir(const char *file)
 {
 	struct stat	file_stat;
 
