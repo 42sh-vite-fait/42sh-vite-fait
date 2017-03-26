@@ -13,20 +13,21 @@ static void	rule_5(t_string *curpath, const char *dir)
 	t_string	next;
 	const char	*cdpaths;
 
-	if (var_get("CDPATH", &cdpaths) == ERROR_)
-		return ;
-	string_init(&next);
-	while ((cdpaths = get_next_path(&next, cdpaths)) != NULL)
+	if (var_get("CDPATH", &cdpaths) == OK_)
 	{
-		string_cat(&next, dir);
-		if (is_dir(next.str))
+		string_init(&next);
+		while ((cdpaths = get_next_path(&next, cdpaths)) != NULL)
 		{
-			string_shutdown(curpath);
-			*curpath = next;
-			return ;
+			string_cat(&next, dir);
+			if (is_dir(next.str))
+			{
+				string_shutdown(curpath);
+				*curpath = next;
+				return ;
+			}
 		}
+		string_shutdown(&next);
 	}
-	string_shutdown(&next);
 	string_cat(curpath, dir); /* Rule 6 */
 }
 
