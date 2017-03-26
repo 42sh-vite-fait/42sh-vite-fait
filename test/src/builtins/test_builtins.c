@@ -31,4 +31,4 @@ Test(builtins_utils, empty_string_size_1) {
 	CHECK_BUILTIN("", 1, FALSE); }
 
 Test(builtins_utils, setenv) {
-	CHECK_BUILTIN("setenv", 6, FALSE); }
+	CHECK_BUILTIN("setenv", 6, TRUE); }
