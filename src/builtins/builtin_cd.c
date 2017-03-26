@@ -78,33 +78,65 @@ int		logical_resolution(t_string *curpath, const char *pwd)
 	return (0);
 }
 
-//TODO: print pwd
-int		cd(const char *dir, const char *home, const char *pwd, bool P)
+void	get_base_path(t_string *curpath, const char *dir)
 {
-	t_string	curpath;
 	t_string	comp;
-	int			ret;
 
-	string_init(&curpath);
-	if (dir == NULL && home == NULL)
-	{
-		error_set_context("no home directory (HOME not set)");
-		return (ERROR_);
-	}
-	else if (dir == NULL && home != NULL)
-		dir = home;
 	if (dir[0] == '/') /* Rule 3 */
-		string_cat(&curpath, dir);
+		string_cat(curpath, dir);
 	else
 	{
 		string_init(&comp);
-		get_next_component(&comp, curpath.str);
+		get_next_component(&comp, curpath->str);
 		if (ft_streq(comp.str, ".") || ft_streq(comp.str, "..")) /* Rule 4 */
-			string_cat(&curpath, dir); /* Rule 6 */
+			string_cat(curpath, dir); /* Rule 6 */
 		else
-			rule_5(&curpath, dir); /* Rule 5 + 6 */
+			rule_5(curpath, dir); /* Rule 5 + 6 */
 		string_shutdown(&comp);
 	}
+
+}
+
+const char	*get_dir(const char *arg, const char *home)
+{
+	const char	*dir;
+
+	if (arg != NULL)
+	{
+		if (!ft_strcmp(arg, "-"))
+			var_get("OLDPWD", &dir);
+		else
+			dir = arg;
+	}
+	else
+		dir = NULL;
+	if (dir == NULL && home == NULL)
+	{
+		error_set_context("no home directory (HOME not set)");
+		return (NULL);
+	}
+	else if (dir == NULL && home != NULL)
+		dir = home;
+	return (dir);
+}
+
+//TODO: print pwd
+int		cd(const char *arg, bool P)
+{
+	t_string	curpath;
+	int			ret;
+	const char	*pwd;
+	const char	*home;
+	const char	*dir;
+
+	var_get("HOME", &home);
+	var_get("PWD", &pwd);
+	dir = get_dir(arg, home);
+	if (dir == NULL)
+		return (ERROR_);
+	string_init(&curpath);
+	get_base_path(&curpath, dir);
+	printf("coucou !!! %s | %s\n", dir, curpath.str);
 	if (P) /* Rule 7 */
 		ret = physical_resolution(&curpath);
 	else
@@ -115,9 +147,6 @@ int		cd(const char *dir, const char *home, const char *pwd, bool P)
 
 int		builtin_cd(int ac, const char *const *av)
 {
-	const char	*dir;
-	const char	*home;
-	const char	*pwd;
 	bool		p;
 	t_opt		opt;
 	char		ret;
@@ -142,21 +171,9 @@ int		builtin_cd(int ac, const char *const *av)
 		return (1);
 	}
 	av += opt.end;
-	if (ac == 1)
-	{
-		if (!ft_strcmp(av[0], "-"))
-			var_get("OLDPWD", &dir);
-		else
-			dir = av[0];
-	}
-	else
-		dir = NULL;
-	var_get("HOME", &home);
-	var_get("PWD", &pwd);
-	if (!ft_strcmp(pwd, "/"))
-		pwd += 1;
-	// error print
-	ret_value = cd(dir, home, pwd, p);
+	/* if (!ft_strcmp(pwd, "/")) */
+	/* 	pwd += 1; */
+	ret_value = cd(ac == 1 ? av[0] : NULL, p);
 	if (ret_value == ERROR_)
 		error_print("cd");
 	return (ret_value);
