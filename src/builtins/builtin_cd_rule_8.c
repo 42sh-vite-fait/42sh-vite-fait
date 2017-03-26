@@ -42,6 +42,8 @@ int					builtin_cd_rule_8(t_string *curpath)
 	}
 	string_shutdown(curpath);
 	string_shutdown(&component);
+	if (build_path.len > 1 && build_path.str[build_path.len - 1] == '/')
+		string_remove_back(&build_path, 1);
 	*curpath = build_path;
 	return (OK_);
 }
