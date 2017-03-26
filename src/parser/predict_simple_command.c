@@ -8,7 +8,7 @@ bool	check_requirements_simple_command(const t_parser *parser)
 	return (false);
 }
 
-static int	only_redirections(t_ast_node *self)
+static int	only_redirections(t_ast_node *self, t_array *redirections)
 {
 	static const t_token	only_redir = {
 
@@ -17,6 +17,8 @@ static int	only_redirections(t_ast_node *self)
 	.type = E_TOKEN_WORD
 	};
 	self->token = &only_redir;
+	if (redirections->len == 0)
+		return (ERROR_);
 	return (OK_);
 }
 
@@ -41,7 +43,7 @@ int		predict_simple_command(t_parser *parser, t_ast_node *self)
 		if (predict_cmd_prefix(parser, redirections) != OK_)
 			return (ERROR_);
 	if (!parser_check_current_token_type(parser, E_TOKEN_WORD))
-		return (only_redirections(self));
+		return (only_redirections(self, redirections));
 	self->token = parser_get_current_token(parser);
 	fatal_malloc(array_push(words, &self->token));
 	parser_consume_token(parser);
