@@ -1,4 +1,3 @@
-#include <assert.h>
 #include "str_42.h"
 #include "input.h"
 #include "errors.h"
@@ -8,24 +7,25 @@
 static int	input_arg_get_line(t_string *line)
 {
 	const char		*arg;
+	size_t			arglen;
 	static size_t	index = 0;
-	ssize_t			offset;
+	ssize_t			next_newline;
 
-	arg = opt_get_command_line();
-	assert(arg != NULL);
-	if (arg[index] == '\0')
+	arg = opt_get_command_line() + index;
+	arglen = ft_strlen(arg);
+	if (arg[0] == '\0')
 		return (CMD_EOF_);
-	offset = ft_strchrpos(arg + index, '\n');
-	if (offset == -1)
+	next_newline = ft_strchrpos(arg, '\n');
+	if (next_newline == -1)
 	{
-		fatal_malloc(string_cat(line, arg + index));
-		index += ft_strlen(arg);
+		fatal_malloc(string_ncat(line, arg, arglen));
+		index += arglen;
 	}
 	else
 	{
-		offset += 1;
-		fatal_malloc(string_ncat(line, arg + index, offset));
-		index += offset;
+		next_newline += 1;
+		fatal_malloc(string_ncat(line, arg, next_newline));
+		index += next_newline;
 	}
 	return (OK_);
 }

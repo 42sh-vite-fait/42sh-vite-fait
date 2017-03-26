@@ -1,3 +1,4 @@
+#include <assert.h>
 #include "unistd_42.h"
 #include "opt.h"
 #include "shell.h"
@@ -37,6 +38,7 @@ static unsigned	get_debug_option(const char *optarg)
 
 const char	*opt_get_command_line(void)
 {
+	assert(g_opt_command_line != NULL);
 	return (g_opt_command_line);
 }
 
