@@ -17,6 +17,7 @@ mkdir /tmp/toto
 
 cd /tmp
 cd /tmp/toto
+cd ..
 pwd
 cd -- -
 pwd
