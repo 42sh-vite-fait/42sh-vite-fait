@@ -29,14 +29,14 @@ static void	rule_5(t_string *curpath, bool *must_print_pwd, const char *dir)
 		}
 		string_shutdown(&next);
 	}
-	string_cat(curpath, dir); /* Rule 6 */
+	string_cat(curpath, dir);
 }
 
 int		physical_resolution(t_string *curpath)
 {
 	char	*new_pwd;
 
-	if (chdir(curpath->str) == -1) /* Rule 10 */
+	if (chdir(curpath->str) == -1)
 	{
 		error_set_context("%s: %s", curpath->str, strerror(errno));
 		return (ERROR_);
@@ -49,21 +49,20 @@ int		physical_resolution(t_string *curpath)
 	return (OK_);
 }
 
-int		logical_resolution(t_string *curpath)
+int		logical_resolution(t_string *curpath, t_string backup,
+							const char *pwd)
 {
-	t_string	backup;
-	const char	*pwd;
-
 	backup.len = 0;
 	var_get("PWD", &pwd);
-	if (curpath->str[0] != '/') /* Rule 7 */
+	if (curpath->str[0] != '/')
 	{
 		string_insert(curpath, 0, "/", 1);
 		string_insert(curpath, 0, pwd, ft_strlen(pwd));
 	}
-	if (builtin_cd_rule_8(curpath) == -1) /* Rule 8 */
+	if (builtin_cd_rule_8(curpath) == -1)
 		return (ERROR_);
-	if (!ft_strncmp(pwd, curpath->str, ft_strlen(pwd)) && curpath->str[ft_strlen(pwd)] == '/') 	/* Rule 9 */
+	if (!ft_strncmp(pwd, curpath->str, ft_strlen(pwd))
+		&& curpath->str[ft_strlen(pwd)] == '/')
 	{
 		string_clone(&backup, curpath);
 		string_remove(curpath, 0, ft_strlen(pwd));
@@ -75,10 +74,7 @@ int		logical_resolution(t_string *curpath)
 		return (ERROR_);
 	}
 	var_set("OLDPWD", pwd);
-	if (backup.len != 0)
-		var_set("PWD", backup.str);
-	else
-		var_set("PWD", curpath->str);
+	var_set("PWD", backup.len != 0 ? backup.str : curpath->str);
 	return (OK_);
 }
 
@@ -86,19 +82,18 @@ void	get_base_path(t_string *curpath, bool *must_print_pwd, const char *dir)
 {
 	t_string	comp;
 
-	if (dir[0] == '/') /* Rule 3 */
+	if (dir[0] == '/')
 		string_cat(curpath, dir);
 	else
 	{
 		string_init(&comp);
 		get_next_component(&comp, curpath->str);
-		if (ft_streq(comp.str, ".") || ft_streq(comp.str, "..")) /* Rule 4 */
-			string_cat(curpath, dir); /* Rule 6 */
+		if (ft_streq(comp.str, ".") || ft_streq(comp.str, ".."))
+			string_cat(curpath, dir);
 		else
-			rule_5(curpath, must_print_pwd, dir); /* Rule 5 + 6 */
+			rule_5(curpath, must_print_pwd, dir);
 		string_shutdown(&comp);
 	}
-
 }
 
 const char	*get_dir(bool *must_print_pwd, const char *arg)
@@ -162,22 +157,21 @@ int		cd(int ac, const char *const *av)
 	t_string	curpath;
 	int			ret;
 	const char	*dir;
-	const char	*arg;
 	bool		is_cd_physical;
 	bool		must_print_pwd;
 
 	must_print_pwd = false;
-	if (get_options(&is_cd_physical, &arg, ac, av) == ERROR_)
+	if (get_options(&is_cd_physical, &dir, ac, av) == ERROR_)
 		return (ERROR_);
-	dir = get_dir(&must_print_pwd, arg);
+	dir = get_dir(&must_print_pwd, dir);
 	if (dir == NULL)
 		return (ERROR_);
 	string_init(&curpath);
 	get_base_path(&curpath, &must_print_pwd, dir);
-	if (is_cd_physical) /* Rule 7 */
+	if (is_cd_physical)
 		ret = physical_resolution(&curpath);
 	else
-		ret = logical_resolution(&curpath);
+		ret = logical_resolution(&curpath, curpath, dir);
 	if (ret == OK_ && must_print_pwd)
 		ft_printf("%s\n", curpath.str);
 	string_shutdown(&curpath);
