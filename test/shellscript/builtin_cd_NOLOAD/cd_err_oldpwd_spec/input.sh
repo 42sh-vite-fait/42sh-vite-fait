@@ -1,2 +1,0 @@
-unset OLDPWD
-cd -

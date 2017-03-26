@@ -19,7 +19,11 @@ static const char	*get_dir(bool *must_print_pwd, const char *arg)
 		if (!ft_strcmp(arg, "-"))
 		{
 			*must_print_pwd = true;
-			var_get("OLDPWD", &dir);
+			if (var_get("OLDPWD", &dir) != OK_)
+			{
+				error_set_context("no OLDPWD");
+				return (NULL);
+			}
 		}
 		else
 			dir = arg;
@@ -27,10 +31,7 @@ static const char	*get_dir(bool *must_print_pwd, const char *arg)
 	else
 		dir = NULL;
 	if (dir == NULL && home == NULL)
-	{
 		error_set_context("no home directory (HOME not set)");
-		return (NULL);
-	}
 	else if (dir == NULL && home != NULL)
 		dir = home;
 	return (dir);
@@ -48,7 +49,7 @@ int					get_options(bool *p, const char **arg, int ac,
 	{
 		if (ret == '?' || ret == ':')
 		{
-			error_set_context("unknown option -%c", ret);
+			error_set_context("unknown option -%c", opt.unknown_opt);
 			return (ERROR_);
 		}
 		else if (ret == 'P')
