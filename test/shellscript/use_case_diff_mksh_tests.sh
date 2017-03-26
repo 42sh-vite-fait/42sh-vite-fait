@@ -3,6 +3,7 @@ C_GREEN="\033[32;1m"
 C_RED="\033[31;1m"
 C_CLEAR="\033[0m"
 
+REF_SHELL=mksh
 RENDU_PATH="`pwd`"
 TESTS_ROOT="$RENDU_PATH/test/shellscript"
 
@@ -12,7 +13,7 @@ count_failure=0
 
 mkdir -p /tmp/bin
 cp $RENDU_PATH/42sh /tmp/bin/
-cp -f `which mksh` /tmp/bin/mksh
+cp -f `which ${REF_SHELL}` /tmp/bin/${REF_SHELL}
 
 if [ "$?" -ne "0" ]; then
 	exit 1
@@ -78,7 +79,7 @@ diff_test ()
 	# echo "========> $test_case_tmp_shell_stdout <++++++"
 	# echo "========> $test_case_tmp_shell_stderr <++++++"
 	# echo "========> $test_case_tmp_shell_exit_status <++++++"
-	PS1='' PS2='' /tmp/bin/mksh -o posix -i < ${input_file} > $test_case_tmp_shell_stdout 2> $test_case_tmp_shell_stderr
+	PS1='' PS2='' /tmp/bin/${REF_SHELL} -o posix -i < ${input_file} > $test_case_tmp_shell_stdout 2> $test_case_tmp_shell_stderr
 	echo "exit_code: $?" >> $test_case_tmp_shell_exit_status
 
 	# Selection de la sortie voulu: stdout
