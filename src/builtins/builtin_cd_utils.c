@@ -4,6 +4,8 @@
 #include "misc.h"
 #include "errors.h"
 
+t_string	g_pwd;
+
 static void	rule_5(t_string *curpath, bool *must_print_pwd, const char *dir)
 {
 	t_string	next;
@@ -62,7 +64,10 @@ int			physical_resolution(t_string *curpath)
 	new_pwd = getcwd(NULL, 0);
 	if (new_pwd == NULL)
 		return (ERROR_);
+	var_set("OLDPWD", g_pwd.str);
 	var_set("PWD", new_pwd);
+	string_replace(curpath, new_pwd);
+	string_replace(&g_pwd, curpath->str);
 	free(new_pwd);
 	return (OK_);
 }
@@ -71,7 +76,7 @@ int			logical_resolution(t_string *curpath, t_string backup,
 							const char *pwd)
 {
 	backup.len = 0;
-	var_get("PWD", &pwd);
+	pwd = g_pwd.str;
 	if (curpath->str[0] != '/')
 	{
 		string_insert(curpath, 0, "/", 1);
@@ -93,6 +98,7 @@ int			logical_resolution(t_string *curpath, t_string backup,
 	}
 	var_set("OLDPWD", pwd);
 	var_set("PWD", backup.len != 0 ? backup.str : curpath->str);
+	string_replace(&g_pwd, backup.len != 0 ? backup.str : curpath->str);
 	return (OK_);
 }
 

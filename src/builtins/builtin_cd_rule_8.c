@@ -5,6 +5,19 @@
 #include "misc.h"
 #include "builtins.h"
 
+extern t_string	g_pwd;
+
+int					cd_set_pwd(void)
+{
+	const char	*pwd;
+
+	pwd = getcwd(NULL, 0);
+	if (pwd == NULL)
+		return (ERROR_);
+	fatal_malloc(string_init_dup(&g_pwd, pwd));
+	return (OK_);
+}
+
 static int			rewind_path(t_string *curpath)
 {
 	if (!is_dir(curpath->str))
