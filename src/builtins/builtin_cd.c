@@ -35,7 +35,7 @@ int		physical_resolution(t_string *curpath)
 {
 	char	*new_pwd;
 
-	if (chdir(curpath->str) == -1)
+	if (chdir(curpath->str) == -1) /* Rule 10 */
 	{
 		error_set_context("%s: %s", curpath->str, strerror(errno));
 		return (ERROR_);
@@ -48,10 +48,12 @@ int		physical_resolution(t_string *curpath)
 	return (OK_);
 }
 
-int		logical_resolution(t_string *curpath, const char *pwd)
+int		logical_resolution(t_string *curpath)
 {
 	t_string	backup;
+	const char	*pwd;
 
+	var_get("PWD", &pwd);
 	if (curpath->str[0] != '/') /* Rule 7 */
 	{
 		string_insert(curpath, 0, "/", 1);
@@ -75,7 +77,7 @@ int		logical_resolution(t_string *curpath, const char *pwd)
 		var_set("PWD", backup.str);
 	else
 		var_set("PWD", curpath->str);
-	return (0);
+	return (OK_);
 }
 
 void	get_base_path(t_string *curpath, const char *dir)
@@ -97,10 +99,12 @@ void	get_base_path(t_string *curpath, const char *dir)
 
 }
 
-const char	*get_dir(const char *arg, const char *home)
+const char	*get_dir(const char *arg)
 {
 	const char	*dir;
+	const char	*home;
 
+	var_get("HOME", &home);
 	if (arg != NULL)
 	{
 		if (!ft_strcmp(arg, "-"))
@@ -120,61 +124,62 @@ const char	*get_dir(const char *arg, const char *home)
 	return (dir);
 }
 
+int		get_options(bool *p, const char **arg, int ac, const char *const *av)
+{
+	t_opt	opt;
+	char	ret;
+
+	OPT_INIT(opt);
+	*p = false;
+	while ((ret = ft_getopt(av, "PL", &opt)) != -1)
+	{
+		if (ret == '?' || ret == ':')
+		{
+			error_set_context("unknown option -%c", ret);
+			return (ERROR_);
+		}
+		else if (ret == 'P')
+			*p = true;
+		else if (ret == 'L')
+			*p = false;
+	}
+	if (ac - opt.end > 1)
+	{
+		error_set_context("usage: %s [-L|-P] [directory]", av[0]);
+		return (ERROR_);
+	}
+	*arg = ac - opt.end == 1 ? av[opt.end] : NULL;
+	return (OK_);
+}
+
 //TODO: print pwd
-int		cd(const char *arg, bool P)
+int		cd(int ac, const char *const *av)
 {
 	t_string	curpath;
 	int			ret;
-	const char	*pwd;
-	const char	*home;
 	const char	*dir;
+	const char	*arg;
+	bool		p;
 
-	var_get("HOME", &home);
-	var_get("PWD", &pwd);
-	dir = get_dir(arg, home);
+	if (get_options(&p, &arg, ac, av) == ERROR_)
+		return (ERROR_);
+	dir = get_dir(arg);
 	if (dir == NULL)
 		return (ERROR_);
 	string_init(&curpath);
 	get_base_path(&curpath, dir);
-	printf("coucou !!! %s | %s\n", dir, curpath.str);
-	if (P) /* Rule 7 */
+	if (p) /* Rule 7 */
 		ret = physical_resolution(&curpath);
 	else
-		ret = logical_resolution(&curpath, pwd);
+		ret = logical_resolution(&curpath);
 	string_shutdown(&curpath);
 	return (ret);
 }
 
 int		builtin_cd(int ac, const char *const *av)
 {
-	bool		p;
-	t_opt		opt;
-	char		ret;
-	int			ret_value;
-
-	OPT_INIT(opt);
-	p = false;
-	opt.print_errmsg = true;
-	while ((ret = ft_getopt(av, "PL", &opt)) != -1)
-	{
-		if (ret == '?' || ret == ':')
-			return (1);
-		else if (ret == 'P')
-			p = true;
-		else if (ret == 'L')
-			p = false;
-	}
-	ac -= opt.end;
-	if (ac >= 2)
-	{
-		ft_dprintf(2, "usage: %s [-L|-P] [directory]\n", av[0]);
-		return (1);
-	}
-	av += opt.end;
-	/* if (!ft_strcmp(pwd, "/")) */
-	/* 	pwd += 1; */
-	ret_value = cd(ac == 1 ? av[0] : NULL, p);
-	if (ret_value == ERROR_)
-		error_print("cd");
-	return (ret_value);
+	if (cd(ac, av) == OK_)
+		return (0);
+	error_print("cd");
+	return (1);
 }
