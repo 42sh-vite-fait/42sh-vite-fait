@@ -37,7 +37,7 @@ static const char	*get_dir(bool *must_print_pwd, const char *arg)
 	return (dir);
 }
 
-int					get_options(bool *p, const char **arg, int ac,
+static int			get_options(bool *p, const char **arg, int ac,
 								const char *const *av)
 {
 	t_opt	opt;
@@ -66,7 +66,7 @@ int					get_options(bool *p, const char **arg, int ac,
 	return (OK_);
 }
 
-int					cd(int ac, const char *const *av)
+static int			cd(int ac, const char *const *av)
 {
 	t_string	curpath;
 	int			ret;
