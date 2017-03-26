@@ -14,8 +14,7 @@ static int			rewind_path(t_string *curpath)
 	}
 	string_remove_back(curpath, 1);
 	string_remove_back_chr(curpath, '/');
-	if (curpath->len == 0)
-		string_cat(curpath, "/");
+	string_cat(curpath, "/");
 	return (OK_);
 }
 

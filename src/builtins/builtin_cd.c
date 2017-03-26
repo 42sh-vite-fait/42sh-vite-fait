@@ -53,6 +53,7 @@ int		logical_resolution(t_string *curpath)
 	t_string	backup;
 	const char	*pwd;
 
+	backup.len = 0;
 	var_get("PWD", &pwd);
 	if (curpath->str[0] != '/') /* Rule 7 */
 	{
