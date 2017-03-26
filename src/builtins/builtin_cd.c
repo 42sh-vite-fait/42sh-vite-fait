@@ -1,8 +1,6 @@
 #include <stdbool.h>
-#include <stddef.h>
 #include "var.h"
 #include "string_42.h"
-#include "misc.h"
 #include "errors.h"
 #include "builtins.h"
 #include "unistd_42.h"

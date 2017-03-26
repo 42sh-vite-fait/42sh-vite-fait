@@ -1,8 +1,5 @@
-#include <stdbool.h>
-#include <sys/stat.h>
 #include "string_42.h"
 #include "errors.h"
-#include "misc.h"
 #include "builtins.h"
 #include "var.h"
 
