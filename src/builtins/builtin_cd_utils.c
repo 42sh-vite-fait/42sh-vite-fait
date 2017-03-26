@@ -8,9 +8,11 @@ static void	rule_5(t_string *curpath, bool *must_print_pwd, const char *dir)
 {
 	t_string	next;
 	const char	*cdpaths;
+	const char	*current;
 
 	if (var_get("CDPATH", &cdpaths) == OK_)
 	{
+		current = cdpaths;
 		string_init(&next);
 		while ((cdpaths = get_next_path(&next, cdpaths)) != NULL)
 		{
@@ -19,9 +21,10 @@ static void	rule_5(t_string *curpath, bool *must_print_pwd, const char *dir)
 			{
 				string_shutdown(curpath);
 				*curpath = next;
-				*must_print_pwd = cdpaths[0] != ':' && cdpaths[0] != '\0';
+				*must_print_pwd = current[0] != ':';
 				return ;
 			}
+			current = cdpaths;
 		}
 		string_shutdown(&next);
 	}
