@@ -43,5 +43,10 @@ int				builtin_unsetenv(int argc, const char * const *argv);
 int				builtin_cd(int argc, const char * const *argv);
 int				builtin_cd_rule_8(t_string *curpath);
 const char		*get_next_component(t_string *component, const char *path);
+void			get_base_path(t_string *curpath, bool *must_print_pwd,
+								const char *dir);
+int				physical_resolution(t_string *curpath);
+int				logical_resolution(t_string *curpath, t_string backup,
+									const char *pwd);
 
 #endif
