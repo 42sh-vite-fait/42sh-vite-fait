@@ -8,15 +8,16 @@
 # define GETOPT_MULT_ERR_FORMAT "%s: option '%c' requires an argument\n"
 
 
-# define OPT_INIT(o) ((o) = (t_opt){NULL, 1, 1, -1, false})
+# define OPT_INIT(o) ((o) = (t_opt){NULL, 1, 1, 1, -1, false})
 
 typedef struct s_opt	t_opt;
 
 struct	s_opt
 {
 	const char	*arg;
-	size_t		current;
 	size_t		end;
+	unsigned	current_arg;
+	unsigned	current_opt;
 	int			unknown_opt;
 	bool		print_errmsg;
 };
