@@ -87,7 +87,7 @@ int		cd(const char *dir, const char *home, const char *pwd, bool P)
 	string_init(&curpath);
 	if (dir == NULL && home == NULL)
 	{
-		error_set_context("no HOME");
+		error_set_context("no home directory (HOME not set)");
 		return (ERROR_);
 	}
 	else if (dir == NULL && home != NULL)
@@ -120,6 +120,7 @@ int		builtin_cd(int ac, const char *const *av)
 	bool		p;
 	t_opt		opt;
 	char		ret;
+	int			ret_value;
 
 	OPT_INIT(opt);
 	p = false;
@@ -154,5 +155,8 @@ int		builtin_cd(int ac, const char *const *av)
 	if (!ft_strcmp(pwd, "/"))
 		pwd += 1;
 	// error print
-	return (cd(dir, home, pwd, p));
+	ret_value = cd(dir, home, pwd, p);
+	if (ret_value == ERROR_)
+		error_print("cd");
+	return (ret_value);
 }
