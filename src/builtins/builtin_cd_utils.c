@@ -33,42 +33,46 @@ static void	rule_5(t_string *curpath, bool *must_print_pwd, const char *dir)
 	string_cat(curpath, dir);
 }
 
-const char	*get_next_component(t_string *component, const char *path)
+static int			rewind_path(t_string *curpath)
 {
-	ssize_t		sep;
-
-	if (path[0] == '\0')
-		return (NULL);
-	string_truncate(component, 0);
-	sep = ft_strchrpos(path, '/');
-	if (sep == -1)
-	{
-		string_cat(component, path);
-		return (ft_strchr(path, '\0'));
-	}
-	string_ncat(component, path, sep);
-	while (path[sep] == '/')
-		sep += 1;
-	return (path + sep);
-}
-
-int			physical_resolution(t_string *curpath)
-{
-	char	*new_pwd;
-
-	if (chdir(curpath->str) == -1)
+	if (!is_dir(curpath->str))
 	{
 		error_set_context("%s: %s", curpath->str, strerror(errno));
 		return (ERROR_);
 	}
-	new_pwd = getcwd(NULL, 0);
-	if (new_pwd == NULL)
-		return (ERROR_);
-	var_set("OLDPWD", g_pwd.str);
-	var_set("PWD", new_pwd);
-	string_replace(curpath, new_pwd);
-	string_replace(&g_pwd, curpath->str);
-	free(new_pwd);
+	string_remove_back(curpath, 1);
+	string_remove_back_chr(curpath, '/');
+	string_cat(curpath, "/");
+	return (OK_);
+}
+
+static int			builtin_cd_rule_8(t_string *curpath)
+{
+	t_string	component;
+	t_string	build_path;
+	const char	*path;
+
+	string_init(&component);
+	string_init(&build_path);
+	path = curpath->str;
+	while ((path = get_next_component(&component, path)) != NULL)
+	{
+		if (ft_streq(component.str, ".."))
+		{
+			if (rewind_path(&build_path) == ERROR_)
+				return (ERROR_);
+		}
+		else if (!ft_streq(component.str, "."))
+		{
+			string_append(&build_path, &component);
+			string_ncat(&build_path, "/", 1);
+		}
+	}
+	string_shutdown(curpath);
+	string_shutdown(&component);
+	if (build_path.len > 1 && build_path.str[build_path.len - 1] == '/')
+		string_remove_back(&build_path, 1);
+	*curpath = build_path;
 	return (OK_);
 }
 
