@@ -33,7 +33,7 @@ static void	rule_5(t_string *curpath, bool *must_print_pwd, const char *dir)
 	string_cat(curpath, dir);
 }
 
-static int			rewind_path(t_string *curpath)
+static int	rewind_path(t_string *curpath)
 {
 	if (!is_dir(curpath->str))
 	{
@@ -46,7 +46,7 @@ static int			rewind_path(t_string *curpath)
 	return (OK_);
 }
 
-static int			builtin_cd_rule_8(t_string *curpath)
+static int	builtin_cd_rule_8(t_string *curpath)
 {
 	t_string	component;
 	t_string	build_path;
@@ -57,16 +57,14 @@ static int			builtin_cd_rule_8(t_string *curpath)
 	path = curpath->str;
 	while ((path = get_next_component(&component, path)) != NULL)
 	{
-		if (ft_streq(component.str, ".."))
-		{
-			if (rewind_path(&build_path) == ERROR_)
-				return (ERROR_);
-		}
-		else if (!ft_streq(component.str, "."))
+		if (!ft_streq(component.str, ".") && !ft_streq(component.str, ".."))
 		{
 			string_append(&build_path, &component);
 			string_ncat(&build_path, "/", 1);
 		}
+		else if (ft_streq(component.str, "..") &&
+				rewind_path(&build_path) == ERROR_)
+			return (ERROR_);
 	}
 	string_shutdown(curpath);
 	string_shutdown(&component);

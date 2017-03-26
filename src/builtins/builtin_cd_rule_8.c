@@ -8,7 +8,7 @@
 
 extern t_string	g_pwd;
 
-int					cd_set_pwd(void)
+int			cd_set_pwd(void)
 {
 	const char	*pwd;
 
@@ -18,7 +18,6 @@ int					cd_set_pwd(void)
 	fatal_malloc(string_init_dup(&g_pwd, pwd));
 	return (OK_);
 }
-
 
 const char	*get_next_component(t_string *component, const char *path)
 {
