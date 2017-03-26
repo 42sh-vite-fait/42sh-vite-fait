@@ -5,8 +5,7 @@ bb"
 echo '======= case 2'
 echo "complementary cases"
 ( echo a\
-b
-)
+b)
 
 echo '======= case 3'
 echo "a\
@@ -25,9 +24,9 @@ echo a\\
 echo b
 
 echo '======= case 7'
-(echo a\\
+(echo a\
 echo b\
-echo c\\
+echo c\
 printf d)
 
 echo "====== test 1"
