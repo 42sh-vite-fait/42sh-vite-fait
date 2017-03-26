@@ -8,7 +8,7 @@
 #include "unistd_42.h"
 #include "ft_printf.h"
 
-static void	rule_5(t_string *curpath, const char *dir)
+static void	rule_5(t_string *curpath, bool *must_print_pwd, const char *dir)
 {
 	t_string	next;
 	const char	*cdpaths;
@@ -23,6 +23,7 @@ static void	rule_5(t_string *curpath, const char *dir)
 			{
 				string_shutdown(curpath);
 				*curpath = next;
+				*must_print_pwd = cdpaths[0] != ':' && cdpaths[0] != '\0';
 				return ;
 			}
 		}
@@ -81,7 +82,7 @@ int		logical_resolution(t_string *curpath)
 	return (OK_);
 }
 
-void	get_base_path(t_string *curpath, const char *dir)
+void	get_base_path(t_string *curpath, bool *must_print_pwd, const char *dir)
 {
 	t_string	comp;
 
@@ -94,13 +95,13 @@ void	get_base_path(t_string *curpath, const char *dir)
 		if (ft_streq(comp.str, ".") || ft_streq(comp.str, "..")) /* Rule 4 */
 			string_cat(curpath, dir); /* Rule 6 */
 		else
-			rule_5(curpath, dir); /* Rule 5 + 6 */
+			rule_5(curpath, must_print_pwd, dir); /* Rule 5 + 6 */
 		string_shutdown(&comp);
 	}
 
 }
 
-const char	*get_dir(const char *arg)
+const char	*get_dir(bool *must_print_pwd, const char *arg)
 {
 	const char	*dir;
 	const char	*home;
@@ -109,7 +110,10 @@ const char	*get_dir(const char *arg)
 	if (arg != NULL)
 	{
 		if (!ft_strcmp(arg, "-"))
+		{
+			*must_print_pwd = true;
 			var_get("OLDPWD", &dir);
+		}
 		else
 			dir = arg;
 	}
@@ -153,26 +157,29 @@ int		get_options(bool *p, const char **arg, int ac, const char *const *av)
 	return (OK_);
 }
 
-//TODO: print pwd
 int		cd(int ac, const char *const *av)
 {
 	t_string	curpath;
 	int			ret;
 	const char	*dir;
 	const char	*arg;
-	bool		p;
+	bool		is_cd_physical;
+	bool		must_print_pwd;
 
-	if (get_options(&p, &arg, ac, av) == ERROR_)
+	must_print_pwd = false;
+	if (get_options(&is_cd_physical, &arg, ac, av) == ERROR_)
 		return (ERROR_);
-	dir = get_dir(arg);
+	dir = get_dir(&must_print_pwd, arg);
 	if (dir == NULL)
 		return (ERROR_);
 	string_init(&curpath);
-	get_base_path(&curpath, dir);
-	if (p) /* Rule 7 */
+	get_base_path(&curpath, &must_print_pwd, dir);
+	if (is_cd_physical) /* Rule 7 */
 		ret = physical_resolution(&curpath);
 	else
 		ret = logical_resolution(&curpath);
+	if (ret == OK_ && must_print_pwd)
+		ft_printf("%s\n", curpath.str);
 	string_shutdown(&curpath);
 	return (ret);
 }
