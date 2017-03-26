@@ -37,6 +37,8 @@ static int	input_notty_get_line(t_string *line)
 
 	while ((ret = read(STDIN_FILENO, &c, 1)) > 0)
 	{
+		if (c == '\0')
+			continue ;
 		fatal_malloc(string_ncat(line, &c, 1));
 		if (c == '\n')
 			break ;
