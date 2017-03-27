@@ -31,8 +31,7 @@ static void	find_in_path(t_array *matches, const char *path, const char *name,
 			!is_dot_or_dot_dot_file(current->d_name))
 		{
 			fatal_malloc(string_init_ndup(&found, prefix, prefix_len));
-			fatal_malloc(string_ncat(&found, current->d_name,
-										current->d_reclen));
+			fatal_malloc(string_cat(&found, current->d_name));
 			fatal_malloc(array_push(matches, &found.str));
 		}
 	}
