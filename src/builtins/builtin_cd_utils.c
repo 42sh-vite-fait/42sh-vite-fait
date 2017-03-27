@@ -74,10 +74,9 @@ static int	builtin_cd_rule_8(t_string *curpath)
 	return (OK_);
 }
 
-int			logical_resolution(t_string *curpath, t_string backup,
+int			logical_resolution(t_string *curpath, t_string chdir_path,
 							const char *pwd)
 {
-	backup.len = 0;
 	pwd = g_pwd.str;
 	if (curpath->str[0] != '/')
 	{
@@ -86,21 +85,21 @@ int			logical_resolution(t_string *curpath, t_string backup,
 	}
 	if (builtin_cd_rule_8(curpath) == -1)
 		return (ERROR_);
+	string_clone(&chdir_path, curpath);
 	if (!ft_strncmp(pwd, curpath->str, ft_strlen(pwd))
 		&& curpath->str[ft_strlen(pwd)] == '/')
 	{
-		string_clone(&backup, curpath);
-		string_remove(curpath, 0, ft_strlen(pwd));
-		string_insert(curpath, 0, ".", 1);
+		string_remove(&chdir_path, 0, ft_strlen(pwd));
+		string_insert(&chdir_path, 0, ".", 1);
 	}
-	if (chdir(curpath->str) == -1)
+	if (chdir(chdir_path.str) == -1)
 	{
-		error_set_context("%s: %s", curpath->str, strerror(errno));
+		error_set_context("%s: %s", chdir_path.str, strerror(errno));
 		return (ERROR_);
 	}
 	var_set("OLDPWD", pwd);
-	var_set("PWD", backup.len != 0 ? backup.str : curpath->str);
-	string_replace(&g_pwd, backup.len != 0 ? backup.str : curpath->str);
+	var_set("PWD", curpath->str);
+	string_replace(&g_pwd, curpath->str);
 	return (OK_);
 }
 
