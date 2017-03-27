@@ -80,7 +80,7 @@ static int			cd(int ac, const char *const *av)
 	dir = get_dir(&must_print_pwd, dir);
 	if (dir == NULL)
 		return (ERROR_);
-	string_init(&curpath);
+	fatal_malloc(string_init(&curpath));
 	get_base_path(&curpath, &must_print_pwd, dir);
 	if (is_cd_physical)
 		ret = physical_resolution(&curpath);
@@ -88,7 +88,7 @@ static int			cd(int ac, const char *const *av)
 		ret = logical_resolution(&curpath, g_pwd.str);
 	if (ret == OK_ && must_print_pwd)
 		ft_printf("%s\n", curpath.str);
-	string_replace(&g_pwd, curpath.str);
+	fatal_malloc(string_replace(&g_pwd, curpath.str));
 	string_shutdown(&curpath);
 	return (ret);
 }

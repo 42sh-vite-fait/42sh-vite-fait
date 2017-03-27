@@ -26,10 +26,10 @@ const char	*get_next_component(t_string *component, const char *path)
 	sep = ft_strchrpos(path, '/');
 	if (sep == -1)
 	{
-		string_cat(component, path);
+		fatal_malloc(string_cat(component, path));
 		return (ft_strchr(path, '\0'));
 	}
-	string_ncat(component, path, sep);
+	fatal_malloc(string_ncat(component, path, sep));
 	while (path[sep] == '/')
 		sep += 1;
 	return (path + sep);
@@ -49,7 +49,7 @@ int			physical_resolution(t_string *curpath)
 		return (ERROR_);
 	var_set("OLDPWD", g_pwd.str);
 	var_set("PWD", new_pwd);
-	string_replace(curpath, new_pwd);
+	fatal_malloc(string_replace(curpath, new_pwd));
 	free(new_pwd);
 	return (OK_);
 }

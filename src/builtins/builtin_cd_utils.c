@@ -13,10 +13,10 @@ static void	rule_5(t_string *curpath, bool *must_print_pwd, const char *dir)
 	if (var_get("CDPATH", &cdpaths) == OK_)
 	{
 		current = cdpaths;
-		string_init(&next);
+		fatal_malloc(string_init(&next));
 		while ((cdpaths = get_next_path(&next, cdpaths)) != NULL)
 		{
-			string_cat(&next, dir);
+			fatal_malloc(string_cat(&next, dir));
 			if (is_dir(next.str))
 			{
 				string_shutdown(curpath);
@@ -28,7 +28,7 @@ static void	rule_5(t_string *curpath, bool *must_print_pwd, const char *dir)
 		}
 		string_shutdown(&next);
 	}
-	string_cat(curpath, dir);
+	fatal_malloc(string_cat(curpath, dir));
 }
 
 static int	rewind_path(t_string *curpath)
@@ -40,7 +40,7 @@ static int	rewind_path(t_string *curpath)
 	}
 	string_remove_back(curpath, 1);
 	string_remove_back_chr(curpath, '/');
-	string_cat(curpath, "/");
+	fatal_malloc(string_cat(curpath, "/"));
 	return (OK_);
 }
 
@@ -50,15 +50,15 @@ static int	builtin_cd_rule_8(t_string *curpath)
 	t_string	build_path;
 	const char	*path;
 
-	string_init(&component);
-	string_init(&build_path);
+	fatal_malloc(string_init(&component));
+	fatal_malloc(string_init(&build_path));
 	path = curpath->str;
 	while ((path = get_next_component(&component, path)) != NULL)
 	{
 		if (!ft_streq(component.str, ".") && !ft_streq(component.str, ".."))
 		{
-			string_append(&build_path, &component);
-			string_ncat(&build_path, "/", 1);
+			fatal_malloc(string_append(&build_path, &component));
+			fatal_malloc(string_ncat(&build_path, "/", 1));
 		}
 		else if (ft_streq(component.str, "..") &&
 				rewind_path(&build_path) == ERROR_)
@@ -78,17 +78,17 @@ int			logical_resolution(t_string *curpath, const char *pwd)
 
 	if (curpath->str[0] != '/')
 	{
-		string_insert(curpath, 0, "/", 1);
-		string_insert(curpath, 0, pwd, ft_strlen(pwd));
+		fatal_malloc(string_insert(curpath, 0, "/", 1));
+		fatal_malloc(string_insert(curpath, 0, pwd, ft_strlen(pwd)));
 	}
 	if (builtin_cd_rule_8(curpath) == -1)
 		return (ERROR_);
-	string_clone(&chdir_path, curpath);
+	fatal_malloc(string_clone(&chdir_path, curpath));
 	if (!ft_strncmp(pwd, curpath->str, ft_strlen(pwd))
 		&& curpath->str[ft_strlen(pwd)] == '/')
 	{
 		string_remove(&chdir_path, 0, ft_strlen(pwd));
-		string_insert(&chdir_path, 0, ".", 1);
+		fatal_malloc(string_insert(&chdir_path, 0, ".", 1));
 	}
 	if (chdir(chdir_path.str) == -1)
 	{
@@ -107,13 +107,13 @@ void		get_base_path(t_string *curpath, bool *must_print_pwd,
 	t_string	comp;
 
 	if (dir[0] == '/')
-		string_cat(curpath, dir);
+		fatal_malloc(string_cat(curpath, dir));
 	else
 	{
-		string_init(&comp);
+		fatal_malloc(string_init(&comp));
 		get_next_component(&comp, curpath->str);
 		if (ft_streq(comp.str, ".") || ft_streq(comp.str, ".."))
-			string_cat(curpath, dir);
+			fatal_malloc(string_cat(curpath, dir));
 		else
 			rule_5(curpath, must_print_pwd, dir);
 		string_shutdown(&comp);
