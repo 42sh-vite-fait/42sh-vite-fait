@@ -45,8 +45,7 @@ const char		*get_next_component(t_string *component, const char *path);
 void			get_base_path(t_string *curpath, bool *must_print_pwd,
 								const char *dir);
 int				physical_resolution(t_string *curpath);
-int				logical_resolution(t_string *curpath, t_string backup,
-									const char *pwd);
+int				logical_resolution(t_string *curpath, const char *pwd);
 int				cd_set_pwd(void);
 
 #endif

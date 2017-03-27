@@ -4,8 +4,6 @@
 #include "misc.h"
 #include "errors.h"
 
-t_string	g_pwd;
-
 static void	rule_5(t_string *curpath, bool *must_print_pwd, const char *dir)
 {
 	t_string	next;
@@ -74,10 +72,10 @@ static int	builtin_cd_rule_8(t_string *curpath)
 	return (OK_);
 }
 
-int			logical_resolution(t_string *curpath, t_string chdir_path,
-							const char *pwd)
+int			logical_resolution(t_string *curpath, const char *pwd)
 {
-	pwd = g_pwd.str;
+	t_string	chdir_path;
+
 	if (curpath->str[0] != '/')
 	{
 		string_insert(curpath, 0, "/", 1);
@@ -99,7 +97,7 @@ int			logical_resolution(t_string *curpath, t_string chdir_path,
 	}
 	var_set("OLDPWD", pwd);
 	var_set("PWD", curpath->str);
-	string_replace(&g_pwd, curpath->str);
+	string_shutdown(&chdir_path);
 	return (OK_);
 }
 

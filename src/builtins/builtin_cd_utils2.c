@@ -50,7 +50,6 @@ int			physical_resolution(t_string *curpath)
 	var_set("OLDPWD", g_pwd.str);
 	var_set("PWD", new_pwd);
 	string_replace(curpath, new_pwd);
-	string_replace(&g_pwd, curpath->str);
 	free(new_pwd);
 	return (OK_);
 }

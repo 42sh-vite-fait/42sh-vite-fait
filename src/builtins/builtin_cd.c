@@ -6,6 +6,8 @@
 #include "unistd_42.h"
 #include "ft_printf.h"
 
+t_string	g_pwd;
+
 static const char	*get_dir(bool *must_print_pwd, const char *arg)
 {
 	const char	*dir;
@@ -83,9 +85,10 @@ static int			cd(int ac, const char *const *av)
 	if (is_cd_physical)
 		ret = physical_resolution(&curpath);
 	else
-		ret = logical_resolution(&curpath, curpath, dir);
+		ret = logical_resolution(&curpath, g_pwd.str);
 	if (ret == OK_ && must_print_pwd)
 		ft_printf("%s\n", curpath.str);
+	string_replace(&g_pwd, curpath.str);
 	string_shutdown(&curpath);
 	return (ret);
 }
