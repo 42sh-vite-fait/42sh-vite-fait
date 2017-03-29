@@ -62,7 +62,7 @@ static int			get_options(bool *p, const char **arg, int ac,
 		error_set_context("usage: %s [-L|-P] [directory]", av[0]);
 		return (ERROR_);
 	}
-	*arg = ac - opt.end == 1 ? av[opt.end] : NULL;
+	*arg = av[opt.end];
 	return (OK_);
 }
 
