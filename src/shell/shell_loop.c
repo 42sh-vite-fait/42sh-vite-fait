@@ -129,6 +129,7 @@ int			shell_loop(void)
 	string_shutdown(&input);
 	array_shutdown(&tokens);
 	lexer_shutdown(&lexer);
+	parser_clear(&parser);
 	parser_shutdown(&parser);
 	return (ret);
 }
