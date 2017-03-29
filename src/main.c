@@ -1,6 +1,23 @@
 #include "init.h"
 #include "opt.h"
 #include "shell.h"
+#include "ft_printf.h"
+
+// TODO remove
+static void	check_leaks(void)
+{
+	char	*cmd;
+
+	ft_asprintf(&cmd, "leaks %ld >/dev/null", getpid());
+	if (system(cmd) != 0)
+	{
+		free(cmd);
+		ft_asprintf(&cmd, "leaks %ld", getpid());
+		system(cmd);
+		exit(-2);
+	}
+	free(cmd);
+}
 
 int		main(int argc, char *argv[])
 {
@@ -11,5 +28,6 @@ int		main(int argc, char *argv[])
 	ret = shell_loop();
 	if (opt_is_set(OPT_INTERACTIVE))
 		shell_history_shutdown();
+	check_leaks();
 	return (ret);
 }
