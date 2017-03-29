@@ -6,13 +6,14 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/10 16:28:49 by djean             #+#    #+#             */
-/*   Updated: 2016/10/29 14:38:05 by crenault         ###   ########.fr       */
+/*   Updated: 2017/03/29 12:08:59 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STR_42_H
 # define STR_42_H
 
+# include <stdbool.h>
 # include <stdlib.h>
 # include "memory_42.h"
 
@@ -23,6 +24,7 @@ char		*ft_strndup(const char *s1, size_t n);
 
 int			ft_strcmp(const char *s1, const char *s2);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
+bool		ft_streq(const char *s1, const char *s2);
 
 size_t		ft_strlen(const char *s);
 size_t		ft_strnlen(const char *s, size_t maxlen);
