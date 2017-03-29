@@ -2,6 +2,7 @@
 #include <signal.h>
 #include <stdbool.h>
 #include "macros_42.h"
+#include "memory_42.h"
 #include "sig.h"
 
 /* static volatile sig_atomic_t	g_signal_handler_flag = 0; */
@@ -30,6 +31,7 @@ void		signal_unmute_exit_signals(void)
 {
 	struct sigaction	act;
 
+	ft_memset(&act, 0, sizeof(struct sigaction));
 	act.sa_handler = SIG_DFL;
 	signal_set_handler_for(g_exit_signals, g_exit_signals_len, &act);
 }
