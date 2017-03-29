@@ -18,5 +18,6 @@ int		exec_node_list(const t_ast_node *node, const t_string *input)
 		array_pop(&list_nodes_stack, &node);
 		ret = g_walkers[node->type](node, input);
 	}
+	array_shutdown(&list_nodes_stack);
 	return (ret);
 }

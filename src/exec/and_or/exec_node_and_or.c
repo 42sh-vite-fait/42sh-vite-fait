@@ -32,5 +32,7 @@ int			exec_node_and_or(const t_ast_node *node, const t_string *input)
 		if (should_we_execute_next_child(token_type, exit_status))
 			exit_status = g_walkers[child->type](child, input);
 	}
+	array_shutdown(&andor_children_stack);
+	array_shutdown(&andor_token_type_stack);
 	return (exit_status);
 }

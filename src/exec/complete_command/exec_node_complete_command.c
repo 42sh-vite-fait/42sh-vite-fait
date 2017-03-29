@@ -18,6 +18,7 @@ int		exec_node_complete_commands(const t_ast_node *node, const t_string *input)
 		array_pop(&complete_commands_nodes_stack, &node);
 		ret = g_walkers[node->type](node, input);
 	}
+	array_shutdown(&complete_commands_nodes_stack);
 	return (ret);
 }
 
@@ -35,5 +36,6 @@ int		exec_node_complete_command(const t_ast_node *node, const t_string *input)
 		array_pop(&complete_command_nodes_stack, &node);
 		ret = g_walkers[node->type](node, input);
 	}
+	array_shutdown(&complete_command_nodes_stack);
 	return (ret);
 }
