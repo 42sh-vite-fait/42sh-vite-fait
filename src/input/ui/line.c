@@ -25,6 +25,7 @@ void	line_print(t_term_line *line)
 		terminal_move_cursor(CAPS_CURSOR_LEFT, 1);
 	}
 	line_move_cursor(line, -write_len);
+	string_shutdown(&to_print);
 }
 
 void	line_insert(t_term_line *line, const char *s, size_t len)
