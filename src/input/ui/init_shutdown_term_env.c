@@ -2,6 +2,19 @@
 #include "user_interface.h"
 #include "array_42.h"
 
+void	term_env_clear_autocompletion(t_term_env *env)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < env->autocomplete_matches.len)
+	{
+		free(*(char **)array_get_at(&env->autocomplete_matches, i));
+		i += 1;
+	}
+	array_clear(&env->autocomplete_matches);
+}
+
 void	init_term_env(t_term_env *env, t_string *line, const char *prompt)
 {
 	env->line.str = line;
@@ -18,14 +31,7 @@ void	init_term_env(t_term_env *env, t_string *line, const char *prompt)
 
 void	shutdown_term_env(t_term_env *env)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < env->autocomplete_matches.len)
-	{
-		free(*(char **)array_get_at(&env->autocomplete_matches, i));
-		i += 1;
-	}
+	term_env_clear_autocompletion(env);
 	string_shutdown(&env->kill_buffer);
 	array_shutdown(&env->autocomplete_matches);
 }

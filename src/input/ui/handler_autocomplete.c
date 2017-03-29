@@ -45,7 +45,7 @@ void			ui_handler_autocomplete(t_term_env *env, char c)
 		word_len = word_backward(&env->line) + word_forward(&env->line);
 		word = env->line.str->str + env->line.string_index
 			- word_backward(&env->line);
-		array_clear(&env->autocomplete_matches);
+		term_env_clear_autocompletion(env);
 		autocomplete(&env->autocomplete_matches, word, word_len);
 	}
 	if (env->autocomplete_matches.len == 0)

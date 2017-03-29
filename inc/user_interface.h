@@ -254,6 +254,7 @@ void	ui_handler_autocomplete(t_term_env *env, char c);
 */
 void	init_term_env(t_term_env *env, t_string *line, const char *prompt);
 void	shutdown_term_env(t_term_env *env);
+void	term_env_clear_autocompletion(t_term_env *env);
 
 void	term_env_update_for_resize(t_term_env *env);
 
