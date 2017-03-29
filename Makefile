@@ -305,9 +305,12 @@ check_unit:
 check_diff:
 	@zsh $(TEST_PATH)/shellscript/use_case_diff_mksh_tests.sh $(SUITE) $(CASE)
 
+check_valgrind:
+	@zsh $(TEST_PATH)/leaks/run_valgrind.sh $(SUITE) $(CASE)
+
 check_leaks:
 	@$(MAKE) -C . DEBUG=yes re
-	@zsh $(TEST_PATH)/shellscript/run_leaks.sh
+	@zsh $(TEST_PATH)/leaks/run_leaks.sh
 
 clean:
 	$(RM) -r $(OBJ_PATH)
