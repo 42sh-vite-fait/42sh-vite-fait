@@ -21,7 +21,7 @@ static void	add_prefix(t_string *curpath, bool *must_print_pwd, const char *dir)
 			{
 				string_shutdown(curpath);
 				*curpath = next;
-				*must_print_pwd = current[0] != ':';
+				*must_print_pwd = !current[0] && current[0] != ':';
 				return ;
 			}
 			current = cdpaths;
