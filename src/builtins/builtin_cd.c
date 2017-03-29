@@ -8,15 +8,14 @@
 
 t_string	g_pwd;
 
-static const char	*get_dir(bool *must_print_pwd, const char *arg)
+static const char	*get_dir(bool *must_print_pwd, const char *dir)
 {
-	const char	*dir;
 	const char	*home;
 
 	var_get("HOME", &home);
-	if (arg != NULL)
+	if (dir != NULL)
 	{
-		if (!ft_strcmp(arg, "-"))
+		if (!ft_strcmp(dir, "-"))
 		{
 			*must_print_pwd = true;
 			if (var_get("OLDPWD", &dir) != OK_)
@@ -25,14 +24,10 @@ static const char	*get_dir(bool *must_print_pwd, const char *arg)
 				return (NULL);
 			}
 		}
-		else
-			dir = arg;
 	}
-	else
-		dir = NULL;
-	if (dir == NULL && home == NULL)
+	else if (home == NULL)
 		error_set_context("no home directory (HOME not set)");
-	else if (dir == NULL && home != NULL)
+	else
 		dir = home;
 	return (dir);
 }
