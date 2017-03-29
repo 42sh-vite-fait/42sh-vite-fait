@@ -16,12 +16,11 @@ static int	exec_redirection_dispatch(struct s_redirection redir,
 	int		ret;
 
 	ret = ERROR_;
-	if (redir.operator == E_TOKEN_GREAT || redir.operator == E_TOKEN_CLOBBER)
+	if (redir.operator == E_TOKEN_GREAT)
 		ret = exec_redirection_output_trunc(redir.io_number, word);
 	else if (redir.operator == E_TOKEN_LESS)
 		ret = exec_redirection_input(redir.io_number, word);
-	else if (redir.operator == E_TOKEN_DLESS
-			|| redir.operator == E_TOKEN_DLESSDASH)
+	else if (redir.operator == E_TOKEN_DLESS)
 		ret = exec_redirection_input(redir.io_number, redir.heredoc_filename);
 	else if (redir.operator == E_TOKEN_DGREAT)
 		ret = exec_redirection_output_append(redir.io_number, word);

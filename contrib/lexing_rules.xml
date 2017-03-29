@@ -17,7 +17,6 @@
 
 	<lparen />
 	<rparen />
-	<dash />
 	<bslash />
 	<hash />
   </char_types>
@@ -37,8 +36,6 @@
 	<greatand />
 	<newline />
 	<lessgreat />
-	<dlessdash />
-	<clobber />
 	<and />
 	<and_if />
 	<or_if />
@@ -70,7 +67,6 @@
 		<newline>newline</newline>
 		<lparen>lparen</lparen>
 		<rparen>rparen</rparen>
-		<dash>word</dash>
 		<bslash>bslash</bslash>
 		<hash>comment</hash>
 	  </empty>
@@ -87,7 +83,6 @@
 		<letter>word</letter>
 		<squote push="squote">word</squote>
 		<dquote push="dquote">word</dquote>
-		<dash>word</dash>
 		<bslash>bslash</bslash>
 		<hash>word</hash>
 	  </empty>
@@ -112,17 +107,10 @@
 	  </empty>
 	</less>
 
-	<dless>
-	  <empty>
-		<dash>dlessdash</dash>
-	  </empty>
-	</dless>
-
 	<great>
 	  <empty>
 		<great>dgreat</great>
 		<and>greatand</and>
-		<pipe>clobber</pipe>
 	  </empty>
 	</great>
 

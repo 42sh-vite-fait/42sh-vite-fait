@@ -9,7 +9,6 @@
  *                  | GREATAND  filename
  *                  | DGREAT    filename
  *                  | LESSGREAT filename
- *                  | CLOBBER   filename
  *
  * filename         : WORD                      * Apply rule 2 *
  */
@@ -449,78 +448,6 @@ Test(Parser, IOFile_LessgreatIONumberFirst)
 	int tokens[] = {
 		E_TOKEN_IO_NUMBER,
 		E_TOKEN_LESSGREAT,
-		E_TOKEN_WORD,
-		E_TOKEN_END_OF_INPUT,
-	};
-	setup_tokens(tokens);
-	bool	req = check_requirements_io_file(&parser);
-	int		ret = predict_io_file(&parser);
-
-	cr_assert_not(req);
-	cr_assert_eq(ret, ERROR_);
-	test_current_token(E_TOKEN_IO_NUMBER);
-}
-
-
-// CLOBBER
-Test(Parser, IOFile_ClobberWithWord)
-{
-	int tokens[] = {
-		E_TOKEN_CLOBBER,
-		E_TOKEN_WORD,
-		E_TOKEN_CLOBBER,
-		E_TOKEN_WORD,
-		E_TOKEN_END_OF_INPUT,
-	};
-	setup_tokens(tokens);
-	bool	req = check_requirements_io_file(&parser);
-	int		ret = predict_io_file(&parser);
-
-	cr_assert(req);
-	cr_assert_eq(ret, OK_);
-	test_current_token(E_TOKEN_CLOBBER);
-	cr_assert_eq(parser.index, 2);
-}
-
-Test(Parser, IOFile_DoubleClobber)
-{
-	int tokens[] = {
-		E_TOKEN_CLOBBER,
-		E_TOKEN_CLOBBER,
-		E_TOKEN_WORD,
-		E_TOKEN_NEWLINE,
-		E_TOKEN_END_OF_INPUT,
-	};
-	setup_tokens(tokens);
-	bool	req = check_requirements_io_file(&parser);
-	int		ret = predict_io_file(&parser);
-
-	cr_assert(req);
-	cr_assert_eq(ret, ERROR_);
-	test_current_token(E_TOKEN_CLOBBER);
-	cr_assert_eq(parser.index, 1);
-}
-
-Test(Parser, IOFile_ClobberNoRedirection)
-{
-	int tokens[] = {
-		E_TOKEN_WORD,
-		E_TOKEN_END_OF_INPUT,
-	};
-	setup_tokens(tokens);
-	bool	req = check_requirements_io_file(&parser);
-	int		ret = predict_io_file(&parser);
-
-	cr_assert_not(req);
-	cr_assert_eq(ret, ERROR_);
-	test_current_token(E_TOKEN_WORD);
-}
-
-Test(Parser, IOFile_ClobberIONumberFirst)
-{
-	int tokens[] = {
-		E_TOKEN_IO_NUMBER,
-		E_TOKEN_CLOBBER,
 		E_TOKEN_WORD,
 		E_TOKEN_END_OF_INPUT,
 	};

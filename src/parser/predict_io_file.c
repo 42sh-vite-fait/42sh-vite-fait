@@ -7,8 +7,7 @@ bool	check_requirements_io_file(const t_parser *parser)
 			|| parser_check_current_token_type(parser, E_TOKEN_GREAT)
 			|| parser_check_current_token_type(parser, E_TOKEN_GREATAND)
 			|| parser_check_current_token_type(parser, E_TOKEN_DGREAT)
-			|| parser_check_current_token_type(parser, E_TOKEN_LESSGREAT)
-			|| parser_check_current_token_type(parser, E_TOKEN_CLOBBER))
+			|| parser_check_current_token_type(parser, E_TOKEN_LESSGREAT))
 		return (true);
 	return (false);
 }
@@ -20,7 +19,6 @@ bool	check_requirements_io_file(const t_parser *parser)
 **		   | GREATAND  filename
 **		   | DGREAT    filename
 **		   | LESSGREAT filename
-**		   | CLOBBER   filename
 */
 
 int		predict_io_file(t_parser *parser)

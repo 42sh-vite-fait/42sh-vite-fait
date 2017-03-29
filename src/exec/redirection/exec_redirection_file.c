@@ -26,14 +26,14 @@ static int	open_file_and_dup(int io_number, int flags, const char *word)
 	return (OK_);
 }
 
-// LESS DLESS DLESSDASH
+// LESS DLESS
 int	exec_redirection_input(int io_number, const char *word)
 {
 	assert(io_number >= 0 && io_number <= E_MAX_FD_POSIX_COMPLIANCE);
 	return (open_file_and_dup(io_number, O_RDONLY, word));
 }
 
-// GREAT CLOBBER
+// GREAT
 int	exec_redirection_output_trunc(int io_number, const char *word)
 {
 	assert(io_number >= 0 && io_number <= E_MAX_FD_POSIX_COMPLIANCE);

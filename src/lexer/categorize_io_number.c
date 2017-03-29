@@ -23,9 +23,7 @@ static bool	is_token_redirection(int type)
 			|| type == E_TOKEN_GREAT
 			|| type == E_TOKEN_DGREAT
 			|| type == E_TOKEN_GREATAND
-			|| type == E_TOKEN_LESSGREAT
-			|| type == E_TOKEN_DLESSDASH
-			|| type == E_TOKEN_CLOBBER)
+			|| type == E_TOKEN_LESSGREAT)
 		return (true);
 	return (false);
 }

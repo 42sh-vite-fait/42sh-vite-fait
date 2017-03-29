@@ -68,11 +68,11 @@ Test(Parser, SimpleCommand_ErrorAssignmentAfterCmdWord)
 
 Test(Parser, SimpleCommand_MutiplesRedirectionAssignmentAndWord)
 {
-	// A=B 1<<-file C=D cmd >file2 arg1 arg2 >|file3 arg3;cmd2 2>|file4
+	// A=B 1<file C=D cmd >file2 arg1 arg2 <file3 arg3;cmd2 2<file4
 	int tokens[] = {
 		E_TOKEN_ASSIGNMENT_WORD,
 		E_TOKEN_IO_NUMBER,
-		E_TOKEN_DLESSDASH,
+		E_TOKEN_LESS,
 		E_TOKEN_WORD,
 		E_TOKEN_ASSIGNMENT_WORD,
 		E_TOKEN_WORD,
@@ -81,13 +81,13 @@ Test(Parser, SimpleCommand_MutiplesRedirectionAssignmentAndWord)
 		E_TOKEN_WORD,
 		E_TOKEN_WORD,
 		E_TOKEN_IO_NUMBER,
-		E_TOKEN_CLOBBER,
+		E_TOKEN_LESS,
 		E_TOKEN_WORD,
 		E_TOKEN_WORD,
 		E_TOKEN_SEMI,
 		E_TOKEN_WORD,
 		E_TOKEN_IO_NUMBER,
-		E_TOKEN_CLOBBER,
+		E_TOKEN_LESS,
 		E_TOKEN_WORD,
 		E_TOKEN_END_OF_INPUT,
 	};
@@ -102,23 +102,23 @@ Test(Parser, SimpleCommand_MutiplesRedirectionAssignmentAndWord)
 
 Test(Parser, SimpleCommand_NoPrefix)
 {
-	// cmd 1<<-file >file2 arg1 arg2 >|file3 arg3;cmd2 2>|file4
+	// cmd 1<file >file2 arg1 arg2 >file3 arg3;cmd2 2>file4
 	int tokens[] = {
 		E_TOKEN_WORD,
 		E_TOKEN_IO_NUMBER,
-		E_TOKEN_DLESSDASH,
+		E_TOKEN_LESS,
 		E_TOKEN_WORD,
 		E_TOKEN_GREAT,
 		E_TOKEN_WORD,
 		E_TOKEN_WORD,
 		E_TOKEN_WORD,
-		E_TOKEN_CLOBBER,
+		E_TOKEN_GREAT,
 		E_TOKEN_WORD,
 		E_TOKEN_WORD,
 		E_TOKEN_SEMI,
 		E_TOKEN_WORD,
 		E_TOKEN_IO_NUMBER,
-		E_TOKEN_CLOBBER,
+		E_TOKEN_GREAT,
 		E_TOKEN_WORD,
 		E_TOKEN_END_OF_INPUT,
 	};

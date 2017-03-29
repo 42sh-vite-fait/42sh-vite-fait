@@ -67,8 +67,6 @@ Test(Parser, CmdSuffix_MultiplesIORedirect)
 		E_TOKEN_WORD,
 		E_TOKEN_GREATAND,
 		E_TOKEN_WORD,
-		E_TOKEN_CLOBBER,
-		E_TOKEN_WORD,
 		E_TOKEN_END_OF_INPUT,
 	};
 	setup_tokens(tokens);

@@ -2,15 +2,13 @@
 
 bool	check_requirements_io_here(const t_parser *parser)
 {
-	if (parser_check_current_token_type(parser, E_TOKEN_DLESS)
-			|| parser_check_current_token_type(parser, E_TOKEN_DLESSDASH))
+	if (parser_check_current_token_type(parser, E_TOKEN_DLESS))
 		return (true);
 	return (false);
 }
 
 /*
 ** io_here : DLESS     here_end
-**         | DLESSDASH here_end
 */
 
 int		predict_io_here(t_parser *parser, struct s_redirection *redir)
