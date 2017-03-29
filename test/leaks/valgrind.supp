@@ -81,3 +81,12 @@
 		fun:init_shell
 		fun:main
 }
+
+{
+   strerror
+   Memcheck:Leak
+   match-leak-kinds: definite
+   ...
+   fun:strerror
+   ...
+}
