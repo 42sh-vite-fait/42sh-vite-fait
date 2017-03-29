@@ -4,7 +4,7 @@
 #include "misc.h"
 #include "errors.h"
 
-static void	rule_5(t_string *curpath, bool *must_print_pwd, const char *dir)
+static void	add_prefix(t_string *curpath, bool *must_print_pwd, const char *dir)
 {
 	t_string	next;
 	const char	*cdpaths;
@@ -44,7 +44,7 @@ static int	rewind_path(t_string *curpath)
 	return (OK_);
 }
 
-static int	builtin_cd_rule_8(t_string *curpath)
+static int	simplify_path(t_string *curpath)
 {
 	t_string	component;
 	t_string	build_path;
@@ -81,7 +81,7 @@ int			logical_resolution(t_string *curpath, const char *pwd)
 		fatal_malloc(string_insert(curpath, 0, "/", 1));
 		fatal_malloc(string_insert(curpath, 0, pwd, ft_strlen(pwd)));
 	}
-	if (builtin_cd_rule_8(curpath) == -1)
+	if (simplify_path(curpath) == -1)
 		return (ERROR_);
 	fatal_malloc(string_clone(&chdir_path, curpath));
 	if (!ft_strncmp(pwd, curpath->str, ft_strlen(pwd))
@@ -115,7 +115,7 @@ void		get_base_path(t_string *curpath, bool *must_print_pwd,
 		if (ft_streq(comp.str, ".") || ft_streq(comp.str, ".."))
 			fatal_malloc(string_cat(curpath, dir));
 		else
-			rule_5(curpath, must_print_pwd, dir);
+			add_prefix(curpath, must_print_pwd, dir);
 		string_shutdown(&comp);
 	}
 }
