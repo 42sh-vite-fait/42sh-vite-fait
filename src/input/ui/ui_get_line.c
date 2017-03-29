@@ -29,7 +29,7 @@ static int	ui_read_line(t_term_env *env)
 		else if (ret == -1 && errno == EINTR)
 			return (CMD_DROP_);
 		terminal_stop_raw_mode();
-		if ((c == E_CTRL_J || c == E_ENTER) && s.len == 0)
+		if ((c == E_CTRL_J || c == E_CTRL_M || c == E_ENTER) && s.len == 0)
 			return (OK_);
 		else if (c == E_CTRL_D && s.len == 0 && env->line.str->len == 0)
 			return (CMD_EOF_);
