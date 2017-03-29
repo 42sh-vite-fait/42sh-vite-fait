@@ -1,6 +1,14 @@
 mkdir -p /tmp/test_builtin_cd_folder
-2>/dev/null export CDPATH=/tmp || setenv CDPATH /tmp
+2>&- export CDPATH=/tmp || setenv CDPATH /tmp
 cd /
 pwd
 cd test_builtin_cd_folder
 pwd
+
+2>&- unset CDPATH || unsetenv CDPATH
+mkdir /tmp/bash-dir-a
+2>&- export CDPATH=.:/tmp || setenv CDPATH .:/tmp
+cd bash-dir-a
+pwd
+printenv PWD
+rmdir  /tmp/bash-dir-a

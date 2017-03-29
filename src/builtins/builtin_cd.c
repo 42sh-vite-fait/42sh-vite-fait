@@ -88,7 +88,8 @@ static int			cd(int ac, const char *const *av)
 		ret = logical_resolution(&curpath, g_pwd.str);
 	if (ret == OK_ && must_print_pwd)
 		ft_printf("%s\n", curpath.str);
-	fatal_malloc(string_replace(&g_pwd, curpath.str));
+	if (ret != ERROR_)
+		fatal_malloc(string_replace(&g_pwd, curpath.str));
 	string_shutdown(&curpath);
 	return (ret);
 }

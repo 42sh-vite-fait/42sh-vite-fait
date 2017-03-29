@@ -13,4 +13,9 @@ pwd
 cd -- -
 rm -rf toto
 
-env -i ./42sh -c "cd . ; pwd ;"
+env -i ./42sh -c "cd . ; /bin/pwd ;"
+
+2>&- cd tutu
+cd /tmp
+cd -
+pwd
