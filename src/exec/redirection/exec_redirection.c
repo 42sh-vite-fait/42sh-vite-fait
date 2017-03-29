@@ -47,7 +47,7 @@ bool	is_fd_open(int fd)
 	return (fcntl(fd, F_GETFD) != -1 || errno != EBADF);
 }
 
-int	exec_redirection(const t_array redirections, const t_string *input)
+int	exec_redirection(t_array redirections, const t_string *input)
 {
 	struct s_redirection	*redir;
 	char					*word;

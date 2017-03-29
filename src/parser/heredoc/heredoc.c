@@ -7,6 +7,7 @@
 #include "shell.h"
 #include "ft_printf.h"
 #include "expansion.h"
+#include "exec.h"
 
 #define HEREDOC_PREFIX "ftsh_heredoc_"
 
@@ -56,11 +57,21 @@ static char *heredoc(const char *word, size_t len)
 	if ((filename = ft_tmpfile(HEREDOC_PREFIX)) == NULL)
 		return (NULL);
 	if ((fd = open(filename, O_CREAT | O_WRONLY, 0600)) == -1)
+	{
+		error_set_context("heredoc: %s", strerror(errno));
+		free(filename);
 		return (NULL);
+	}
 	if (fill_heredoc_file(word, len, fd) != OK_)
+	{
+		free(filename);
 		filename = NULL;
-	if (close(fd) == -1)
+	}
+	if (exec_close_fd(fd) == -1)
+	{
+		free(filename);
 		return (NULL);
+	}
 	return (filename);
 }
 

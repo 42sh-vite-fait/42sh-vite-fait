@@ -72,6 +72,7 @@ int		predict_io_redirect(t_parser *parser, struct s_redirection *redir);
 int		predict_redirect_list(t_parser *parser, t_array *redirections);
 void	parser_heredoc_push(t_parser *parser, const struct s_redirection *redir);
 int		parser_heredoc_execute(const t_string *input, t_array *heredocs);
+void	parser_heredoc_shutdown(t_array *heredocs);
 
 // Simple Command
 bool	check_requirements_cmd_prefix(const t_parser *parser);

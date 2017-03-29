@@ -44,9 +44,11 @@ static char	*gen_tmp_name(const char *prefix)
 		return (NULL);
 	}
 	filename = gen_candidate(prefix);
-	while (filename != NULL &&
-			(access(filename, F_OK) == 0 || errno != ENOENT))
+	while (filename != NULL && (access(filename, F_OK) == 0 || errno != ENOENT))
+	{
+		free(filename);
 		filename = gen_candidate(prefix);
+	}
 	return (filename);
 }
 

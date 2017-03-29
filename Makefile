@@ -152,6 +152,7 @@ SOURCES += predict_term.c
 # Heredoc
 SRC_SUBDIR += parser/heredoc
 SOURCES += heredoc.c
+SOURCES += heredoc_shutdown.c
 SOURCES += ft_tmpfile.c
 
 # AST

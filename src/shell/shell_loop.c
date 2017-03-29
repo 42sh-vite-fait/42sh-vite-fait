@@ -109,7 +109,7 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 			return (1);
 		if (opt_is_set(OPT_INTERACTIVE) && command_status != CMD_DROP_)
 			history_add(input);
-		// TODO unlink heredocs files (doit être call en cas d'echec ou de succes)
+		parser_heredoc_shutdown(&parser->heredocs);
 	}
 }
 

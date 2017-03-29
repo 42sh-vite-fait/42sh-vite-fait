@@ -38,6 +38,5 @@ int			parser_parse(t_parser *parser)
 		return (ret);
 	}
 	ast_compress(&parser->ast);
-	parser_heredoc_execute(parser->input, &parser->heredocs);
-	return (OK_);
+	return (parser_heredoc_execute(parser->input, &parser->heredocs));
 }
