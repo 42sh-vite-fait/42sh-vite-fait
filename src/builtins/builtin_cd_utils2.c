@@ -47,7 +47,10 @@ int			physical_resolution(t_string *curpath)
 	}
 	new_pwd = getcwd(NULL, 0);
 	if (new_pwd == NULL)
+	{
+		error_set_context("%s", strerror(errno));
 		return (ERROR_);
+	}
 	var_set("OLDPWD", g_pwd.str);
 	var_set("PWD", new_pwd);
 	fatal_malloc(string_replace(curpath, new_pwd));
