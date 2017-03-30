@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_dprintf.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/30 16:51:26 by djean             #+#    #+#             */
+/*   Updated: 2017/03/30 16:56:44 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 /*
@@ -6,7 +18,7 @@
 
 ssize_t	ft_dprintf(int fd, const char *format, ...)
 {
-	ssize_t		ret;
+	ssize_t	ret;
 	va_list	ap;
 
 	va_start(ap, format);
@@ -14,7 +26,6 @@ ssize_t	ft_dprintf(int fd, const char *format, ...)
 	va_end(ap);
 	return (ret);
 }
-
 
 ssize_t	ft_vdprintf(int fd, const char *format, va_list ap)
 {

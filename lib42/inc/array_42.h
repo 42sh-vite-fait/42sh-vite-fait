@@ -6,7 +6,7 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/10 16:28:48 by djean             #+#    #+#             */
-/*   Updated: 2016/11/19 12:06:00 by leonhart         ###   ########.fr       */
+/*   Updated: 2017/03/30 16:40:20 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void		array_destroy(t_array *a);
 ** `array_shutdown` free the 'internal buffer'.
 */
 t_array		*array_init(t_array *a, size_t elem_size);
-t_array		*array_init_with_capacity(t_array *a, size_t elem_size, size_t capacity);
+t_array		*array_init_with_capacity(t_array *a, size_t elem_size,
+		size_t capacity);
 void		array_shutdown(t_array *a);
 
 /*

@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/01 18:43:08 by djean             #+#    #+#             */
-/*   Updated: 2016/11/22 16:27:12 by djean            ###   ########.fr       */
+/*   Updated: 2017/03/30 16:42:06 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void		pool_destroy(t_pool *p);
 ** `pool_shutdown` free all chunks in the pool
 */
 t_pool		*pool_init(t_pool *p, size_t elem_size);
-void		 pool_shutdown(t_pool *p);
+void		pool_shutdown(t_pool *p);
 
 /*
 ** `pool_obtain_node` return the head of the freelist and update the freelist

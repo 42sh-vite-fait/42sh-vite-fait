@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/27 12:14:45 by djean             #+#    #+#             */
-/*   Updated: 2016/09/30 11:04:57 by djean            ###   ########.fr       */
+/*   Created: 2017/03/30 16:51:26 by djean             #+#    #+#             */
+/*   Updated: 2017/03/30 16:54:23 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strchr(const char *s, int c)
 	return (ft_memchr(s, c, len));
 }
 
-ssize_t		ft_strchrpos(const char *s, int c)
+ssize_t	ft_strchrpos(const char *s, int c)
 {
 	char	*p;
 
@@ -42,7 +42,7 @@ char	*ft_strnchr(const char *s, int c, size_t n)
 	return (ft_memchr(s, c, len));
 }
 
-ssize_t		ft_strnchrpos(const char *s, int c, size_t n)
+ssize_t	ft_strnchrpos(const char *s, int c, size_t n)
 {
 	char	*p;
 

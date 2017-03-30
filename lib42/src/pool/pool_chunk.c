@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   chunk.c                                            :+:      :+:    :+:   */
+/*   pool_chunk.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/10/01 18:55:26 by djean             #+#    #+#             */
-/*   Updated: 2016/11/22 16:27:16 by djean            ###   ########.fr       */
+/*   Created: 2017/03/30 16:51:26 by djean             #+#    #+#             */
+/*   Updated: 2017/03/30 16:57:25 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ inline static void	chunk_intern_link(void *ptr, size_t size, size_t count)
 	*next = NULL;
 }
 
-t_chunk		*pool_add_chunk(t_pool *p)
+t_chunk				*pool_add_chunk(t_pool *p)
 {
 	t_chunk	*chunk;
 

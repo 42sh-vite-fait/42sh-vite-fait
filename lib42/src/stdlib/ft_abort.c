@@ -3,17 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_abort.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tvallee <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/28 16:13:03 by tvallee           #+#    #+#             */
-/*   Updated: 2016/12/13 15:18:56 by djean            ###   ########.fr       */
+/*   Created: 2017/03/30 16:51:26 by djean             #+#    #+#             */
+/*   Updated: 2017/03/30 16:53:37 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifdef __linux__
-# define _POSIX_C_SOURCE 1
-# include <sys/types.h>
-#endif
 #include <signal.h>
 #include <unistd.h>
 #include "str_42.h"

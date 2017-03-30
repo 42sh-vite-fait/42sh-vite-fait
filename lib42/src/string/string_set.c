@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_set.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/08/10 16:30:58 by djean             #+#    #+#             */
-/*   Updated: 2016/10/11 02:23:06 by crenault         ###   ########.fr       */
+/*   Created: 2017/03/30 16:51:37 by djean             #+#    #+#             */
+/*   Updated: 2017/03/30 16:55:29 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 ** Append the char 'c', 'n' times, to the buffer
 */
 
-// TODO rethink this function (need to give ranges)
 t_string	*string_set(t_string *s, int c, size_t n)
 {
 	if (string_reserve(s, n + 1) == NULL)

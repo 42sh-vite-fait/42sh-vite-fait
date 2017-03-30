@@ -6,7 +6,7 @@
 /*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/08/10 16:28:48 by djean             #+#    #+#             */
-/*   Updated: 2016/10/18 18:24:06 by djean            ###   ########.fr       */
+/*   Updated: 2017/03/30 16:42:32 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@
 # include "str_42.h"
 
 # define STRING_INIT_SIZE		(64U)
-
-// TODO rename functions that init (dup, ndup, clone, merge): *_init_*
 
 /*
 ** `string_create` and `string_create_with_capacity` malloc a new `t_string`

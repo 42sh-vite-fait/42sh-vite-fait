@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_dup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crenault <crenault@student.42.fr>          +#+  +:+       +#+        */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/09/09 15:33:13 by djean             #+#    #+#             */
-/*   Updated: 2016/11/08 15:47:48 by crenault         ###   ########.fr       */
+/*   Created: 2017/03/30 16:51:37 by djean             #+#    #+#             */
+/*   Updated: 2017/03/30 16:55:14 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,4 @@ t_string	*string_create_ndup(const char *str, size_t len)
 	s->len = len;
 	s->str[s->len] = '\0';
 	return (s);
-
 }
