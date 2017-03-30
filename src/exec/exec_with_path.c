@@ -1,47 +1,40 @@
+#include <unistd.h>
 #include <assert.h>
 #include "errors.h"
 #include "string_42.h"
+#include "exec.h"
+#include "misc.h"
+#include "array_42.h"
 
 #define ERROR			(-1)
 #define NO_MORE_PATH	(0)
 #define PATH_FOUND 		(1)
 
-static ssize_t	get_next_path_len(const char *paths)
+#define FALLBACK_SH_PATH	("/bin/sh")
+
+/*
+** Why ?
+** http://pubs.opengroup.org/onlinepubs/9699919799/functions/exec.html
+*/
+
+static void	exec_fallback_no_shebang(const char *path, char *const *av,
+		char *const *envp)
 {
-	ssize_t	len;
+	t_array		argv;
+	const char	*sh_path;
 
-	if (*paths == '\0')
-		return (-1);
-	len = ft_strchrpos(paths, ':');
-	if (len == -1)
-		return (ft_strlen(paths));
-	else
-		return (len);
-}
-
-static int	get_next_path(t_string *str, char const **paths, char const *name)
-{
-	ssize_t		len;
-
-	if ((len = get_next_path_len(*paths)) == -1)
-		return (NO_MORE_PATH);
-	string_truncate(str, 0);
-	string_reserve(str, len + ft_strlen(name) + 2);
-	if (len == 0)
-		string_nreplace(str, "./", 2);
-	else
-		string_nreplace(str, *paths, len);
-	*paths += len;
-	if (**paths == ':')
-		*paths += 1;
-	if (access(str->str, F_OK) != -1)
+	array_init(&argv, sizeof(char*));
+	sh_path = FALLBACK_SH_PATH;
+	array_push(&argv, &sh_path);
+	array_push(&argv, &path);
+	av += 1;
+	while (*av)
 	{
-		if (str->str[str->len - 1] != '/')
-			string_cat(str, "/");
-		fatal_malloc(string_cat(str, name));
-		return (PATH_FOUND);
+		array_push(&argv, av);
+		av += 1;
 	}
-	return (ERROR);
+	array_push(&argv, av);
+	execve(FALLBACK_SH_PATH, argv.data, envp);
 }
 
 static int	try_exec_path(const char *paths, char * const *av,
@@ -49,15 +42,17 @@ static int	try_exec_path(const char *paths, char * const *av,
 {
 	t_string	test;
 	int			error;
-	int			ret;
 
 	string_init(&test);
 	error = ENOENT;
-	while ((ret = get_next_path(&test, &paths, av[0])) != NO_MORE_PATH)
+	while ((paths = get_next_path(&test, paths)) != NULL)
 	{
-		if (ret == PATH_FOUND)
+		if (is_dir(test.str))
 		{
+			fatal_malloc(string_cat(&test, av[0]));
 			execve(test.str, av, envp);
+			if (errno == ENOEXEC)
+				exec_fallback_no_shebang(test.str, av, envp);
 			if (errno != ENOENT)
 				error = errno;
 		}
@@ -93,6 +88,8 @@ void		exec_with_path(const char *paths, char * const *av,
 	if (ft_strchr(av[0], '/') != NULL)
 	{
 		execve(av[0], av, envp);
+		if (errno == ENOEXEC)
+			exec_fallback_no_shebang(av[0], av, envp);
 		error = errno;
 	}
 	else
