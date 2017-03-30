@@ -72,20 +72,19 @@ static int	simplify_path(t_string *curpath)
 	return (OK_);
 }
 
-int			logical_resolution(t_string *curpath, const char *pwd)
+int			logical_resolution(t_string *curpath, const char *pwd, size_t wdlen)
 {
 	t_string	chdir_path;
 
 	if (curpath->str[0] != '/')
 	{
 		fatal_malloc(string_insert(curpath, 0, "/", 1));
-		fatal_malloc(string_insert(curpath, 0, pwd, ft_strlen(pwd)));
+		fatal_malloc(string_insert(curpath, 0, pwd, wdlen));
 	}
 	if (simplify_path(curpath) == -1)
 		return (ERROR_);
 	fatal_malloc(string_clone(&chdir_path, curpath));
-	if (!ft_strncmp(pwd, curpath->str, ft_strlen(pwd))
-		&& curpath->str[ft_strlen(pwd)] == '/')
+	if (!ft_strncmp(pwd, curpath->str, wdlen) && curpath->str[wdlen] == '/')
 	{
 		string_remove(&chdir_path, 0, ft_strlen(pwd));
 		fatal_malloc(string_insert(&chdir_path, 0, ".", 1));
@@ -93,6 +92,7 @@ int			logical_resolution(t_string *curpath, const char *pwd)
 	if (chdir(chdir_path.str) == -1)
 	{
 		error_set_context("%s: %s", chdir_path.str, strerror(errno));
+		string_shutdown(&chdir_path);
 		return (ERROR_);
 	}
 	var_set("OLDPWD", pwd);

@@ -80,7 +80,7 @@ static int			cd(int ac, const char *const *av)
 	if (is_cd_physical)
 		ret = physical_resolution(&curpath);
 	else
-		ret = logical_resolution(&curpath, g_pwd.str);
+		ret = logical_resolution(&curpath, g_pwd.str, g_pwd.len);
 	if (ret == OK_ && must_print_pwd)
 		ft_printf("%s\n", curpath.str);
 	if (ret != ERROR_)
