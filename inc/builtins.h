@@ -3,6 +3,7 @@
 
 # include <stdbool.h>
 # include <stdlib.h>
+# include "string_42.h"
 
 /*
 ** Builtin interface
@@ -38,5 +39,14 @@ int				builtin_echo(int argc, const char *const *argv);
 int				builtin_env(int argc, const char *const *argv);
 int				builtin_setenv(int argc, const char * const *argv);
 int				builtin_unsetenv(int argc, const char * const *argv);
+
+int				builtin_cd(int argc, const char * const *argv);
+const char		*get_next_component(t_string *component, const char *path);
+void			get_base_path(t_string *curpath, bool *must_print_pwd,
+								const char *dir);
+int				physical_resolution(t_string *curpath);
+int				logical_resolution(t_string *curpath, const char *pwd,
+		size_t wdlen);
+int				cd_set_pwd(void);
 
 #endif

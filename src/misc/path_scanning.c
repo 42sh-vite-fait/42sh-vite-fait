@@ -17,7 +17,7 @@ static ssize_t	get_next_path_len(const char *paths)
 		return (len);
 }
 
-static bool		is_dir(const char *file)
+bool			is_dir(const char *file)
 {
 	struct stat	file_stat;
 
@@ -30,24 +30,18 @@ const char		*get_next_path(t_string *str, char const *paths)
 	ssize_t		len;
 
 	assert(str != NULL && paths != NULL);
-	while (1)
-	{
-		if ((len = get_next_path_len(paths)) < 0)
-			return (NULL);
-		string_truncate(str, 0);
-		fatal_malloc(string_reserve(str, len + 2));
-		if (len == 0)
-			string_nreplace(str, "./", 2);
-		else
-			string_nreplace(str, paths, len);
-		paths += len;
-		if (paths[0] == ':' && !(paths[1] == '\0' && len != 0))
-			paths += 1;
-		if (is_dir(str->str))
-		{
-			if (str->str[str->len - 1] != '/')
-				string_cat(str, "/");
-			return (paths);
-		}
-	}
+	if ((len = get_next_path_len(paths)) < 0)
+		return (NULL);
+	string_truncate(str, 0);
+	fatal_malloc(string_reserve(str, len + 2));
+	if (len == 0)
+		string_nreplace(str, "./", 2);
+	else
+		string_nreplace(str, paths, len);
+	paths += len;
+	if (paths[0] == ':' && !(paths[1] == '\0' && len != 0))
+		paths += 1;
+	if (str->str[str->len - 1] != '/')
+		string_cat(str, "/");
+	return (paths);
 }

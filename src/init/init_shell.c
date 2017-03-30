@@ -6,6 +6,7 @@
 #include "var.h"
 #include "sig.h"
 #include "history.h"
+#include "builtins.h"
 
 static void	update_shell_lvl(void)
 {
@@ -32,6 +33,7 @@ void		init_shell(int argc, const char *const *argv, char **environ)
 	}
 	var_init(environ);
 	update_shell_lvl();
+	cd_set_pwd();
 	if (opt_is_set(OPT_INTERACTIVE))
 	{
 		if (init_terminal_module() != OK_)
