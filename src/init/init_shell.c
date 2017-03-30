@@ -8,6 +8,24 @@
 #include "history.h"
 #include "builtins.h"
 
+extern t_string	g_pwd;
+
+static int	set_cwd(void)
+{
+	const char	*pwd;
+
+	pwd = getcwd(NULL, 0);
+	if (pwd == NULL)
+	{
+		error_set_context("getcwd: %s", strerror(errno));
+		return (ERROR_);
+	}
+	var_set("PWD", pwd);
+	fatal_malloc(string_init_dup(&g_pwd, pwd));
+	free((void*)pwd);
+	return (OK_);
+}
+
 static void	update_shell_lvl(void)
 {
 	const char    *value;
@@ -33,7 +51,11 @@ void		init_shell(int argc, const char *const *argv, char **environ)
 	}
 	var_init(environ);
 	update_shell_lvl();
-	cd_set_pwd();
+	if (set_cwd() != OK_)
+	{
+		error_print("init");
+		exit(1);
+	}
 	if (opt_is_set(OPT_INTERACTIVE))
 	{
 		if (init_terminal_module() != OK_)
