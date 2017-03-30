@@ -107,7 +107,7 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 			return (1);
 		else if (!opt_is_set(OPT_INTERACTIVE) && command_status == CMD_INVALID_)
 			return (1);
-		if (opt_is_set(OPT_INTERACTIVE) && command_status != CMD_DROP_)
+		if (command_status != CMD_DROP_)
 			history_add(input);
 		parser_heredoc_shutdown(&parser->heredocs);
 	}
