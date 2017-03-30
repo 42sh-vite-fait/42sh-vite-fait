@@ -1,6 +1,7 @@
 #include <assert.h>
 #include "errors.h"
 #include "string_42.h"
+#include "exec.h"
 
 #define ERROR			(-1)
 #define NO_MORE_PATH	(0)
@@ -58,6 +59,8 @@ static int	try_exec_path(const char *paths, char * const *av,
 		if (ret == PATH_FOUND)
 		{
 			execve(test.str, av, envp);
+			if (errno == ENOEXEC)
+				exec_fallback_no_shebang(test.str, av, envp);
 			if (errno != ENOENT)
 				error = errno;
 		}
@@ -93,6 +96,8 @@ void		exec_with_path(const char *paths, char * const *av,
 	if (ft_strchr(av[0], '/') != NULL)
 	{
 		execve(av[0], av, envp);
+		if (errno == ENOEXEC)
+			exec_fallback_no_shebang(av[0], av, envp);
 		error = errno;
 	}
 	else

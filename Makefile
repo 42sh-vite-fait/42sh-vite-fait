@@ -198,6 +198,7 @@ SOURCES += exec_node_utils.c
 SOURCES += exec_process_utils.c
 SOURCES += exec_process_group_utils.c
 SOURCES += exec_with_path.c
+SOURCES += exec_fallback_sh.c
 SOURCES += exec_backup_fd.c
 # Complete Command
 SRC_SUBDIR += exec/complete_command
