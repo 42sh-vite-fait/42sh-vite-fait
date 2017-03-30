@@ -167,18 +167,19 @@ Test(LexerRules4, NewlineJoiningBackslash)
 	int ret = remove_trailing_escaped_newline(&string);
 	cr_assert_eq(ret, LINE_INCOMPLETE);
 
-	input = "def ghi\\\\\njkl";
+	input = "def ghi\\\\\njkl\n";
 	string_cat(&string, input);
 	ret = remove_trailing_escaped_newline(&string);
 	cr_assert_eq(ret, LINE_COMPLETE);
 
 	int res = the_true_lexer_lex(&lexer, &tokens, string.str);
 	cr_assert_eq(res, LEXER_INPUT_COMPLETE);
-	cr_assert_eq(4, tokens.len, "len %zu", tokens.len);
+	cr_assert_eq(5, tokens.len, "len %zu", tokens.len);
 	test_token(E_TOKEN_WORD, 0, 6, "abcdef");
 	test_token(E_TOKEN_WORD, 7, 5, "ghi\\\\");
 	test_token(E_TOKEN_NEWLINE, 12, 1, "\n");
 	test_token(E_TOKEN_WORD, 13, 3, "jkl");
+	test_token(E_TOKEN_NEWLINE, 16, 1, "\n");
 }
 
 Test(LexerRules4, NewlineJoiningSingleQuote)
