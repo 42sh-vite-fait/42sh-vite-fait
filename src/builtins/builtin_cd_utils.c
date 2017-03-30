@@ -62,7 +62,11 @@ static int	simplify_path(t_string *curpath)
 		}
 		else if (ft_streq(component.str, "..") &&
 				rewind_path(&build_path) == ERROR_)
+		{
+			string_shutdown(&build_path);
+			string_shutdown(&component);
 			return (ERROR_);
+		}
 	}
 	string_shutdown(curpath);
 	string_shutdown(&component);
