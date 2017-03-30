@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   misc.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/30 17:00:15 by djean             #+#    #+#             */
+/*   Updated: 2017/03/30 17:17:33 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MISC_H
 # define MISC_H
 
 # include <stdlib.h>
 # include <stdbool.h>
 # include "typedefs_42.h"
-
 
 bool		is_valid_alias_name(const char *string, size_t len);
 bool		is_valid_name(const char *string, size_t len);
@@ -20,7 +31,6 @@ bool		is_valid_variable(const char *str);
 **
 ** `string_unescape_chars` unescapes all 'c' escaped characters
 ** in the 's' string. Returns NULL if the function fails.
-**
 */
 bool		is_escaped(const char *pos, const char *end);
 t_string	*string_escape_chars(t_string *s, int c);

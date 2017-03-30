@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/30 17:00:12 by djean             #+#    #+#             */
+/*   Updated: 2017/03/30 17:01:49 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef AST_H
 # define AST_H
 
 # include "array_42.h"
 # include "lexer.h"
 
-enum e_ast_node_type
+enum	e_ast_node_type
 {
 	E_AST_NONE,
 	E_AST_PROGRAM,
@@ -24,21 +36,21 @@ typedef struct s_command	t_command;
 typedef struct s_ast_node	t_ast_node;
 typedef struct s_ast		t_ast;
 
-struct	s_redirection
+struct		s_redirection
 {
 	const t_token	*word;
-	size_t	io_number;
-	int		operator;
-	char	*heredoc_filename;
+	size_t			io_number;
+	int				operator;
+	char			*heredoc_filename;
 };
 
-struct	s_command
+struct		s_command
 {
 	t_array	words;
 	t_array	redirections;
 };
 
-struct	s_ast_node
+struct		s_ast_node
 {
 	t_ast_node		*left;
 	t_ast_node		*right;
@@ -47,7 +59,7 @@ struct	s_ast_node
 	int				type;
 };
 
-struct	s_ast
+struct		s_ast
 {
 	t_pool		pool;
 	t_ast_node	*root;
@@ -60,6 +72,6 @@ void		ast_node_command_init(t_ast_node *node);
 void		ast_node_command_shutdown(t_ast_node *node);
 void		ast_nodes_clear(t_ast *ast);
 void		ast_debug_print(const t_ast *ast, const char *input);
-void 		ast_debug_print_node(const t_ast_node *node, const char *input);
+void		ast_debug_print_node(const t_ast_node *node, const char *input);
 
 #endif

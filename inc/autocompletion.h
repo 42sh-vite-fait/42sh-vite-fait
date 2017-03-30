@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   autocompletion.h                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/30 17:00:12 by djean             #+#    #+#             */
+/*   Updated: 2017/03/30 17:01:59 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef AUTOCOMPLETION_H
 # define AUTOCOMPLETION_H
 
-#include "array_42.h"
+# include "array_42.h"
 
 void	autocomplete(t_array *matches, const char *cmd, size_t len);
 

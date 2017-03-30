@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/30 17:00:15 by djean             #+#    #+#             */
+/*   Updated: 2017/03/30 17:03:31 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
@@ -33,14 +45,14 @@ bool			is_builtin(const char *name, size_t len);
 ** Builtins
 */
 
-int				builtin_exit(int ac, const char * const *av);
+int				builtin_exit(int ac, const char *const *av);
 int				builtin_history(int argc, const char *const *argv);
 int				builtin_echo(int argc, const char *const *argv);
 int				builtin_env(int argc, const char *const *argv);
-int				builtin_setenv(int argc, const char * const *argv);
-int				builtin_unsetenv(int argc, const char * const *argv);
+int				builtin_setenv(int argc, const char *const *argv);
+int				builtin_unsetenv(int argc, const char *const *argv);
 
-int				builtin_cd(int argc, const char * const *argv);
+int				builtin_cd(int argc, const char *const *argv);
 const char		*get_next_component(t_string *component, const char *path);
 void			get_base_path(t_string *curpath, bool *must_print_pwd,
 								const char *dir);

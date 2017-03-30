@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   user_interface.h                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/30 17:00:15 by djean             #+#    #+#             */
+/*   Updated: 2017/03/30 17:29:02 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef USER_INTERFACE_H
 # define USER_INTERFACE_H
 
@@ -15,13 +27,13 @@ struct	s_key_action
 	t_input_handler	*behavior;
 };
 
-struct s_input_sequence
+struct	s_input_sequence
 {
 	char	data[8];
 	uint8_t	len;
 };
 
-struct s_term_line
+struct	s_term_line
 {
 	t_string	*str;
 	uint64_t	string_index;
@@ -36,7 +48,7 @@ enum	e_autocomplete_state
 	E_LAST_CMD_REALLY_WAS_AUTOCOMPLETE,
 };
 
-struct s_term_env
+struct	s_term_env
 {
 	t_string	kill_buffer;
 	t_array		autocomplete_matches;
@@ -208,7 +220,8 @@ int		line_move_offset_x(t_term_line *line, int move);
 
 void	line_print(t_term_line *line);
 void	line_insert(t_term_line *line, const char *s, size_t len);
-void	line_replace(t_term_line *line, const char *new_str, size_t new_str_len);
+void	line_replace(t_term_line *line, const char *new_str,
+		size_t new_str_len);
 void	line_remove_left(t_term_line *line, size_t removed_len);
 void	line_remove_right(t_term_line *line, size_t removed_len);
 

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   history.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/30 17:00:15 by djean             #+#    #+#             */
+/*   Updated: 2017/03/30 17:13:50 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef HISTORY_H
 # define HISTORY_H
 
@@ -10,25 +22,25 @@
 /*
 ** HISTSIZE custom maximal value
 */
-#define HIST_MAX_SIZE 10000
+# define HIST_MAX_SIZE 10000
 
 /*
 ** HISTSIZE minimal value mandated by POSIX
 */
-#define HIST_DEFAULT_SIZE 128
+# define HIST_DEFAULT_SIZE 128
 
 /*
 ** HISTFILE default value mantated by POSIX
 */
-#define HIST_DEFAULT_FILE "/.sh_history"
+# define HIST_DEFAULT_FILE "/.sh_history"
 
-struct		s_history
+struct			s_history
 {
 	t_cbuffer	commands;
 	size_t		last_id;
 };
 
-struct		s_result
+struct			s_result
 {
 	size_t	command_id;
 	size_t	offset;

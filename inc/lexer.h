@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/30 17:00:15 by djean             #+#    #+#             */
+/*   Updated: 2017/03/30 17:17:01 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LEXER_H
 # define LEXER_H
 
@@ -177,8 +189,10 @@ bool		is_only_one_digit(const char *input);
 ** Debug
 ** Print the tokens list
 */
-void		lexer_debug_print_tokens(const t_string *input, const t_array *tokens);
-void		lexer_debug_print_token(const t_string *input, const t_token *token);
+void		lexer_debug_print_tokens(const t_string *input,
+		const t_array *tokens);
+void		lexer_debug_print_token(const t_string *input,
+		const t_token *token);
 const char	*lexer_debug_get_token_name(size_t i);
 
 #endif
