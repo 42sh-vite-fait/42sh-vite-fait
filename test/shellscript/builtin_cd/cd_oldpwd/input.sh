@@ -22,5 +22,5 @@ pwd
 cd -- -
 pwd
 
+cd /tmp
 rm -rf /tmp/toto
-

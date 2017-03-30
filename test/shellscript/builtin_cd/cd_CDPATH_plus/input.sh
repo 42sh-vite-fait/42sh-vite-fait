@@ -62,6 +62,6 @@ cd /tmp/cd_CDPATH_plus
 cd test01
 cd /tmp/cd_CDPATH_plus
 cd test02
-cd /tmp/cd_CDPATH_plus
 
+cd /tmp
 rm -rf /tmp/cd_CDPATH_plus

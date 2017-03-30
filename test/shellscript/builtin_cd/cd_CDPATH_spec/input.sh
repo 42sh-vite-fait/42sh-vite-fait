@@ -11,4 +11,6 @@ mkdir /tmp/bash-dir-a
 cd bash-dir-a
 pwd
 printenv PWD
+
+cd /tmp
 rmdir  /tmp/bash-dir-a
