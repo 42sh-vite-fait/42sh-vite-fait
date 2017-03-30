@@ -55,11 +55,12 @@ Test(PathScanning, SomeEmptyPaths) {
 		 "./", "./", "./"); }
 
 Test(PathScanning, IncorrectPath) {
-	TEST("/incorrect_path"); }
+	TEST("/incorrect_path",
+		 "/incorrect_path/"); }
 
 Test(PathScanning, IncorrectPathInPaths) {
 	TEST("/bin:/incorrect_path:/usr/bin",
-		 "/bin/", "/usr/bin/"); }
+		 "/bin/", "/incorrect_path/", "/usr/bin/"); }
 
 Test(PathScanning, OnePathToRuleThemAll)
 {
