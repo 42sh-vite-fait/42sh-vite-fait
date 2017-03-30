@@ -25,6 +25,8 @@ int	shell_input(t_string *line, const char *prompt)
 		string_truncate(&current_line, 0);
 		prompt = SHELL_PS2;
 	}
+	if (ret == CMD_EOF_ && line->len != 0)
+		ret = OK_;
 	string_shutdown(&current_line);
 	if (opt_is_set(OPT_DEBUG_INPUT) && ret == OK_) // DEBUG
 		ft_printf("INPUT: [%s]\n", line->str);
