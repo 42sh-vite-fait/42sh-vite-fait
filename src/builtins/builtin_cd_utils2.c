@@ -13,6 +13,7 @@ int			cd_set_pwd(void)
 	if (pwd == NULL)
 		return (ERROR_);
 	fatal_malloc(string_init_dup(&g_pwd, pwd));
+	free((void*)pwd);
 	return (OK_);
 }
 
