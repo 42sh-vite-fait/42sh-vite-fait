@@ -68,12 +68,9 @@ ssize_t	expand_event(t_string *expanded, const char *event)
 	t_string	error;
 	const t_string	*val;
 
-	id = 0;
+	offset = 1;
 	if (event[0] == '!')
-	{
-		offset = 1;
 		id = history_get_last_id();
-	}
 	else if ((offset = get_number(&id, event)) != 0)
 		;
 	else if ((offset = get_neg_number(&id, event)) != 0)
@@ -98,8 +95,6 @@ int		expand_history(t_string *input)
 	size_t		i;
 	t_string	expanded;
 	t_automaton	quoting;
-	char		c;
-	char		c1;
 	ssize_t		offset;
 
 	quoting_automaton_init(&quoting);
@@ -107,10 +102,8 @@ int		expand_history(t_string *input)
 	i = 0;
 	while (i < input->len)
 	{
-		c = input->str[i];
-		c1 = input->str[i + 1];
-		if (c == '!' && !is_char_inhibited(&quoting, c)
-			&& !ft_memchr(inhibitors, c1, sizeof(inhibitors)))
+		if (input->str[i] == '!' && !is_char_inhibited(&quoting, input->str[i])
+			&& !ft_memchr(inhibitors, input->str[i + 1], sizeof(inhibitors)))
 		{
 			i += 1;
 			offset = expand_event(&expanded, input->str + i);
@@ -123,7 +116,7 @@ int		expand_history(t_string *input)
 			continue ;
 		}
 		string_ncat(&expanded, input->str + i, 1);
-		quoting_automaton_step(&quoting, c);
+		quoting_automaton_step(&quoting, input->str[i]);
 		i += 1;
 	}
 	automaton_shutdown(&quoting);
