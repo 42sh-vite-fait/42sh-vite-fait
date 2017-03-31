@@ -27,7 +27,7 @@ int	shell_input(t_string *line, const char *prompt)
 		prompt = SHELL_PS2;
 	}
 	if (expand_history(line) == ERROR_)
-		return (ERROR_);
+		return (CMD_DROP_);
 	string_shutdown(&current_line);
 	if (opt_is_set(OPT_DEBUG_INPUT) && ret == OK_) // DEBUG
 		ft_printf("INPUT: [%s]\n", line->str);

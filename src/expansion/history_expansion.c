@@ -28,16 +28,18 @@ size_t	get_neg_number(size_t *num, const char *event)
 	i = 1;
 	while(FT_ISDIGIT(event[i]))
 		i += 1;
-	if (i != 0)
+	if (i != 1)
 	{
 		tmp = ft_atou(event + 1);
 		if (tmp >= history_get_last_id())
 			tmp = 0;
 		else
-			tmp -= history_get_last_id();
+			tmp = history_get_last_id() + 1 - tmp;
 		*num = tmp;
+		return (i);
 	}
-	return (i);
+	else
+		return (0);
 }
 
 size_t	get_string(size_t *num, const char *event)
@@ -93,18 +95,16 @@ ssize_t	expand_event(t_string *expanded, const char *event)
 
 int		expand_history(t_string *input)
 {
-	size_t		prev_i;
 	size_t		i;
 	t_string	expanded;
 	t_automaton	quoting;
 	char		c;
 	char		c1;
-	size_t		offset;
+	ssize_t		offset;
 
 	quoting_automaton_init(&quoting);
 	string_init(&expanded);
 	i = 0;
-	prev_i = i;
 	while (i < input->len)
 	{
 		c = input->str[i];
@@ -112,17 +112,17 @@ int		expand_history(t_string *input)
 		if (c == '!' && !is_char_inhibited(&quoting, c)
 			&& !ft_memchr(inhibitors, c1, sizeof(inhibitors)))
 		{
-			string_ncat(&expanded, input->str + prev_i, i - prev_i);
+			i += 1;
 			offset = expand_event(&expanded, input->str + i);
-			if (offset == 0)
+			if (offset == -1)
 			{
 				error_print("history expansion");
 				return (ERROR_);
 			}
 			i += offset;
-			prev_i = i;
 			continue ;
 		}
+		string_ncat(&expanded, input->str + i, 1);
 		quoting_automaton_step(&quoting, c);
 		i += 1;
 	}
