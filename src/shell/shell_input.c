@@ -5,6 +5,7 @@
 #include "opt.h"
 #include "input.h"
 #include "sig.h"
+#include "expansion.h"
 
 int	shell_input(t_string *line, const char *prompt)
 {
@@ -25,6 +26,8 @@ int	shell_input(t_string *line, const char *prompt)
 		string_truncate(&current_line, 0);
 		prompt = SHELL_PS2;
 	}
+	if (expand_history(line) == ERROR_)
+		return (ERROR_);
 	string_shutdown(&current_line);
 	if (opt_is_set(OPT_DEBUG_INPUT) && ret == OK_) // DEBUG
 		ft_printf("INPUT: [%s]\n", line->str);

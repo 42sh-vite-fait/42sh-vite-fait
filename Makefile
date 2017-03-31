@@ -159,6 +159,7 @@ SOURCES += ast_debug_print.c
 SRC_SUBDIR += expansion
 SOURCES += expand_tokens_to_argv.c
 SOURCES += quote_removal.c
+SOURCES += history_expansion.c
 
 # Exit status
 SRC_SUBDIR += exit_status
