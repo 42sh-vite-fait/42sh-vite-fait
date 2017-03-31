@@ -97,13 +97,6 @@ SRC_SUBDIR += automaton
 SOURCES += automaton.c
 SOURCES += automaton_creation.c
 
-# History expansion
-SRC_SUBDIR += history_expansion
-SOURCES += history_expansion.c
-SOURCES += history_expansion_parse.c
-SOURCES += history_expansion_substitute.c
-SOURCES += history_expansion_error.c
-
 # Lexer
 SRC_SUBDIR += lexer
 SOURCES += lexer_table.c
