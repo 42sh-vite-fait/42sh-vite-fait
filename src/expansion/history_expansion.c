@@ -109,6 +109,7 @@ int		expand_history(t_string *input)
 			offset = expand_event(&expanded, input->str + i);
 			if (offset == -1)
 			{
+				string_shutdown(&expanded);
 				error_print("history expansion");
 				return (ERROR_);
 			}
