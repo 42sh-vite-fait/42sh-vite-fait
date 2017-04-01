@@ -28,6 +28,7 @@ int		main(int argc, char *argv[])
 	ret = shell_loop();
 	if (opt_is_set(OPT_INTERACTIVE))
 		shell_history_shutdown();
-	check_leaks();
+	if (getenv("CHECK_LEAKS"))
+		check_leaks();
 	return (ret);
 }
