@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+/*
+** Source: http://stackoverflow.com/questions/1188757/getting-filename-from-file-descriptor-in-c
+*/
 static void	print_fd_info(int fd)
 {
 	char filePath[PATH_MAX];
