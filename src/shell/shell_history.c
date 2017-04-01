@@ -14,6 +14,7 @@
 #include "history.h"
 #include "var.h"
 #include "shell.h"
+#include "opt.h"
 
 static size_t	atou(const char *str)
 {
@@ -67,10 +68,12 @@ void			shell_history_init(void)
 	else
 		hist_size = HIST_DEFAULT_SIZE;
 	history_init(hist_size);
-	history_file_action(history_load_from_file);
+	if (opt_is_set(OPT_INTERACTIVE))
+		history_file_action(history_load_from_file);
 }
 
 void			shell_history_shutdown(void)
 {
-	history_file_action(history_save_into_file);
+	if (opt_is_set(OPT_INTERACTIVE))
+		history_file_action(history_save_into_file);
 }

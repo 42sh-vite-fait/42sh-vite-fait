@@ -17,6 +17,7 @@
 #include "opt.h"
 #include "input.h"
 #include "sig.h"
+#include "expansion.h"
 
 int	shell_input(t_string *line, const char *prompt)
 {
@@ -29,6 +30,8 @@ int	shell_input(t_string *line, const char *prompt)
 	while (!is_line_complete)
 	{
 		ret = input_get_line(&current_line, prompt);
+		if (ret == OK_ && expand_history(&current_line) == ERROR_)
+			ret = CMD_DROP_;
 		if (ret != OK_)
 			break ;
 		fatal_malloc(string_append(line, &current_line));

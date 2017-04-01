@@ -90,7 +90,6 @@ void	suite_strchr(void);
 void	suite_strrchr(void);
 void	suite_strrev(void);
 void	suite_strstr(void);
-void	suite_strrstr(void);
 
 // Pool
 void	suite_pool_macros(void);

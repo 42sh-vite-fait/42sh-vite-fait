@@ -115,7 +115,7 @@ static int		builtin_history_part_ii(t_opt *o, unsigned int *flags,
 			*flags |= FLAG_REVERSE;
 		else if (option == '?')
 		{
-			ft_dprintf(2, "%s: %s: bad option: -%c.\n",
+			ft_dprintf(2, "%s: %s: bad option: -%c\n",
 						BIN_NAME, av[0], o->unknown_opt);
 			return (1);
 		}
@@ -128,8 +128,6 @@ int				builtin_history(int ac, const char *const *av)
 	t_opt			o;
 	unsigned int	flags;
 
-	if (opt_is_set(!OPT_INTERACTIVE))
-		return ((ft_dprintf(2, HIST_ERR_MSG, BIN_NAME, av[0]) & 0) | 1);
 	if (history_get_last_id() == 0)
 	{
 		ft_dprintf(2, "%s: %s: no history (yet)\n", BIN_NAME, av[0]);
@@ -147,6 +145,6 @@ int				builtin_history(int ac, const char *const *av)
 		error_print(av[0]);
 		return (1);
 	}
-	ft_dprintf(2, "%s: usage: %s [-nr] [first [last]].\n", BIN_NAME, av[0]);
+	ft_dprintf(2, "%s: usage: %s [-nr] [first [last]]\n", BIN_NAME, av[0]);
 	return (1);
 }

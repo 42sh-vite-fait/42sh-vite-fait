@@ -78,6 +78,6 @@ void		init_shell(int argc, const char *const *argv, char **environ)
 			exit(1);
 		}
 		init_signal_module();
-		shell_history_init();
 	}
+	shell_history_init();
 }

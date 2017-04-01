@@ -18,5 +18,6 @@
 
 t_array	expand_tokens_to_argv(t_array tokens, const t_string *input);
 char	*expand_quote_removal(const char *s, size_t len);
+int		expand_history(t_string *input);
 
 #endif

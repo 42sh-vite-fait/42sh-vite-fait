@@ -29,7 +29,6 @@ int	main(void)
 	suite_strrchr();
 	suite_strrev();
 	suite_strstr();
-	suite_strrstr();
 
 	// string
 	suite_string_dup();

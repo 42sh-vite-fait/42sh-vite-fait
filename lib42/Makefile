@@ -105,7 +105,6 @@ SOURCES += ft_strchr.c
 SOURCES += ft_strrchr.c
 SOURCES += ft_strrev.c
 SOURCES += ft_strstr.c
-SOURCES += ft_strrstr.c
 SOURCES += ft_strtolower.c
 SOURCES += ft_strtoupper.c
 SOURCES += ft_strisnum.c
