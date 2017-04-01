@@ -294,6 +294,13 @@ check_unit:
 check_diff:
 	@zsh $(TEST_PATH)/shellscript/use_case_diff_mksh_tests.sh $(SUITE) $(CASE)
 
+check_by_hand:
+	zsh $(TEST_PATH)/by_hand/input.sh >/tmp/by_hand.out 2>/tmp/by_hand.err
+	diff $(TEST_PATH)/by_hand/out.right /tmp/by_hand.out
+	diff $(TEST_PATH)/by_hand/err.right /tmp/by_hand.err
+	@rm -f /tmp/by_hand.out /tmp/by_hand.err
+	@echo "Tests by_hand Ok!"
+
 check_valgrind:
 	@zsh $(TEST_PATH)/leaks/run_valgrind.sh $(SUITE) $(CASE)
 
