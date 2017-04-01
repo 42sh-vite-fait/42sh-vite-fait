@@ -84,6 +84,7 @@ ssize_t	expand_event(t_string *expanded, const char *event)
 	{
 		string_init_ndup(&error, event - 1, offset + 1);
 		error_set_context("%s : event not found", error.str);
+		string_shutdown(&error);
 		return (-1);
 	}
 	string_append(expanded, val);
@@ -109,6 +110,7 @@ int		expand_history(t_string *input)
 			offset = expand_event(&expanded, input->str + i);
 			if (offset == -1)
 			{
+				automaton_shutdown(&quoting);
 				string_shutdown(&expanded);
 				error_print("history expansion");
 				return (ERROR_);
