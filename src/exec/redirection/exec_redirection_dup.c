@@ -19,6 +19,7 @@ static int	close_fd(int io_number)
 		devnull = open("/dev/null", O_RDWR, OPEN_DEFAULT_MODE);
 		if (devnull == -1 || exec_dup_fd(devnull, io_number) != OK_)
 			return (ERROR_);
+		exec_close_fd(devnull);
 	}
 	else
 		return (exec_close_fd(io_number));
