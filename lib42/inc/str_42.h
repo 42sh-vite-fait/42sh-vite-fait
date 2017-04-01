@@ -47,9 +47,6 @@ char		*ft_strrev(char *str);
 char		*ft_strstr(const char *big, const char *little);
 char		*ft_strnstr(const char *big, const char *little, size_t len);
 
-char		*ft_strrstr(const char *big, const char *little);
-char		*ft_strrnstr(const char *big, const char *little, size_t len);
-
 char		*ft_strtoupper(char *str);
 char		*ft_strtolower(char *str);
 
