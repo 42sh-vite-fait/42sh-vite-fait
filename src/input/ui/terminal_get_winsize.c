@@ -18,6 +18,8 @@ static struct winsize	terminal_get_winsize(void)
 void					term_env_update_for_resize(t_term_env *env)
 {
 	env->line.term_x = terminal_get_winsize().ws_col;
+	if (env->line.term_x == 0)
+		env->line.term_x = 1;
 	env->line.cursor_x = (env->prompt_size + env->line.string_index)
 		% (env->line.term_x);
 }
