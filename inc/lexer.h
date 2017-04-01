@@ -142,6 +142,8 @@ t_automaton	*lexer_init_automaton(t_automaton *a);
 */
 int			lexer_lex(t_lexer *l, t_array *tokens, const t_string *input);
 
+void		lexer_clear(t_lexer *lexer);
+
 /*
 ** `lexer_init` initializes a given t_lexer ready to
 ** tokenize input according to the shell grammar.
@@ -176,7 +178,7 @@ int			lexer_clear_tokens(t_array *tokens);
 ** Returns LINE_INCOMPLETE if a removing is performed,
 ** LINE_COMPLETE otherwise.
 */
-int			remove_trailing_escaped_newline(t_string *input);
+int			remove_escaped_newline(t_string *input);
 
 /*
 ** Categorize token according to POSIX rules

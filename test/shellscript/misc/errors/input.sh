@@ -9,7 +9,6 @@ setenv /bin/sh
 ( setenv HOME /tmp/xyz.bash ; cd )
 
 # errors from cd
-cd -
 cd /bin/sh	# error - not a directory
 setenv OLDPWD /tmp/cd-notthere
 cd -

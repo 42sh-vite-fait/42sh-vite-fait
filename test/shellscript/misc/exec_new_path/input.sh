@@ -3,26 +3,36 @@ echo "echo abc" > /tmp/test_binary_path/myexec
 chmod 755 /tmp/test_binary_path/myexec
 
 # Fail
+echo 1 fail >&2
 myexec
 
 # Pass
-setenv PATH "/tmp/test_binary_path:/usr/bin:/bin"
+echo 2 pass
+2>&- export PATH="/tmp/test_binary_path:/usr/bin:/bin" || setenv PATH "/tmp/test_binary_path:/usr/bin:/bin"
 myexec
 
 # Pass
+echo 3 pass
 /tmp/test_binary_path/myexec
 
-# Fail
-setenv PATH
-myexec > /dev/null
+# Pass
+echo 4 pass
+cd /tmp/test_binary_path
+myexec
 
 # Fail
-unsetenv PATH
-myexec > /dev/null
+echo 5 fail >&2
+2>&- unset PATH || unsetenv PATH
+myexec
 
 # Fail
+echo 6 fail >&2
 ./test_binary_path/myexec
 
 # Fail
+echo 7 fail >&2
 cd /tmp/test_binary_path
 myexec
+
+cd /tmp
+/bin/rm -rf /tmp/test_binary_path

@@ -76,6 +76,7 @@ static int	get_command(t_string *input, t_lexer *lexer, t_array *tokens,
 	string_truncate(input, 0);
 	string_shrink_to_fit(input);
 	array_clear(tokens);
+	lexer_clear(lexer);
 	parser_clear(parser);
 	parse_status = shell_parse(input, lexer, tokens, parser);
 	if (signal_should_we_restart_the_loop())
@@ -99,13 +100,13 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 		}
 		else if (command_status == CMD_EOF_)
 		{
-			if (!assert_stack_is_empty(lexer))
-				error_print("lexer");
-			return (exit_status_get_last());
-		}
-		else if (command_status == ERROR_)
+			if (assert_stack_is_empty(lexer))
+				return (exit_status_get_last());
+			error_print("lexer");
 			return (1);
-		else if (!opt_is_set(OPT_INTERACTIVE) && command_status == CMD_INVALID_)
+		}
+		else if (command_status == ERROR_ ||
+			(!opt_is_set(OPT_INTERACTIVE) && command_status == CMD_INVALID_))
 			return (1);
 		if (command_status != CMD_DROP_)
 			history_add(input);

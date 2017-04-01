@@ -4,6 +4,8 @@
 #include "stdlib_42.h"
 #include "errors.h"
 #include "ctype_42.h"
+#include "shell.h"
+#include "opt.h"
 
 static bool	is_only_digits(const char *s)
 {
@@ -40,5 +42,7 @@ int builtin_exit(int ac, const char * const *av)
 	}
 	else
 		exit_status = (unsigned char)ft_atou(av[1]);
+	if (opt_is_set(OPT_INTERACTIVE))
+		shell_history_shutdown();
 	exit(exit_status);
 }

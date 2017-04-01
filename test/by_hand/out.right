@@ -1,0 +1,18 @@
+===> Compile with Sanitize
+launch_tests
+abcecho def
+abc
+abc
+1
+zut
+abc$$
+def
+===> Compile for Leaks
+launch_tests
+abcecho def
+abc
+abc
+1
+zut
+abc$$
+def
