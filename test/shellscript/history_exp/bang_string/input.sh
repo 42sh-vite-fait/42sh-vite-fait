@@ -7,19 +7,19 @@ echo ghi
 echo 'zut' > /tmp/history_cat_file
 cat -e /tmp/history_cat_file
 rm -f /tmp/history_cat_file
+echo "test1"
+
+\echo "======== EXP ========"
 
 !e
 !ech
 !echo d
-echo !p !c
+!echoo d
+echo !p !e
 
-!'r'
-!"r"
-!\r
+!ech\
+o
 
-!'r'm
-!"r"m
-!\r\m
+'echo' test2
+!'ech
 
-!'2'
-!2>

@@ -3,16 +3,19 @@ echo abc
 2>&- export VAR=value || setenv VAR value
 echo def
 pwd
-echo ghi
+echo "toto"
 echo 'zut' > /tmp/history_cat_file
 cat -e /tmp/history_cat_file
 rm -f /tmp/history_cat_file
 
 # basic use case
-echo !-3
+echo !-4
 echo !3
-!-3
+!-6
 !3
+
+!-3ABC
+!3ABC
 
 # overflow
 echo !999999999999999999999999999

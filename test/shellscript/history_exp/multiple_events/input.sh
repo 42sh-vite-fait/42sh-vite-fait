@@ -9,8 +9,7 @@ cat -e /tmp/history_cat_file
 rm -f /tmp/history_cat_file
 
 echo bang
-!e !p !2 !-1 !!
+!! !e !p !3 !-1 !! end
 
-# no space in between
-echo bang
-!e!p!2!-1!!
+echo bang-bang
+!-1abc!!def!!!11-1!echo end
