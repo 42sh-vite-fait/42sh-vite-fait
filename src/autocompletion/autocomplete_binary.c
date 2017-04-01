@@ -72,4 +72,5 @@ void		complete_path(t_array *matches, const char *path)
 	fatal_malloc(string_init_ndup(&file, path + dir_len, path_len - dir_len));
 	find_in_path(matches, dir.str, file.str, dir.str);
 	string_shutdown(&file);
+	string_shutdown(&dir);
 }
