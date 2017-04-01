@@ -142,6 +142,8 @@ t_automaton	*lexer_init_automaton(t_automaton *a);
 */
 int			lexer_lex(t_lexer *l, t_array *tokens, const t_string *input);
 
+void		lexer_clear(t_lexer *lexer);
+
 /*
 ** `lexer_init` initializes a given t_lexer ready to
 ** tokenize input according to the shell grammar.

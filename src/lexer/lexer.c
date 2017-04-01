@@ -7,7 +7,13 @@ static void	lexer_complete(t_lexer *self)
 	self->token_begin_index = 0;
 }
 
-int		lexer_lex(t_lexer *self, t_array *tokens, const t_string *input)
+void		lexer_clear(t_lexer *self)
+{
+	automaton_reset(&self->tokenizer);
+	lexer_complete(self);
+}
+
+int			lexer_lex(t_lexer *self, t_array *tokens, const t_string *input)
 {
 	int		lexing_status;
 

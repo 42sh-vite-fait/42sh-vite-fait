@@ -76,6 +76,7 @@ static int	get_command(t_string *input, t_lexer *lexer, t_array *tokens,
 	string_truncate(input, 0);
 	string_shrink_to_fit(input);
 	array_clear(tokens);
+	lexer_clear(lexer);
 	parser_clear(parser);
 	parse_status = shell_parse(input, lexer, tokens, parser);
 	if (signal_should_we_restart_the_loop())
