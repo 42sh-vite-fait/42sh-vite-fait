@@ -8,6 +8,7 @@ All my base are belong to you
 I love you 
 EOF
 
+cd /
 rm -rf /tmp/test
 rm -f /tmp/sorted_poem
 rm -f /tmp/better_poem
