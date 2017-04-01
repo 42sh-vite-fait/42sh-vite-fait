@@ -34,4 +34,5 @@ echo 7 fail >&2
 cd /tmp/test_binary_path
 myexec
 
+cd /tmp
 /bin/rm -rf /tmp/test_binary_path
