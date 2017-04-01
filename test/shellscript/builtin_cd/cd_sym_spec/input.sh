@@ -16,4 +16,5 @@ pwd
 cd -L /tmp/test_cd_builtin && cd mydir_sym2
 pwd
 
+cd /
 rm -rf /tmp/test_cd_builtin
