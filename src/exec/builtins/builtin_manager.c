@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_manager.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:01:48 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:03:55 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include <assert.h>
 #include <stdbool.h>
@@ -13,14 +25,12 @@ t_pair_name_builtin	g_builtins[] =
 	{"echo", &builtin_echo},
 	{"env", &builtin_env},
 	{"exit", &builtin_exit},
-//	{"getenv", NULL},
 	{"history", &builtin_history},
-//	{"pwd", NULL},
 	{"setenv", &builtin_setenv},
 	{"unsetenv", &builtin_unsetenv},
 };
 
-const size_t		g_builtins_len = ARR_SIZ_MAX(g_builtins);
+const size_t	g_builtins_len = ARR_SIZ_MAX(g_builtins);
 
 static int	find_builtin_id(char const *name, size_t len)
 {
@@ -46,7 +56,7 @@ bool		is_builtin(const char *name, size_t len)
 
 int			exec_builtin(int ac, const char *const *av)
 {
-	int		id;
+	int	id;
 	int	exit_status;
 
 	id = find_builtin_id(av[0], ft_strlen(av[0]));

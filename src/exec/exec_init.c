@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_init.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:01:48 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:05:14 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <assert.h>
 #include <unistd.h>
 #include <sys/resource.h>
@@ -52,7 +64,7 @@ static int	backup_tty_fd(void)
 	return (OK_);
 }
 
-int	init_exec_module(void)
+int			init_exec_module(void)
 {
 	if (!is_fd_open(STDIN_FILENO) && !opt_is_set(OPT_CMD_STRING))
 	{

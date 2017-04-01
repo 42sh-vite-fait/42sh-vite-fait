@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   var_get.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:41:00 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:41:40 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <assert.h>
 #include "str_42.h"
 #include "array_42.h"
@@ -48,7 +60,7 @@ int				var_get(const char *name, const char **value)
 	return (OK_);
 }
 
-char * const	*var_get_environ(void)
+char *const		*var_get_environ(void)
 {
-	return ((char * const *)g_environ.data);
+	return ((char *const *)g_environ.data);
 }

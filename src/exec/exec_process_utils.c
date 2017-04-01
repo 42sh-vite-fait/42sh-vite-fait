@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_process_utils.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:01:48 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:08:57 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <sys/wait.h>
 #include <unistd.h>
 #include <string.h>
@@ -6,31 +18,31 @@
 #include "ft_printf.h"
 
 static const char	*g_sig_to_str[] = {
-     [SIGHUP] = "Hangup",
-     [SIGQUIT] = "Quit",
-     [SIGILL] = "Illegal instruction",
-     [SIGTRAP] = "Trace/BPT trap",
-	 [SIGABRT] = "Abort trap",
-     [SIGFPE] = "Floating point exception",
-     [SIGKILL] = "Killed",
-     [SIGBUS] = "Bus error",
-     [SIGSEGV] = "Segmentation fault",
-     [SIGSYS] = "Bad system call",
-     [SIGALRM] = "Alarm clock",
-     [SIGTERM] = "Terminated",
-     [SIGSTOP] = "Suspended",
-     [SIGTSTP] = "Terminal suspended",
-     [SIGTTIN] = "Stopped (tty input)",
-     [SIGTTOU] = "Stopped (tty ouput)",
-     [SIGXCPU] = "Cputime limit exceeded",
-     [SIGXFSZ] = "Filesize limit exceeded",
-     [SIGVTALRM] = "Virtual timer expired",
-     [SIGPROF] = "Profiler timer epxired",
-     [SIGUSR1] = "User defined signal 1",
-     [SIGUSR2] = "User defined signal 2",
+	[SIGHUP] = "Hangup",
+	[SIGQUIT] = "Quit",
+	[SIGILL] = "Illegal instruction",
+	[SIGTRAP] = "Trace/BPT trap",
+	[SIGABRT] = "Abort trap",
+	[SIGFPE] = "Floating point exception",
+	[SIGKILL] = "Killed",
+	[SIGBUS] = "Bus error",
+	[SIGSEGV] = "Segmentation fault",
+	[SIGSYS] = "Bad system call",
+	[SIGALRM] = "Alarm clock",
+	[SIGTERM] = "Terminated",
+	[SIGSTOP] = "Suspended",
+	[SIGTSTP] = "Terminal suspended",
+	[SIGTTIN] = "Stopped (tty input)",
+	[SIGTTOU] = "Stopped (tty ouput)",
+	[SIGXCPU] = "Cputime limit exceeded",
+	[SIGXFSZ] = "Filesize limit exceeded",
+	[SIGVTALRM] = "Virtual timer expired",
+	[SIGPROF] = "Profiler timer epxired",
+	[SIGUSR1] = "User defined signal 1",
+	[SIGUSR2] = "User defined signal 2",
 };
 
-static int get_exit_status(int status)
+static int	get_exit_status(int status)
 {
 	int	sig;
 
@@ -46,7 +58,7 @@ static int get_exit_status(int status)
 	return (-1);
 }
 
-int	wait_child_process_group(pid_t last_pid, pid_t pgid)
+int			wait_child_process_group(pid_t last_pid, pid_t pgid)
 {
 	pid_t		pid;
 	int			status;
@@ -66,7 +78,7 @@ int	wait_child_process_group(pid_t last_pid, pid_t pgid)
 	return (ret);
 }
 
-pid_t	exec_fork(pid_t *pid)
+pid_t		exec_fork(pid_t *pid)
 {
 	*pid = fork();
 	if (*pid < 0)

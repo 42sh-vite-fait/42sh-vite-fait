@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_process_group_utils.c                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:01:48 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:07:34 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <assert.h>
 #include <signal.h>
 #include <stdlib.h>
@@ -7,7 +19,7 @@
 #include "opt.h"
 #include "exit_status.h"
 
-static int exec_set_process_group_child_side(int pid, int pgid)
+static int	exec_set_process_group_child_side(int pid, int pgid)
 {
 	if (setpgid(pid, pgid) == -1)
 	{
@@ -24,7 +36,7 @@ static int exec_set_process_group_child_side(int pid, int pgid)
 ** Thus we avoid reporting an error in that case.
 */
 
-static int exec_set_process_group_parent_side(int pid, int pgid)
+static int	exec_set_process_group_parent_side(int pid, int pgid)
 {
 	if (setpgid(pid, pgid) == -1 && errno != EACCES)
 	{
@@ -34,7 +46,7 @@ static int exec_set_process_group_parent_side(int pid, int pgid)
 	return (OK_);
 }
 
-static int exec_set_foreground_process_group(pid_t pgid)
+static int	exec_set_foreground_process_group(pid_t pgid)
 {
 	if (opt_is_set(OPT_INTERACTIVE))
 	{
@@ -47,7 +59,7 @@ static int exec_set_foreground_process_group(pid_t pgid)
 	return (OK_);
 }
 
-void exec_child_set_context(void)
+void		exec_child_set_context(void)
 {
 	signal_unmute_exit_signals();
 	signal_unset_ignored_signals();
@@ -64,7 +76,7 @@ void exec_child_set_context(void)
 	}
 }
 
-int exec_parent_wait_child_process_group(pid_t child_pgid)
+int			exec_parent_wait_child_process_group(pid_t child_pgid)
 {
 	int	status;
 

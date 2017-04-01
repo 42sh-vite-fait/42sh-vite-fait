@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   opt_parse.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:24:06 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:35:45 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <assert.h>
 #include "unistd_42.h"
 #include "opt.h"
@@ -7,13 +19,12 @@
 unsigned			g_opt_shell;
 static const char	*g_opt_command_line;
 
-static void	usage(void)
+static void		usage(void)
 {
-	const char	*usage =
-		"usage:  %s [option] [cstring]\n"
-		"        %s -d {ast,lexer,input,exec}\n"
-		"        %s -c cmd\n";
+	const char	*usage = "usage:  %s [option] [cstring]\n"
 
+	"        %s -d {ast,lexer,input,exec}\n"
+	"        %s -c cmd\n";
 	ft_dprintf(2, usage, BIN_NAME, BIN_NAME, BIN_NAME);
 	exit(1);
 }
@@ -36,16 +47,16 @@ static unsigned	get_debug_option(const char *optarg)
 	return (options);
 }
 
-const char	*opt_get_command_line(void)
+const char		*opt_get_command_line(void)
 {
 	assert(g_opt_command_line != NULL);
 	return (g_opt_command_line);
 }
 
-void		opt_parse(int argc, const char * const *argv)
+void			opt_parse(int argc, const char *const *argv)
 {
 	t_opt	opt;
-	int 	ch;
+	int		ch;
 
 	(void)argc;
 	OPT_INIT(opt);

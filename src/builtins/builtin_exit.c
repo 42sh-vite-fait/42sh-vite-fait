@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_exit.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 19:53:37 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 19:56:24 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include <stdbool.h>
 #include "exit_status.h"
@@ -29,7 +41,7 @@ static bool	is_errors_in_args(int ac, const char *arg)
 	return (false);
 }
 
-int builtin_exit(int ac, const char * const *av)
+int			builtin_exit(int ac, const char *const *av)
 {
 	int	exit_status;
 

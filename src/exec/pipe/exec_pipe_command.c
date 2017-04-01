@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_pipe_command.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:01:48 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:09:52 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expansion.h"
 #include "var.h"
 #include "exec.h"
@@ -43,7 +55,7 @@ static void	exec_pipe_subshell(const t_ast_node *node, const t_string *input)
 	_exit(g_walkers[node->type](node, input));
 }
 
-void	exec_pipe_command(const t_ast_node *node, const t_string *input)
+void		exec_pipe_command(const t_ast_node *node, const t_string *input)
 {
 	if (node->type == E_AST_SUBSHELL)
 		exec_pipe_subshell(node, input);

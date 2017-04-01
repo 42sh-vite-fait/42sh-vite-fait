@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_node_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:01:48 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:05:35 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <assert.h>
 #include "array_42.h"
 #include "ast.h"
 
-t_array gather_childrens_nodes(const t_ast_node *node, int type)
+t_array	gather_childrens_nodes(const t_ast_node *node, int type)
 {
 	t_array stack;
 
@@ -18,7 +30,7 @@ t_array gather_childrens_nodes(const t_ast_node *node, int type)
 	return (stack);
 }
 
-t_array gather_nodes_token_type(const t_ast_node *node, int type)
+t_array	gather_nodes_token_type(const t_ast_node *node, int type)
 {
 	t_array stack;
 

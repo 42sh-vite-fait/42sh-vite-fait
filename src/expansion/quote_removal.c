@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quote_removal.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:18:58 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:19:11 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "quoting.h"
 #include "expansion.h"
 
-char					*expand_quote_removal(const char *s, size_t len)
+char	*expand_quote_removal(const char *s, size_t len)
 {
 	t_automaton	aut;
 	char		*dst;

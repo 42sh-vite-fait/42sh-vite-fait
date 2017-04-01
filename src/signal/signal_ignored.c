@@ -1,4 +1,15 @@
-# define _POSIX_C_SOURCE 200809L
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal_ignored.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:39:25 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:39:40 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include <signal.h>
 #include "macros_42.h"
@@ -17,7 +28,7 @@ void	signal_set_ignored_signals(void)
 	signal_set_handler_for(g_signals_to_ignore, g_signals_to_ignore_len, &act);
 }
 
-void 	signal_unset_ignored_signals(void)
+void	signal_unset_ignored_signals(void)
 {
 	struct sigaction	act;
 

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   string_escape.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:22:42 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:23:29 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdbool.h>
 #include "typedefs_42.h"
 #include "string_42.h"
@@ -18,7 +30,7 @@ bool		is_escaped(const char *pos, const char *end)
 	return (count & 1);
 }
 
-t_string		*string_escape_chars(t_string *s, int c)
+t_string	*string_escape_chars(t_string *s, int c)
 {
 	ssize_t		match_pos;
 	size_t		offset;
@@ -33,7 +45,7 @@ t_string		*string_escape_chars(t_string *s, int c)
 	return (s);
 }
 
-t_string		*string_unescape_chars(t_string *s, int c)
+t_string	*string_unescape_chars(t_string *s, int c)
 {
 	static char		pattern[3] = {'\\', '\0', '\0'};
 	char			*match;

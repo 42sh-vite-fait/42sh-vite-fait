@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_simple_command.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:01:48 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:13:29 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expansion.h"
 #include "var.h"
 #include "exec.h"
@@ -5,7 +17,8 @@
 #include "errors.h"
 #include "builtins.h"
 
-int exec_simple_command_binary(const t_command command, const t_string *input)
+int			exec_simple_command_binary(const t_command command,
+		const t_string *input)
 {
 	pid_t	child;
 	int		status;
@@ -23,7 +36,7 @@ int exec_simple_command_binary(const t_command command, const t_string *input)
 	return (status);
 }
 
-static void	free_args(t_array	*argv)
+static void	free_args(t_array *argv)
 {
 	size_t	i;
 
@@ -36,7 +49,8 @@ static void	free_args(t_array	*argv)
 	array_shutdown(argv);
 }
 
-int exec_simple_command_builtin(const t_command command, const t_string *input)
+int			exec_simple_command_builtin(const t_command command,
+		const t_string *input)
 {
 	t_array			argv;
 	int				status;

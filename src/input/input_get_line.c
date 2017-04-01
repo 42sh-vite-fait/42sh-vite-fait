@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   input_get_line.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:19:58 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:20:24 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "str_42.h"
 #include "input.h"
 #include "errors.h"
@@ -54,7 +66,7 @@ static int	input_notty_get_line(t_string *line)
 		return (OK_);
 }
 
-int	input_get_line(t_string *line, const char *prompt)
+int			input_get_line(t_string *line, const char *prompt)
 {
 	int			ret;
 

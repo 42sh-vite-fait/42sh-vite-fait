@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_with_path.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:01:48 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:09:26 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include <assert.h>
 #include "errors.h"
@@ -37,8 +49,8 @@ static void	exec_fallback_no_shebang(const char *path, char *const *av,
 	execve(FALLBACK_SH_PATH, argv.data, envp);
 }
 
-static int	try_exec_path(const char *paths, char * const *av,
-		char * const *envp)
+static int	try_exec_path(const char *paths, char *const *av,
+		char *const *envp)
 {
 	t_string	test;
 	int			error;
@@ -76,8 +88,8 @@ static void	exec_handle_error(const char *cmd, int error)
 		_exit(error);
 }
 
-void		exec_with_path(const char *paths, char * const *av,
-		char * const *envp)
+void		exec_with_path(const char *paths, char *const *av,
+		char *const *envp)
 {
 	int	error;
 

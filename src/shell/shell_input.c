@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shell_input.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:38:03 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:38:34 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "string_42.h"
 #include "ft_printf.h"
 #include "shell.h"
@@ -28,7 +40,7 @@ int	shell_input(t_string *line, const char *prompt)
 	if (ret == CMD_EOF_ && line->len != 0)
 		ret = OK_;
 	string_shutdown(&current_line);
-	if (opt_is_set(OPT_DEBUG_INPUT) && ret == OK_) // DEBUG
+	if (opt_is_set(OPT_DEBUG_INPUT) && ret == OK_)
 		ft_printf("INPUT: [%s]\n", line->str);
 	return (ret);
 }

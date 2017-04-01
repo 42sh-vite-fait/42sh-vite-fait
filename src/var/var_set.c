@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   var_set.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:41:00 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:41:13 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <assert.h>
 #include "str_42.h"
 #include "array_42.h"
@@ -44,7 +56,8 @@ int				var_set(const char *name, const char *value)
 		free(old_entry);
 	}
 	else
-		fatal_malloc(array_insert_at(&g_environ, g_environ.len - 1, &new_entry));
+		fatal_malloc(array_insert_at(&g_environ,
+					g_environ.len - 1, &new_entry));
 	return (OK_);
 }
 

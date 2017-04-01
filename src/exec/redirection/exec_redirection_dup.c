@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_redirection_dup.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:01:48 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:11:55 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <assert.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -35,7 +47,7 @@ static int	duplicate_fd(int io_number, unsigned word)
 		return (ERROR_);
 	}
 	else
-	   return (exec_dup_fd(word, io_number) != OK_);
+		return (exec_dup_fd(word, io_number) != OK_);
 }
 
 static int	exec_redirection_dup(int io_number, const char *word)
@@ -54,15 +66,21 @@ static int	exec_redirection_dup(int io_number, const char *word)
 	return (ret);
 }
 
-// LESSAND
-int	exec_redirection_input_duplicate(int io_number, const char *word)
+/*
+** LESSAND
+*/
+
+int			exec_redirection_input_duplicate(int io_number, const char *word)
 {
 	assert(io_number >= 0 && io_number <= E_MAX_FD_POSIX_COMPLIANCE);
 	return (exec_redirection_dup(io_number, word));
 }
 
-// GREATAND
-int	exec_redirection_output_duplicate(int io_number, const char *word)
+/*
+** GREATAND
+*/
+
+int			exec_redirection_output_duplicate(int io_number, const char *word)
 {
 	assert(io_number >= 0 && io_number <= E_MAX_FD_POSIX_COMPLIANCE);
 	return (exec_redirection_dup(io_number, word));

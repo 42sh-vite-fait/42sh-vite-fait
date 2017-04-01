@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_binary.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:01:48 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:04:57 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expansion.h"
 #include "exec.h"
 #include "ast.h"
@@ -9,11 +21,11 @@
 ** This function should never return in case of failure !
 */
 
-void exec_binary(const t_command command, const t_string *input)
+void	exec_binary(const t_command command, const t_string *input)
 {
-	const char		*paths;
-	t_array			argv;
-	char * const	*envp;
+	const char	*paths;
+	t_array		argv;
+	char *const	*envp;
 
 	if (exec_redirection(command.redirections, input) != OK_)
 	{

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_redirection.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:01:48 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:11:04 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 #include <assert.h>
 #include "array_42.h"
@@ -39,14 +51,13 @@ static int	exec_redirection_dispatch(struct s_redirection redir,
 ** Source: http://stackoverflow.com/a/12340767
 */
 
-bool	is_fd_open(int fd)
+bool		is_fd_open(int fd)
 {
 	errno = 0;
-
 	return (fcntl(fd, F_GETFD) != -1 || errno != EBADF);
 }
 
-int	exec_redirection(t_array redirections, const t_string *input)
+int			exec_redirection(t_array redirections, const t_string *input)
 {
 	struct s_redirection	*redir;
 	char					*word;

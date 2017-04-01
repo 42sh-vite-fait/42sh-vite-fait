@@ -1,18 +1,27 @@
-# define _POSIX_C_SOURCE 200809L
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal_exit.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:39:24 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:40:10 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <signal.h>
 #include <stdbool.h>
 #include "macros_42.h"
 #include "memory_42.h"
 #include "sig.h"
 
-/* static volatile sig_atomic_t	g_signal_handler_flag = 0; */
 extern const int				g_exit_signals[];
 extern const size_t				g_exit_signals_len;
 
 static void	signal_handler_mark_interruption(int sig)
 {
 	(void)sig;
-	/* g_signal_handler_flag = 1; */
 }
 
 void		signal_mute_exit_signals(void)

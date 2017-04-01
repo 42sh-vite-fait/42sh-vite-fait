@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_io_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:01:48 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:05:25 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include <string.h>
 #include "errors.h"
 #include "exec.h"
 
-int exec_close_fd(int fd)
+int	exec_close_fd(int fd)
 {
 	if (close(fd) == -1)
 	{
@@ -19,7 +31,7 @@ int exec_close_fd(int fd)
 ** 'origin' ---> a ; 'dup' ---> a
 */
 
-int exec_dup_fd(int origin, int dup)
+int	exec_dup_fd(int origin, int dup)
 {
 	if (dup2(origin, dup) == -1)
 	{

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_shell.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:19:58 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:20:15 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 #include "terminal.h"
 #include "opt.h"
@@ -28,7 +40,7 @@ static int	set_cwd(void)
 
 static void	update_environ_variable(void)
 {
-	const char    *value;
+	const char	*value;
 
 	if (var_get("SHLVL", &value) == ERROR_)
 		var_set("SHLVL", "1");

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_redirection_undo.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:01:48 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:12:56 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <assert.h>
 #include "exec.h"
 #include "array_42.h"
@@ -21,7 +33,7 @@ static int	restore_standard_fd(int io_number)
 		return (close_opened_file(io_number));
 }
 
-int	undo_redirection(const t_array redirections)
+int			undo_redirection(const t_array redirections)
 {
 	struct s_redirection	redir;
 	size_t					i;

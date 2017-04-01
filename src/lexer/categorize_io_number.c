@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   categorize_io_number.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:21:34 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:22:04 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ctype_42.h"
 #include "lexer.h"
 
@@ -10,7 +22,7 @@
 ** > inclusive, for use by the application.
 */
 
-bool	is_only_one_digit(const char *input)
+bool		is_only_one_digit(const char *input)
 {
 	return (FT_ISDIGIT(input[0]) && !FT_ISDIGIT(input[1]));
 }
@@ -28,7 +40,7 @@ static bool	is_token_redirection(int type)
 	return (false);
 }
 
-void	categorize_io_number(const t_string *input, t_array *tokens)
+void		categorize_io_number(const t_string *input, t_array *tokens)
 {
 	t_token	*token;
 	t_token	*prev;

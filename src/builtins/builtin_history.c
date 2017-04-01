@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_history.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 19:54:19 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 19:58:44 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "unistd_42.h"
 #include "history.h"
 #include "automaton.h"
@@ -8,8 +20,9 @@
 #include "opt.h"
 #include "ft_printf.h"
 
-#define FLAG_REVERSE (1U << 1)
-#define FLAG_NONUMBER (1U << 2)
+#define FLAG_REVERSE	(1U << 1)
+#define FLAG_NONUMBER	(1U << 2)
+#define HIST_ERR_MSG	("%s: %s: history functions not available")
 
 static void		history_list(size_t first, size_t last, unsigned flags)
 {
@@ -116,8 +129,7 @@ int				builtin_history(int ac, const char *const *av)
 	unsigned int	flags;
 
 	if (opt_is_set(!OPT_INTERACTIVE))
-		return ((ft_dprintf(2, "%s: %s: history functions not available",
-							BIN_NAME, av[0]) & 0) | 1);
+		return ((ft_dprintf(2, HIST_ERR_MSG, BIN_NAME, av[0]) & 0) | 1);
 	if (history_get_last_id() == 0)
 	{
 		ft_dprintf(2, "%s: %s: no history (yet)\n", BIN_NAME, av[0]);

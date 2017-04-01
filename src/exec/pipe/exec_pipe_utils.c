@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_pipe_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:01:48 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:10:33 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <assert.h>
 #include <unistd.h>
 #include <signal.h>
 #include "exec.h"
 #include "errors.h"
 
-int		pipe_replace_stdout(int write_end)
+int			pipe_replace_stdout(int write_end)
 {
 	if (dup2(write_end, STDOUT_FILENO) == -1)
 	{
@@ -19,7 +31,7 @@ int		pipe_replace_stdout(int write_end)
 	return (OK_);
 }
 
-int		pipe_replace_stdin(int read_end)
+int			pipe_replace_stdin(int read_end)
 {
 	if (dup2(read_end, STDIN_FILENO) == -1)
 	{
@@ -47,7 +59,7 @@ static int	pipe_dup_first_free_fd(int pipe_fd)
 	return (i);
 }
 
-int		pipe_init(t_pipe *pype)
+int			pipe_init(t_pipe *pype)
 {
 	int	p[2];
 
@@ -61,7 +73,7 @@ int		pipe_init(t_pipe *pype)
 	return (OK_);
 }
 
-void	pipe_kill_pipe_sequence(void)
+void		pipe_kill_pipe_sequence(void)
 {
 	error_print("execution: pipe");
 	kill(0, SIGABRT);

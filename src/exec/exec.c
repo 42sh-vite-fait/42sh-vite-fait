@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/01 20:01:48 by djean             #+#    #+#             */
+/*   Updated: 2017/04/01 20:04:29 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "exec.h"
 #include <assert.h>
 #include "exit_status.h"
@@ -14,7 +26,7 @@ t_tree_walker	*const g_walkers[] =
 	[E_AST_SIMPLE_COMMAND] = &exec_node_simple_command,
 };
 
-int exec_ast(const t_ast ast, const t_string *input)
+int	exec_ast(const t_ast ast, const t_string *input)
 {
 	int	exit_status;
 
