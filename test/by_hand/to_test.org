@@ -1,68 +1,76 @@
 * Tests Shell
-   - ='a RET \ RET C-d=
-   - =./42sh <<< '('=
-   - =./42sh <<< '"'=
-   - =./42sh <<< ''=
-   - =echo "cat\nzut" | ./42sh=
-   - Test pour savoir le sens de construction des pipes: =echo a > file | echo b > file; cat file= doit afficher ~b~
-   - =true || false && ls= Affiche =ls=
-   - subshell =(cd / ; ls)=
-   - =cmd >out<in=
-   - =cat | merde | ls=
-   - =cat /dev/random|base64|head -c8=
-   - =42sh> cat -e 3<Makefile <&3=
-   - =./42sh -c 'env | (cat -e | wc)' <&-=
+
 ** Terminal
-   - TERM= ./42sh
-   - TERM=merde ./42sh
-   - TERM=dumb ./42sh
-   - Lancer le shell comme shell par défaut d'un terminal, ne pas passer par un shell intermédiaire
-   - Changer le caractere d'INTR du terminal, avec =stty=, et voir si le changement est pris en compte
-*** Ulimit
+*** Bad TERM variable
 #+BEGIN_SRC
-$> ulimit -n 10
-$> ./42sh
-42sh> env | (cat -e | cat -e); echo abc
+TERM= ./42sh
+TERM=merde ./42sh
+TERM=dumb ./42sh
 #+END_SRC
-   
+*** Changer le caractere d'INTR du terminal
+=stty intr ^H=
+
 ** Input
-   - =./42sh < file.cmd=
-   - =./42sh <&-=
-   - =./42sh <&- -c 'cmd'=
-   - =./42sh </dev/null=
-   - Fermeture de fd au lancement =./42sh >&- 2>&-=
+#+BEGIN_SRC
+./42sh < file.cmd
+./42sh <&-
+./42sh </dev/null
+./42sh >&- 2>&-
+#+END_SRC
 
 ** UI
    - Checker les chars =C-u=, =DEL=, =C-w= dans l'UI
+*** EOF
+#+BEGIN_SRC
+42sh> C-d
+42sh> 'RET C-d
+42sh> \RET C-d
+42sh> 'a RET \ RET C-d
+#+END_SRC
 
 ** Lexer/Parser
-   - =cmd 'abc\<RET>def'
+   - =echo 'abc\<RET>def'
    - EOF sur le heredoc
    - INTR sur le heredoc
+   - =cmd >out<in=
    
 ** Execution
-   - Vérifier les fds laissé ouvert par le shell. Faire un =lseek= de plusieurs Go sur le fd laissé ouvert
+*** fds ouvert par le shell
+Faire un =lseek= de plusieurs Go sur le fd laissé ouvert
+
+*** Erreur command not found
    - =/a | cat /dev/random | base64 > /dev/null=
-*** restauration de fd clos via builtin
+
+*** And Or
+   - =true || false && ls= Affiche =ls=
+
+*** Pipe
+   - =cd /tmp && cd / | ls= Fait un =ls= de /tmp
+   - =cat | merde | ls=
+   - =cat /dev/random|base64|head -c8=
+**** Sens de construction des pipes
+=echo a > file | echo b > file; cat file= devrait afficher ~b~
+
+*** Subshell
+   - =(cd / ; ls)= Fait un =ls= de la racine
+   - =env | (cat -e | cat -e); echo abc=
+
+*** fd clos au lancement avec des pipes en commandes
+    =./42sh -c 'env | cat -e | wc | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e' <&- >&-=
+
+** Redirections
+*** Duplication
 #+BEGIN_SRC
 ./42sh >&-
 42sh> echo abc >&2
 abc
 42sh> echo def
 #+END_SRC
-*** file descriptors
-    - Un fd peut être clos, via <&- >&-
-    - Un fd peut pointer vers /dev/null
-    - Un fd peut pointer vers un fichier
-    - Un fd peut pointer vers un tty
-*** fd clos au lancement avec des pipes en commandes
-    Ne pas oublier d'augmenter la limite soft des fds open
-    =./42sh -c 'env | cat -e | wc | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e' <&- >&-=
-
-
-** Heredoc
+*** Aggreagtion
+   - =42sh> cat -e 3<Makefile <&3= Affiche le Makefile
+*** Heredoc
    - Creer un heredoc avec une erreur de parsing apres le ~heredoc~. Est-ce que le heredoc s'affiche ?
-   - Créer un heredoc, remonter l'historique, est-ce que le heredoc multi-ligne est présent ? Si oui, s'exécute t'il sans réafficher le prompt du heredoc ?e
+   - Créer un heredoc, remonter l'historique, est-ce que le heredoc multi-ligne est présent ? Si oui, s'exécute t'il sans réafficher le prompt du heredoc ?
 
 ** Signal
    - Envoyer un SIGHUP au 42sh. Est-ce que les enfants sont kill aussi ?

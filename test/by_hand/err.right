@@ -1,0 +1,24 @@
+42sh: lexer: no closing simple quote
+42sh: parser: unexpected token END_OF_INPUT: 
+42sh: lexer: no closing double quote
+42sh: execution: command not found: def
+42sh: lexer: no closing simple quote
+42sh: parser: unexpected token END_OF_INPUT: 
+42sh: lexer: no closing double quote
+42sh: terminal: tgetent: no such entry for (empty)
+42sh: terminal: tgetent: no such entry for merde
+42sh: terminal: capability 'UP' not available
+42sh: init: limit max fd too low: 10
+42sh: init: limit max fd too low: 16
+42sh: lexer: no closing simple quote
+42sh: parser: unexpected token END_OF_INPUT: 
+42sh: lexer: no closing double quote
+42sh: execution: command not found: def
+42sh: lexer: no closing simple quote
+42sh: parser: unexpected token END_OF_INPUT: 
+42sh: lexer: no closing double quote
+42sh: terminal: tgetent: no such entry for (empty)
+42sh: terminal: tgetent: no such entry for merde
+42sh: terminal: capability 'UP' not available
+42sh: init: limit max fd too low: 10
+42sh: init: limit max fd too low: 16
