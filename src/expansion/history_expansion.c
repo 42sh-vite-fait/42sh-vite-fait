@@ -82,7 +82,7 @@ ssize_t	expand_event(t_string *expanded, const char *event)
 	val = history_get(id);
 	if (val == NULL)
 	{
-		string_init_ndup(&error, event, offset);
+		string_init_ndup(&error, event - 1, offset + 1);
 		error_set_context("%s : event not found", error.str);
 		return (-1);
 	}
