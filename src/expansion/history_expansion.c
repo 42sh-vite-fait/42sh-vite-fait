@@ -53,7 +53,7 @@ size_t	get_string(size_t *num, const char *event)
 		i += 1;
 	c = event[i];
 	((char *)event)[i] = '\0';
-	if (history_find(&r, event))
+	if (history_find_start_with(&r, event))
 		*num = r.command_id;
 	else
 		*num = 0;

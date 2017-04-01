@@ -103,22 +103,10 @@ size_t			history_get_first_id(void);
 size_t			history_get_last_str_id(const char *str);
 
 /*
-** `history_find` find the last matching pattern starting from
-** the last character of the last added command, returns true
-** if it matchs something, filling the 't_result *ret' struct
-** (if not NULL) with offset and id of the matching command.
-** Returns false if no command match, don't fill the 't_result *ret'
-**
-** `history_find_from` find the next matching command (previous), returns true
-** if it find something and fill 't_result *ret' (if not NULL). Retruns false if
-** no command match.
-**
 ** `history_find_start_with` find the first command (previous) that starts with
 ** the given pattern, returns true if it find something and fill 't_result *ret'
 ** (if not NULL). Returns false if no command match.
 */
-bool			history_find(t_result *ret, const char *pattern);
-bool			history_find_from(t_result *ret, const char *p, t_result from);
 bool			history_find_start_with(t_result *res, const char *pattern);
 
 #endif
