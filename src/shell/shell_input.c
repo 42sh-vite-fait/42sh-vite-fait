@@ -18,6 +18,8 @@ int	shell_input(t_string *line, const char *prompt)
 	while (!is_line_complete)
 	{
 		ret = input_get_line(&current_line, prompt);
+		if (ret == OK_ && expand_history(&current_line) == ERROR_)
+			ret = CMD_DROP_;
 		if (ret != OK_)
 			break ;
 		fatal_malloc(string_append(line, &current_line));
@@ -26,8 +28,6 @@ int	shell_input(t_string *line, const char *prompt)
 		string_truncate(&current_line, 0);
 		prompt = SHELL_PS2;
 	}
-	if (expand_history(line) == ERROR_)
-		return (CMD_DROP_);
 	if (ret == CMD_EOF_ && line->len != 0)
 		ret = OK_;
 	string_shutdown(&current_line);
