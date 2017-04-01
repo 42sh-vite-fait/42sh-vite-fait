@@ -9,7 +9,8 @@
 #include "exit_status.h"
 #include "unistd_42.h"
 
-static const char	*g_backup_paths_value;
+#define MKSH_BACKUP_PATH	("/usr/bin:/bin")
+
 static const char	*g_usage = "env: illegal option -- %c\n"
 "usage: env [-i] [name=value]... [utility [argument...]]\n";
 
@@ -39,19 +40,6 @@ static int	env_add_args(char *const *argv, int optind)
 	return (optind);
 }
 
-static void	env_clean_environ(void)
-{
-	const char	*paths;
-	int			ret;
-
-	ret = var_get("PATH", &paths);
-	if (ret == ERROR_)
-		g_backup_paths_value = "";
-	else
-		g_backup_paths_value = ft_strdup(paths);
-	var_clear();
-}
-
 static int	env_parse_args(const char *const *argv)
 {
 	t_opt	opt;
@@ -62,7 +50,7 @@ static int	env_parse_args(const char *const *argv)
 	while ((c = ft_getopt(argv, "i", &opt)) != -1)
 	{
 		if (c == 'i')
-			env_clean_environ();
+			var_clear();
 		else
 		{
 			ft_dprintf(2, g_usage, opt.unknown_opt);
@@ -93,7 +81,7 @@ static void	env_exec_utility(int argc, const char *const *argv, int pos)
 	else
 	{
 		if (var_get("PATH", &paths) != OK_)
-			paths = g_backup_paths_value;
+			paths = MKSH_BACKUP_PATH;
 		exec_with_path(paths, (char *const *)argv + pos, envp);
 		_exit(-1);
 	}
