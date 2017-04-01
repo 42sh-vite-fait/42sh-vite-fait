@@ -20,7 +20,7 @@ int	shell_input(t_string *line, const char *prompt)
 		if (ret != OK_)
 			break ;
 		fatal_malloc(string_append(line, &current_line));
-		if (remove_trailing_escaped_newline(line) == LINE_COMPLETE)
+		if (remove_escaped_newline(line) == LINE_COMPLETE)
 			is_line_complete = true;
 		string_truncate(&current_line, 0);
 		prompt = SHELL_PS2;

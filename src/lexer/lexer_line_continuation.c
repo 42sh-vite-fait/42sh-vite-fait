@@ -4,7 +4,7 @@
 #include "misc.h"
 #include "quoting.h"
 
-int			remove_trailing_escaped_newline(t_string *input)
+int			remove_escaped_newline(t_string *input)
 {
 	t_automaton	quoting;
 	size_t		i;

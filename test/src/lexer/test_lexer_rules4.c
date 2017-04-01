@@ -164,12 +164,12 @@ Test(LexerRules4, NewlineJoiningBackslash)
 	t_string string;
 	string_init_dup(&string, input);
 
-	int ret = remove_trailing_escaped_newline(&string);
+	int ret = remove_escaped_newline(&string);
 	cr_assert_eq(ret, LINE_INCOMPLETE);
 
 	input = "def ghi\\\\\njkl\n";
 	string_cat(&string, input);
-	ret = remove_trailing_escaped_newline(&string);
+	ret = remove_escaped_newline(&string);
 	cr_assert_eq(ret, LINE_COMPLETE);
 
 	int res = the_true_lexer_lex(&lexer, &tokens, string.str);
