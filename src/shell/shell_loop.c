@@ -58,14 +58,14 @@ static int	shell_parse(t_string *input, t_lexer *lexer, t_array *tokens,
 		return (CMD_DROP_);
 	parser_init_with_tokens(input, parser, tokens);
 	parser_status = parser_parse(parser);
-	if (parser_status != OK_)
+	if (parser_status != OK_ && parser_status != CMD_DROP_)
 	{
 		error_print("parser");
 		return (CMD_INVALID_);
 	}
 	if (opt_is_set(OPT_DEBUG_AST))
 		ast_debug_print(&parser->ast, input->str);
-	return (OK_);
+	return (parser_status);
 }
 
 static int	get_command(t_string *input, t_lexer *lexer, t_array *tokens,
