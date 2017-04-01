@@ -8,3 +8,5 @@ echo 'def' <&- </tmp/redir_stdin_close
 
 echo end
 cat -e /tmp/redir_stdin_close
+
+rm -f /tmp/redir_stdin_close

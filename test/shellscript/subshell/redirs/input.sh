@@ -3,3 +3,6 @@ echo -------
 cat /tmp/test_subshell_file
 cat /tmp/test_subshell_file_err
 echo -------
+
+rm -f /tmp/test_subshell_file
+rm -f /tmp/test_subshell_file_err

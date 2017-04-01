@@ -7,12 +7,6 @@
 #   - test02
 #     - test01_sym
 
-rm -rf /tmp/tmp_sym
-rm -rf /tmp/test01
-rm -rf /tmp/test01/tmp_sym
-rm -rf /tmp/test01/test01_sym
-rm -rf /tmp/test02
-rm -rf /tmp/test02/test01_sym
 mkdir /tmp/test01
 mkdir /tmp/test02
 ln -s /tmp /tmp/tmp_sym
@@ -91,3 +85,9 @@ cd .//////////////..////////../././///./////././../////../../../../tmp/////.////
 pwd
 cd /////////////
 pwd
+
+#cleanup
+rm -rf /tmp/tmp_sym
+rm -rf /tmp/test01
+rm -rf /tmp/test02
+rm -rf /tmp/test01_sym

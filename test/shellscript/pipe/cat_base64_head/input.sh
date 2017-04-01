@@ -7,3 +7,5 @@ python -c 'print "A"*200000' > /tmp/pip_bareme_spec_file
 echo "===== 4"
 cat /tmp/pip_bareme_spec_file | base64|head -c 2 | wc
 echo "===== 5"
+
+rm -f /tmp/pip_bareme_spec_file

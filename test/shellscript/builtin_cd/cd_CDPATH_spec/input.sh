@@ -12,5 +12,7 @@ cd bash-dir-a
 pwd
 printenv PWD
 
-cd /tmp
+# cleanup
+cd /
 rmdir  /tmp/bash-dir-a
+rm -rf /tmp/test_builtin_cd_folder

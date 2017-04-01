@@ -1,5 +1,3 @@
-rm -rf /tmp/test_cd_builtin
-
 mkdir -p /tmp/test_cd_builtin/mydir
 ln -s /tmp/test_cd_builtin/mydir /tmp/test_cd_builtin/mydir_sym
 
@@ -24,3 +22,5 @@ echo "cd -PPPLPL /tmp/test_cd_builtin/mydir_sym"
 cd /tmp/test_cd_builtin && cd -PPPLPL /tmp/test_cd_builtin/mydir_sym
 pwd
 
+cd /
+rm -rf /tmp/test_cd_builtin

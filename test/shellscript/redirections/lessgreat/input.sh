@@ -10,3 +10,5 @@ echo 'def' | cat 3<>/tmp/redir_lessgreat_file >&3 -e
 echo 'ghi' > /tmp/redir_lessgreat_file
 ( cat <&4 ; echo zzzz >&4 ) 4<>/tmp/redir_lessgreat_file
 cat -e /tmp/redir_lessgreat_file
+
+rm -f /tmp/redir_lessgreat_file

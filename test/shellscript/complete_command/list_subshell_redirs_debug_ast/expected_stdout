@@ -32,3 +32,11 @@ LIST: ;
 useless commands
 cat: NO_FILE: No such file or directory
 .:$
+AST:
+SIMPLE_COMMAND: rm
+	args#1: -rf
+	args#2: /tmp/useless_subshell_dir
+AST:
+SIMPLE_COMMAND: rm
+	args#1: -f
+	args#2: /tmp/subshell_out_err

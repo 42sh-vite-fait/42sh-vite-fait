@@ -66,3 +66,17 @@ ls | cat -e | > /tmp/redir_no_cmd_in_pipe;				rm -f /tmp/redir_no_cmd_in_pipe
 (>/tmp/redir_no_cmd_in_subshell2;)
 (>/tmp/redir_no_cmd_in_subshell3);
 (>/tmp/redir_no_cmd_in_subshell4;);
+
+# cleanup
+rm -rf /tmp/redir_no_cmd
+rm -rf /tmp/redir_no_cmd_file1
+rm -rf /tmp/redir_no_cmd_file2
+rm -rf /tmp/redir_no_cmd_file3
+rm -rf /tmp/redir_no_cmd_input_append
+rm -rf /tmp/redir_no_cmd_input_output
+rm -rf /tmp/redir_no_cmd_input
+rm -rf /tmp/redir_no_cmd_in_pipe
+rm -rf /tmp/redir_no_cmd_in_subshell1
+rm -rf /tmp/redir_no_cmd_in_subshell2
+rm -rf /tmp/redir_no_cmd_in_subshell3
+rm -rf /tmp/redir_no_cmd_in_subshell4
