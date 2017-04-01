@@ -176,7 +176,7 @@ int			lexer_clear_tokens(t_array *tokens);
 ** Returns LINE_INCOMPLETE if a removing is performed,
 ** LINE_COMPLETE otherwise.
 */
-int			remove_trailing_escaped_newline(t_string *input);
+int			remove_escaped_newline(t_string *input);
 
 /*
 ** Categorize token according to POSIX rules

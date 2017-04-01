@@ -19,12 +19,14 @@ int	shell_input(t_string *line, const char *prompt)
 		ret = input_get_line(&current_line, prompt);
 		if (ret != OK_)
 			break ;
-		if (remove_trailing_escaped_newline(&current_line) == LINE_COMPLETE)
-			is_line_complete = true;
 		fatal_malloc(string_append(line, &current_line));
+		if (remove_escaped_newline(line) == LINE_COMPLETE)
+			is_line_complete = true;
 		string_truncate(&current_line, 0);
 		prompt = SHELL_PS2;
 	}
+	if (ret == CMD_EOF_ && line->len != 0)
+		ret = OK_;
 	string_shutdown(&current_line);
 	if (opt_is_set(OPT_DEBUG_INPUT) && ret == OK_) // DEBUG
 		ft_printf("INPUT: [%s]\n", line->str);
