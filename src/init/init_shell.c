@@ -26,7 +26,7 @@ static int	set_cwd(void)
 	return (OK_);
 }
 
-static void	update_shell_lvl(void)
+static void	update_environ_variable(void)
 {
 	const char    *value;
 
@@ -39,6 +39,8 @@ static void	update_shell_lvl(void)
 		var_set("SHLVL", value);
 		free((void*)value);
 	}
+	if (var_get("PATH", &value) == ERROR_)
+		var_set("PATH", MKSH_BACKUP_PATH);
 }
 
 void		init_shell(int argc, const char *const *argv, char **environ)
@@ -50,7 +52,7 @@ void		init_shell(int argc, const char *const *argv, char **environ)
 		exit(1);
 	}
 	var_init(environ);
-	update_shell_lvl();
+	update_environ_variable();
 	if (set_cwd() != OK_)
 	{
 		error_print("init");

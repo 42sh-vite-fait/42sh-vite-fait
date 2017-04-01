@@ -6,12 +6,14 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:00:16 by djean             #+#    #+#             */
-/*   Updated: 2017/03/30 17:00:27 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/01 17:17:24 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VAR_H
 # define VAR_H
+
+# define MKSH_BACKUP_PATH	("/usr/bin:/bin")
 
 void			var_init(char **environ);
 void			var_shutdown(void);

@@ -9,8 +9,6 @@
 #include "exit_status.h"
 #include "unistd_42.h"
 
-#define MKSH_BACKUP_PATH	("/usr/bin:/bin")
-
 static const char	*g_usage = "env: illegal option -- %c\n"
 "usage: env [-i] [name=value]... [utility [argument...]]\n";
 
