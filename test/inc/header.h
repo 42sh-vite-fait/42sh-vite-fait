@@ -18,7 +18,6 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "history.h"
-#include "alias.h"
 #include "misc.h"
 #include "var.h"
 #include "errors.h"

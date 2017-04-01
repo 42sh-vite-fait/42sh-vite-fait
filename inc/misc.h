@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:00:15 by djean             #+#    #+#             */
-/*   Updated: 2017/03/30 17:17:33 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/01 19:50:07 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <stdbool.h>
 # include "typedefs_42.h"
 
-bool		is_valid_alias_name(const char *string, size_t len);
 bool		is_valid_name(const char *string, size_t len);
 bool		is_valid_variable(const char *str);
 

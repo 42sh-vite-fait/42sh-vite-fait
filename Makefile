@@ -43,7 +43,6 @@ SRC_SUBDIR += misc
 SOURCES    += string_escape.c
 SOURCES    += string_fd.c
 SOURCES    += is_valid_name.c
-SOURCES    += is_valid_alias_name.c
 SOURCES    += path_scanning.c
 SOURCES	   += str_token.c
 
@@ -56,13 +55,6 @@ SOURCES    += history_find.c
 SOURCES    += history_save.c
 SOURCES    += history_load.c
 SOURCES    += history_clear.c
-
-# Alias
-SRC_SUBDIR += alias
-SOURCES    += alias_init.c
-SOURCES    += alias_getset.c
-SOURCES    += alias_get_all.c
-SOURCES    += alias_clear.c
 
 # Input
 SRC_SUBDIR += input

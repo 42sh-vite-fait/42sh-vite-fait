@@ -33,10 +33,6 @@ CFLAGS += $(addprefix -I,$(INC_PATH))
 SRC_SUBDIR += history
 SOURCES += test_history.c
 
-# Alias
-SRC_SUBDIR += alias
-SOURCES += test_alias.c
-
 # String
 SRC_SUBDIR += string
 SOURCES += test_string_escape.c
@@ -48,7 +44,6 @@ SOURCES += test_string_escape.c
 # Misc
 SRC_SUBDIR += misc
 SOURCES += is_valid_name.c
-SOURCES += is_valid_alias_name.c
 SOURCES += test_path_scanning.c
 
 # Lexer
