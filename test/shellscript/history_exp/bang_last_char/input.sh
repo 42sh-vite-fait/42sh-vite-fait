@@ -2,6 +2,7 @@
 echo abc
 2>&- export VAR=value || setenv VAR value
 echo def
+cd /tmp
 pwd
 echo ghi
 echo 'zut' > /tmp/history_cat_file
