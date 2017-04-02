@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 20:38:03 by djean             #+#    #+#             */
-/*   Updated: 2017/04/02 12:38:49 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/02 13:55:04 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	shell_lex(t_string *input, t_lexer *lexer, t_array *tokens)
 	}
 	string_shutdown(&line);
 	if (input_status != OK_)
-		return (input_status); // TODO !!!! problem
+		return (input_status);
 	if (lexer_status == LEXER_ERROR)
 	{
 		error_print("lexer");

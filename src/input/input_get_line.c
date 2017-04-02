@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 20:19:58 by djean             #+#    #+#             */
-/*   Updated: 2017/04/01 20:20:24 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/02 13:54:39 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int			input_get_line(t_string *line, const char *prompt)
 		ret = input_arg_get_line(line);
 	else if (opt_is_set(OPT_INTERACTIVE))
 	{
-		signal_set_input_context(); // TODO syscall might be stopped
+		signal_set_input_context();
 		ret = input_ui_get_line(line, prompt);
 		signal_set_post_input_context();
 	}

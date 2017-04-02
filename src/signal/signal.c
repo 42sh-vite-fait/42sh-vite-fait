@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 20:39:24 by djean             #+#    #+#             */
-/*   Updated: 2017/04/01 20:39:26 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/02 13:54:44 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ const size_t	g_signals_to_ignore_len = ARR_SIZ_MAX(g_signals_to_ignore);
 const size_t	g_exit_signals_len = ARR_SIZ_MAX(g_exit_signals);
 
 /*
-** Must be call only if the shell is in interactive mode TODO
+** Must be call only if the shell is in interactive mode
 */
 
 void	init_signal_module(void)
@@ -40,14 +40,12 @@ void	init_signal_module(void)
 	signal_block_exit_signals();
 }
 
-// TODO doit être hook à la fin de la shell loop, avant de refaire un tour
 void	signal_set_input_context(void)
 {
 	signal_mute_exit_signals();
 	signal_unblock_exit_signals();
 }
 
-// TODO doit être call à la sortie du module d'input
 void	signal_set_post_input_context(void)
 {
 	signal_block_exit_signals();
