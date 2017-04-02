@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 20:18:58 by djean             #+#    #+#             */
-/*   Updated: 2017/04/01 20:19:11 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/02 12:18:09 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*expand_quote_removal(const char *s, size_t len)
 
 	dst = fatal_malloc(malloc(len + 1));
 	res = dst;
-	fatal_malloc(quoting_automaton_init(&aut));
+	quoting_automaton_init(&aut);
 	while (len > 0)
 	{
 		if (!(*s == '"' || *s == '\'' || *s == '\\') ||

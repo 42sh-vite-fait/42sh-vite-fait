@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 20:19:58 by djean             #+#    #+#             */
-/*   Updated: 2017/04/01 20:20:01 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/02 12:23:12 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	init_term_env(t_term_env *env, t_string *line, const char *prompt)
 	env->history_index = 0;
 	env->autocomplete_index = 0;
 	env->autocomplete_state = E_NO_AUTOCOMPLETE;
-	array_init(&env->autocomplete_matches, sizeof(char *));
+	fatal_malloc(array_init(&env->autocomplete_matches, sizeof(char *)));
 }
 
 void	shutdown_term_env(t_term_env *env)

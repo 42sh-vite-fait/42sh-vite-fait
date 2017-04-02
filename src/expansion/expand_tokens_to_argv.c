@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 20:18:54 by djean             #+#    #+#             */
-/*   Updated: 2017/04/01 20:18:55 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/02 12:23:39 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ t_array	expand_tokens_to_argv(t_array tokens, const t_string *input)
 	{
 		token = *(t_token**)array_get_at(&tokens, i);
 		word = expand_quote_removal(input->str + token->start, token->len);
-		array_push(&argv, &word);
+		fatal_malloc(array_push(&argv, &word));
 		i += 1;
 	}
 	word = NULL;
-	array_push(&argv, &word);
+	fatal_malloc(array_push(&argv, &word));
 	argv.len -= 1;
 	return (argv);
 }

@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 20:01:48 by djean             #+#    #+#             */
-/*   Updated: 2017/04/01 20:09:26 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/02 12:28:02 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,17 @@ static void	exec_fallback_no_shebang(const char *path, char *const *av,
 	t_array		argv;
 	const char	*sh_path;
 
-	array_init(&argv, sizeof(char*));
+	fatal_malloc(array_init(&argv, sizeof(char*)));
 	sh_path = FALLBACK_SH_PATH;
-	array_push(&argv, &sh_path);
-	array_push(&argv, &path);
+	fatal_malloc(array_push(&argv, &sh_path));
+	fatal_malloc(array_push(&argv, &path));
 	av += 1;
 	while (*av)
 	{
-		array_push(&argv, av);
+		fatal_malloc(array_push(&argv, av));
 		av += 1;
 	}
-	array_push(&argv, av);
+	fatal_malloc(array_push(&argv, av));
 	execve(FALLBACK_SH_PATH, argv.data, envp);
 }
 
