@@ -38,7 +38,6 @@
 42sh
 test/test_42sh.out
 *.d
-src/lexer/lexer_table.c
 .dir-locals.el
 
 # Emacs shit
