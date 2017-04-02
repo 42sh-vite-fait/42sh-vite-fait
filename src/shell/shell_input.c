@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 20:38:03 by djean             #+#    #+#             */
-/*   Updated: 2017/04/01 20:38:34 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/02 12:48:20 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,5 @@ int	shell_input(t_string *line, const char *prompt)
 	if (ret == CMD_EOF_ && line->len != 0)
 		ret = OK_;
 	string_shutdown(&current_line);
-	if (opt_is_set(OPT_DEBUG_INPUT) && ret == OK_)
-		ft_printf("INPUT: [%s]\n", line->str);
 	return (ret);
 }

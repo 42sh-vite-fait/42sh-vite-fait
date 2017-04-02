@@ -1,3 +1,2 @@
 usage:  42sh [option] [cstring]
-        42sh -d {ast,lexer,input,exec}
         42sh -c cmd

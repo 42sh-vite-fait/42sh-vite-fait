@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:00:12 by djean             #+#    #+#             */
-/*   Updated: 2017/03/30 17:01:49 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/02 12:36:16 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,5 @@ void		ast_node_remove(t_ast *ast, t_ast_node *node);
 void		ast_node_command_init(t_ast_node *node);
 void		ast_node_command_shutdown(t_ast_node *node);
 void		ast_nodes_clear(t_ast *ast);
-void		ast_debug_print(const t_ast *ast, const char *input);
-void		ast_debug_print_node(const t_ast_node *node, const char *input);
 
 #endif

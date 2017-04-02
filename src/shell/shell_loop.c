@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 20:38:03 by djean             #+#    #+#             */
-/*   Updated: 2017/04/01 20:38:06 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/02 12:38:49 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ static int	shell_parse(t_string *input, t_lexer *lexer, t_array *tokens,
 		return (lexer_status);
 	categorize_tokens(input, tokens);
 	lexer_clear_tokens(tokens);
-	if (opt_is_set(OPT_DEBUG_LEXER))
-		lexer_debug_print_tokens(input, tokens);
 	if (tokens->len == 1 &&
 		((t_token *)array_get_first(tokens))->type == E_TOKEN_NEWLINE)
 		return (CMD_DROP_);
@@ -75,8 +73,6 @@ static int	shell_parse(t_string *input, t_lexer *lexer, t_array *tokens,
 		error_print("parser");
 		return (CMD_INVALID_);
 	}
-	if (opt_is_set(OPT_DEBUG_AST))
-		ast_debug_print(&parser->ast, input->str);
 	return (parser_status);
 }
 
@@ -105,11 +101,7 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 	{
 		command_status = get_command(input, lexer, tokens, parser);
 		if (command_status == OK_)
-		{
 			exec_ast(parser->ast, input);
-			if (opt_is_set(OPT_DEBUG_EXEC))
-				ft_printf("EXEC: %d\n", exit_status_get_last());
-		}
 		else if (command_status == CMD_EOF_)
 		{
 			if (assert_stack_is_empty(lexer))

@@ -145,7 +145,6 @@ SRC_SUBDIR += parser/ast
 SOURCES += ast_node.c
 SOURCES += ast_command.c
 SOURCES += ast_compress.c
-SOURCES += ast_debug_print.c
 
 # Expansion
 SRC_SUBDIR += expansion
