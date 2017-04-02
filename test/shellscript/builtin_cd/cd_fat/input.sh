@@ -57,11 +57,11 @@ pwd
 
 # Physical resolution
 
-cd /tmp/test01/tmp_sym/test01_sym/test01/tmp_sym/test02/test01_sym/
+cd /tmp/test01/tmp_sym/test01_sym/test01_sym/tmp_sym/test02/test01_sym/tmp_sym
 pwd
 cd -P test01
 pwd
-cd -P /tmp/test01/tmp_sym/test01_sym/test01/tmp_sym/test02/test01_sym/
+cd -P /tmp/test01/tmp_sym/test01_sym/test01_sym/tmp_sym/test02/test01_sym/tmp_sym
 pwd
 
 # Try to go back too far
@@ -76,7 +76,7 @@ pwd
 
 # Simplify path
 
-cd /tmp/../../../../tmp/test01/./././test01_sym/./././test01/tmp_sym/test02/test01_sym/test01/.././././.././././test01_sym/.././../../tmp_sym/../././.././tmp_sym/../tmp_sym/../tmp_sym/../tmp_sym/tmp_sym/tmp_sym/../../../.././././.
+cd /tmp/../../../../tmp/test01/./././test01_sym/./././test01_sym/tmp_sym/test02/test01_sym/test01_sym/.././././.././././test01_sym/.././../../tmp_sym/test01/../././.././tmp_sym/../tmp_sym/../tmp_sym/../tmp_sym/tmp_sym/tmp_sym/../../../.././././.
 pwd
 
 # Many slashes
