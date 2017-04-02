@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/02 15:23:11 by djean             #+#    #+#             */
-/*   Updated: 2017/04/02 15:23:13 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/02 15:39:28 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ static int			inject_commands(const t_string *file)
 	{
 		old_off = off;
 		off = (size_t)(match - file->str);
-		if (!string_init_ndup(&command, file->str + old_off, off - old_off)
-			|| string_unescape_chars(&command, '\n') == NULL)
+		fatal_malloc(string_init_ndup(&command, file->str + old_off,
+					off - old_off));
+		if (string_unescape_chars(&command, '\n') == NULL)
 		{
 			string_shutdown(&command);
 			return (-1);

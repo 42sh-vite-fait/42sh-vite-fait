@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/02 15:24:31 by djean             #+#    #+#             */
-/*   Updated: 2017/04/02 15:29:28 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/02 15:53:41 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,12 @@ ssize_t	expand_event(t_string *expanded, const char *event)
 	val = history_get(id);
 	if (val == NULL)
 	{
-		string_init_ndup(&error, event - 1, offset + 1);
+		fatal_malloc(string_init_ndup(&error, event - 1, offset + 1));
 		error_set_context("%s : event not found", error.str);
 		string_shutdown(&error);
 		return (-1);
 	}
-	string_append(expanded, val);
+	fatal_malloc(string_append(expanded, val));
 	return (offset);
 }
 
@@ -107,7 +107,7 @@ int		expand_history(t_string *input)
 	ssize_t		offset;
 
 	quoting_automaton_init(&quoting);
-	string_init(&expanded);
+	fatal_malloc(string_init(&expanded));
 	i = 0;
 	while (i < input->len)
 	{
@@ -126,7 +126,7 @@ int		expand_history(t_string *input)
 			i += offset;
 			continue ;
 		}
-		string_ncat(&expanded, input->str + i, 1);
+		fatal_malloc(string_ncat(&expanded, input->str + i, 1));
 		quoting_automaton_step(&quoting, input->str[i]);
 		i += 1;
 	}

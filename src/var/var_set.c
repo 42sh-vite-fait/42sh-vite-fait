@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 20:41:00 by djean             #+#    #+#             */
-/*   Updated: 2017/04/01 20:41:13 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/02 15:32:42 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int				var_set(const char *name, const char *value)
 	name_len = ft_strlen(name);
 	assert(is_valid_name(name, name_len));
 	if (ft_asprintf(&new_entry, "%s=%s", name, value) == -1)
-		fatal_malloc(NULL);
+		fatal_malloc(new_entry);
 	old_entry_index = get_entry_index(name, name_len);
 	if (old_entry_index != -1)
 	{
