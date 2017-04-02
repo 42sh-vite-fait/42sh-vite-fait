@@ -34,7 +34,6 @@ void	init_term_env(t_term_env *env, t_string *line, const char *prompt)
 	env->prompt_size = ft_strlen(prompt);
 	env->line.cursor_x = env->prompt_size;
 	term_env_update_for_resize(env);
-	string_init(&env->kill_buffer);
 	env->history_index = 0;
 	env->autocomplete_index = 0;
 	env->autocomplete_state = E_NO_AUTOCOMPLETE;
@@ -44,6 +43,5 @@ void	init_term_env(t_term_env *env, t_string *line, const char *prompt)
 void	shutdown_term_env(t_term_env *env)
 {
 	term_env_clear_autocompletion(env);
-	string_shutdown(&env->kill_buffer);
 	array_shutdown(&env->autocomplete_matches);
 }
