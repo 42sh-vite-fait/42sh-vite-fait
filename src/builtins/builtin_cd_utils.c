@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 19:53:23 by djean             #+#    #+#             */
-/*   Updated: 2017/04/01 19:53:24 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/02 16:36:12 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,34 +58,30 @@ static int	rewind_path(t_string *curpath)
 
 static int	simplify_path(t_string *curpath)
 {
-	t_string	component;
+	t_string	elem;
 	t_string	build_path;
 	const char	*path;
+	int			ret;
 
-	fatal_malloc(string_init(&component));
+	fatal_malloc(string_init(&elem));
 	fatal_malloc(string_init(&build_path));
 	path = curpath->str;
-	while ((path = get_next_component(&component, path)) != NULL)
+	ret = OK_;
+	while (ret == OK_ && (path = get_next_component(&elem, path)) != NULL)
 	{
-		if (!ft_streq(component.str, ".") && !ft_streq(component.str, ".."))
-		{
-			fatal_malloc(string_append(&build_path, &component));
-			fatal_malloc(string_ncat(&build_path, "/", 1));
-		}
-		else if (ft_streq(component.str, "..") &&
-				rewind_path(&build_path) == ERROR_)
-		{
-			string_shutdown(&build_path);
-			string_shutdown(&component);
-			return (ERROR_);
-		}
+		if (ft_streq(elem.str, "."))
+			continue ;
+		if (ft_streq(elem.str, "..") && (ret = rewind_path(&build_path)) == OK_)
+			continue ;
+		fatal_malloc(string_append(&build_path, &elem));
+		fatal_malloc(string_ncat(&build_path, "/", 1));
 	}
 	string_shutdown(curpath);
-	string_shutdown(&component);
 	if (build_path.len > 1 && build_path.str[build_path.len - 1] == '/')
 		string_remove_back(&build_path, 1);
 	*curpath = build_path;
-	return (OK_);
+	string_shutdown(&elem);
+	return (ret);
 }
 
 int			logical_resolution(t_string *curpath, const char *pwd, size_t wdlen)
