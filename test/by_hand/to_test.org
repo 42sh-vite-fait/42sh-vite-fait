@@ -50,6 +50,9 @@ Faire un =lseek= de plusieurs Go sur le fd laissé ouvert
    - =cat /dev/random|base64|head -c8=
 **** Sens de construction des pipes
 =echo a > file | echo b > file; cat file= devrait afficher ~b~
+**** SIGKILL et pipe infinie
+Permet de verifier la bonne utilisation des process groups
+Les process d'un pipe doivent être dans un process group à part. Un SIGKILL ne pouvant être catch, il tuera le pipe mais pas le shell.
 
 *** Subshell
    - =(cd / ; ls)= Fait un =ls= de la racine
