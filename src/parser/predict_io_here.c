@@ -31,6 +31,7 @@ int		predict_io_here(t_parser *parser, struct s_redirection *redir)
 	if (!parser_check_current_token_type(parser, E_TOKEN_WORD))
 		return (ERROR_);
 	parser_consume_token(parser);
+	redir->heredoc_filename = NULL;
 	parser_heredoc_push(parser, redir);
 	return (OK_);
 }

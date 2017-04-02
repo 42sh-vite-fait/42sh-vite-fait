@@ -22,6 +22,8 @@ void	parser_heredoc_shutdown(t_array *heredocs)
 	while (heredocs->len)
 	{
 		array_pop(heredocs, &redir);
+		if (redir->heredoc_filename == NULL)
+			continue ;
 		unlink(redir->heredoc_filename);
 		free(redir->heredoc_filename);
 	}
