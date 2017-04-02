@@ -46,17 +46,13 @@ size_t	get_string(size_t *num, const char *event)
 {
 	size_t		i;
 	char		c;
-	t_result	r;
 
 	i = 0;
 	while (!ft_memchr(inhibitors, event[i], sizeof(inhibitors)))
 		i += 1;
 	c = event[i];
 	((char *)event)[i] = '\0';
-	if (history_find_start_with(&r, event))
-		*num = r.command_id;
-	else
-		*num = 0;
+	*num = history_find_start_with(event);
 	((char *)event)[i] = c;
 	return (i);
 }

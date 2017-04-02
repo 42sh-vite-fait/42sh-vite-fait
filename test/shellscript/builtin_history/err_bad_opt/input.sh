@@ -7,6 +7,5 @@ echo 'zut' > /tmp/history_cat_file
 cat -e /tmp/history_cat_file
 rm -f /tmp/history_cat_file
 history -x
-history -1
 history -- -1
 history 0 -1

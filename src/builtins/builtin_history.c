@@ -22,7 +22,6 @@
 
 #define FLAG_REVERSE	(1U << 1)
 #define FLAG_NONUMBER	(1U << 2)
-#define HIST_ERR_MSG	("%s: %s: history functions not available")
 
 static void		history_list(size_t first, size_t last, unsigned flags)
 {
@@ -56,20 +55,18 @@ static size_t	get_index(const char *a)
 	history_first = history_get_first_id();
 	history_last = history_get_last_id();
 	if (ft_strisnum(a))
-	{
 		if (a[0] == '-')
 		{
-			id = ft_atou(a + 1);
+			id = ft_atou(a + 1) + 1;
 			id = history_last - history_first <= id ?
 				history_first :
 				history_last - id + 1;
 		}
 		else
 			id = FT_MIN(FT_MAX(ft_atou(a), history_first), history_last);
-	}
 	else
 	{
-		id = history_get_last_str_id(a);
+		id = history_find_start_with(a);
 		if (id == 0)
 			error_set_context("not in history: %s", a);
 	}
@@ -92,6 +89,8 @@ static int		builtin_history_third_and_final(int ac, const char *const *av,
 		last = get_index(av[1]);
 	else
 		last = history_get_last_id();
+	if (ac <= 1 && last > 0)
+		last -= 1;
 	if (last == 0)
 		return (1);
 	if (flags & FLAG_REVERSE)
@@ -128,7 +127,7 @@ int				builtin_history(int ac, const char *const *av)
 	t_opt			o;
 	unsigned int	flags;
 
-	if (history_get_last_id() == 0)
+	if (history_get_last_id() - history_get_first_id() == 0)
 	{
 		ft_dprintf(2, "%s: %s: no history (yet)\n", BIN_NAME, av[0]);
 		return (1);

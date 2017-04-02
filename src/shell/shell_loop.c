@@ -100,6 +100,8 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 	while (1)
 	{
 		command_status = get_command(input, lexer, tokens, parser);
+		if (command_status == OK_ || command_status == CMD_INVALID_)
+			history_add(input);
 		if (command_status == OK_)
 			exec_ast(parser->ast, input);
 		else if (command_status == CMD_EOF_)
@@ -112,8 +114,6 @@ static int	shell_loop2(t_string *input, t_array *tokens, t_parser *parser,
 		else if (command_status == ERROR_ ||
 			(!opt_is_set(OPT_INTERACTIVE) && command_status == CMD_INVALID_))
 			return (1);
-		if (command_status != CMD_DROP_)
-			history_add(input);
 		parser_heredoc_shutdown(&parser->heredocs);
 	}
 }

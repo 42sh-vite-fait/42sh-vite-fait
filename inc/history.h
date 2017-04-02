@@ -40,14 +40,7 @@ struct			s_history
 	size_t		last_id;
 };
 
-struct			s_result
-{
-	size_t	command_id;
-	size_t	offset;
-};
-
 typedef struct s_history	t_history;
-typedef struct s_result		t_result;
 
 /*
 ** `history_init` initialize the history with a limited capacity,
@@ -100,13 +93,11 @@ size_t			history_add(t_string *command);
 const t_string	*history_get(size_t id);
 size_t			history_get_last_id(void);
 size_t			history_get_first_id(void);
-size_t			history_get_last_str_id(const char *str);
 
 /*
 ** `history_find_start_with` find the first command (previous) that starts with
-** the given pattern, returns true if it find something and fill 't_result *ret'
-** (if not NULL). Returns false if no command match.
+** the given pattern, returns the id or 0 if not found.
 */
-bool			history_find_start_with(t_result *res, const char *pattern);
+size_t			history_find_start_with(const char *pattern);
 
 #endif

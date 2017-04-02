@@ -138,10 +138,9 @@ Test(history, add_many_command_id) {
 
 Test(history, find_start_with) {
 
-	t_result	result;
 	t_string	command;
 	size_t		cmd_id;
-	bool		found;
+	size_t		found;
 
 	history_init(10000);
 
@@ -172,10 +171,8 @@ Test(history, find_start_with) {
 	string_init_dup(&command, "fc -l");
 	history_add(&command);
 
-	found = history_find_start_with(&result, "kill");
-	cr_assert_eq(true, found);
-	cr_assert_eq(cmd_id, result.command_id);
-	cr_assert_eq(0, result.offset);
+	found = history_find_start_with("kill");
+	cr_assert_eq(cmd_id, found);
 
 	history_shutdown();
 }
@@ -183,8 +180,7 @@ Test(history, find_start_with) {
 Test(history, find_start_with_not_found) {
 
 	t_string	command;
-	t_result	result;
-	bool		found;
+	size_t		found;
 
 	history_init(10000);
 
@@ -215,8 +211,8 @@ Test(history, find_start_with_not_found) {
 	string_init_dup(&command, "fc -l");
 	history_add(&command);
 
-	found = history_find_start_with(&result, "kikou");
-	cr_assert_eq(false, found);
+	found = history_find_start_with("kikou");
+	cr_assert_eq(0, found);
 
 	history_shutdown();
 }
