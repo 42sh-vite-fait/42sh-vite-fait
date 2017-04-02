@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 20:19:58 by djean             #+#    #+#             */
-/*   Updated: 2017/04/01 20:20:01 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/02 17:37:26 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void		ui_handler_kill_left_word(t_term_env *env, char c)
 	(void)c;
 	word_size = line_prev_word_size(&env->line);
 	word_start = env->line.string_index - word_size;
-
 	if (g_kill_buffer != NULL)
 		free(g_kill_buffer);
 	g_kill_buffer = ft_strsub(env->line.str->str, word_start, word_size);
