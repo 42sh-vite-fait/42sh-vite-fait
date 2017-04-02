@@ -50,7 +50,6 @@ enum	e_autocomplete_state
 
 struct	s_term_env
 {
-	t_string	kill_buffer;
 	t_array		autocomplete_matches;
 	t_term_line	line;
 	size_t		history_index;

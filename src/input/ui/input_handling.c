@@ -99,7 +99,7 @@ static struct s_key_action	g_key_action_list[] = {
 	},
 	[E_CTRL_U] = {
 		.code =	"\x15",
-		.behavior = &ui_handler_do_nothing,
+		.behavior = &ui_handler_kill_left,
 	},
 	[E_CTRL_V] = {
 		.code =	"\x16",
