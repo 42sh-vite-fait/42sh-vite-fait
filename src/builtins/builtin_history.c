@@ -127,7 +127,7 @@ int				builtin_history(int ac, const char *const *av)
 	t_opt			o;
 	unsigned int	flags;
 
-	if (history_get_last_id() - history_get_first_id()== 0)
+	if (history_get_last_id() - history_get_first_id() == 0)
 	{
 		ft_dprintf(2, "%s: %s: no history (yet)\n", BIN_NAME, av[0]);
 		return (1);

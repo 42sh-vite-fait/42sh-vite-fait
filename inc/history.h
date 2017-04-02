@@ -41,7 +41,6 @@ struct			s_history
 };
 
 typedef struct s_history	t_history;
-typedef struct s_result		t_result;
 
 /*
 ** `history_init` initialize the history with a limited capacity,
@@ -97,8 +96,7 @@ size_t			history_get_first_id(void);
 
 /*
 ** `history_find_start_with` find the first command (previous) that starts with
-** the given pattern, returns true if it find something and fill 't_result *ret'
-** (if not NULL). Returns false if no command match.
+** the given pattern, returns the id or 0 if not found.
 */
 size_t			history_find_start_with(const char *pattern);
 
