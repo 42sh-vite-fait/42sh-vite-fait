@@ -69,7 +69,7 @@ static size_t	get_index(const char *a)
 	}
 	else
 	{
-		id = history_get_last_str_id(a);
+		id = history_find_start_with(a);
 		if (id == 0)
 			error_set_context("not in history: %s", a);
 	}
