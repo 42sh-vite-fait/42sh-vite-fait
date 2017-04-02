@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 19:54:21 by djean             #+#    #+#             */
-/*   Updated: 2017/04/01 19:54:21 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/02 15:22:34 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	setenv_print(void)
 	}
 }
 
-int			builtin_setenv(int argc, const char * const *argv)
+int			builtin_setenv(int argc, const char *const *argv)
 {
 	int	ret;
 

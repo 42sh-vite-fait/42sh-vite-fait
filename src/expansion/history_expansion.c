@@ -1,17 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   history_expansion.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/04/02 15:24:31 by djean             #+#    #+#             */
+/*   Updated: 2017/04/02 15:29:28 by djean            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "quoting.h"
 #include "memory_42.h"
 #include "ctype_42.h"
 #include "history.h"
 #include "errors.h"
 
-static const char	inhibitors[] = " \t\n";
+static const char	g_inhibitors[] = " \t\n";
 
 size_t	get_number(size_t *num, const char *event)
 {
 	size_t	i;
 
 	i = 0;
-	while(FT_ISDIGIT(event[i]))
+	while (FT_ISDIGIT(event[i]))
 		i += 1;
 	if (i != 0)
 		*num = ft_atou(event);
@@ -26,7 +38,7 @@ size_t	get_neg_number(size_t *num, const char *event)
 	if (event[0] != '-')
 		return (0);
 	i = 1;
-	while(FT_ISDIGIT(event[i]))
+	while (FT_ISDIGIT(event[i]))
 		i += 1;
 	if (i != 1)
 	{
@@ -48,7 +60,7 @@ size_t	get_string(size_t *num, const char *event)
 	char		c;
 
 	i = 0;
-	while (!ft_memchr(inhibitors, event[i], sizeof(inhibitors)))
+	while (!ft_memchr(g_inhibitors, event[i], sizeof(g_inhibitors)))
 		i += 1;
 	c = event[i];
 	((char *)event)[i] = '\0';
@@ -59,9 +71,9 @@ size_t	get_string(size_t *num, const char *event)
 
 ssize_t	expand_event(t_string *expanded, const char *event)
 {
-	size_t		offset;
-	size_t		id;
-	t_string	error;
+	size_t			offset;
+	size_t			id;
+	t_string		error;
 	const t_string	*val;
 
 	offset = 1;
@@ -100,7 +112,7 @@ int		expand_history(t_string *input)
 	while (i < input->len)
 	{
 		if (input->str[i] == '!' && !is_char_inhibited(&quoting, input->str[i])
-			&& !ft_memchr(inhibitors, input->str[i + 1], sizeof(inhibitors)))
+			&& !ft_memchr(g_inhibitors, input->str[i + 1], sizeof(g_inhibitors)))
 		{
 			i += 1;
 			offset = expand_event(&expanded, input->str + i);
