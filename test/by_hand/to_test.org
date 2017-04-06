@@ -57,6 +57,14 @@ Les process d'un pipe doivent être dans un process group à part. Un SIGKILL ne
 *** Subshell
    - =(cd / ; ls)= Fait un =ls= de la racine
    - =env | (cat -e | cat -e); echo abc=
+   - =(cat -e) | (cat -n)=
+   - =(cat -e; (cat -n; cat -v); ( ( cat -t ) ) )=
+   - =(cat -n; cat -e)=
+   - =(ls ; (cat | cat -e)) | (cat -n)=
+   - =(ls ;cat -e) | cat -e  | (ls) | cat -e=
+   - =(pwd; cat ) | (pwd; cat -e)=
+   - =ls | (cat -e | cat -n)=
+   - =ls | (cat -e | cat -n) | (rev| ( ( cat -e ) ) )=
 
 *** fd clos au lancement avec des pipes en commandes
     =./42sh -c 'env | cat -e | wc | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e' <&- >&-=

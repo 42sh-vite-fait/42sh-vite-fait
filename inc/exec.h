@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 17:00:15 by djean             #+#    #+#             */
-/*   Updated: 2017/03/30 17:12:45 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/08 15:12:42 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+# include <stdbool.h>
 # include "ast.h"
 # include "errors.h"
 # include "array_42.h"
@@ -23,7 +24,7 @@
 # define IS_FD_STANDARD(f)			((f) <= 2)
 # define OPEN_DEFAULT_MODE			(0644)
 
-typedef	int	(t_tree_walker)(const t_ast_node *, const t_string *);
+typedef	int	(t_tree_walker)(const t_ast_node *, const t_string *, bool);
 typedef struct s_pipe	t_pipe;
 struct	s_pipe
 {
@@ -50,15 +51,21 @@ enum	e_fd_needed
 */
 int		exec_ast(const t_ast ast, const t_string *input);
 int		exec_node_complete_commands(const t_ast_node *node,
-		const t_string *input);
+		const t_string *input, bool set_context);
 int		exec_node_complete_command(const t_ast_node *node,
-		const t_string *input);
-int		exec_node_list(const t_ast_node *node, const t_string *input);
-int		exec_node_and_or(const t_ast_node *node, const t_string *input);
-int		exec_node_pipe(const t_ast_node *node, const t_string *input);
-int		exec_node_term(const t_ast_node *node, const t_string *input);
-int		exec_node_subshell(const t_ast_node *node, const t_string *input);
-int		exec_node_simple_command(const t_ast_node *node, const t_string *input);
+		const t_string *input, bool set_context);
+int		exec_node_list(const t_ast_node *node, const t_string *input,
+		bool set_context);
+int		exec_node_and_or(const t_ast_node *node, const t_string *input,
+		bool set_context);
+int		exec_node_pipe(const t_ast_node *node, const t_string *input,
+		bool set_context);
+int		exec_node_term(const t_ast_node *node, const t_string *input,
+		bool set_context);
+int		exec_node_subshell(const t_ast_node *node, const t_string *input,
+		bool set_context);
+int		exec_node_simple_command(const t_ast_node *node, const t_string *input,
+		bool set_context);
 
 /*
 ** Pipe
@@ -74,7 +81,7 @@ int		pipe_replace_stdin(int read_end);
 ** Simple Command
 */
 int		exec_simple_command_binary(const t_command command,
-		const t_string *input);
+		const t_string *input, bool set_context);
 int		exec_simple_command_builtin(const t_command command,
 		const t_string *input);
 
@@ -113,7 +120,8 @@ int		wait_child_process_group(pid_t last_pid, pid_t pgid);
 ** Process Group Utilities
 */
 void	exec_child_set_context(void);
-int		exec_parent_wait_child_process_group(pid_t child_pgid);
+int		exec_parent_wait_child_process_group(pid_t child_pgid,
+		bool set_context);
 
 /*
 ** IO utilities

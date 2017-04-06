@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 20:01:48 by djean             #+#    #+#             */
-/*   Updated: 2017/04/01 20:01:53 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/08 15:15:31 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@
 ** The _control fork_ return the exit status for the last command of the pipe
 */
 
-int	exec_node_pipe(const t_ast_node *node, const t_string *input)
+int	exec_node_pipe(const t_ast_node *node, const t_string *input,
+		bool set_context)
 {
 	pid_t	control_fork;
 	int		status;
@@ -33,11 +34,13 @@ int	exec_node_pipe(const t_ast_node *node, const t_string *input)
 		return (-1);
 	if (control_fork == 0)
 	{
-		exec_child_set_context();
+		if (set_context)
+			exec_child_set_context();
 		exec_pipe_sequence(node, input);
 		_exit(-1);
 	}
 	else
-		status = exec_parent_wait_child_process_group(control_fork);
+		status = exec_parent_wait_child_process_group(control_fork,
+				set_context);
 	return (status);
 }

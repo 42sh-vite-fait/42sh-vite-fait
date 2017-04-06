@@ -24,7 +24,8 @@ static bool	should_we_execute_next_child(int token_type, int prev_ret)
 	return (false);
 }
 
-int			exec_node_and_or(const t_ast_node *node, const t_string *input)
+int			exec_node_and_or(const t_ast_node *node, const t_string *input,
+		bool set_context)
 {
 	t_array		andor_children_stack;
 	t_array		andor_token_type_stack;
@@ -36,13 +37,13 @@ int			exec_node_and_or(const t_ast_node *node, const t_string *input)
 	andor_children_stack = gather_childrens_nodes(node, E_AST_AND_OR);
 	andor_token_type_stack = gather_nodes_token_type(node, E_AST_AND_OR);
 	array_pop(&andor_children_stack, &child);
-	exit_status = g_walkers[child->type](child, input);
+	exit_status = g_walkers[child->type](child, input, set_context);
 	while (andor_token_type_stack.len > 0)
 	{
 		array_pop(&andor_token_type_stack, &token_type);
 		array_pop(&andor_children_stack, &child);
 		if (should_we_execute_next_child(token_type, exit_status))
-			exit_status = g_walkers[child->type](child, input);
+			exit_status = g_walkers[child->type](child, input, set_context);
 	}
 	array_shutdown(&andor_children_stack);
 	array_shutdown(&andor_token_type_stack);

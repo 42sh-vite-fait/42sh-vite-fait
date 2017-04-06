@@ -16,7 +16,8 @@
 
 extern t_tree_walker	*const g_walkers[];
 
-int		exec_node_list(const t_ast_node *node, const t_string *input)
+int		exec_node_list(const t_ast_node *node, const t_string *input,
+		bool set_context)
 {
 	t_array	list_nodes_stack;
 	int		ret;
@@ -24,11 +25,11 @@ int		exec_node_list(const t_ast_node *node, const t_string *input)
 	assert(node != NULL);
 	list_nodes_stack = gather_childrens_nodes(node, E_AST_LIST);
 	array_pop(&list_nodes_stack, &node);
-	ret = g_walkers[node->type](node, input);
+	ret = g_walkers[node->type](node, input, set_context);
 	while (list_nodes_stack.len > 0)
 	{
 		array_pop(&list_nodes_stack, &node);
-		ret = g_walkers[node->type](node, input);
+		ret = g_walkers[node->type](node, input, set_context);
 	}
 	array_shutdown(&list_nodes_stack);
 	return (ret);

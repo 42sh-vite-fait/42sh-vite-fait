@@ -17,7 +17,7 @@
 extern t_tree_walker	*const g_walkers[];
 
 int		exec_node_complete_commands(const t_ast_node *node,
-		const t_string *input)
+		const t_string *input, bool set_context)
 {
 	t_array	complete_commands_nodes_stack;
 	int		ret;
@@ -26,18 +26,18 @@ int		exec_node_complete_commands(const t_ast_node *node,
 	complete_commands_nodes_stack = gather_childrens_nodes(node,
 			E_AST_COMPLETE_COMMANDS);
 	array_pop(&complete_commands_nodes_stack, &node);
-	ret = g_walkers[node->type](node, input);
+	ret = g_walkers[node->type](node, input, set_context);
 	while (complete_commands_nodes_stack.len > 0)
 	{
 		array_pop(&complete_commands_nodes_stack, &node);
-		ret = g_walkers[node->type](node, input);
+		ret = g_walkers[node->type](node, input, set_context);
 	}
 	array_shutdown(&complete_commands_nodes_stack);
 	return (ret);
 }
 
 int		exec_node_complete_command(const t_ast_node *node,
-		const t_string *input)
+		const t_string *input, bool set_context)
 {
 	t_array	complete_command_nodes_stack;
 	int		ret;
@@ -46,11 +46,11 @@ int		exec_node_complete_command(const t_ast_node *node,
 	complete_command_nodes_stack = gather_childrens_nodes(node,
 			E_AST_COMPLETE_COMMAND);
 	array_pop(&complete_command_nodes_stack, &node);
-	ret = g_walkers[node->type](node, input);
+	ret = g_walkers[node->type](node, input, set_context);
 	while (complete_command_nodes_stack.len > 0)
 	{
 		array_pop(&complete_command_nodes_stack, &node);
-		ret = g_walkers[node->type](node, input);
+		ret = g_walkers[node->type](node, input, set_context);
 	}
 	array_shutdown(&complete_command_nodes_stack);
 	return (ret);

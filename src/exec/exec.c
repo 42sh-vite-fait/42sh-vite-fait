@@ -31,7 +31,7 @@ int	exec_ast(const t_ast ast, const t_string *input)
 	int	exit_status;
 
 	assert(ast.root != NULL);
-	exit_status = g_walkers[ast.root->type](ast.root, input);
+	exit_status = g_walkers[ast.root->type](ast.root, input, true);
 	exit_status_set_last(exit_status);
 	return (exit_status);
 }

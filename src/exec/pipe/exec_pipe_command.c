@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 20:01:48 by djean             #+#    #+#             */
-/*   Updated: 2017/04/01 20:09:52 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/08 15:13:51 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ static void	exec_pipe_simple_command(const t_command command,
 
 static void	exec_pipe_subshell(const t_ast_node *node, const t_string *input)
 {
-	signal_set_ignored_signals();
-	_exit(g_walkers[node->type](node, input));
+	_exit(g_walkers[node->type](node, input, false));
 }
 
 void		exec_pipe_command(const t_ast_node *node, const t_string *input)

@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 20:01:48 by djean             #+#    #+#             */
-/*   Updated: 2017/04/01 20:07:34 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/08 15:13:18 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,18 +76,22 @@ void		exec_child_set_context(void)
 	}
 }
 
-int			exec_parent_wait_child_process_group(pid_t child_pgid)
+int			exec_parent_wait_child_process_group(pid_t child_pgid,
+		bool set_context)
 {
 	int	status;
 
-	if (exec_set_process_group_parent_side(child_pgid, child_pgid) != OK_)
-		error_print("execution: parent: failed to set process group");
-	else if (exec_set_foreground_process_group(child_pgid) != OK_)
-		error_print("execution: parent: failed to give the controlling terminal"
-				" to the child process");
+	if (set_context)
+	{
+		if (exec_set_process_group_parent_side(child_pgid, child_pgid) != OK_)
+			error_print("execution: parent: failed to set process group");
+		else if (exec_set_foreground_process_group(child_pgid) != OK_)
+			error_print("execution: parent: failed to give the controlling"
+					" terminal to the child process");
+	}
 	status = wait_child_process_group(child_pgid, child_pgid);
 	exit_status_set_last(status);
-	if (exec_set_foreground_process_group(getpgrp()) != OK_)
+	if (set_context && exec_set_foreground_process_group(getpgrp()) != OK_)
 	{
 		error_print("execution: parent: failed to get back the controlling"
 				" terminal");

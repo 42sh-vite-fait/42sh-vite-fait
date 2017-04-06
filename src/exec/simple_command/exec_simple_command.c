@@ -18,7 +18,7 @@
 #include "builtins.h"
 
 int			exec_simple_command_binary(const t_command command,
-		const t_string *input)
+		const t_string *input, bool set_context)
 {
 	pid_t	child;
 	int		status;
@@ -27,12 +27,13 @@ int			exec_simple_command_binary(const t_command command,
 		return (-1);
 	if (child == 0)
 	{
-		exec_child_set_context();
+		if (set_context)
+			exec_child_set_context();
 		exec_binary(command, input);
 		_exit(-1);
 	}
 	else
-		status = exec_parent_wait_child_process_group(child);
+		status = exec_parent_wait_child_process_group(child, set_context);
 	return (status);
 }
 
