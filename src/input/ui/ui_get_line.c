@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 20:19:58 by djean             #+#    #+#             */
-/*   Updated: 2017/04/01 20:20:01 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/08 15:40:14 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ int			input_ui_get_line(t_string *line, const char *prompt)
 
 	if (g_is_eof)
 		return (CMD_EOF_);
-	ft_printf(prompt);
+	ft_dprintf(2, prompt);
 	init_term_env(&env, line, prompt);
 	status = ui_read_line(&env);
 	ui_handler_jump_end(&env, '\0');
-	ft_printf("\n");
+	ft_dprintf(2, "\n");
 	if (status == OK_)
 		fatal_malloc(string_ncat(line, "\n", 1));
 	if (status == ERROR_)

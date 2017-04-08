@@ -6,7 +6,7 @@
 /*   By: djean <djean@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/01 20:19:58 by djean             #+#    #+#             */
-/*   Updated: 2017/04/01 20:20:01 by djean            ###   ########.fr       */
+/*   Updated: 2017/04/08 15:39:56 by djean            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ void	line_print(t_term_line *line)
 		string_remove(&to_print, pos, 1);
 		string_insert(&to_print, pos, "␤", sizeof("␤") - 1);
 	}
-	ft_printf(to_print.str);
+	ft_dprintf(2, to_print.str);
 	line->cursor_x += line_move_offset_x(line, write_len);
 	if (line->cursor_x == 0)
 	{
-		ft_printf(" ");
+		ft_dprintf(2, " ");
 		terminal_move_cursor(CAPS_CURSOR_LEFT, 1);
 	}
 	line_move_cursor(line, -write_len);

@@ -29,7 +29,7 @@ static const char	*g_needed_caps_list[] = {
 
 static int	wrap_putchar(int c)
 {
-	return ((int)write(STDOUT_FILENO, &c, 1));
+	return ((int)write(STDERR_FILENO, &c, 1));
 }
 
 void		terminal_move_cursor(const char *cap, unsigned len)
